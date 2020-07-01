@@ -165,19 +165,19 @@ if ($action == "validerApprovisionnement") {
 								$fournisseur->dette($total - intval($avance));
 							}
 
-							$payement = new OPERATION();
+							$payement = new REGLEMENTFOURNISSEUR();
 							$payement->hydrater($_POST);
-							$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
 							$payement->montant = $avance;
 							$payement->fournisseur_id = $fournisseur_id;
 							$data = $payement->enregistre();
-
-							$approvisionnement->operation_id = $data->lastid;
+							if ($data->status) {
+							$approvisionnement->reglementfournisseur_id = $data->lastid;
 
 							$fournisseur->actualise();
 							$payement->acompteClient = $fournisseur->acompte;
 							$payement->detteClient = $fournisseur->dette;
 							$data = $payement->save();
+							}
 						}
 					}
 
