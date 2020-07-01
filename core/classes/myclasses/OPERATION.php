@@ -16,19 +16,12 @@ class OPERATION extends TABLE
 	public $mouvement_id;
 	public $modepayement_id;
 	public $employe_id;
+	public $boutique_id = BOUTIQUE::PRINCIPAL;
 	public $etat_id = ETAT::VALIDEE;
 	public $comment;
-	public $client_id = CLIENT::ANONYME;
-	public $commercial_id;
-	public $fournisseur_id;
 	public $structure;
 	public $numero;
 	public $date_approbation;
-	public $isModified = 0;
-
-	public $acompteClient = 0;
-	public $detteClient = 0;
-
 	public $image;
 
 
@@ -42,41 +35,35 @@ class OPERATION extends TABLE
 				$cat = $datas[0];
 				if ( $cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE || ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE && $this->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE)) {
 
-					if ( $cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE || ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE && static::resultat(PARAMS::DATE_DEFAULT, dateAjoute1()) >= $this->montant) || ($this->categorieoperation_id == CATEGORIEOPERATION::APPROVISIONNEMENT) ) {
-
-						$this->reference = "BCA/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
-						if (($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE) && !in_array($this->modepayement_id, [MODEPAYEMENT::ESPECE, MODEPAYEMENT::PRELEVEMENT_ACOMPTE]) ) {
-							$this->etat_id = ETAT::ENCOURS;
-						}else{
-							$this->etat_id = ETAT::VALIDEE;
+					$this->reference = "BCA/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
+					if (($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE) && !in_array($this->modepayement_id, [MODEPAYEMENT::ESPECE, MODEPAYEMENT::PRELEVEMENT_ACOMPTE]) ) {
+						$this->etat_id = ETAT::ENCOURS;
+					}else{
+						$this->etat_id = ETAT::VALIDEE;
+					}
+					
+					if (intval($this->montant) > 0) {
+						$mouvement = new MOUVEMENT();
+						$mouvement->montant = $this->montant;
+						$mouvement->typemouvement_id = TYPEMOUVEMENT::DEPOT;
+						if ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE) {
+							$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
 						}
-						
-						if (intval($this->montant) > 0) {
-							$mouvement = new MOUVEMENT();
-							$mouvement->montant = $this->montant;
-							$mouvement->typemouvement_id = TYPEMOUVEMENT::DEPOT;
-							if ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE) {
-								$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
-							}
-							$mouvement->comptebanque_id = COMPTEBANQUE::COURANT;
-							$data = $mouvement->enregistre();
+						$mouvement->comptebanque_id = COMPTEBANQUE::COURANT;
+						$data = $mouvement->enregistre();
+						if ($data->status) {
+							$this->mouvement_id = $mouvement->getId();
+							$data = $this->save();
 							if ($data->status) {
-								$this->mouvement_id = $mouvement->getId();
-								$data = $this->save();
-								if ($data->status) {
-									if (!(isset($this->files) && is_array($this->files))) {
-										$this->files = [];
-									}
-									$this->uploading($this->files);
+								if (!(isset($this->files) && is_array($this->files))) {
+									$this->files = [];
 								}
+								$this->uploading($this->files);
 							}
-						}else{
-							$data->status = false;
-							$data->message = "Le montant pour cette opération est incorrecte, verifiez-le !";
 						}
 					}else{
 						$data->status = false;
-						$data->message = "Vous ne pouvez pas effectuer cette opération, le solde du compte est insuffisant !";
+						$data->message = "Le montant pour cette opération est incorrecte, verifiez-le !";
 					}
 				}else{
 					$data->status = false;

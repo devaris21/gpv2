@@ -40,9 +40,12 @@
                             <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim btn-block"><i class="fa fa-cubes"></i> Nouvelle prospection</button>
                         </div>
                         <div class="col-md-6">
-                            <div class="flot-chart dashboard-chart">
-                                <div class="flot-chart-content" id="flot-dashboard-chart" style="height: 250px; margin-top: -4%"></div>
-                            </div><hr style="margin-top: 14%">
+                            <div class="text-center">
+                                <div class="flot-chart">
+                                    <div class="flot-chart-content" id="flot-dashboard-chart"></div>
+                                </div><hr>
+                                <span>Vente directe / vente par prospection</span>
+                            </div><hr>
                             <div class="row text-center">
                                 <div class="col">
                                     <div class="">
@@ -107,10 +110,10 @@
 
                     <br>
                     <div class="row">
-                        <div class="col-lg-8">
+                        <div class="col-lg-7">
                             <div class="ibox ">
                                 <div class="ibox-title">
-                                    <h5>Programme de prospection du jour</h5>
+                                    <h5 class="text-uppercase">Programme de prospection du jour</h5>
                                     <div class="ibox-tools">
                                         <a href="<?= $this->url("gestion", "production", "programmes") ?>" data-toggle="tooltip" title="Modifier le programme">
                                             <i class="fa fa-calendar"></i> Modifier le programme
@@ -135,10 +138,10 @@
                                                 $prospection->actualise(); ?>
                                                 <tr>
                                                     <td><?= $prospection->commercial->name()  ?></td>
-                                                    <td><?= heurecourt($prospection->created)  ?></td>
+                                                    <td><?= depuis($prospection->created)  ?></td>
                                                     <td><?= money($prospection->montant) ?> <?= $params->devise ?></td>
                                                     <td class="gras text-green"><?= money($prospection->vendu) ?> <?= $params->devise ?></td>
-                                                    <td><?= heurecourt($prospection->dateretour)  ?></td>
+                                                    <td><?= depuis($prospection->dateretour)  ?></td>
                                                     <td class="text-center"><span class="label label-<?= $prospection->etat->class ?>"><?= $prospection->etat->name ?></span> </td>
                                                     <td class="text-center">
                                                         <?php if ($prospection->etat_id == Home\ETAT::PARTIEL) { ?>
@@ -151,7 +154,51 @@
                                     </table>
                                 </div>
                             </div>
-                        </div>               
+                        </div> 
+
+
+                        <div class="col-sm-5">
+                            <div class="ibox ">
+                                <div class="ibox-title">
+                                    <h5 class="text-uppercase">Ventes directes du jour</h5>
+                                    <div class="ibox-tools">
+                                       
+                                    </div>
+                                </div>
+                                <div class="ibox-content table-responsive">
+                                    <table class="table table-hover no-margins">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <?php foreach (Home\QUANTITE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $qte) { ?>
+                                                    <th class="text-center"><?= $qte->name()  ?></th>
+                                                <?php } ?>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach (Home\PRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $produit) {
+                                                $datas = $produit->fourni("prixdevente", ["isActive ="=>Home\TABLE::OUI]); ?>
+                                                <tr>
+                                                    <td class="gras" style="color: <?= $produit->couleur ?>"><i class="fa fa-flask"></i> <?= $produit->name() ?></td>
+                                                    <?php $total =0; foreach ($datas as $key => $pdv) {
+                                                        $pdv->actualise();
+                                                        $nb = $pdv->vendeDirecte(dateAjoute(), dateAjoute());
+                                                        $total += $nb * $pdv->prix->price;  ?>
+                                                        <td class="text-center"><?= $nb ?></td>
+                                                    <?php } ?>
+                                                    <td class="text-right gras"><?= money($total) ?> <?= $params->devise ?></td>
+                                                </tr>
+                                            <?php } ?>
+                                            <tr>
+                                                <td class="text-right" colspan="5">
+                                                    <h2><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute()), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>              
 
                     </div>
 
@@ -197,75 +244,103 @@
 
             var sparklineCharts = function(){
 
-               $("#sparkline2").sparkline([24, 43, 43, 55, 44, 62, 44, 72], {
-                   type: 'line',
-                   width: '100%',
-                   height: '60',
-                   lineColor: '#1ab394',
-                   fillColor: "#ffffff"
-               });
+             $("#sparkline2").sparkline([24, 43, 43, 55, 44, 62, 44, 72], {
+                 type: 'line',
+                 width: '100%',
+                 height: '60',
+                 lineColor: '#1ab394',
+                 fillColor: "#ffffff"
+             });
 
-           };
+         };
 
-           var sparkResize;
+         var sparkResize;
 
-           $(window).resize(function(e) {
+         $(window).resize(function(e) {
             clearTimeout(sparkResize);
             sparkResize = setTimeout(sparklineCharts, 500);
         });
 
-           sparklineCharts();
+         sparklineCharts();
 
 
 
 
-           var data1 = [
-           [0,4],[1,8],[2,5],[3,10],[4,4],[5,16],["hjk",5],[7,11],[8,6],[9,11],[10,30],[11,10],[12,13],[13,4],[14,3],[15,3],["jhdsk",6]
-           ];
-           var data2 = [
-           [0,1],[1,0],[2,2],[3,0],[4,1],[5,3],[6,1],[7,5],[8,2],[9,3],[10,2],[11,1],[12,0],[13,2],[14,8],[15,0],[16,0]
-           ];
-           $("#flot-dashboard-chart").length && $.plot($("#flot-dashboard-chart"), [
-            data1, data2
-            ],
-            {
-                series: {
-                    lines: {
-                        show: false,
-                        fill: true
-                    },
-                    splines: {
-                        show: true,
-                        tension: 0.4,
-                        lineWidth: 1,
-                        fill: 0.4
-                    },
-                    points: {
-                        radius: 0,
-                        show: true
-                    },
-                    shadowSize: 2
-                },
-                grid: {
-                    hoverable: true,
-                    clickable: true,
-                    tickColor: "#d5d5d5",
-                    borderWidth: 1,
-                    color: '#d5d5d5'
-                },
-                colors: ["#1ab394", "#1C84C6"],
-                xaxis:{
-                },
-                yaxis: {
-                    ticks: 4
-                },
-                tooltip: false
+         var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->direct ?>], <?php } ?> ];
+
+         var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->prospection ?>], <?php } ?> ];
+
+         var dataset = [
+         {
+            label: "Vente directe",
+            data: data1,
+            color: "#1ab394",
+            bars: {
+                show: true,
+                align: "left",
+                barWidth: 12 * 60 * 60 * 600,
+                lineWidth:0
             }
-            );
+
+        }, {
+            label: "Vente par prospection",
+            data: data2,
+            color: "#cc0000",
+            bars: {
+                show: true,
+                align: "right",
+                barWidth: 12 * 60 * 60 * 600,
+                lineWidth:0
+            }
+
+        }
+        ];
 
 
-       });
-   </script>
+        var options = {
+            xaxis: {
+                mode: "time",
+                tickSize: [2, "day"],
+                tickLength: 0,
+                axisLabel: "Date",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Arial',
+                axisLabelPadding: 10,
+                color: "#d5d5d5"
+            },
+            yaxes: [{
+                position: "left",
+                color: "#d5d5d5",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Arial',
+                axisLabelPadding: 3
+            }
+            ],
+            legend: {
+                noColumns: 1,
+                labelBoxBorderColor: "#000000",
+                position: "nw"
+            },
+            grid: {
+                hoverable: false,
+                borderWidth: 0
+            }
+        };
+
+        function gd(year, month, day) {
+            return new Date(year, month - 1, day).getTime();
+        }
+
+        var previousPoint = null, previousLabel = null;
+
+        $.plot($("#flot-dashboard-chart"), dataset, options);
+
+
+
+    });
+</script>
 
 
 </body>

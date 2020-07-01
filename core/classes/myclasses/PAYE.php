@@ -10,7 +10,6 @@ class PAYE extends TABLE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	public $mouvement_id;
 	public $commercial_id;
 	public $comment;
 	public $etat_id = ETAT::ENCOURS;

@@ -22,9 +22,11 @@ foreach (PRODUIT::getAll() as $key => $produit) {
 		$data->boutique = $pdv->enBoutique(dateAjoute());
 		$data->stock = $pdv->enEntrepot(dateAjoute());
 		$data->commande = $pdv->commandee();
+		$data->rupture = false;
 		if (!($data->boutique==0 && $data->stock==0 && $data->commande==0)) {
-			$tab[] = $data;
+			$data->rupture = true;
 		}	
+		$tab[] = $data;
 	}
 	$tableau[$produit->getId()] = $tab;
 }
@@ -34,19 +36,8 @@ for ($i=0; $i < 30; $i++) {
 	$stats[] = 2;
 }
 
-foreach (OPERATION::enAttente() as $key => $item) {
-	$item->actualise();
-	if ($item->categorieoperation->typeoperationcaisse->getId() == TYPEOPERATIONCAISSE::SORTIE) {
-		$item->etat_id == ETAT::VALIDEE;
-		$item->save();
-	}
-}
 
-foreach (APPROVISIONNEMENT::findBy(["etat_id ="=>ETAT::VALIDEE]) as $key => $item) {
-	if ($item->getId() != 1) {
-		$item->datelivraison == dateAjoute(-1);
-		$item->save();
-	}
-}
+$stats = VENTE::stats(dateAjoute(-14), dateAjoute());
+
 
 ?>

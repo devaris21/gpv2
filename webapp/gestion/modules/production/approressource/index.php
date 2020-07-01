@@ -60,7 +60,7 @@
                 <h5>Tous les approvisionnements</h5>
 
                 <div class="ibox-tools">
-                   <button style="margin-top: -5%" data-toggle='modal' data-target="#modal-approvisionnement" class="btn btn-warning dim"><i class="fa fa-plus"></i> Nouvel Approvisionnement</button>
+                   <button style="font-size: 11px; margin-top: -1.5%" data-toggle='modal' data-target="#modal-approvisionnement" class="btn btn-warning dim"><i class="fa fa-plus"></i> Approvisionnement de ressources</button>
                </div>
            </div>
            <div class="ibox-content" style="min-height: 300px;">

@@ -8,30 +8,31 @@
 			<form method="POST" class="formShamman" classname="ressource">
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-sm-6">
-							<label>Type de ressource </label>
-							<div class="form-group">
-								<?php Native\BINDING::html("select", "typeressource")  ?>
-							</div>
-						</div>
-						<div class="col-sm-6">
+						
+						<div class="col-sm-4">
 							<label>Libéllé </label>
 							<div class="form-group">
 								<input type="text" class="form-control" name="name" required>
 							</div>
 						</div>
-						<div class="col-sm-6">
+						<div class="col-sm-4">
 							<label>Unité de mesure </label>
 							<div class="form-group">
 								<input type="text" class="form-control" name="unite" required placeholder="Ex... tonne">
 							</div>
 						</div>
-					</div>
-					<div class="row">
 						<div class="col-sm-4">
 							<label>abbréviation </label>
 							<div class="form-group">
 								<input type="text" class="form-control" name="abbr" placeholder="Ex... T" required>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<label>Produit fini lié </label>
+							<div class="form-group">
+								<?php Native\BINDING::html("select", "produit")  ?>
 							</div>
 						</div>
 						<div class="col-sm-4 unmodified">

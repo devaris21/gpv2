@@ -5,7 +5,7 @@ use Native\RESPONSE;
 /**
  * 
  */
-class PRIXDEVENTE extends TABLE
+class EMBALLAGE extends TABLE
 {
 	
 	
@@ -13,31 +13,19 @@ class PRIXDEVENTE extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 
-	public $produit_id;
-	public $quantite_id;
-	public $prix_id;
-	public $isActive = TABLE::OUI;
+	public $prixdevente_id;
 	public $stock = 0;
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
+		$datas = PRIXDEVENTE::findBy(["id ="=>$this->prixdevente_id]);
 		if (count($datas) == 1) {
-			$datas = PRIX::findBy(["id ="=>$this->prix_id]);
-			if (count($datas) == 1) {
+			if ($this->stock >= 0) {
 				$data = $this->save();
-				if ($data->status) {
-					$ligne = new LIGNEPRODUCTIONJOUR();
-					$ligne->productionjour_id = 1;
-					$ligne->prixdevente_id = $data->lastid;
-					$ligne->production = 0;
-					$ligne->setCreated(PARAMS::DATE_DEFAULT);
-					$ligne->save();
-				}
 			}else{
 				$data->status = false;
-				$data->message = "Une erreur s'est produite lors du prix !";
+				$data->message = "Veuillez à bien renseigner le stock initial !";
 			}
 		}else{
 			$data->status = false;
@@ -51,7 +39,7 @@ class PRIXDEVENTE extends TABLE
 	public function name()
 	{
 		$this->actualise();
-		return $this->produit->name()." / ".$this->quantite->name();
+		return $this->prixdevente->produit->name()." / ".$this->prixdevente->quantite->name();
 	}
 
 

@@ -73,12 +73,14 @@
                                     <th>Libéllé</th>
                                     <th>Unité</th>
                                     <th>Abbr</th>
+                                    <th>Produit fini lié</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $i =0; foreach (Home\RESSOURCE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
+                                    $item->actualise();
                                     $i++; ?>
                                     <tr>
                                         <td><?= $i ?></td>
@@ -86,6 +88,7 @@
                                         <td class="gras"><?= $item->name(); ?></td>
                                         <td><?= $item->unite; ?></td>
                                         <td><?= $item->abbr; ?></td>
+                                        <td><?= $item->produit->name(); ?></td>
                                         <td data-toggle="modal" data-target="#modal-ressource" title="modifier l'élément" onclick="modification('ressource', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
                                         <td title="supprimer la ressource" onclick="suppressionWithPassword('ressource', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                     </tr>

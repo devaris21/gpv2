@@ -9,6 +9,8 @@ class ENTREPOT extends TABLE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
+	const PRINCIPAL = 1;
+
 	public $name;
 
 	public function enregistre(){

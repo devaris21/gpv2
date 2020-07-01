@@ -22,7 +22,7 @@
                         <span class="float-right">145 000 Fcfa</span>
                     </li>
                     <li class="list-group-item">
-                        Total passif
+                        Chiffre d'affaire
                         <span class="float-right">145 000 Fcfa</span>
                     </li><br>
                     <li class="list-group-item fist-item">

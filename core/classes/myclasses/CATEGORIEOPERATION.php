@@ -19,7 +19,7 @@ class CATEGORIEOPERATION extends TABLE
 	const PAYE = 6;
 	const ENTRETIENVEHICULE = 7;
 	const REMBOURSEMENT = 8;
-	const PAYE_TRICYLE = 9;
+	const FRAISTRANSPORT = 18;
 	const AUTRE_DEPENSE = 10;
 
 	

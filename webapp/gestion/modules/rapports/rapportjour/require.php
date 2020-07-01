@@ -47,6 +47,11 @@ $pannes = PANNE::jour($date);
 $entretiensv = ENTRETIENVEHICULE::jour($date);
 $entretiensm = ENTRETIENMACHINE::jour($date);
 
+$datas = COMPTEBANQUE::findBy(["id = " => COMPTEBANQUE::COURANT]);
+if (count($datas) == 1) {
+	$comptecourant = $datas[0];
+}
+
 
 $title = "GPV | Rapport général de la journée ";
 ?>

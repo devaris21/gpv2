@@ -126,8 +126,11 @@ class REGLEMENTCLIENT extends TABLE
 	}
 
 
-	public static function resultat(string $date1 = "2020-04-01", string $date2){
-		return static::entree($date1, $date2) - static::sortie($date1, $date2);
+	public static function total(string $date1 = "2020-04-01", string $date2){
+		$requette = "SELECT SUM(montant) as montant  FROM reglementclient, mouvement WHERE reglementclient.mouvement_id = mouvement.id AND mouvement.typemouvement_id = ? AND reglementclient.valide = 1 AND DATE(reglementclient.created) >= ? AND DATE(reglementclient.created) <= ? ";
+		$item = MOUVEMENT::execute($requette, [TYPEMOUVEMENT::DEPOT, $date1, $date2]);
+		if (count($item) < 1) {$item = [new MOUVEMENT()]; }
+		return $item[0]->montant;
 	}
 
 

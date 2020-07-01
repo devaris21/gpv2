@@ -3,14 +3,15 @@ namespace Home;
 use Native\RESPONSE;/**
  * 
  */
-class TYPERESSOURCE extends TABLE
+class TYPEAPPROVISIONNEMENT extends TABLE
 {
 
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	const DIRECT      = 1;
-	const PROSPECTION = 2;
+	const RESSOURCE      = 1;
+	const EMBALLAGE = 2;
+	const ETIQUETTE = 3;
 	
 	public $name;
 

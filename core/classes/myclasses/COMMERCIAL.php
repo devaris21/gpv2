@@ -156,6 +156,9 @@ class COMMERCIAL extends PERSONNE
 		$item = MOUVEMENT::execute($requette, [$this->getId()]);
 		if (count($item) < 1) {$item = [new MOUVEMENT()]; }
 		$total -= $item[0]->montant;
+		if ($total < 0) {
+			return 0;
+		}
 		return $total;
 	}
 

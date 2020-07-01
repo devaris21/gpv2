@@ -14,6 +14,7 @@ class PROSPECTION extends TABLE
 	public $typeprospection_id = TYPEPROSPECTION::PROSPECTION;
 	public $zonedevente_id;
 	public $lieu;
+		public $boutique_id = BOUTIQUE::PRINCIPAL;
 	public $commercial_id      = COMMERCIAL::MAGASIN;
 	public $etat_id            = ETAT::ENCOURS;
 	public $employe_id         = null;
@@ -49,10 +50,10 @@ class PROSPECTION extends TABLE
 
 					if ($this->transport > 0) {
 						$this->actualise();
-						$mouvement = new MOUVEMENT();
-						$mouvement->comptebanque_id = COMPTEBANQUE::COURANT;
-						$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
+						$mouvement = new OPERATION();
 						$mouvement->montant = $this->transport;
+						$mouvement->categorieoperation_id = CATEGORIEOPERATION::FRAISTRANSPORT;
+						$mouvement->modepayement_id = MODEPAYEMENT::ESPECE;
 						$mouvement->comment = "Transport du commercial ".$this->commercial->name()." pour la prospection N° ".$this->reference;
 						$data = $mouvement->enregistre();
 					}

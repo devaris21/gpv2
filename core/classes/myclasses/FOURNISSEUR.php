@@ -178,7 +178,7 @@ class FOURNISSEUR extends AUTH
 		$params = PARAMS::findLastId();
 		if (intval($montant) > 0 ) {
 			if (intval($montant) <= $this->dette ) {
-				$payement = new OPERATION();
+				$payement = new REGLEMENTFOURNISSEUR();
 				$payement->hydrater($post);
 
 				if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE || ($payement->modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE && $montant <= $this->acompte)) {
@@ -189,7 +189,6 @@ class FOURNISSEUR extends AUTH
 						$data = $this->save();
 					}else{
 						$this->dette -= intval($montant);
-						$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
 						$payement->fournisseur_id = $this->getId();
 						$payement->comment = "Reglement de la dette du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
 						$data = $payement->enregistre();

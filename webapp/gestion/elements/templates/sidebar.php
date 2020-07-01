@@ -73,34 +73,47 @@
                         <a href="<?= $this->url("gestion", "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span></a>
                     </li>
                     <li class="" id="fournisseurs">
-                        <a href="<?= $this->url("gestion", "approvisionnement", "fournisseurs") ?>"><i class="fa fa-address-book-o"></i> <span class="nav-label">Liste des Fournisseurs</span></a>
+                        <a href="<?= $this->url("gestion", "production", "fournisseurs") ?>"><i class="fa fa-address-book-o"></i> <span class="nav-label">Liste des Fournisseurs</span></a>
                     </li>
                     <li class="" id="approvisionnements">
-                        <a href="<?= $this->url("gestion", "approvisionnement", "approvisionnements") ?>"><i class="fa fa-bus"></i> <span class="nav-label">Approvisionnements </span> <?php if (count($approvisionnements__) > 0) { ?> <span class="label label-warning float-right"><?= count($approvisionnements__) ?></span> <?php } ?></a>
+                        <a href="<?= $this->url("gestion", "production", "approvisionnements") ?>"><i class="fa fa-bus"></i> <span class="nav-label">Approvisionnements </span> <?php if (count($approvisionnements__) > 0) { ?> <span class="label label-warning float-right"><?= count($approvisionnements__) ?></span> <?php } ?></a>
                     </li>
-                    <li class="" id="ressources">
-                        <a href="<?= $this->url("gestion", "approvisionnement", "ressources", 7) ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Stock de ressources</span></a>
+                    <li class="groupe">
+                        <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Approvisionnements</span> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li id="approressource"><a href="<?= $this->url("gestion", "production", "approressource", 7) ?>">Appro de ressources</a></li>
+                            <li id="approemballage"><a href="<?= $this->url("gestion", "production", "approemballage", 7) ?>">Appro d'emballage</a></li>
+                            <li id="approetiquette"><a href="<?= $this->url("gestion", "production", "approetiquette", 7) ?>">Appro d'etiquette</a></li>
+                        </ul>
+                    </li>
+                    <li class="groupe">
+                        <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Les stocks</span> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li id="stockressources"><a href="<?= $this->url("gestion", "production", "stockressources", 7) ?>">Stock de ressources</a></li>
+                            <li id="stockemballage"><a href="<?= $this->url("gestion", "rapports", "stockemballage", 7) ?>">Stock d'emballage</a></li>
+                            <li id="stocketiquette"><a href="<?= $this->url("gestion", "rapports", "stocketiquette", 7) ?>">Stock d'etiquette</a></li>
+                        </ul>
                     </li>
                 <?php } ?>
 
                 <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
 
-                <li class="" id="comptedujour">
-                    <a href="<?= $this->url("gestion", "caisse", "comptedujour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
+                <li class="" id="rapportjour">
+                    <a href="<?= $this->url("gestion", "rapports", "rapportjour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
                 </li>
                 <li class="" id="rapportvente">
-                    <a href="<?= $this->url("gestion", "ventes", "rapportvente", "$datea@$dateb") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de vente</span></a>
+                    <a href="<?= $this->url("gestion", "rapports", "rapportvente", "$datea@$dateb") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de vente</span></a>
                 </li>
                 <li class="" id="rapportproduction">
-                    <a href="<?= $this->url("gestion", "production", "rapportproduction", "$datea@$dateb") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de production</span></a>
+                    <a href="<?= $this->url("gestion", "rapports", "rapportproduction", "$datea@$dateb") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de production</span></a>
                 </li>
                 <li class="groupe">
                     <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Etats récapitulatifs</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li id="etatclients"><a href="<?= $this->url("gestion", "caisse", "etatclients", "$datea@$dateb") ?>">... des clients</a></li>
-                        <li id="etatproduction"><a href="<?= $this->url("gestion", "caisse", "etatproduction", "$datea@$dateb") ?>">... de production</a></li>
-                        <li id="etatcomptes"><a href="<?= $this->url("gestion", "caisse", "etatcomptes", "$datea@$dateb") ?>">... des comptes</a></li>
-                        <!--  <li id="etatpersonnel"><a href="<?= $this->url("gestion", "caisse", "etatpersonnel", "$datea@$dateb") ?>">... du personnel</a></li> -->
+                        <li id="etatclients"><a href="<?= $this->url("gestion", "rapports", "etatclients", "$datea@$dateb") ?>">... des clients</a></li>
+                        <li id="etatproduction"><a href="<?= $this->url("gestion", "rapports", "etatproduction", "$datea@$dateb") ?>">... de production</a></li>
+                        <li id="etatcomptes"><a href="<?= $this->url("gestion", "rapports", "etatcomptes", "$datea@$dateb") ?>">... des comptes</a></li>
+                        <!--  <li id="etatpersonnel"><a href="<?= $this->url("gestion", "rapports", "etatpersonnel", "$datea@$dateb") ?>">... du personnel</a></li> -->
                     </ul>
                 </li>
 
@@ -150,6 +163,6 @@
 
 <style type="text/css">
     li.dropdown-divider{
-     !important;
- }
+       !important;
+   }
 </style>

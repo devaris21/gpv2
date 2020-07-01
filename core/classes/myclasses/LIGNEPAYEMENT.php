@@ -99,39 +99,12 @@ class LIGNEPAYEMENT extends TABLE
 		return $this->supprime();
 	}
 
-
-
-	public static function entree(string $date1 = "2020-04-01", string $date2){
-		$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ?";
-		$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::ENTREE, $date1, $date2]);
-		if (count($item) < 1) {$item = [new OPERATION()]; }
+	public static function total(string $date1 = "2020-04-01", string $date2){
+		$requette = "SELECT SUM(montant) as montant  FROM lignepayement, mouvement WHERE lignepayement.mouvement_id = mouvement.id AND mouvement.typemouvement_id = ? AND lignepayement.valide = 1 AND DATE(lignepayement.created) >= ? AND DATE(lignepayement.created) <= ? ";
+		$item = MOUVEMENT::execute($requette, [TYPEMOUVEMENT::RETRAIT, $date1, $date2]);
+		if (count($item) < 1) {$item = [new MOUVEMENT()]; }
 		return $item[0]->montant;
 	}
-
-
-
-	public static function sortie(string $date1 = "2020-04-01", string $date2){
-		$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? ";
-		$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::SORTIE, $date1, $date2]);
-		if (count($item) < 1) {$item = [new OPERATION()]; }
-		return $item[0]->montant;
-	}
-
-
-	public static function resultat(string $date1 = "2020-04-01", string $date2){
-		return static::entree($date1, $date2) - static::sortie($date1, $date2);
-	}
-
-
-
-
-	public static function versements(string $date1 = "2020-04-01", string $date2){
-		$requette = "SELECT SUM(montant) as montant  FROM operation WHERE operation.categorieoperation_id = ? AND operation.valide = 1 AND operation.fournisseur_id = ? AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? AND operation.valide = 1";
-		$item = OPERATION::execute($requette, [CATEGORIEOPERATION::VENTE, CLIENT::ANONYME, $date1, $date2]);
-		if (count($item) < 1) {$item = [new OPERATION()]; }
-		return $item[0]->montant;
-	}
-
 
 
 
