@@ -194,3 +194,32 @@ if ($action === "changerMode") {
 	}
 	echo json_encode($data);
 }
+
+
+
+
+if ($action === "select-prix") {
+	$datas = PRIXDEVENTE::findBy(["id ="=>$id]);
+	if (count($datas) == 1) {
+		$pz = $datas[0];
+		$pz->prix_id_gros = $val;
+		$data = $pz->save();
+	}else{
+		$data->status = false;
+		$data->message = "Une erreur s'est produite, veuillez recommencer !";
+	}
+	echo json_encode($data);
+}
+
+if ($action === "select-quantite") {
+	$datas = PRIXDEVENTE::findBy(["id ="=>$id]);
+	if (count($datas) == 1) {
+		$pz = $datas[0];
+		$pz->quantite_id = $val;
+		$data = $pz->save();
+	}else{
+		$data->status = false;
+		$data->message = "Une erreur s'est produite, veuillez recommencer !";
+	}
+	echo json_encode($data);
+}

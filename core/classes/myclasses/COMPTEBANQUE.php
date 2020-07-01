@@ -104,10 +104,7 @@ class COMPTEBANQUE extends TABLE
 			$date2 = dateAjoute();
 		}
 		$total = $this->depots($date1, $date2) - $this->retraits($date1, $date2);
-		if ($this->created <= dateAjoute1($date2, 1)) {
-			return $total + $this->initial;
-		}
-		return $total;
+		return $total + $this->initial;
 	}
 
 

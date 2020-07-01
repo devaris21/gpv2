@@ -110,7 +110,7 @@ class COMMERCIAL extends PERSONNE
 		$datas = $this->fourni('paye', ["etat_id ="=>ETAT::ENCOURS], [], ["started"=>"DESC"]);
 		if (count($datas) > 0) {
 			$paye = $datas[0];
-			$date = date("Y-m-d", strtotime(dateAjoute1($paye->created, 1)));
+			$date = date("Y-m-d", strtotime(dateAjoute1($paye->started, 1)));
 		}else{
 			$date = date("Y-m")."-01";
 		}
@@ -169,7 +169,7 @@ class COMMERCIAL extends PERSONNE
 
 
 	public function vendu(string $date1 = "2020-06-01", string $date2){
-		return PROSPECTION::findBy(["commercial_id ="=>$this->getId(), "etat_id !="=>ETAT::ANNULEE, "DATE(prospection.created) >="=>$date1, "DATE(prospection.created) <="=>$date2]);
+		return PROSPECTION::findBy(["commercial_id ="=>$this->getId(), "etat_id !="=>ETAT::ANNULEE, "DATE(prospection.dateretour) >="=>$date1, "DATE(prospection.dateretour) <="=>$date2]);
 	}
 
 

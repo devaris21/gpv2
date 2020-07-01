@@ -221,4 +221,32 @@ $(function(){
 	}
 
 
+
+	$(".select-quantite select").change(function(){
+		var url = "../../webapp/gestion/modules/parametres/configuration/ajax.php";
+		var id = $(this).parent("div").attr("id")
+		var val = $(this).val()
+		$.post(url, {action:"select-quantite", id:id, val:val}, (data)=>{
+			if (data.status) {
+				Alerter.success('Reussite !', "Modification prise en compte avec succès !");
+			}else{
+				Alerter.error('Erreur !', data.message);
+			}
+		},"json");
+	})
+
+
+	$(".select-prix select").change(function(){
+		var url = "../../webapp/gestion/modules/parametres/configuration/ajax.php";
+		var id = $(this).parent("div").attr("id")
+		var val = $(this).val()
+		$.post(url, {action:"select-prix", id:id, val:val}, (data)=>{
+			if (data.status) {
+				Alerter.success('Reussite !', "Modification prise en compte avec succès !");
+			}else{
+				Alerter.error('Erreur !', data.message);
+			}
+		},"json");
+	})
+
 })

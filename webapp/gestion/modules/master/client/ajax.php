@@ -49,29 +49,29 @@ if ($action == "newproduit") {
 
 
 	if ($action == "newproduit2") {
-	$params = PARAMS::findLastId();
-	$rooter = new ROOTER;
-	$produits = [];
-	if (getSession("produits") != null) {
-		$produits = getSession("produits"); 
-	}
-	if (!in_array($id, $produits)) {
-		$produits[] = $id;
-		$datas = PRODUIT::findBy(["id ="=> $id]);
-		if (count($datas) == 1) {
-			$produit = $datas[0];
-			$produit->fourni("prixdevente", ["isActive = "=> TABLE::OUI]);
-			?>
-			<tr class="border-0 border-bottom " id="ligne<?= $id ?>" data-id="<?= $id ?>">
-				<td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $id ?>)" style="font-size: 18px;"></i></td>
-				<td >
-					<img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $produit->image) ?>">
-				</td>
-				<td class="text-left">
-					<h4 class="mp0 text-uppercase"><?= $produit->name() ?></h4>
-				</td>
-				<?php foreach ($produit->prixdeventes as $key => $pdv) {
-					$pdv->actualise(); ?>
+		$params = PARAMS::findLastId();
+		$rooter = new ROOTER;
+		$produits = [];
+		if (getSession("produits") != null) {
+			$produits = getSession("produits"); 
+		}
+		if (!in_array($id, $produits)) {
+			$produits[] = $id;
+			$datas = PRODUIT::findBy(["id ="=> $id]);
+			if (count($datas) == 1) {
+				$produit = $datas[0];
+				$produit->fourni("prixdevente", ["isActive = "=> TABLE::OUI]);
+				?>
+				<tr class="border-0 border-bottom " id="ligne<?= $id ?>" data-id="<?= $id ?>">
+					<td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $id ?>)" style="font-size: 18px;"></i></td>
+					<td >
+						<img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $produit->image) ?>">
+					</td>
+					<td class="text-left">
+						<h4 class="mp0 text-uppercase"><?= $produit->name() ?></h4>
+					</td>
+					<?php foreach ($produit->prixdeventes as $key => $pdv) {
+						$pdv->actualise(); ?>
 						<td width="80" class="text-center">
 							<label><?= $pdv->quantite->name() ?></label>
 							<input type="text" data-pdv="<?= $pdv->getId() ?>" number class="form-control text-center gras" style="padding: 3px">
@@ -113,7 +113,11 @@ if ($action == "newproduit") {
 			if (count($datas) == 1) {
 				$pdv = $datas[0];
 				$pdv->actualise();
-				$montant += $pdv->prix->price * intval($val);
+				if ($typeprix == 1) {
+					$montant += $pdv->prix->price * intval($val);
+				}else{
+					$montant += $pdv->prix_gros->price * intval($val);
+				}
 			}
 		}
 		session("total", $montant);
@@ -171,7 +175,11 @@ if ($action == "newproduit") {
 									if (count($datas) == 1) {
 										$pdv = $datas[0];
 										$pdv->actualise();
-										$montant += $pdv->prix->price * intval($qte);
+										if ($typeprix == 1) {
+											$montant += $pdv->prix->price * intval($val);
+										}else{
+											$montant += $pdv->prix_gros->price * intval($val);
+										}
 
 										$lignedevente = new LIGNEDEVENTE;
 										$lignedevente->vente_id = $vente->getId();

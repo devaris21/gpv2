@@ -9,7 +9,20 @@ foreach (PRIXDEVENTE::getAll() as $key => $value) {
 	$emb = new ETIQUETTE();
 	$emb->prixdevente_id = $value->getId();
 	$emb->enregistre();
+
+	$value->prix_id_gros = $value->prix_id;
+	$value->save();
 }
+
+// //mise en place de compte courant
+$datas = ["Prix normal de boutique", "Prix de gros"];
+foreach ($datas as $key => $value) {
+	$item = new TYPEBAREME();
+	$item->name = $value;
+	$item->setProtected(1);
+	$item->save();
+}
+
 // //mise en place de compte courant
 // $datas = ["Caisse courante"];
 // foreach ($datas as $key => $value) {

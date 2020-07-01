@@ -39,7 +39,7 @@ class ETIQUETTE extends TABLE
 	public function name()
 	{
 		$this->actualise();
-		return $this->produit->name()." / ".$this->quantite->name();
+		return $this->prixdevente->produit->name()." / ".$this->prixdevente->quantite->name();
 	}
 
 

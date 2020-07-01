@@ -122,7 +122,7 @@
                         <h5 class="text-uppercase">Tranche des prix par produit</h5>
                     </div>
                     <div class="ibox-content">
-                        <table class="table table-striped">
+                        <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th></th>
@@ -150,8 +150,12 @@
                                                     </div>
                                                 </div>
                                                 <?php if ($pz->isActive()) { ?>
-                                                    <div style="display: inline-block; width: 100px; margin: 0%">
+                                                    <div class="select-quantite" id="<?= $pz->getId() ?>" style="display: inline-block; width: 100px; margin: 0%">
                                                         <?php Native\BINDING::html("select", "quantite", $pz, "quantite_id")  ?>
+                                                    </div>
+
+                                                    <div class="select-prix" id="<?= $pz->getId() ?>" style="display: inline-block; width: 100px; margin: 0%; color: orangered">
+                                                        <?php Native\BINDING::html("select", "prix", $pz, "prix_id_gros")  ?>
                                                     </div>
                                                 <?php } ?>
                                             </td>

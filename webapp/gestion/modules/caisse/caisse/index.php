@@ -40,7 +40,7 @@
         <div class="wrapper wrapper-content">
             <div class="row">
                 <div class="col-md-3">
-                    <div class="ibox ">
+                   <!--  <div class="ibox ">
                         <div class="ibox-title border">
                             <span class="label label-success float-right">An</span>
                             <h5 class="d-inline text-uppercase">Chif. affaire</h5>
@@ -50,7 +50,7 @@
                             <div class="stat-percent font-bold text-warning"><?= money(Home\CLIENT::dettes()) ?></div>
                             <small>Dette des clients</small>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="col-md-3">
                     <div class="ibox ">

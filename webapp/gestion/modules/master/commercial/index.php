@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col text-blue  border-right">
                                     <br>
-                                    <span class="h6 font-bold block"><?= money(comptage($lesprospections, "montant", "somme") / dateDiffe($date1, $date2)) ?> <small><?= $params->devise ?></small> / Jour</span>
+                                    <span class="h6 font-bold block"><?= (dateDiffe($date1, $date2) > 0)?money(comptage($lesprospections, "montant", "somme") / dateDiffe($date1, $date2)):0 ?> <small><?= $params->devise ?></small> / Jour</span>
                                     <small class="text-muted block">Moyenne de vente</small>
                                 </div>
                                 <div class="col text-danger">

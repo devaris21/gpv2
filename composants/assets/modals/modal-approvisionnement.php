@@ -1,5 +1,5 @@
 
-<div class="modal inmodal fade" id="modal-approressource" style="z-index: 99999999">
+<div class="modal inmodal fade" id="modal-approvisionnement" style="z-index: 99999999">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">

@@ -13,6 +13,7 @@ class COMMANDE extends TABLE
 	public $groupecommande_id;
 	public $datelivraison;
 	public $zonedevente_id;
+	public $typebareme_id;
 	public $lieu;
 	public $taux_tva = 0;
 	public $tva = 0;

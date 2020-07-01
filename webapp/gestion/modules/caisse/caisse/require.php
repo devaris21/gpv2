@@ -1,5 +1,41 @@
 <?php 
 namespace Home;
+//ajustement 
+foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::VENTE]) as $key => $ope) {
+	$ope->delete();
+}
+
+
+foreach (OPERATION::findBy(["categorieoperation_id ="=>19]) as $key => $ope) {
+	$ope->delete(); 
+}
+
+
+foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::APPROVISIONNEMENT]) as $key => $ope) {
+	$ope->delete();
+}
+
+
+foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::PAYE]) as $key => $ope) {
+	$ope->delete();
+}
+
+
+foreach (OPERATION::findBy(["categorieoperation_id >="=>14, "categorieoperation_id <="=>17]) as $key => $ope) {
+	if ($ope->montant >= 350000) {
+		$ope->delete();
+	}
+}
+
+
+foreach (OPERATION::findBy(["categorieoperation_id ="=>12]) as $key => $ope) {
+	$ope->delete();
+}
+
+
+foreach (OPERATION::findBy(["categorieoperation_id >="=>13]) as $key => $ope) {
+	$ope->delete();
+}
 
 if ($this->getId() != "") {
 	$tab = explode("@", $this->getId());
@@ -46,11 +82,16 @@ usort($tableau, "comparerDateCreated");
 
 $entrees = $depenses = 0;
 foreach ($tableau as $key => $value) {
-	if ($value->mouvement->typemouvement_id == TYPEMOUVEMENT::DEPOT) {
-		$entrees += $value->mouvement->montant;
+	if ($value->mouvement->comptebanque_id == COMPTEBANQUE::COURANT) {
+		if ($value->mouvement->typemouvement_id == TYPEMOUVEMENT::DEPOT) {
+			$entrees += $value->mouvement->montant;
+		}else{
+			$depenses += $value->mouvement->montant;
+		}
 	}else{
-		$depenses += $value->mouvement->montant;
+		unset($tableau[$key]);
 	}
+	
 }
 $statistiques = OPERATION::statistiques();
 
