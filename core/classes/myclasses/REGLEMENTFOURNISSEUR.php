@@ -45,6 +45,7 @@ class REGLEMENTFOURNISSEUR extends TABLE
 			if (intval($this->montant) > 0) {
 				$mouvement = new MOUVEMENT();
 				$mouvement->montant = $this->montant;
+				$mouvement->comment = $this->comment;
 				$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
 				if ($this->comptebanque_id == null || $this->comptebanque_id == 0) {
 					$mouvement->comptebanque_id  = COMPTEBANQUE::COURANT;

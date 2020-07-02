@@ -9,7 +9,7 @@ if ($this->getId() != "") {
 	$date1 = $tab[0];
 	$date2 = $tab[1];
 }else{
-	$date1 = dateAjoute(-31);
+	$date1 = dateAjoute(-7);
 	$date2 = dateAjoute();
 }
 
@@ -25,13 +25,13 @@ foreach (PRODUIT::findBy(["isActive ="=>TABLE::OUI]) as $key => $produit) {
 		$data->pdv = $pdv;
 		$pdv->tab = [];
 
-		$data->name = $pdv->produit->name()." // ".$pdv->quantite->name()/*." ".$params->devise*/;
+		$data->name = $pdv->produit->name()." // ".$pdv->quantite->name();
 		$data->prix = $pdv->prix->price();
 		$data->boutique = $pdv->enBoutique($date2);
 		$data->stock = $pdv->enEntrepot($date2);
-		$data->commande = $pdv->commandee();
-		if (!($data->boutique==0 && $data->stock==0 && $data->commande==0)) {
-			$tab[] = $data;
+		$tab[] = $data;
+		if (!($data->boutique==0 && $data->stock==0)) {
+
 		}	
 	}
 	$tableau[$produit->getId()] = $tab;

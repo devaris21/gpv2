@@ -21,14 +21,15 @@
                                     <!-- rempli en Ajax -->
                                 </tbody>
                             </table>
-
-                            <?php foreach (Home\PRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $item) { ?>
-                                <div class="">
-                                    <?php  foreach ($item->fourni("prixdevente", ["isActive ="=>Home\TABLE::OUI]) as $key => $value) { ?>
-                                        <button style="color: <?= $item->couleur  ?>" class="btn btn-white dim newressource text-capitalize" data-id="<?= $value->getId() ?>"><i class="fa fa-flask"></i> <?= $value->name(); ?></button>
-                                    <?php  } ?>                               
-                                </div>
-                            <?php  }  ?>
+<hr>
+                            <div class=" text-center">
+                                <?php foreach (Home\EMBALLAGE::getAll() as $key => $item) {
+                                    $item->actualise();
+                                    if ($item->quantite->isActive == Home\TABLE::OUI) { ?>
+                                        <button class="btn btn-white dim newressource text-capitalize" data-id="<?= $item->getId() ?>"><i class="fa fa-flask"></i> <?= $item->name(); ?></button>                   
+                                    <?php  }
+                                }  ?>
+                            </div>
                         </div>
                     </div>
                 </div>

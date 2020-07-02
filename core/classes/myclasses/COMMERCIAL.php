@@ -106,14 +106,15 @@ class COMMERCIAL extends PERSONNE
 	}
 
 
-	public function salaireDuMois(){
+	public function salaireVraiDuMois(){
 		$datas = $this->fourni('paye', ["etat_id ="=>ETAT::ENCOURS], [], ["started"=>"DESC"]);
 		if (count($datas) > 0) {
 			$paye = $datas[0];
-			$date = date("Y-m-d", strtotime(dateAjoute1($paye->started, 1)));
+			$date = date("Y-m-d", strtotime(dateAjoute1($paye->started)));
 		}else{
 			$date = date("Y-m")."-01";
 		}
+		$fin = 
 		$vendu = comptage($this->vendu($date, dateAjoute()), "vendu", "somme");
 		$nombre = 0;
 		$index = $date;
@@ -136,8 +137,17 @@ class COMMERCIAL extends PERSONNE
 	}
 
 
+	public function salaireDuMois(){
+		$salaire = $this->salaireVraiDuMois();
+		if ($salaire >= $this->salaire) {
+			return $this->salaire;
+		}
+		return $salaire;
+	}
+
+
 	public function bonus(){
-		$salaire = $this->salaireDuMois();
+		$salaire = $this->salaireVraiDuMois();
 		if ($salaire > $this->salaire) {
 			return ($salaire - $this->salaire) * 0.1;
 		}
@@ -189,10 +199,10 @@ class COMMERCIAL extends PERSONNE
 				}
 			}
 
-			if ($test) {
+			if ($test || (count($datas) == 0)) {
 				$paye = new PAYE();
 				$paye->commercial_id = $commercial->getId();
-				$paye->started = date("Y-m")."-01";
+				$paye->started = date("Y-m")."-01 ";
 				$data = $paye->enregistre();
 			}
 		}

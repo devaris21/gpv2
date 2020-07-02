@@ -37,6 +37,7 @@ class LIGNEPAYEMENT extends TABLE
 				if (intval($this->montant) > 0) {
 					$mouvement = new MOUVEMENT();
 					$mouvement->montant = $this->montant;
+					$mouvement->comment = $this->comment;
 					$mouvement->comptebanque_id = $this->comptebanque_id;
 					$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
 					$mouvement->comment = "Paye du commercial ".$commercial->name;

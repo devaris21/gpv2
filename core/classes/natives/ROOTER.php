@@ -79,7 +79,7 @@ class ROOTER extends PATH
                     $exercicecomptable = EXERCICECOMPTABLE::encours();
 
                        //pour les etats recaps
-                    $datea = dateAjoute(-30);
+                    $datea = dateAjoute(-7);
                     $dateb = dateAjoute(1);
 
                     $productionjour = PRODUCTIONJOUR::today();

@@ -45,6 +45,7 @@ class REGLEMENTCLIENT extends TABLE
 			if (intval($this->montant) > 0) {
 				$mouvement = new MOUVEMENT();
 				$mouvement->montant = $this->montant;
+				$mouvement->comment = $this->comment;
 				$mouvement->typemouvement_id = TYPEMOUVEMENT::DEPOT;
 				$mouvement->comptebanque_id  = COMPTEBANQUE::COURANT;
 				$data = $mouvement->enregistre();

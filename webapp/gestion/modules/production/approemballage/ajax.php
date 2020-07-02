@@ -20,7 +20,7 @@ if ($action == "newressource") {
 	}
 	if (!in_array($id, $ressources)) {
 		$ressources[] = $id;
-		$datas = PRIXDEVENTE::findBy(["id ="=> $id]);
+		$datas = EMBALLAGE::findBy(["id ="=> $id]);
 		if (count($datas) == 1) {
 			$item = $datas[0]; ?>
 			<tr class="border-0 border-bottom " id="ligne<?= $id ?>" data-id="<?= $id ?>">
@@ -73,7 +73,7 @@ if ($action == "calcul") {
 			$qte = $lot[1];
 		}
 		$prix = intval(end($lot));
-		$datas = PRIXDEVENTE::findBy(["id ="=> $id]);
+		$datas = EMBALLAGE::findBy(["id ="=> $id]);
 		if (count($datas) == 1) {
 			$item = $datas[0];
 			$total += $prix; ?>
@@ -187,12 +187,12 @@ if ($action == "validerApprovisionnement") {
 								$id = $lot[0];
 								$qte = $lot[1];
 								$prix = end($lot);
-								$datas = EMBALLAGE::findBy(["prixdevente_id ="=> $id]);
+								$datas = EMBALLAGE::findBy(["id ="=> $id]);
 								if (count($datas) == 1) {
 									$ressource = $datas[0];
 									$ligne = new LIGNEAPPROEMBALLAGE;
 									$ligne->approemballage_id = $approvisionnement->getId();
-									$ligne->emballage_id = $ressource->getId();
+									$ligne->emballage_id = $id;
 									$ligne->quantite = $qte;
 									$ligne->price =  $prix;
 									$data = $ligne->enregistre();	

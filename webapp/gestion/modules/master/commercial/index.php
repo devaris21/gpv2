@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col text-blue  border-right">
                                     <br>
-                                    <span class="h6 font-bold block"><?= (dateDiffe($date1, $date2) > 0)?money(comptage($lesprospections, "montant", "somme") / dateDiffe($date1, $date2)):0 ?> <small><?= $params->devise ?></small> / Jour</span>
+                                    <span class="h6 font-bold block"><?= (dateDiffe($date1, $date2) > 0)?money(comptage($lesprospections, "vendu", "somme") / dateDiffe($date1, $date2)):0 ?> <small><?= $params->devise ?></small> / Jour</span>
                                     <small class="text-muted block">Moyenne de vente</small>
                                 </div>
                                 <div class="col text-danger">
@@ -241,7 +241,7 @@
                 </address><hr>
 
                 <div class="m-b-lg">
-                    <span>Salaire mensuel fixe sur objectif</span><br>
+                    <span>Salaire mensuel fixe si objectif atteint</span><br>
                     <h2 class="font-bold d-inline"><?= money($commercial->salaire) ?> <?= $params->devise  ?></h2> 
                     <i onclick="modification('commercial', <?= $commercial->getId() ?>)" data-toggle="modal" data-target="#modal-salaire" class="fa fa-pencil fa-2x pull-right cursor"></i>
                     <br><br>

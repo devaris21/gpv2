@@ -2,10 +2,6 @@
 namespace Home;
 
 foreach (PRIXDEVENTE::getAll() as $key => $value) {
-	$emb = new EMBALLAGE();
-	$emb->prixdevente_id = $value->getId();
-	$emb->enregistre();
-
 	$emb = new ETIQUETTE();
 	$emb->prixdevente_id = $value->getId();
 	$emb->enregistre();
@@ -14,6 +10,11 @@ foreach (PRIXDEVENTE::getAll() as $key => $value) {
 	$value->save();
 }
 
+foreach (QUANTITE::getAll() as $key => $value) {
+	$emb = new EMBALLAGE();
+	$emb->quantite_id = $value->getId();
+	$emb->enregistre();
+}
 // //mise en place de compte courant
 $datas = ["Prix normal de boutique", "Prix de gros"];
 foreach ($datas as $key => $value) {
@@ -21,6 +22,12 @@ foreach ($datas as $key => $value) {
 	$item->name = $value;
 	$item->setProtected(1);
 	$item->save();
+}
+
+
+foreach (LIGNECOMMANDE::getAll() as $key => $value) {
+	$value->price = $value->prixdevente->prix->price = $value->quantite;
+	$value->save();
 }
 
 // //mise en place de compte courant
@@ -128,161 +135,161 @@ foreach ($datas as $key => $value) {
 // }
 
 
-// //ajustement 
-// foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::VENTE]) as $key => $ope) {
-// 	$reglementclient = new REGLEMENTCLIENT();
-// 	$reglementclient->cloner($ope);
-// 	$reglementclient->setId(null);
-// 	$data = $reglementclient->enregistre();
-// 	if ($data->status) {
-// 		foreach ($ope->fourni("vente") as $key => $vente) {
-// 			$vente->reglementclient_id = $reglementclient->getId();
-// 			$vente->save();
-// 			$ope->delete();
-// 		}
-// 		foreach ($ope->fourni("commande") as $key => $commande) {
-// 			$commande->reglementclient_id = $reglementclient->getId();
-// 			$commande->save();
-// 			$ope->delete();
-// 		}
-// 		$ope->delete();
-// 	}
-// }
+//ajustement 
+foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::VENTE]) as $key => $ope) {
+	$reglementclient = new REGLEMENTCLIENT();
+	$reglementclient->cloner($ope);
+	$reglementclient->setId(null);
+	$data = $reglementclient->enregistre();
+	if ($data->status) {
+		foreach ($ope->fourni("vente") as $key => $vente) {
+			$vente->reglementclient_id = $reglementclient->getId();
+			$vente->save();
+			$ope->delete();
+		}
+		foreach ($ope->fourni("commande") as $key => $commande) {
+			$commande->reglementclient_id = $reglementclient->getId();
+			$commande->save();
+			$ope->delete();
+		}
+		$ope->delete();
+	}
+}
 
 
 
 
-// foreach (OPERATION::findBy(["categorieoperation_id ="=>4]) as $key => $ope) {
-// 	$pay = new MOUVEMENT();
-// 	$pay->cloner($ope);
-// 	$pay->comptebanque_id = COMPTEBANQUE::COURANT;
-// 	$pay->typemouvement_id = TYPEMOUVEMENT::DEPOT;
-// 	$pay->setId(null);
-// 	$data = $pay->enregistre();
-// 	if ($data->status) {
-// 		$ope->delete();
-// 	}
-// }
+foreach (OPERATION::findBy(["categorieoperation_id ="=>4]) as $key => $ope) {
+	$pay = new MOUVEMENT();
+	$pay->cloner($ope);
+	$pay->comptebanque_id = COMPTEBANQUE::COURANT;
+	$pay->typemouvement_id = TYPEMOUVEMENT::DEPOT;
+	$pay->setId(null);
+	$data = $pay->enregistre();
+	if ($data->status) {
+		$ope->delete();
+	}
+}
 
-// foreach (OPERATION::findBy(["categorieoperation_id ="=>19]) as $key => $ope) {
-// 	$pay = new MOUVEMENT();
-// 	$pay->cloner($ope);
-// 	$pay->comptebanque_id = COMPTEBANQUE::COURANT;
-// 	$pay->typemouvement_id = TYPEMOUVEMENT::DEPOT;
-// 	$pay->setId(null);
-// 	$data = $pay->enregistre();
-// 	if ($data->status) {
-// 		$ope->delete();
-// 	}
-// }
-
-
-// foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::APPROVISIONNEMENT]) as $key => $ope) {
-// 	$reglementfour = new REGLEMENTFOURNISSEUR();
-// 	$reglementfour->cloner($ope);
-// 	$reglementfour->setId(null);
-// 	$data = $reglementfour->enregistre();
-// 	if ($data->status) {
-// 		foreach ($ope->fourni("approvisionnement") as $key => $vente) {
-// 			$vente->reglementfournisseur_id = $reglementfour->getId();
-// 			$vente->save();
-// 			$ope->delete();
-// 		}
-// 	}
-// }
+foreach (OPERATION::findBy(["categorieoperation_id ="=>19]) as $key => $ope) {
+	$pay = new MOUVEMENT();
+	$pay->cloner($ope);
+	$pay->comptebanque_id = COMPTEBANQUE::COURANT;
+	$pay->typemouvement_id = TYPEMOUVEMENT::DEPOT;
+	$pay->setId(null);
+	$data = $pay->enregistre();
+	if ($data->status) {
+		$ope->delete();
+	}
+}
 
 
-// foreach (OPERATION::findBy(["categorieoperation_id ="=> 10]) as $key => $ope) {
-// 	$pay = new MOUVEMENT();
-// 	$pay->cloner($ope);
-// 	$pay->comptebanque_id = COMPTEBANQUE::COURANT;
-// 	$pay->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
-// 	$pay->setId(null);
-// 	if ($ope->montant >= 100000) {
-// 		$pay->comptebanque_id = COMPTEBANQUE::FONDCOMMERCE;
-// 	}
-// 	$data = $pay->enregistre();
-// 	$ope->delete();
-// }
+foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::APPROVISIONNEMENT]) as $key => $ope) {
+	$reglementfour = new REGLEMENTFOURNISSEUR();
+	$reglementfour->cloner($ope);
+	$reglementfour->setId(null);
+	$data = $reglementfour->enregistre();
+	if ($data->status) {
+		foreach ($ope->fourni("approvisionnement") as $key => $vente) {
+			$vente->reglementfournisseur_id = $reglementfour->getId();
+			$vente->save();
+			$ope->delete();
+		}
+	}
+}
 
 
-// foreach (OPERATION::findBy(["categorieoperation_id ="=> 18]) as $key => $ope) {
-// 	$pay = new MOUVEMENT();
-// 	$pay->cloner($ope);
-// 	$pay->comptebanque_id = COMPTEBANQUE::COURANT;
-// 	$pay->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
-// 	$pay->setId(null);
-// 	$data = $pay->enregistre();
-// 	$ope->delete();
-// }
+foreach (OPERATION::findBy(["categorieoperation_id ="=> 10]) as $key => $ope) {
+	$pay = new MOUVEMENT();
+	$pay->cloner($ope);
+	$pay->comptebanque_id = COMPTEBANQUE::COURANT;
+	$pay->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
+	$pay->setId(null);
+	if ($ope->montant >= 100000) {
+		$pay->comptebanque_id = COMPTEBANQUE::FONDCOMMERCE;
+	}
+	$data = $pay->enregistre();
+	$ope->delete();
+}
 
 
-// foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::PAYE]) as $key => $ope) {
-// 	$pay = new PAYE();
-// 	$pay->cloner($ope);
-// 	$pay->setId(null);
-// 	$data = $pay->enregistre();
-// 	if ($data->status) {
-// 		$ope->delete();
-// 	}
-// }
+foreach (OPERATION::findBy(["categorieoperation_id ="=> 18]) as $key => $ope) {
+	$pay = new MOUVEMENT();
+	$pay->cloner($ope);
+	$pay->comptebanque_id = COMPTEBANQUE::COURANT;
+	$pay->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
+	$pay->setId(null);
+	$data = $pay->enregistre();
+	$ope->delete();
+}
 
 
-// foreach (OPERATION::findBy(["categorieoperation_id >="=>14, "categorieoperation_id <="=>17]) as $key => $ope) {
-// 	if ($ope->montant >= 350000) {
-// 		$immobilisation = new IMMOBILISATION();
-// 		$immobilisation->cloner($ope);
-// 		$immobilisation->setId(null);
-// 		$immobilisation->name = $ope->comment;
-// 		$immobilisation->typeimmobilisation_id = TYPEIMMOBILISATION::CORPORELLE;
-// 		$immobilisation->typeamortissement_id = TYPEAMORTISSEMENT::LINEAIRE;
-// 		$immobilisation->comptebanque_id = COMPTEBANQUE::FONDCOMMERCE;
-// 		$immobilisation->duree = 3;
-// 		$data = $immobilisation->enregistre();
-// 	}else{
-// 		$pay = new MOUVEMENT();
-// 		$pay->cloner($ope);
-// 		$pay->comptebanque_id = COMPTEBANQUE::FONDCOMMERCE;
-// 		$pay->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
-// 		$pay->setId(null);
-// 		$data = $pay->enregistre();
-// 	}
-// 	if ($data->status) {
-// 		$ope->delete();
-// 	}
-// }
+foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::PAYE]) as $key => $ope) {
+	$pay = new PAYE();
+	$pay->cloner($ope);
+	$pay->setId(null);
+	$data = $pay->enregistre();
+	if ($data->status) {
+		$ope->delete();
+	}
+}
 
 
-// foreach (OPERATION::findBy(["categorieoperation_id ="=>12]) as $key => $ope) {
-// 	$immobilisation = new IMMOBILISATION();
-// 	$immobilisation->cloner($ope);
-// 	$immobilisation->setId(null);
-// 	$immobilisation->name = $ope->comment;
-// 	$immobilisation->typeimmobilisation_id = TYPEIMMOBILISATION::CORPORELLE;
-// 	$immobilisation->typeamortissement_id = TYPEAMORTISSEMENT::LINEAIRE;
-// 	$immobilisation->comptebanque_id = COMPTEBANQUE::FONDCOMMERCE;
-// 	$immobilisation->duree = 3;
-// 	$data = $immobilisation->enregistre();
-// 	if ($data->status) {
-// 		$ope->delete();
-// 	}
-// }
+foreach (OPERATION::findBy(["categorieoperation_id >="=>14, "categorieoperation_id <="=>17]) as $key => $ope) {
+	if ($ope->montant >= 350000) {
+		$immobilisation = new IMMOBILISATION();
+		$immobilisation->cloner($ope);
+		$immobilisation->setId(null);
+		$immobilisation->name = $ope->comment;
+		$immobilisation->typeimmobilisation_id = TYPEIMMOBILISATION::CORPORELLE;
+		$immobilisation->typeamortissement_id = TYPEAMORTISSEMENT::LINEAIRE;
+		$immobilisation->comptebanque_id = COMPTEBANQUE::FONDCOMMERCE;
+		$immobilisation->duree = 3;
+		$data = $immobilisation->enregistre();
+	}else{
+		$pay = new MOUVEMENT();
+		$pay->cloner($ope);
+		$pay->comptebanque_id = COMPTEBANQUE::FONDCOMMERCE;
+		$pay->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
+		$pay->setId(null);
+		$data = $pay->enregistre();
+	}
+	if ($data->status) {
+		$ope->delete();
+	}
+}
 
 
-// foreach (OPERATION::findBy(["categorieoperation_id >="=>13]) as $key => $ope) {
-// 	$immobilisation = new IMMOBILISATION();
-// 	$immobilisation->cloner($ope);
-// 	$immobilisation->setId(null);
-// 	$immobilisation->name = $ope->comment;
-// 	$immobilisation->typeimmobilisation_id = TYPEIMMOBILISATION::FINANCIERE;
-// 	$immobilisation->typeamortissement_id = TYPEAMORTISSEMENT::LINEAIRE;
-// 	$immobilisation->comptebanque_id = COMPTEBANQUE::FONDCOMMERCE;
-// 	$immobilisation->duree = 3;
-// 	$data = $immobilisation->enregistre();
-// 	if ($data->status) {
-// 		$ope->delete();
-// 	}
-// }
+foreach (OPERATION::findBy(["categorieoperation_id ="=>12]) as $key => $ope) {
+	$immobilisation = new IMMOBILISATION();
+	$immobilisation->cloner($ope);
+	$immobilisation->setId(null);
+	$immobilisation->name = $ope->comment;
+	$immobilisation->typeimmobilisation_id = TYPEIMMOBILISATION::CORPORELLE;
+	$immobilisation->typeamortissement_id = TYPEAMORTISSEMENT::LINEAIRE;
+	$immobilisation->comptebanque_id = COMPTEBANQUE::FONDCOMMERCE;
+	$immobilisation->duree = 3;
+	$data = $immobilisation->enregistre();
+	if ($data->status) {
+		$ope->delete();
+	}
+}
+
+
+foreach (OPERATION::findBy(["categorieoperation_id >="=>13]) as $key => $ope) {
+	$immobilisation = new IMMOBILISATION();
+	$immobilisation->cloner($ope);
+	$immobilisation->setId(null);
+	$immobilisation->name = $ope->comment;
+	$immobilisation->typeimmobilisation_id = TYPEIMMOBILISATION::FINANCIERE;
+	$immobilisation->typeamortissement_id = TYPEAMORTISSEMENT::LINEAIRE;
+	$immobilisation->comptebanque_id = COMPTEBANQUE::FONDCOMMERCE;
+	$immobilisation->duree = 3;
+	$data = $immobilisation->enregistre();
+	if ($data->status) {
+		$ope->delete();
+	}
+}
 
 
 

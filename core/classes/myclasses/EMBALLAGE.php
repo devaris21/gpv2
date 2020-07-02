@@ -13,13 +13,13 @@ class EMBALLAGE extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 
-	public $prixdevente_id;
+	public $quantite_id;
 	public $stock = 0;
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = PRIXDEVENTE::findBy(["id ="=>$this->prixdevente_id]);
+		$datas = QUANTITE::findBy(["id ="=>$this->quantite_id]);
 		if (count($datas) == 1) {
 			if ($this->stock >= 0) {
 				$data = $this->save();
@@ -39,7 +39,7 @@ class EMBALLAGE extends TABLE
 	public function name()
 	{
 		$this->actualise();
-		return $this->prixdevente->produit->name()." / ".$this->prixdevente->quantite->name();
+		return $this->quantite->name();
 	}
 
 

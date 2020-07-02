@@ -73,7 +73,7 @@
 
                                     <div class="ibox-content">
                                         <h5>Dette chez les clients</h5>
-                                        <h2 class="no-margins"><?= start0(Home\CLIENT::Dettes()); ?> <?= $params->devise  ?></h2>
+                                        <h2 class="no-margins"><?= money(Home\CLIENT::Dettes()); ?> <?= $params->devise  ?></h2>
                                     </div>
 
                                     <div class="ibox-content">

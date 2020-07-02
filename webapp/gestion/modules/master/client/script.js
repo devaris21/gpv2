@@ -117,7 +117,7 @@ $(function(){
 	}
 
 
-	$("body").on("change", "select[name=zonelivraison_id], input[data-pdv], input[name=recu]", function(){
+	$("body").on("change", "select[name=typebareme_id], input[data-pdv], input[name=recu]", function(){
 		calcul()
 	})
 
@@ -142,7 +142,7 @@ $(function(){
 			}			
 		});
 		formdata.append('prixdeventes', tableau);
-		formdata.append('typeprix', $("select[name=typeprix_id]").val());
+		formdata.append('typebareme_id', $("select[name=typebareme_id]").val());
 		formdata.append('recu', $("input[name=recu]").val());
 
 		formdata.append('action', "calcul");

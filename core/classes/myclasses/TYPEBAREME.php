@@ -9,6 +9,9 @@ class TYPEBAREME extends TABLE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
+	const NORMAL = 1;
+	const GROS = 2;
+
 	public $name;
 
 	public function enregistre(){

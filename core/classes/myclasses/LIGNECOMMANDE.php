@@ -13,6 +13,7 @@ class LIGNECOMMANDE extends TABLE
 	public $commande_id;
 	public $prixdevente_id;
 	public $quantite;
+	public $price;
 
 
 

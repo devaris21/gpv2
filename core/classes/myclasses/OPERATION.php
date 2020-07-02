@@ -35,7 +35,6 @@ class OPERATION extends TABLE
 				$cat = $datas[0];
 				if ( $cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE || ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE && $this->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE)) {
 
-					$this->reference = "BCA/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
 					if (($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE) && !in_array($this->modepayement_id, [MODEPAYEMENT::ESPECE, MODEPAYEMENT::PRELEVEMENT_ACOMPTE]) ) {
 						$this->etat_id = ETAT::ENCOURS;
 					}else{
@@ -45,6 +44,7 @@ class OPERATION extends TABLE
 					if (intval($this->montant) > 0) {
 						$mouvement = new MOUVEMENT();
 						$mouvement->montant = $this->montant;
+						$mouvement->comment = $this->comment;
 						$mouvement->typemouvement_id = TYPEMOUVEMENT::DEPOT;
 						if ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE) {
 							$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
@@ -52,8 +52,10 @@ class OPERATION extends TABLE
 						$mouvement->comptebanque_id = COMPTEBANQUE::COURANT;
 						$data = $mouvement->enregistre();
 						if ($data->status) {
+							$this->reference = "BCA/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
 							$this->mouvement_id = $mouvement->getId();
 							$data = $this->save();
+							var_dump($data);
 							if ($data->status) {
 								if (!(isset($this->files) && is_array($this->files))) {
 									$this->files = [];

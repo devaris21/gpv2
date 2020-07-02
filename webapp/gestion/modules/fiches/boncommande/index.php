@@ -48,7 +48,9 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <h5><span>Zone de livraison :</span> <span class="text-uppercase"><?= $commande->zonedevente->name() ?></span></h5>   
-                                        <h5><span>Lieu de livraison :</span> <span class="text-uppercase"><?= $commande->lieu ?></span></h5>                              
+                                        <h5><span>Lieu de livraison :</span> <span class="text-uppercase"><?= $commande->lieu ?></span></h5>   <?php if ($commande->typebareme_id == Home\TYPEBAREME::GROS) { ?>
+                                            <h5 class="text-uppercase text-blue">vente au <?= $commande->typebareme->name() ?></span></h5>
+                                        <?php } ?>                         
                                     </div>
 
                                     <div class="col-6 text-right">
@@ -76,10 +78,10 @@
                                                 <td width="35%" class="desc">
                                                     <h3 class="mp0 text-uppercase gras"><?= $ligne->prixdevente->produit->name() ?><br> <small><?= $ligne->prixdevente->produit->description ?></small></h3>
                                                 </td>
-                                                <td class="text-center"><h4 class="text-muted"><?= money($ligne->prixdevente->prix->price) ?> <?= $params->devise ?></h4></td>
+                                                <td class="text-center"><h4 class="text-muted"><?= money(($commande->typebareme_id == Home\TYPEBAREME::GROS)?$ligne->prixdevente->prix_gros->price:$ligne->prixdevente->prix->price) ?> <?= $params->devise ?></h4></td>
                                                 <td class="text-center"><h3 style="font-weight: 300px"><i>x <?= $ligne->quantite ?></i></h3></td>
                                                 <td class="text-center" width="25%">
-                                                    <h3 class="gras"><?= money($ligne->prixdevente->prix->price * $ligne->quantite) ?> <?= $params->devise ?></h3>
+                                                    <h3 class="gras"><?= money($ligne->price) ?> <?= $params->devise ?></h3>
                                                 </td>
                                             </tr>
                                         <?php } ?> 
@@ -106,7 +108,7 @@
                                         <tr class="border">
                                             <td colspan="3" class="text-right">
                                                 <h3 class="text-uppercase mp0">Avance sur montant = </h3>
-                                                <?php if ($commande->operation_id == 0) { ?>
+                                                <?php if ($commande->reglementclient_id == 0) { ?>
                                                     <small>Réglement par prélèvement sur acompte</small>
                                                 <?php }else{ ?>
                                                     <small>Réglement par <?= $commande->reglementclient->modepayement->name() ?></small>
@@ -117,7 +119,7 @@
                                             <td colspan="1" class="text-center"><h3 class="gras text-"><?= money($commande->avance) ?> <?= $params->devise ?></h3></td>
                                         </tr>
                                         <tr class="border">
-                                            <td colspan="3" class="text-uppercase text-right"><h4 class=" text-<?= ($commande->reste > 0) ? "warning":"muted"  ?> ">reste <?= ($commande->operation_id == null && $commande->reste == 0 ) ? "dans le compte":"à payer pour cette commande"  ?> = </h4></td>
+                                            <td colspan="3" class="text-uppercase text-right"><h4 class=" text-<?= ($commande->reste > 0) ? "warning":"muted"  ?> ">reste <?= ($commande->reglementclient_id == null && $commande->reste == 0 ) ? "dans le compte":"à payer pour cette commande"  ?> = </h4></td>
                                             <td></td>
                                             <td colspan="1" class="text-center"><h3 class="gras text-<?= ($commande->reste > 0) ? "warning":"muted"  ?>"><?= money($commande->reste) ?> <?= $params->devise ?></h3></td>
                                         </tr>

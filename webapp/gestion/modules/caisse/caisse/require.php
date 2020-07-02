@@ -1,41 +1,5 @@
 <?php 
 namespace Home;
-//ajustement 
-foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::VENTE]) as $key => $ope) {
-	$ope->delete();
-}
-
-
-foreach (OPERATION::findBy(["categorieoperation_id ="=>19]) as $key => $ope) {
-	$ope->delete(); 
-}
-
-
-foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::APPROVISIONNEMENT]) as $key => $ope) {
-	$ope->delete();
-}
-
-
-foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::PAYE]) as $key => $ope) {
-	$ope->delete();
-}
-
-
-foreach (OPERATION::findBy(["categorieoperation_id >="=>14, "categorieoperation_id <="=>17]) as $key => $ope) {
-	if ($ope->montant >= 350000) {
-		$ope->delete();
-	}
-}
-
-
-foreach (OPERATION::findBy(["categorieoperation_id ="=>12]) as $key => $ope) {
-	$ope->delete();
-}
-
-
-foreach (OPERATION::findBy(["categorieoperation_id >="=>13]) as $key => $ope) {
-	$ope->delete();
-}
 
 if ($this->getId() != "") {
 	$tab = explode("@", $this->getId());

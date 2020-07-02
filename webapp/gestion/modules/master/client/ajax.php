@@ -113,7 +113,7 @@ if ($action == "newproduit") {
 			if (count($datas) == 1) {
 				$pdv = $datas[0];
 				$pdv->actualise();
-				if ($typeprix == 1) {
+				if ($typebareme_id == TYPEBAREME::NORMAL) {
 					$montant += $pdv->prix->price * intval($val);
 				}else{
 					$montant += $pdv->prix_gros->price * intval($val);
@@ -175,11 +175,7 @@ if ($action == "newproduit") {
 									if (count($datas) == 1) {
 										$pdv = $datas[0];
 										$pdv->actualise();
-										if ($typeprix == 1) {
-											$montant += $pdv->prix->price * intval($val);
-										}else{
-											$montant += $pdv->prix_gros->price * intval($val);
-										}
+										$montant += $pdv->prix->price * intval($val);
 
 										$lignedevente = new LIGNEDEVENTE;
 										$lignedevente->vente_id = $vente->getId();
@@ -336,13 +332,18 @@ if ($action == "newproduit") {
 									if (count($datas) == 1) {
 										$pdv = $datas[0];
 										$pdv->actualise();
-										$montant += $pdv->prix->price * $qte;
+										if ($typebareme_id == TYPEBAREME::NORMAL) {
+											$prix = $pdv->prix->price * intval($qte);
+										}else{
+											$prix = $pdv->prix_gros->price * intval($qte);
+										}
+										$montant += $prix;
 
 										$lignecommande = new LIGNECOMMANDE;
 										$lignecommande->commande_id = $commande->getId();
 										$lignecommande->prixdevente_id = $id;
 										$lignecommande->quantite = $qte;
-									//$lignecommande->price =  $prix * $qte;
+										$lignecommande->price =  $prix;
 										$lignecommande->enregistre();	
 									}
 								}
