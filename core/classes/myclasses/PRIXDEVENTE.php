@@ -188,7 +188,7 @@ class PRIXDEVENTE extends TABLE
 
 	public function montantVendu(string $date1 = "2020-06-01", string $date2){
 		$this->actualise();
-		return ($this->vendu($date1, $date2) * $this->prix->price) + $this->livreePrix($date1, $date2);
+		return ($this->vendu($date1, $date2) + $this->livree($date1, $date2) )* $this->prix->price ;
 	}
 
 	public static function rupture(){

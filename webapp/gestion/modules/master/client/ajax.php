@@ -175,7 +175,7 @@ if ($action == "newproduit") {
 									if (count($datas) == 1) {
 										$pdv = $datas[0];
 										$pdv->actualise();
-										$montant += $pdv->prix->price * intval($val);
+										$montant += $pdv->prix->price * intval($qte);
 
 										$lignedevente = new LIGNEDEVENTE;
 										$lignedevente->vente_id = $vente->getId();

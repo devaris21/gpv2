@@ -40,7 +40,7 @@ foreach (COMMANDE::getAll() as $key => $value) {
 
 
 foreach (LIGNECOMMANDE::getAll() as $key => $value) {
-	$value->price = $value->prixdevente->prix->price = $value->quantite;
+	$value->price = $value->prixdevente->prix->price * $value->quantite;
 	$value->save();
 }
 

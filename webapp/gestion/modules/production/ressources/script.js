@@ -1,4 +1,16 @@
 $(function(){
+
+
+    filtrer = function(){
+        var url = "../../webapp/gestion/modules/production/ressources/ajax.php";
+        var formdata = new FormData($("#formFiltrer")[0]);
+        formdata.append('action', "filtrer");
+        $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+            window.location.href = data.url;
+        }, 'json')
+    }
+
+
     $(".tabs-container li:nth-child(1) a.nav-link").addClass('active')
     ele = $("#ressources div.tab-pane:first").addClass('active')
     

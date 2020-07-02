@@ -87,13 +87,8 @@
                             <li id="approetiquette"><a href="<?= $this->url("gestion", "production", "approetiquette", 7) ?>">Appro d'etiquette</a></li>
                         </ul>
                     </li>
-                    <li class="groupe">
-                        <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Les stocks</span> <span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li id="stockressources"><a href="<?= $this->url("gestion", "production", "stockressources", 7) ?>">Stock de ressources</a></li>
-                            <li id="stockemballage"><a href="<?= $this->url("gestion", "rapports", "stockemballage", 7) ?>">Stock d'emballage</a></li>
-                            <li id="stocketiquette"><a href="<?= $this->url("gestion", "rapports", "stocketiquette", 7) ?>">Stock d'etiquette</a></li>
-                        </ul>
+                    <li class="" id="ressources">
+                        <a href="<?= $this->url("gestion", "production", "ressources", "$datea@$dateb") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Les stocks</span></a>
                     </li>
                 <?php } ?>
 
@@ -102,11 +97,11 @@
                 <li class="" id="rapportjour">
                     <a href="<?= $this->url("gestion", "rapports", "rapportjour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
                 </li>
-                <li class="" id="rapportvente">
-                    <a href="<?= $this->url("gestion", "rapports", "rapportvente", "$datea@$dateb") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de vente</span></a>
-                </li>
                 <li class="" id="rapportproduction">
                     <a href="<?= $this->url("gestion", "rapports", "rapportproduction", "$datea@$dateb") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de production</span></a>
+                </li>
+                <li class="" id="rapportvente">
+                    <a href="<?= $this->url("gestion", "rapports", "rapportvente", "$datea@$dateb") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de vente</span></a>
                 </li>
                 <li class="groupe">
                     <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Etats récapitulatifs</span> <span class="fa arrow"></span></a>
@@ -164,6 +159,6 @@
 
 <style type="text/css">
     li.dropdown-divider{
-       !important;
-   }
+     !important;
+ }
 </style>
