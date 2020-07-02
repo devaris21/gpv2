@@ -38,7 +38,11 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-7 text-right">
-                                    <h2 class="title text-uppercase gras text-blue">Bon de sortie</h2>
+                                    <?php if ($prospection->typeprospection_id == Home\TYPEPROSPECTION::PROSPECTION) { ?>
+                                        <h2 class="title text-uppercase gras text-blue">Bon de sortie</h2>
+                                    <?php }else{ ?>                                        
+                                        <h2 class="title text-uppercase gras text-blue">Bon de vente en cave</h2>
+                                    <?php } ?>
                                     <h3 class="text-uppercase">N°<?= $prospection->reference  ?></h3>
                                     <h5><?= datelong($prospection->created)  ?></h5>  
                                     <h4><small>Bon édité par :</small> <span class="text-uppercase"><?= $prospection->employe->name() ?></span></h4>                                

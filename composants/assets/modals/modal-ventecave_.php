@@ -1,10 +1,10 @@
 
-<div class="modal inmodal fade" id="modal-prospection" style="z-index: 9999999999">
+<div class="modal inmodal fade" id="modal-ventecave_" style="z-index: 9999999999">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Nouvelle prospection directe</h4>
+                <h4 class="modal-title">Nouvelle vente en cave</h4>
                 <small class="font-bold">Renseigner ces champs pour enregistrer la prospection</small>
             </div>
             
@@ -37,28 +37,8 @@
                             <h5 class="text-uppercase">Finaliser la prospection</h5>
                         </div>
                         <div class="ibox-content"  style="background-color: #fafafa">
-                            <form id="formProspection">
-
-                                <div>
-                                    <label>Choisissez le commercial <span style="color: red">*</span> </label>                               
-                                    <div class="input-group">
-                                        <?php Native\BINDING::html("select", "commercial"); ?>
-                                    </div>
-                                </div><br>
-
-                                <div>
-                                    <label>Zone de vente <span style="color: red">*</span> </label>                                
-                                    <div class="input-group">
-                                        <?php Native\BINDING::html("select", "zonedevente"); ?>
-                                    </div>
-                                </div><br>
-
-                                <div>
-                                    <label>Transport pour la prospection </label>                           
-                                    <div class="input-group">
-                                        <input value="0" type="number" class="form-control" number name="transport">
-                                    </div>
-                                </div><br>
+                            <form id="formVenteCave">
+                                <input type="hidden" name="commercial_id" value="<?= $commercial->getId() ?>">
 
                                 <div>
                                     <label>Monnaie pour la prospection </label>                           
@@ -67,13 +47,14 @@
                                     </div>
                                 </div><br>
 
-                                <input type="hidden" name="client_id" value="<?= Home\CLIENT::ANONYME ?>">
-                                <input type="hidden" name="typeprospection_id" value="<?= Home\TYPEPROSPECTION::PROSPECTION ?>">
-                                
+                                <input type="hidden" name="client_id" value="<?= Home\CLIENT::ANONYME ?>">                                
+                                <input type="hidden" name="zonedevente_id" value="<?= Home\ZONEDEVENTE::MAGASIN ?>">
+                                <input type="hidden" name="typeprospection_id" value="<?= Home\TYPEPROSPECTION::VENTECAVE ?>">
+
                             </form><br>
                             <h2 class="font-bold total text-right total">0 Fcfa</h2>
                             <hr/>
-                            <button onclick="validerPropection()" class="btn btn-warning btn-block dim"><i class="fa fa-check"></i> Valider la commande</button>
+                            <button onclick="validerPropection()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la commande</button>
                         </div>
                     </div>
 

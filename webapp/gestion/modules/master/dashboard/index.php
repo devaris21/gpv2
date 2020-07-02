@@ -35,9 +35,11 @@
                                 </li>
                                 <li class="list-group-item"></li>
                             </ul>
-                            <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim btn-block"> <i class="fa fa-file-text-o"></i> Nouvelle vente directe</button>
+                            <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim btn-block"> <i class="fa fa-long-arrow-right"></i> Nouvelle vente directe</button>
 
-                            <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim btn-block"><i class="fa fa-cubes"></i> Nouvelle prospection</button>
+                            <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim btn-block"><i class="fa fa-bicycle"></i> Nouvelle prospection</button>
+
+                            <button data-toggle="modal" data-target="#modal-ventecave" class="btn btn-success dim btn-block"><i class="fa fa-home"></i> Nouvelle vente en cave</button>
                         </div>
                         <div class="col-md-6">
                             <div class="text-center">
@@ -212,6 +214,7 @@
             <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?> 
             <?php include($this->rootPath("composants/assets/modals/modal-vente.php")); ?> 
             <?php include($this->rootPath("composants/assets/modals/modal-prospection.php")); ?> 
+            <?php include($this->rootPath("composants/assets/modals/modal-ventecave.php")); ?> 
             <?php include($this->rootPath("composants/assets/modals/modal-miseenboutique.php")); ?> 
 
         </div>

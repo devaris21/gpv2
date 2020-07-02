@@ -109,6 +109,14 @@ class PRIXDEVENTE extends TABLE
 	}
 
 
+	public function livreePrix(string $date1 = "2020-06-01", string $date2){
+		$requette = "SELECT SUM(quantite) as quantite  FROM ligneprospection, prixdevente, prospection WHERE ligneprospection.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.typeprospection_id = ? AND prospection.etat_id != ? AND DATE(ligneprospection.created) >= ? AND DATE(ligneprospection.created) <= ? GROUP BY prixdevente.id";
+		$item = LIGNEPROSPECTION::execute($requette, [$this->getId(), TYPEPROSPECTION::LIVRAISON, ETAT::ANNULEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new LIGNEPROSPECTION()]; }
+		return $item[0]->quantite;
+	}
+
+
 
 	public function perte(string $date1 = "2020-06-01", string $date2){
 		$total = 0;
@@ -180,7 +188,7 @@ class PRIXDEVENTE extends TABLE
 
 	public function montantVendu(string $date1 = "2020-06-01", string $date2){
 		$this->actualise();
-		return ($this->vendu($date1, $date2) + $this->livree($date1, $date2)) * $this->prix->price;
+		return ($this->vendu($date1, $date2) * $this->prix->price) + $this->livreePrix($date1, $date2);
 	}
 
 	public static function rupture(){

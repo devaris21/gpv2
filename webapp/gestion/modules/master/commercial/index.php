@@ -90,6 +90,7 @@
                                 <div id="tab-1" class="tab-pane active"><br>                                    
                                     <div class="row container-fluid">
                                         <button type="button" data-toggle=modal data-target='#modal-prospection_' class="btn btn-warning btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvel prospection </button>
+                                        <button type="button" data-toggle=modal data-target='#modal-ventecave_' class="btn btn-success btn-sm dim float-right"><i class="fa fa-plus"></i> Vente en cave </button>
                                     </div><hr>
                                     <div class="">
                                         <?php if (count($prospections) > 0) { ?>

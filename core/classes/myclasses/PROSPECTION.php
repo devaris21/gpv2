@@ -14,7 +14,7 @@ class PROSPECTION extends TABLE
 	public $typeprospection_id = TYPEPROSPECTION::PROSPECTION;
 	public $zonedevente_id;
 	public $lieu;
-		public $boutique_id = BOUTIQUE::PRINCIPAL;
+	public $boutique_id = BOUTIQUE::PRINCIPAL;
 	public $commercial_id      = COMMERCIAL::MAGASIN;
 	public $etat_id            = ETAT::ENCOURS;
 	public $employe_id         = null;

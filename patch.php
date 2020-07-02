@@ -24,6 +24,20 @@ foreach ($datas as $key => $value) {
 	$item->save();
 }
 
+$datas = ["Vente en cave"];
+foreach ($datas as $key => $value) {
+	$item = new TYPEPROSPECTION();
+	$item->name = $value;
+	$item->setProtected(1);
+	$item->save();
+}
+
+
+foreach (COMMANDE::getAll() as $key => $value) {
+	$value->typebareme_id = TYPEBAREME::NORMAL;
+	$value->save();
+}
+
 
 foreach (LIGNECOMMANDE::getAll() as $key => $value) {
 	$value->price = $value->prixdevente->prix->price = $value->quantite;

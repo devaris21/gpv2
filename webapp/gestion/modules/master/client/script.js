@@ -169,7 +169,6 @@ $(function(){
 				tableau.push(item);
 			}		
 		});
-		console.log(tableau)
 		formdata.append('prixdeventes', tableau);
 
 		alerty.confirm("Voulez-vous vraiment confirmer la vente de ces produits ?", {
@@ -205,11 +204,44 @@ $(function(){
 				tableau.push(item);
 			}		
 		});
-		console.log(tableau)
 		formdata.append('prixdeventes', tableau);
 
 		alerty.confirm("Voulez-vous vraiment confirmer l'opération' ?", {
 			title: "Confirmation de la prospection",
+			cancelLabel : "Non",
+			okLabel : "OUI, Confirmer",
+		}, function(){
+			Loader.start();
+			var url = "../../webapp/gestion/modules/master/client/ajax.php";
+			formdata.append('action', "validerPropection");
+			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+				if (data.status) {
+					window.open(data.url, "_blank");
+					window.location.reload();
+				}else{
+					Alerter.error('Erreur !', data.message);
+				}
+			}, 'json')
+		})
+	}
+
+
+	validerCave = function(){
+		var formdata = new FormData($("#formVenteCave")[0]);
+		
+		tableau = new Array();
+		$("#modal-ventecave tr input, #modal-ventecave_ tr input").each(function(index, el) {
+			var pdv = $(this).attr('data-pdv');
+			var val = $(this).val();
+			if (val > 0) {
+				var item = pdv+"-"+val;
+				tableau.push(item);
+			}		
+		});
+		formdata.append('prixdeventes', tableau);
+
+		alerty.confirm("Voulez-vous vraiment confirmer l'opération' ?", {
+			title: "Confirmation de la vente en cave",
 			cancelLabel : "Non",
 			okLabel : "OUI, Confirmer",
 		}, function(){

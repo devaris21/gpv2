@@ -11,6 +11,7 @@ class TYPEPROSPECTION extends TABLE
 
 	const PROSPECTION = 1;
 	const LIVRAISON = 2;
+	const VENTECAVE = 3;
 
 	public $name;
 

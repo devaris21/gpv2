@@ -220,7 +220,7 @@ if ($action == "newproduit") {
 			$client = $datas[0];
 			$prixdeventes = explode(",", $prixdeventes);
 			if (count($prixdeventes) > 0) {
-				if ($commercial_id != COMMERCIAL::MAGASIN  && $zonedevente_id != ZONEDEVENTE::MAGASIN) {
+				if ( $commercial_id != COMMERCIAL::MAGASIN && ( ($typeprospection_id == TYPEPROSPECTION::VENTECAVE) || ($typeprospection_id == TYPEPROSPECTION::PROSPECTION && $zonedevente_id != ZONEDEVENTE::MAGASIN)) ) {
 					if (getSession("total") > 0) {
 						
 						$tests = $prixdeventes;
