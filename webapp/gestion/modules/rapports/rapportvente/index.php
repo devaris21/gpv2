@@ -51,7 +51,7 @@
                         <div class="tabs-container" id="produits">
                             <ul class="nav nav-tabs text-uppercase" role="tablist">
                                 <li ><a class="nav-link" data-toggle="tab" href="#pan-0"><i class="fa fa-flask" ></i> Global</a></li>
-                                <?php foreach (Home\PRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $produit) { ?>
+                                <?php foreach ($produits as $key => $produit) { ?>
                                     <li style=" border-bottom: 3px solid <?= $produit->couleur; ?>,"><a class="nav-link" data-toggle="tab" href="#pan-<?= $produit->getId() ?>"><i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <?= $produit->name() ?></a></li>
                                 <?php } ?>
                             </ul>
@@ -84,7 +84,7 @@
                                     </div>
                                 </div>
 
-                                <?php foreach (Home\PRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $produit) {
+                                <?php foreach ($produits as $key => $produit) {
                                     $total = 0; ?>
                                     <div role="tabpanel" id="pan-<?= $produit->getId() ?>" class="tab-pane">
                                         <div class="panel-body"><br>
@@ -214,7 +214,7 @@
 <script>
     $(document).ready(function() {
 
-        <?php foreach (Home\PRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $produit) { 
+        <?php foreach ($produits as $key => $produit) { 
             foreach ($tableau[$produit->getId()] as $key => $pdv) { ?>
                 var sparklineCharts = function(){
                     $("#sparkline-<?= $pdv->id ?>").sparkline([<?php foreach ($pdv->tab as $i){ echo $i.", "; } ?>], {
@@ -248,11 +248,11 @@
 
     // The data for our dataset
     data: {
-        labels: [<?php foreach (Home\PRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $prod) { echo "'".$prod->name()."', "; } ?>],
+        labels: [<?php foreach ($produits as $key => $prod) { echo "'".$prod->name()."', "; } ?>],
         datasets: [{
             label: 'Parfum le plus vendu',
-            data: [<?php foreach (Home\PRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $prod) { echo "'".$tabvendu[$prod->getId()]."', "; } ?>],
-            backgroundColor: [<?php foreach (Home\PRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $prod) { echo "'".$prod->couleur."', "; } ?>],
+            data: [<?php foreach ($produits as $key => $prod) { echo "'".$tabvendu[$prod->getId()]."', "; } ?>],
+            backgroundColor: [<?php foreach ($produits as $key => $prod) { echo "'".$prod->couleur."', "; } ?>],
         }]
     },
 

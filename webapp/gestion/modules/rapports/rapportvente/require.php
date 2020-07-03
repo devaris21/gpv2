@@ -13,10 +13,10 @@ if ($this->getId() != "") {
 	$date2 = dateAjoute();
 }
 
-$produits = PRODUIT::getAll();
+$produits = PRODUIT::findBy(["isActive ="=>TABLE::OUI]);
 
 $tableau = [];
-foreach (PRODUIT::findBy(["isActive ="=>TABLE::OUI]) as $key => $produit) {
+foreach ($produits as $key => $produit) {
 	$tab = [];
 	foreach ($produit->fourni('prixdevente', ["isActive ="=>TABLE::OUI], [], ["quantite_id"=>"ASC"]) as $key => $pdv) {
 		$pdv->actualise();

@@ -1,48 +1,62 @@
 <?php 
 namespace Home;
 
-foreach (PRIXDEVENTE::getAll() as $key => $value) {
-	$emb = new ETIQUETTE();
-	$emb->prixdevente_id = $value->getId();
-	$emb->enregistre();
+// foreach (PRIXDEVENTE::getAll() as $key => $value) {
+// 	$emb = new ETIQUETTE();
+// 	$emb->prixdevente_id = $value->getId();
+// 	$emb->enregistre();
 
-	$value->prix_id_gros = $value->prix_id;
+// 	$value->prix_id_gros = $value->prix_id;
+// 	$value->save();
+// }
+
+// foreach (QUANTITE::getAll() as $key => $value) {
+// 	$emb = new EMBALLAGE();
+// 	$emb->quantite_id = $value->getId();
+// 	$emb->enregistre();
+// }
+// // //mise en place de compte courant
+// $datas = ["Prix normal de boutique", "Prix de gros"];
+// foreach ($datas as $key => $value) {
+// 	$item = new TYPEBAREME();
+// 	$item->name = $value;
+// 	$item->setProtected(1);
+// 	$item->save();
+// }
+
+// $datas = ["Vente en cave"];
+// foreach ($datas as $key => $value) {
+// 	$item = new TYPEPROSPECTION();
+// 	$item->name = $value;
+// 	$item->setProtected(1);
+// 	$item->save();
+// }
+
+
+foreach (VENTE::getAll() as $key => $value) {
+	$value->boutique_id = BOUTIQUE::PRINCIPAL;
 	$value->save();
 }
-
-foreach (QUANTITE::getAll() as $key => $value) {
-	$emb = new EMBALLAGE();
-	$emb->quantite_id = $value->getId();
-	$emb->enregistre();
-}
-// //mise en place de compte courant
-$datas = ["Prix normal de boutique", "Prix de gros"];
-foreach ($datas as $key => $value) {
-	$item = new TYPEBAREME();
-	$item->name = $value;
-	$item->setProtected(1);
-	$item->save();
-}
-
-$datas = ["Vente en cave"];
-foreach ($datas as $key => $value) {
-	$item = new TYPEPROSPECTION();
-	$item->name = $value;
-	$item->setProtected(1);
-	$item->save();
-}
-
 
 foreach (COMMANDE::getAll() as $key => $value) {
-	$value->typebareme_id = TYPEBAREME::NORMAL;
+	$value->boutique_id = BOUTIQUE::PRINCIPAL;
 	$value->save();
 }
 
-
-foreach (LIGNECOMMANDE::getAll() as $key => $value) {
-	$value->price = $value->prixdevente->prix->price * $value->quantite;
+foreach (PROSPECTION::getAll() as $key => $value) {
+	$value->boutique_id = BOUTIQUE::PRINCIPAL;
 	$value->save();
 }
+
+foreach (OPERATION::getAll() as $key => $value) {
+	$value->boutique_id = BOUTIQUE::PRINCIPAL;
+	$value->save();
+}
+
+// foreach (LIGNECOMMANDE::getAll() as $key => $value) {
+// 	$value->price = $value->prixdevente->prix->price * $value->quantite;
+// 	$value->save();
+// }
 
 // //mise en place de compte courant
 // $datas = ["Caisse courante"];

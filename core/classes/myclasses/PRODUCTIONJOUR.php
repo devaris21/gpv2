@@ -54,6 +54,16 @@ class PRODUCTIONJOUR extends TABLE
 				}
 			}
 
+
+			if (count($pro->fourni("ligneetiquettejour")) == 0) {
+				foreach (ETIQUETTE::getAll() as $key => $ressource) {
+					$ligne = new LIGNEETIQUETTEJOUR();
+					$ligne->productionjour_id = $pro->getId();
+					$ligne->etiquette_id = $ressource->getId();
+					$ligne->enregistre();
+				}
+			}
+
 			return $pro;
 		}else{
 			$ti = new PRODUCTIONJOUR();
@@ -70,6 +80,14 @@ class PRODUCTIONJOUR extends TABLE
 					$ligne = new LIGNECONSOMMATIONJOUR();
 					$ligne->productionjour_id = $data->lastid;
 					$ligne->ressource_id = $ressource->getId();
+					$ligne->enregistre();
+				}
+				
+
+				foreach (ETIQUETTE::getAll() as $key => $ressource) {
+					$ligne = new LIGNEETIQUETTEJOUR();
+					$ligne->productionjour_id = $pro->getId();
+					$ligne->etiquette_id = $ressource->getId();
 					$ligne->enregistre();
 				}
 			}

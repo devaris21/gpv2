@@ -70,8 +70,11 @@
 
                     <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
 
+                    <li class="" id="boutiques">
+                        <a href="<?= $this->url("gestion", "production", "boutiques", Home\BOUTIQUE::PRINCIPAL) ?>"><i class="fa fa-home"></i> <span class="nav-label">Les boutiques</span></a>
+                    </li>
                     <li class="" id="entrepots">
-                        <a href="<?= $this->url("gestion", "production", "entrepots") ?>"><i class="fa fa-home"></i> <span class="nav-label">Entrepôts & boutiques</span></a>
+                        <a href="<?= $this->url("gestion", "production", "entrepots") ?>"><i class="fa fa-home"></i> <span class="nav-label">Les Entrepôts</span></a>
                     </li>
                     <li class="" id="miseenboutique">
                         <a href="<?= $this->url("gestion", "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span></a>

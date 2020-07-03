@@ -3,7 +3,6 @@ namespace Home;
 unset_session("produits");
 unset_session("commande-encours");
 
-
 if ($this->getId() != null) {
 	$datas = BOUTIQUE::findBy(["id ="=>$this->getId()]);
 	if (count($datas) > 0) {
@@ -21,11 +20,11 @@ if ($this->getId() != null) {
 				$data->name = $pdv->produit->name()." // ".$pdv->prix->price()/*." ".$params->devise*/;
 				$data->prix = $pdv->prix->price()." ".$params->devise;
 				$data->quantite = $pdv->quantite->name();
-				$data->boutique = $pdv->enBoutique(dateAjoute());
-				$data->stock = $pdv->enEntrepot(dateAjoute());
+				$data->boutique = $pdv->enBoutique(dateAjoute(), $boutique->getId());
+				$data->stock = $pdv->enEntrepot(dateAjoute(), $boutique->getId());
 				$data->commande = $pdv->commandee();
 				$data->rupture = false;
-				if ($pdv->stockGlobal() <= $params->ruptureStock) {
+				if ($pdv->stockGlobal($boutique->getId()) <= $params->ruptureStock) {
 					$data->rupture = true;
 					$rupture++;
 				}	

@@ -40,22 +40,24 @@
                             <div class="col-md-3">
                                 <img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 60px;" alt=""><br>
                                 <h2 class="text-uppercase"><?= $boutique->name() ?></h2>
-                                <small><?= $boutique->adresse ?> </small>
+                                <small><?= $boutique->lieu ?> </small>
                                 <ul class="list-group clear-list m-t">
                                     <li class="list-group-item fist-item">
                                         Commandes en cours <span class="label label-success float-right"><?= start0(count($groupes__)); ?></span> 
                                     </li>
                                     <li class="list-group-item">
-                                        Livraisons en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]))); ?></span> 
+                                        Livraisons en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "boutique_id ="=>$boutique->getId(), "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]))); ?></span> 
                                     </li>
                                     <li class="list-group-item">
-                                        Prospections en cours <span class="label label-success float-right"><?= start0(count($prospections__)); ?></span> 
+                                        Prospections en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "boutique_id ="=>$boutique->getId(), "typeprospection_id ="=>Home\TYPEPROSPECTION::PROSPECTION]))); ?></span> 
                                     </li>
                                     <li class="list-group-item"></li>
                                 </ul>
-                                <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim btn-block"> <i class="fa fa-file-text-o"></i> Nouvelle vente directe</button>
+                                <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim btn-block"> <i class="fa fa-long-arrow-right"></i> Nouvelle vente directe</button>
 
-                                <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim btn-block"><i class="fa fa-cubes"></i> Nouvelle prospection</button>
+                                <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim btn-block"><i class="fa fa-bicycle"></i> Nouvelle prospection</button>
+
+                                <button data-toggle="modal" data-target="#modal-ventecave" class="btn btn-success dim btn-block"><i class="fa fa-home"></i> Nouvelle vente en cave</button>
                             </div>
                             <div class="col-md-6">
                                 <div class="flot-chart" style="height: 250px">
@@ -64,16 +66,16 @@
                                 <div class="row text-center">
                                     <div class="col">
                                         <div class="">
-                                            <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::todayDirectBoutique($boutique->getId()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                            <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::todayDirect($boutique->getId()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
                                             <small class="text-muted block">Ventes directes</small>
                                         </div>
                                     </div>
                                     <div class="col border-right border-left">
-                                        <span class="h5 font-bold block"><?= money(comptage(Home\PROSPECTION::effectueeBoutique(dateAjoute(), $boutique->getId()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                        <span class="h5 font-bold block"><?= money(comptage(Home\PROSPECTION::effectuee(dateAjoute(), $boutique->getId()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
                                         <small class="text-muted block">Ventes par prospection</small>
                                     </div>
                                     <div class="col text-danger">
-                                        <span class="h5 font-bold block"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1))) ?> <small><?= $params->devise ?></small></span>
+                                        <span class="h5 font-bold block"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1), $boutique->getId())) ?> <small><?= $params->devise ?></small></span>
                                         <small class="text-muted block">Dépense du jour</small>
                                     </div>
                                 </div>
@@ -181,6 +183,7 @@
                 <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?> 
                 <?php include($this->rootPath("composants/assets/modals/modal-vente.php")); ?> 
                 <?php include($this->rootPath("composants/assets/modals/modal-prospection.php")); ?> 
+                <?php include($this->rootPath("composants/assets/modals/modal-ventecave.php")); ?> 
                 <?php include($this->rootPath("composants/assets/modals/modal-miseenboutique.php")); ?> 
 
             </div>
