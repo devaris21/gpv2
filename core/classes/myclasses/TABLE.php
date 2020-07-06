@@ -207,20 +207,13 @@ public function save(){
         $data->mode ="update";
             //c'est une mise a jour (update)
         $id = $this->getId();
-        if ($this->modified == null) {
-            $this->setModified();
-        }
         $requette = "UPDATE $table SET $setter WHERE id=$id";
     }else{
         $data->mode ="insert";
             //c'est un ajout (insert)
         if ($this->created == null) {
             $this->setCreated();
-        }
-        if ($this->modified == null) {
-            $this->setModified();
-        }
-        
+        }        
         
         $requette = "INSERT INTO $table SET $setter";
     }

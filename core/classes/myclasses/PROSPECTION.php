@@ -14,7 +14,7 @@ class PROSPECTION extends TABLE
 	public $typeprospection_id = TYPEPROSPECTION::PROSPECTION;
 	public $zonedevente_id;
 	public $lieu;
-	public $boutique_id = BOUTIQUE::PRINCIPAL;
+	public $boutique_id        = BOUTIQUE::PRINCIPAL;
 	public $commercial_id      = COMMERCIAL::MAGASIN;
 	public $etat_id            = ETAT::ENCOURS;
 	public $employe_id         = null;
@@ -92,8 +92,11 @@ class PROSPECTION extends TABLE
 
 
 	//les livraions effectuéez du jour
-	public static function effectuee(String $date){
-		return static::findBy(["DATE(dateretour) ="=>$date, "etat_id ="=>ETAT::VALIDEE]);
+	public static function effectuee(String $date, int $boutique_id = null){
+		if ($boutique_id == null) {
+			return static::findBy(["DATE(dateretour) ="=>$date, "etat_id ="=>ETAT::VALIDEE]);
+		}
+		return static::findBy(["DATE(dateretour) ="=>$date, "etat_id ="=>ETAT::VALIDEE, "boutique_id ="=>$boutique_id]);
 	}
 
 
@@ -184,6 +187,8 @@ class PROSPECTION extends TABLE
 				if ($this->typeprospection_id == TYPEPROSPECTION::PROSPECTION) {
 					$vente = new VENTE();
 					$vente->cloner($this);
+					$vente->created = null;
+					$vente->modified = null;
 					$vente->typevente_id = TYPEVENTE::PROSPECTION;
 					$vente->setId(null);
 					$data = $vente->enregistre();

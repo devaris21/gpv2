@@ -94,9 +94,11 @@ class ETIQUETTE extends TABLE
 		$requette = "SELECT SUM(quantite_recu) as quantite, SUM(ligneapproetiquette.price) as price FROM ligneapproetiquette, etiquette, approetiquette WHERE ligneapproetiquette.etiquette_id = etiquette.id AND etiquette.id = ? AND ligneapproetiquette.approetiquette_id = approetiquette.id AND approetiquette.etat_id = ? GROUP BY etiquette.id";
 		$item = LIGNEAPPROETIQUETTE::execute($requette, [$this->getId(), ETAT::VALIDEE]);
 		if (count($item) < 1) {$item = [new LIGNEAPPROETIQUETTE()]; }
-		$total += $item[0]->price / $item[0]->quantite;
-
-		return $total;
+		if ($item[0]->quantite > 0) {
+			$total += $item[0]->price / $item[0]->quantite;
+			return $total;
+		}
+		return 0;
 	}
 
 

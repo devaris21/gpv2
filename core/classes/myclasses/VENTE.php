@@ -62,8 +62,8 @@ class VENTE extends TABLE
 		return $data;
 	}
 
-	public static function todayDirect(){
-		return static::findBy(["DATE(created) ="=>dateAjoute(), "typevente_id="=>TYPEVENTE::DIRECT, "etat_id !="=>ETAT::ANNULEE]);
+	public static function todayDirect(int $boutique_id){
+		return static::findBy(["boutique_id ="=>$boutique_id, "DATE(created) ="=>dateAjoute(), "typevente_id="=>TYPEVENTE::DIRECT, "etat_id !="=>ETAT::ANNULEE]);
 	}
 
 
@@ -198,12 +198,12 @@ class VENTE extends TABLE
 	}
 
 
-	public static function direct(string $date1, string $date2){
-		return static::findBy(["typevente_id ="=>TYPEVENTE::DIRECT, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE]);
+	public static function direct(string $date1, string $date2, int $boutique_id){
+		return static::findBy(["typevente_id ="=>TYPEVENTE::DIRECT, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE, "boutique_id ="=>$boutique_id]);
 	}
 
-	public static function prospection(string $date1, string $date2){
-		return static::findBy(["typevente_id ="=>TYPEVENTE::PROSPECTION, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE]);
+	public static function prospection(string $date1, string $date2, int $boutique_id){
+		return static::findBy(["typevente_id ="=>TYPEVENTE::PROSPECTION, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE, "boutique_id ="=>$boutique_id]);
 	}
 
 
@@ -217,7 +217,7 @@ class VENTE extends TABLE
 
 
 
-	public static function stats(string $date1 = "2020-04-01", string $date2){
+	public static function stats(string $date1 = "2020-04-01", string $date2, int $boutique_id){
 		$tableaux = [];
 		$nb = ceil(dateDiffe($date1, $date2) / 12);
 		$index = $date1;
@@ -232,8 +232,8 @@ class VENTE extends TABLE
 			$data->nb = $nb;
 			////////////
 
-			$data->direct = comptage(VENTE::direct($debut, $fin), "vendu", "somme");
-			$data->prospection = comptage(VENTE::prospection($debut, $fin), "vendu", "somme");
+			$data->direct = comptage(VENTE::direct($debut, $fin, $boutique_id), "vendu", "somme");
+			$data->prospection = comptage(VENTE::prospection($debut, $fin, $boutique_id), "vendu", "somme");
 			$data->marge = 0 ;
 
 			$tableaux[] = $data;

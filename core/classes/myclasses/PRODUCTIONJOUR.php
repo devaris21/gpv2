@@ -12,7 +12,7 @@ class PRODUCTIONJOUR extends TABLE
 	public $ladate;
 	public $comment = "";
 	public $groupemanoeuvre_id = 0;
-	public $groupemanoeuvre_id_rangement = 0;
+	public $entrepot_id = ENTREPOT::PRINCIPAL;
 	public $employe_id = 0;
 	public $etat_id = ETAT::ENCOURS;
 	public $dateRangement ;

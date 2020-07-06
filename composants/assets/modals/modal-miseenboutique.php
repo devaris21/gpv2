@@ -31,11 +31,11 @@
                                     <div class="row">
                                         <?php $produit->fourni("prixdevente", ["isActive ="=>Home\TABLE::OUI]);
                                         foreach ($produit->prixdeventes as $key => $prixdv) {
-                                            $stock = $prixdv->enEntrepot(dateAjoute());
+                                            $stock = $prixdv->enEntrepot(dateAjoute(), $entrepot->getId());
                                             if ($stock > 0) {
                                                 $prixdv->actualise(); ?>
                                                 <div class="col-sm-3">
-                                                    <label class="text-muted"><?= money($prixdv->prix->price) ?> <?= $params->devise  ?> / <b><?= $stock ?></b></label>
+                                                    <label class="text-muted"><?= $prixdv->quantite->name() ?> / <b><?= $stock ?></b></label>
                                                     <input type="text" min=0 number class="gras form-control text-green text-center" name="mise-<?= $prixdv->getId() ?>">
                                                 </div>
                                             <?php  } } ?>

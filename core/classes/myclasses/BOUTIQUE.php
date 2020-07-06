@@ -12,6 +12,8 @@ class BOUTIQUE extends TABLE
 	const PRINCIPAL = 1;
 
 	public $name;
+	public $lieu;
+	public $comptebanque_id;
 
 	public function enregistre(){
 		$data = new RESPONSE;

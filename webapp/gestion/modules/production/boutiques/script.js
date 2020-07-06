@@ -9,4 +9,16 @@ $(function(){
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
+
+
+
+	filtrer = function(){
+		var url = "../../webapp/gestion/modules/master/commercial/ajax.php";
+		var formdata = new FormData($("#formFiltrer")[0]);
+		formdata.append('action', "filtrer");
+		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+			window.location.reload();
+		})
+	}
+	
 })

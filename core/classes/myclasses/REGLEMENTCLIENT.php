@@ -19,6 +19,7 @@ class REGLEMENTCLIENT extends TABLE
 	public $modepayement_id;
 	public $structure;
 	public $numero;
+	public $boutique_id;
 	public $date_approbation;
 	public $isModified = 0;
 	public $employe_id;
@@ -110,26 +111,9 @@ class REGLEMENTCLIENT extends TABLE
 
 
 
-	public static function entree(string $date1 = "2020-04-01", string $date2){
-		$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ?";
-		$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::ENTREE, $date1, $date2]);
-		if (count($item) < 1) {$item = [new OPERATION()]; }
-		return $item[0]->montant;
-	}
-
-
-
-	public static function sortie(string $date1 = "2020-04-01", string $date2){
-		$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? ";
-		$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::SORTIE, $date1, $date2]);
-		if (count($item) < 1) {$item = [new OPERATION()]; }
-		return $item[0]->montant;
-	}
-
-
-	public static function total(string $date1 = "2020-04-01", string $date2){
-		$requette = "SELECT SUM(montant) as montant  FROM reglementclient, mouvement WHERE reglementclient.mouvement_id = mouvement.id AND mouvement.typemouvement_id = ? AND reglementclient.valide = 1 AND DATE(reglementclient.created) >= ? AND DATE(reglementclient.created) <= ? ";
-		$item = MOUVEMENT::execute($requette, [TYPEMOUVEMENT::DEPOT, $date1, $date2]);
+	public static function total(string $date1 = "2020-04-01", string $date2, int $boutique_id){
+		$requette = "SELECT SUM(montant) as montant  FROM reglementclient, mouvement WHERE reglementclient.mouvement_id = mouvement.id AND mouvement.typemouvement_id = ? AND reglementclient.valide = 1 AND DATE(reglementclient.created) >= ? AND DATE(reglementclient.created) <= ? AND reglementclient.boutique_id = ? ";
+		$item = MOUVEMENT::execute($requette, [TYPEMOUVEMENT::DEPOT, $date1, $date2, $boutique_id]);
 		if (count($item) < 1) {$item = [new MOUVEMENT()]; }
 		return $item[0]->montant;
 	}

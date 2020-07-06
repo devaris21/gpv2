@@ -101,7 +101,6 @@ class EMBALLAGE extends TABLE
 			return $total;
 		}
 		return 0;
-
 	}
 
 

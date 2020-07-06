@@ -102,7 +102,7 @@
                                 </td>
                                 <td><span>Montant total</span>
                                     <h3 class="gras text-orange"><?= money($vente->montant) ?> <?= $params->devise  ?></h3>
-                                    <span><?= $vente->operation->structure ?> - <?= $vente->operation->numero ?></span>
+                                    <span><?= $vente->reglementclient->structure ?> - <?= $vente->reglementclient->numero ?></span>
                                 </td>
                                 <td>
                                     <a href="<?= $this->url("gestion", "fiches", "bonvente", $vente->getId()) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Voir le reçu </a><br>

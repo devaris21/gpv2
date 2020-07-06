@@ -32,6 +32,10 @@ namespace Home;
 // 	$item->save();
 // }
 
+foreach (BOUTIQUE::getAll() as $key => $value) {
+	$value->comptebanque_id = COMPTEBANQUE::COURANT;
+	$value->save();
+}
 
 foreach (VENTE::getAll() as $key => $value) {
 	$value->boutique_id = BOUTIQUE::PRINCIPAL;
@@ -43,8 +47,27 @@ foreach (COMMANDE::getAll() as $key => $value) {
 	$value->save();
 }
 
+foreach (GROUPECOMMANDE::getAll() as $key => $value) {
+	$value->boutique_id = BOUTIQUE::PRINCIPAL;
+	$value->save();
+}
+
 foreach (PROSPECTION::getAll() as $key => $value) {
 	$value->boutique_id = BOUTIQUE::PRINCIPAL;
+	$value->save();
+}
+
+foreach (MISEENBOUTIQUE::getAll() as $key => $value) {
+	$value->boutique_id = BOUTIQUE::PRINCIPAL;
+	$value->entrepot_id = ENTREPOT::PRINCIPAL;
+	$value->datereception = $value->modified;
+	$value->save();
+}
+
+
+foreach (LIGNEMISEENBOUTIQUE::getAll() as $key => $value) {
+	$value->perte = 0;
+	$value->quantite_depart = $value->quantite;
 	$value->save();
 }
 
@@ -53,6 +76,16 @@ foreach (OPERATION::getAll() as $key => $value) {
 	$value->save();
 }
 
+
+foreach (REGLEMENTCLIENT::getAll() as $key => $value) {
+	$value->boutique_id = BOUTIQUE::PRINCIPAL;
+	$value->save();
+}
+
+foreach (PRODUCTIONJOUR::getAll() as $key => $value) {
+	$value->entrepot_id = ENTREPOT::PRINCIPAL;
+	$value->save();
+}
 // foreach (LIGNECOMMANDE::getAll() as $key => $value) {
 // 	$value->price = $value->prixdevente->prix->price * $value->quantite;
 // 	$value->save();

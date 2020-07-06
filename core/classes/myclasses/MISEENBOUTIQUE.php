@@ -16,7 +16,8 @@ class MISEENBOUTIQUE extends TABLE
 	public $employe_id;
 	public $boutique_id;
 	public $entrepot_id;
-	public $etat_id = ETAT::VALIDEE;
+	public $datereception;
+	public $etat_id = ETAT::ENCOURS;
 	public $comment;
 
 
@@ -41,6 +42,35 @@ class MISEENBOUTIQUE extends TABLE
 	}
 
 
+
+	public function valider(Array $post){
+		$data = new RESPONSE;
+		if ($this->etat_id == ETAT::ENCOURS) {
+			$this->etat_id = ETAT::VALIDEE;
+			$this->datereception = date("Y-m-d H:i:s");
+			$this->historique("La mise en boutique en reference $this->reference vient d'être receptionné !");
+			$data = $this->save();
+		}else{
+			$data->status = false;
+			$data->message = "Vous ne pouvez plus faire cette opération sur cette mise en boutique !";
+		}
+		return $data;
+	}
+
+
+	public function annuler(){
+		$data = new RESPONSE;
+		if ($this->etat_id != ETAT::ANNULEE) {			
+			$this->etat_id = ETAT::ANNULEE;
+			$this->historique("La mise en boutique en reference $this->reference vient d'être annulée !");
+			$data = $this->save();
+			$this->vehicule->save();
+		}else{
+			$data->status = false;
+			$data->message = "Vous ne pouvez plus faire cette opération sur cette mise en boutique !";
+		}
+		return $data;
+	}
 
 
 	public function sentenseCreate(){}
