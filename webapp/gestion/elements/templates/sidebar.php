@@ -6,7 +6,7 @@
                 <div class="dropdown profile-element">                        
                     <div class="row">
                         <div class="col-3">
-                            <img alt="image" class="rounded-circle" style="width: 35px" src="<?= $this->stockage("images", "gestionnaires", $employe->image) ?>"/>
+                            <img alt="image" class="rounded-circle" style="width: 35px" src="<?= $this->stockage("images", "employes", $employe->image) ?>"/>
                         </div>
                         <div class="col-9">
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">

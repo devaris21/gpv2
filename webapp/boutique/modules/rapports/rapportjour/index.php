@@ -69,7 +69,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php foreach (Home\PROSPECTION::effectuee($date) as $key => $prospection) {
+                                                        <?php foreach (Home\PROSPECTION::effectuee($date, $boutique->getId()) as $key => $prospection) {
                                                             $prospection->actualise(); ?>
                                                             <tr>
                                                                 <td><?= $prospection->commercial->name()  ?></td>
@@ -79,7 +79,7 @@
                                                         <?php } ?>
                                                         <tr>
                                                             <td class="text-right" colspan="5">
-                                                                <h2><?= money(comptage(Home\VENTE::prospection($date, $date), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
+                                                                <h2><?= money(comptage(Home\VENTE::prospection($date, $date, $boutique->getId()), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -114,7 +114,7 @@
                                                                 <td class="gras" style="color: <?= $produit->couleur ?>"><i class="fa fa-flask"></i> <?= $produit->name() ?></td>
                                                                 <?php $total =0; foreach ($datas as $key => $pdv) {
                                                                     $pdv->actualise();
-                                                                    $nb = $pdv->vendeDirecte($date, $date);
+                                                                    $nb = $pdv->vendeDirecte($date, $date, $boutique->getId());
                                                                     $total += $nb * $pdv->prix->price;  ?>
                                                                     <td class="text-center"><?= $nb ?></td>
                                                                 <?php } ?>
@@ -123,7 +123,7 @@
                                                         <?php } ?>
                                                         <tr>
                                                             <td class="text-right" colspan="5">
-                                                                <h2><?= money(comptage(Home\VENTE::direct($date, $date), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
+                                                                <h2><?= money(comptage(Home\VENTE::direct($date, $date, $boutique->getId()), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -187,101 +187,8 @@
                                             <p class="text-center text-muted italic">Aucune livraison ce jour </p>
                                         <?php } ?>
                                     </div>
-                                </div><hr><br> 
-
-                                <div class="">
-                                    <h3 class="text-uppercase text-center">la production du jour</h3>
-                                    <table class="table table-hover no-margins">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <?php foreach (Home\QUANTITE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $qte) { ?>
-                                                    <th class="text-center"><?= $qte->name()  ?></th>
-                                                <?php } ?>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach (Home\PRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $produit) {
-                                                $datas = $produit->fourni("prixdevente", ["isActive ="=>Home\TABLE::OUI]); ?>
-                                                <tr>
-                                                    <td class="gras" style="color: <?= $produit->couleur ?>"><i class="fa fa-flask"></i> <?= $produit->name() ?></td>
-                                                    <?php foreach ($datas as $key => $pdv) {
-                                                        foreach ($productionjour->ligneproductionjours as $key => $ligne) {
-                                                            if ($ligne->prixdevente_id == $pdv->getId()) { ?>
-                                                                <td data-toogle="tooltip" title="production" class="text-center gras"><?= money($ligne->production) ?></td>
-                                                            <?php }
-                                                        } 
-                                                    } ?>
-                                                </tr>
-                                            <?php } ?>
-                                        </tbody>
-                                    </table>
-                                </div><hr><br>
-
-                                <div class="">
-                                    <h3 class="text-uppercase text-center">consommation des ressources</h3>
-                                    <table class="table table-bordered mp0">
-                                        <thead>
-                                            <tr>
-                                                <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) {  ?>
-                                                    <th class="text-center"><?= $ressource->name() ?></th>
-                                                <?php } ?>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) {
-                                                    $datas = $ressource->fourni("ligneconsommationjour", ["DATE(created) = " => $date]);  ?>
-                                                    <td data-toogle="tooltip" title="production" class="text-center"><?= money(comptage($datas, "consommation", "somme")) ?> <?= $ressource->abbr  ?></td>
-                                                <?php   }  ?>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div><hr><hr>
-
-
-                                <br><h3 class="text-uppercase text-center">Approvisionnements</h3><br>
-                                <div class="">
-                                    <?php if (count($approvisionnements) > 0) { ?>
-                                        <div class="row">
-                                            <?php foreach ($approvisionnements as $key => $approvisionnement) { 
-                                                $approvisionnement->actualise();
-                                                $datas = $approvisionnement->fourni("ligneapprovisionnement"); ?>
-                                                <div class="col-md-4 col-sm-6">
-                                                    <div class="text-left">
-                                                        <h6 class="mp0"><span>Fournisseur :</span> <span class="text-uppercase"><?= $approvisionnement->fournisseur->name() ?></span></h6>                            
-                                                        <h6 class="mp0"><span>Etat :</span> <span class="text-uppercase"><?= $approvisionnement->etat->name() ?></span></h6>
-                                                    </div>
-                                                    <table class="table table-bordered mp0">
-                                                        <thead>
-                                                            <tr>
-                                                                <?php foreach ($approvisionnement->ligneapprovisionnements as $key => $ligne) { 
-                                                                    if ($ligne->quantite > 0) {
-                                                                        $ligne->actualise(); ?>
-                                                                        <th class="text-center"><?= $ligne->ressource->name() ?></th>
-                                                                    <?php }
-                                                                } ?>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <?php foreach ($approvisionnement->ligneapprovisionnements as $key => $ligne) {
-                                                                    if ($ligne->quantite > 0) { ?>
-                                                                        <td class="text-center"><?= $ligne->quantite ?> <?= $ligne->ressource->abbr  ?></td>
-                                                                    <?php   } 
-                                                                } ?>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <span class="mp0 pull-right"><span>Coût :</span> <span class="text-uppercase"><?= money($approvisionnement->montant) ?> <?= $params->devise ?></span></span>
-                                                    <hr>
-                                                </div>
-                                            <?php } ?>
-                                        </div>
-                                    <?php }else{ ?>
-                                        <p class="text-center text-muted italic">Aucune approvisionnement ce jour </p>
-                                    <?php } ?>
                                 </div>
+
                                 <?php } ?><hr><br>
 
 
@@ -302,7 +209,7 @@
                                                         <td colspan="2">Repport du solde de la veille (<?= datecourt(dateAjoute(-1)) ?>) </td>
                                                         <td class="text-center">-</td>
                                                         <td class="text-center">-</td>
-                                                        <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute(-1))) ?> <?= $params->devise ?></td>
+                                                        <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute(-1), $boutique->getId())) ?> <?= $params->devise ?></td>
                                                     </tr>
                                                     <?php foreach ($operations as $key => $operation) { ?>
                                                         <tr style="font-size: 11px;">
@@ -355,152 +262,49 @@
                                 </ul><br>
                                 <hr>
 
-                                  <!--   <h4 class="text-uppercase">Groupe de manoeuvres</h4>
-                                    <h6><?= $productionjour->groupemanoeuvre->name(); ?></h6>
-                                    <ul>
-                                        <?php foreach (/*$productionjour->fourni("manoeuvredujour")*/ [] as $key => $man) { 
-                                            $man->actualise(); ?>
-                                            <li><?= $man->manoeuvre->name(); ?></li>
-                                        <?php } ?>
-                                    </ul><br>
-                                    <hr> -->
+
+                                <h4 class="text-uppercase">Total des ventes</h4><br>   
+
+                                <h6>Total vente par production</h6>
+                                <h4 class="text-info"><?= money($p = comptage(Home\VENTE::prospection($date, $date, $boutique->getId()), "vendu", "somme")); ?> <?= $params->devise ?></h4>
+
+                                <h6>Total vente directe</h6>
+                                <h4 class="text-blue"><?= money($v = comptage(Home\VENTE::direct($date, $date, $boutique->getId()), "vendu", "somme")); ?> <?= $params->devise ?></h4>
+
+                                <h5 class="text-uppercase">Total des vente du jour</h5>
+                                <h3 class="text-blue"><?= money($p + $v); ?> <?= $params->devise ?></h3>
+                                <hr>
 
 
-                                    <h4 class="text-uppercase">Total des ventes</h4><br>   
-
-                                    <h6>Total vente par production</h6>
-                                    <h4 class="text-info"><?= money(comptage(Home\VENTE::prospection($date, $date), "vendu", "somme")); ?> <?= $params->devise ?></h4>
-
-                                    <h6>Total vente directe</h6>
-                                    <h4 class="text-blue"><?= money(comptage(Home\VENTE::direct($date, $date), "vendu", "somme")); ?> <?= $params->devise ?></h4>
-
-                                    <h5 class="text-uppercase">Total des vente du jour</h5>
-                                    <h3 class="text-blue"><?= money(comptage(Home\VENTE::direct($date, $date), "vendu", "somme") + comptage(Home\VENTE::prospection($date, $date), "vendu", "somme")); ?> <?= $params->devise ?></h3>
-                                    <hr>
-
-
-                                    <?php if ($employe->isAutoriser("caisse")) { ?>
-                                        <h4 class="text-uppercase">SOLDE DU COMPTE COURANT</h4>
-                                        <div class="">
-                                            <small>Solde en Ouverture</small>
-                                            <h2 class="no-margins"><?= money($comptecourant->solde(Home\PARAMS::DATE_DEFAULT , dateAjoute1($date, -1))) ?> <?= $params->devise ?></h2>
-                                            <div class="progress progress-mini">
-                                                <div class="progress-bar" style="width: 100%;"></div>
-                                            </div>
-                                        </div><br>
-
-                                        <small>Entrées du jour</small>
-                                        <h3 class="no-margins text-green"><?= money($comptecourant->depots($date , $date)) ?></h3>
-                                        <br>
-
-                                        <small>Dépenses du jour</small>
-                                        <h3 class="no-margins text-red"><?= money($comptecourant->retraits($date , $date)) ?></h3>
-                                        <br>
-
-                                        <div class="">
-                                            <small>Solde à la fermeture</small>
-                                            <h2 class="no-margins"><?= money($comptecourant->solde(Home\PARAMS::DATE_DEFAULT , $date)) ?> <?= $params->devise ?></h2>
-                                            <div class="progress progress-mini">
-                                                <div class="progress-bar" style="width: 100%;"></div>
-                                            </div>
+                                <?php if ($employe->isAutoriser("caisse")) { ?>
+                                    <h4 class="text-uppercase">SOLDE DE LA CAISSE</h4>
+                                    <div class="">
+                                        <small>Solde en Ouverture</small>
+                                        <h2 class="no-margins"><?= money($comptecourant->solde(Home\PARAMS::DATE_DEFAULT , dateAjoute1($date, -1))) ?> <?= $params->devise ?></h2>
+                                        <div class="progress progress-mini">
+                                            <div class="progress-bar" style="width: 100%;"></div>
                                         </div>
-                                        <hr>
-                                    <?php } ?>
+                                    </div><br>
+
+                                    <small>Entrées du jour</small>
+                                    <h3 class="no-margins text-green"><?= money($comptecourant->depots($date , $date)) ?></h3>
                                     <br>
-<!-- 
-                                    <h4 class="text-uppercase">Pannes véhicules/machines</h4>
-                                    <div>
-                                        <?php 
-                                        $datas = array_merge($demandes, $pannes);
-                                        if (count($datas) > 0) { ?>
-                                            <table class="table text-left">
-                                                <tbody>
-                                                    <?php foreach ($demandes as $key => $dem) {
-                                                        $dem->actualise();
-                                                        ?>
-                                                        <tr>    
-                                                            <td>
-                                                                <img alt="image" style="width: 30px;" class="m-t-xs" src="<?= $this->stockage("images", "vehicules", $dem->vehicule->image) ?>">
-                                                            </td>
-                                                            <td class="">
-                                                                <h5 class="text-uppercase gras"><?= $dem->vehicule->marque->name() ?> <?= $dem->vehicule->modele ?></h5>
-                                                                <h6 class=""><?= $dem->vehicule->immatriculation ?></h6>
-                                                            </td>  
-                                                        </tr>
-                                                    <?php } ?>
 
-                                                    <?php foreach ($pannes as $key => $dem) {
-                                                        $dem->actualise();
-                                                        ?>
-                                                        <tr>    
-                                                            <td>
-                                                                <img alt="image" style="width: 30px;" class="m-t-xs" src="<?= $this->stockage("images", "machines", $dem->machine->image) ?>">
-                                                            </td>
-                                                            <td class="">
-                                                                <h5 class="text-uppercase gras"><?= $dem->machine->name() ?></h5>
-                                                                <h6><?= $dem->machine->marque ?> <?= $dem->machine->modele ?></h6>
-                                                            </td> 
-                                                        </tr>
-                                                    <?php } ?>
-                                                </tbody>
-                                            </table>    
-                                        <?php }else{ ?>
-                                            <p class="text-center text-muted">Aucune panne ce jour !</p>
-                                        <?php } ?>                         
-                                    </div><br>
+                                    <small>Dépenses du jour</small>
+                                    <h3 class="no-margins text-red"><?= money($comptecourant->retraits($date , $date)) ?></h3>
+                                    <br>
 
+                                    <div class="">
+                                        <small>Solde à la fermeture</small>
+                                        <h2 class="no-margins"><?= money($comptecourant->solde(Home\PARAMS::DATE_DEFAULT , $date)) ?> <?= $params->devise ?></h2>
+                                        <div class="progress progress-mini">
+                                            <div class="progress-bar" style="width: 100%;"></div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                <?php } ?>
+                                <br>
 
-                                    <h4 class="text-uppercase">les Entretiens </h4>
-                                    <div>
-                                        <?php 
-                                        $datas = array_merge($entretiensv, $entretiensm);
-                                        if (count($datas) > 0) { ?>
-                                            <table class="table text-left">
-                                                <tbody>
-                                                    <?php foreach ($entretiensv as $key => $dem) {
-                                                        $dem->actualise();
-                                                        ?>
-                                                        <tr>    
-                                                            <td>
-                                                                <img alt="image" style="width: 30px;" class="m-t-xs" src="<?= $this->stockage("images", "vehicules", $dem->vehicule->image) ?>">
-                                                            </td>
-                                                            <td class="">
-                                                                <h5 class="text-uppercase gras"><?= $dem->vehicule->marque->name() ?> <?= $dem->vehicule->modele ?></h5>
-                                                                <h6 class=""><?= $dem->vehicule->immatriculation ?></h6>
-                                                                <hr class="mp0">
-                                                                <small class="">Pres: <b><?= $dem->prestataire->name() ?></b></small><br>
-                                                                <small class="">Montant: <b><?= money($dem->price) ?> <?= $params->devise ?></b></small>
-                                                            </td>  
-                                                        </tr>
-                                                    <?php } ?>
-
-                                                    <?php foreach ($entretiensm as $key => $dem) {
-                                                        $dem->actualise();
-                                                        ?>
-                                                        <tr>    
-                                                            <td>
-                                                                <img alt="image" style="width: 30px;" class="m-t-xs" src="<?= $this->stockage("images", "machines", $dem->machine->image) ?>">
-                                                            </td>
-                                                            <td class="">
-                                                                <h5 class="text-uppercase gras"><?= $dem->machine->name() ?></h5>
-                                                                <h6><?= $dem->machine->marque ?> <?= $dem->machine->modele ?></h6>
-                                                                <hr class="mp0">
-                                                                <small class="">Pres: <b><?= $dem->prestataire->name() ?></b></small><br>
-                                                                <small class="">Montant: <b><?= money($dem->price) ?> <?= $params->devise ?></b></small>
-                                                            </td> 
-                                                        </tr>
-                                                    <?php } ?>
-                                                </tbody>
-                                            </table>    
-                                        <?php }else{ ?>
-                                            <p class="text-center text-muted">Aucun entretien ce jour !</p>
-                                        <?php } ?>                         
-                                    </div><br>
-                                -->
-
-
-                                <h4 class="text-uppercase">COMMENTAIRE</h4>
-                                <p class="text-justify"><?= $productionjour->comment ?></p>
                             </div>
                         </div>
                     </div>

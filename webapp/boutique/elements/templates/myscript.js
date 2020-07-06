@@ -96,7 +96,7 @@
                 cancelLabel : "Non",
                 okLabel : "OUI, me deconnecter",
             }, function(){
-                window.location.href = "../../gestion/access/logout";
+                window.location.href = "../../boutique/access/logout";
             })
         });
 

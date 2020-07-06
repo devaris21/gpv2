@@ -261,8 +261,8 @@ if ($action == "newproduit") {
 
 								$prospection->montant = $montant;
 								$data = $prospection->save();
-								$data->setUrl("gestion", "fiches", "bonsortie", $data->lastid);
-							// $data->url2 = $data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
+								$data->setUrl("boutique", "fiches", "bonsortie", $data->lastid);
+							// $data->url2 = $data->setUrl("boutique", "fiches", "boncommande", $data->lastid);
 							}
 
 						}else{
@@ -388,8 +388,8 @@ if ($action == "newproduit") {
 								$commande->detteClient = $client->dette;
 								$data = $commande->save();
 
-								$data->url1 = $data->setUrl("gestion", "fiches", "boncaisse", $lot->lastid);
-								$data->url2 = $data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
+								$data->url1 = $data->setUrl("boutique", "fiches", "boncaisse", $lot->lastid);
+								$data->url2 = $data->setUrl("boutique", "fiches", "boncommande", $data->lastid);
 							}
 
 						}else{
@@ -551,7 +551,7 @@ if ($action == "newproduit") {
 							// }
 
 							$data = $prospection->save();
-							$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);				
+							$data->setUrl("boutique", "fiches", "bonlivraison", $data->lastid);				
 						}	
 					}else{
 						$data->status = false;
@@ -622,7 +622,7 @@ if ($action == "newproduit") {
 
 								}
 
-								$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);				
+								$data->setUrl("boutique", "fiches", "bonlivraison", $data->lastid);				
 							}	
 						}else{
 							$data->status = false;

@@ -9,7 +9,7 @@ if ($this->getId() != "") {
 	$date1 = $tab[0];
 	$date2 = $tab[1];
 }else{
-	$date1 = dateAjoute(-31);
+	$date1 = dateAjoute(-7);
 	$date2 = dateAjoute();
 }
 
@@ -27,19 +27,15 @@ foreach ($produits as $key => $produit) {
 
 		$data->name = $pdv->produit->name()." // ".$pdv->quantite->name()/*." ".$params->devise*/;
 		$data->prix = $pdv->prix->price();
-		$data->boutique = $pdv->enBoutique($date2);
-		$data->stock = $pdv->enEntrepot($date2);
-			$tab[] = $data;
-		if (!($data->boutique==0 && $data->stock==0)) {
-
-		}	
+		$data->boutique = $pdv->enBoutique($date2, $boutique->getId());
+		$tab[] = $data;
 	}
 	$tableau[$produit->getId()] = $tab;
 }
 
 $id = dateDiffe($date1, $date2);
 
-$stats = VENTE::stats($date1, $date2);
+$stats = VENTE::stats($date1, $date2, $boutique->getId());
 
 $productionjours = PRODUCTIONJOUR::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2],[],["ladate"=>"DESC"]);
 usort($productionjours, 'comparerLadate');

@@ -5,7 +5,7 @@ unset_session("commande-encours");
 
 $title = "GPV | Toutes les ventes en cours";
 
-$prospections = PROSPECTION::findBy(["typeprospection_id ="=>TYPEPROSPECTION::VENTECAVE, "DATE(created) >="=> dateAjoute(-5)], [], ["created"=>"DESC"]);
+$prospections = $boutique->fourni("prospection", ["typeprospection_id ="=>TYPEPROSPECTION::VENTECAVE, "DATE(created) >="=> dateAjoute(-5)], [], ["created"=>"DESC"]);
 
 
 ?>

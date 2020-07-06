@@ -50,8 +50,12 @@
                <small>© 2019-2020</small>
            </div>
        </div>
+
    </div>
 
+   <div style="position: absolute; bottom: 0; height: 250px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
+
+   </div>
 
    <div class="modal inmodal" id="modal-newUser" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog ">

@@ -59,7 +59,7 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins text-green"><?= money($comptecourant->depots($date1 , $date2)) ?></h1>
-                            <div class="stat-percent font-bold text-green"><?= money(Home\REGLEMENTCLIENT::total($date1 , $date2)) ?></div>
+                            <div class="stat-percent font-bold text-green"><?= money(Home\REGLEMENTCLIENT::total($date1 , $date2, $boutique->getId())) ?></div>
                             <small>Reglements de clients</small>
                         </div>
                     </div>
@@ -72,8 +72,6 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins text-red"><?= money($comptecourant->retraits($date1 , $date2)) ?></h1>
-                            <div class="stat-percent font-bold text-red"><?= money(Home\REGLEMENTFOURNISSEUR::total($date1 , $date2) + Home\LIGNEPAYEMENT::total($date1 , $date2)) ?></div>
-                            <small>Approvisionnement + Paye</small>
                         </div>
                     </div>
                 </div>
@@ -110,7 +108,7 @@
                                     </div><br>
 
                                     <div class="cursor" data-toggle="modal" data-target="#modal-attente">
-                                        <h3 class="no-margins text-blue"><?= money(comptage(Home\OPERATION::enAttente(), "montant", "somme")) ?> <?= $params->devise ?> *</h3>
+                                        <h3 class="no-margins text-blue"><?= money(comptage(Home\OPERATION::enAttente($boutique->getId()), "montant", "somme")) ?> <?= $params->devise ?> *</h3>
                                         <small>Versement en attente</small>
                                     </div>
                                 </div>
@@ -301,7 +299,7 @@
            <div class="modal-body">
             <table class="table table-bordered table-hover table-operation">
                 <tbody class="tableau-attente">
-                    <?php foreach (Home\OPERATION::enAttente() as $key => $operation) {
+                    <?php foreach (Home\OPERATION::enAttente($boutique->getId()) as $key => $operation) {
                         $operation->actualise(); ?>
                         <tr>
                             <td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("boutique", "fiches", "boncaisse", $operation->getId())  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>

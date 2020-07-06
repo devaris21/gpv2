@@ -6,13 +6,13 @@
 
 <body class="gray-bg">
 
-<div style="margin-top: 5%;"></div>
+    <div style="margin-top: 5%;"></div>
     <div class="container text-center animated fadeInDown">
-       <h1 class="logo-name text-uppercase" style="font-size: 50px; letter-spacing: 2px; margin-bottom: 5%;">session vérouillée</h1>
+        <h1 class="logo-name text-uppercase" style="font-size: 50px; letter-spacing: 2px; margin-bottom: 5%;">session vérouillée</h1>
 
         <div class=" text-center">
             <div class="m-b-md">
-            <img alt="image" style="width: 100px" class="rounded-circle circle-border" src="<?= $this->stockage("images", "employes", $employe->image) ?>">
+                <img alt="image" style="width: 100px" class="rounded-circle circle-border" src="<?= $this->stockage("images", "employes", $employe->image) ?>">
             </div>
             <h1><?= $employe->name()  ?></h1>
             <p>Votre session a été vérouillée pour inactivité.<br>
@@ -30,6 +30,9 @@
 
     <?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
 
+    <div style="position: absolute; bottom: 0; height: 250px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
+
+    </div>
 
 </body>
 

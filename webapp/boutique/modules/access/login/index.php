@@ -50,13 +50,17 @@
                 &copy; DEVARIS 21, tous droits reservés
             </div>
             <div class="col-md-6 text-right">
-             <small>© 2019-2020</small>
-         </div>
-     </div>
- </div>
+               <small>© 2019-2020</small>
+           </div>
+       </div>
+   </div>
 
 
- <div class="modal inmodal" id="modal-newUser" tabindex="-1" role="dialog" aria-hidden="true">
+   <div style="position: absolute; bottom: 0; height: 250px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
+
+   </div>
+
+   <div class="modal inmodal" id="modal-newUser" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog ">
         <div class="modal-content animated bounceInRight">
             <div class="modal-header">

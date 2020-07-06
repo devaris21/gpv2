@@ -51,12 +51,12 @@
                                 <div class="col">
                                     <div class="">
                                         <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::todayDirect($boutique->getId()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-                                        <small class="text-muted block">Ventes directes</small>
+                                        <small class="text-muted block">Ventes directes du jour</small>
                                     </div>
                                 </div>
                                 <div class="col border-right border-left">
                                     <span class="h5 font-bold block"><?= money(comptage(Home\PROSPECTION::effectuee(dateAjoute(), $boutique->getId()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-                                    <small class="text-muted block">Ventes par prospection</small>
+                                    <small class="text-muted block">Ventes par prospection du jour</small>
                                 </div>
                                 <div class="col text-danger">
                                     <span class="h5 font-bold block"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1), $boutique->getId())) ?> <small><?= $params->devise ?></small></span>

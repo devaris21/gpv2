@@ -86,7 +86,7 @@ class PRODUCTIONJOUR extends TABLE
 
 				foreach (ETIQUETTE::getAll() as $key => $ressource) {
 					$ligne = new LIGNEETIQUETTEJOUR();
-					$ligne->productionjour_id = $pro->getId();
+					$ligne->productionjour_id = $data->lastid;
 					$ligne->etiquette_id = $ressource->getId();
 					$ligne->enregistre();
 				}

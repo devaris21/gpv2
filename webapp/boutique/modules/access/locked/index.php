@@ -31,6 +31,10 @@
     <?php include($this->rootPath("webapp/boutique/elements/templates/script.php")); ?>
 
 
+   <div style="position: absolute; bottom: 0; height: 250px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
+
+   </div>
+
 </body>
 
 </html>

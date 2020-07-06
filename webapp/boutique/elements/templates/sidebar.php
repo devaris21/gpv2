@@ -6,12 +6,12 @@
                 <div class="dropdown profile-element">                        
                     <div class="row">
                         <div class="col-3">
-                            <img alt="image" class="rounded-circle" style="width: 35px" src="<?= $this->stockage("images", "gestionnaires", $employe->image) ?>"/>
+                            <img alt="image" class="rounded-circle" style="width: 35px" src="<?= $this->stockage("images", "employes", $employe->image) ?>"/>
                         </div>
                         <div class="col-9">
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="block m-t-xs font-bold"><?= $employe->name(); ?></span>
-                                <span class="text-muted text-xs block"><b class="caret"></b></span>
+                                <span class="text-muted text-xs block"><?= $boutique->name()  ?></span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li><a class="dropdown-item" href="<?= $this->url($this->section, "access", "locked") ?>">Vérouiller la session</a></li>

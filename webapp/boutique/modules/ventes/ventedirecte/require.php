@@ -6,7 +6,8 @@ unset_session("commande-encours");
 
 $title = "GPV | Toutes les ventes directes";
 
-$ventes = VENTE::findBy(["boutique_id ="=>$boutique->getId(), "typevente_id ="=>TYPEVENTE::DIRECT, "DATE(created) ="=>dateAjoute(-3)]);
+
+$ventes = $boutique->fourni("vente", ["typevente_id ="=>TYPEVENTE::DIRECT, "DATE(created) >="=>dateAjoute(-7)]);
 
 
 ?>

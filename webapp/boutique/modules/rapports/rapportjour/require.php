@@ -7,11 +7,10 @@ if ($this->getId() != "") {
 	$date = dateAjoute();
 }
 
-$commandes = COMMANDE::findBy(["DATE(created) = " => $date, "etat_id !="=>ETAT::ANNULEE]);
-$livraisons = PROSPECTION::findBy(["DATE(created) = " => $date, "typeprospection_id="=>TYPEPROSPECTION::LIVRAISON, "etat_id > "=>ETAT::ANNULEE, "etat_id !="=>ETAT::PARTIEL]);
-$approvisionnements = APPROVISIONNEMENT::findBy(["visibility ="=>1, "DATE(created) = " => $date, "etat_id !="=>ETAT::ANNULEE]);
+$commandes = $boutique->fourni("commande", ["DATE(created) = " => $date, "etat_id !="=>ETAT::ANNULEE]);
+$livraisons = $boutique->fourni("prospection", ["DATE(created) = " => $date, "typeprospection_id="=>TYPEPROSPECTION::LIVRAISON, "etat_id > "=>ETAT::ANNULEE, "etat_id !="=>ETAT::PARTIEL]);
 
-$operations = OPERATION::findBy(["DATE(created) = " => $date]);
+$operations = $boutique->fourni("operation", ["DATE(created) = " => $date]);
 $entrees = $depenses = [];
 foreach ($operations as $key => $value) {
 	$value->actualise();
@@ -23,13 +22,6 @@ foreach ($operations as $key => $value) {
 }
 
 
-$datas = PRODUCTIONJOUR::findBy(["ladate = " => $date]);
-if (count($datas) == 1) {
-	$productionjour = $datas[0];
-	$productionjour->actualise();
-	$productionjour->fourni("ligneproductionjour");
-}
-
 
 $employes = [];
 $connexions = CONNEXION::listeConnecterDuJour($date);
@@ -40,17 +32,7 @@ foreach ($connexions as $key => $value) {
 	}
 }
 
-
-$demandes = DEMANDEENTRETIEN::jour($date);
-$pannes = PANNE::jour($date);
-
-$entretiensv = ENTRETIENVEHICULE::jour($date);
-$entretiensm = ENTRETIENMACHINE::jour($date);
-
-$datas = COMPTEBANQUE::findBy(["id = " => COMPTEBANQUE::COURANT]);
-if (count($datas) == 1) {
-	$comptecourant = $datas[0];
-}
+$comptecourant = $boutique->comptebanque;
 
 
 $title = "GPV | Rapport général de la journée ";
