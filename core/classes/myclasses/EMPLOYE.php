@@ -19,6 +19,7 @@ class EMPLOYE extends AUTH
 	public $email;
 	public $is_new = 1;
 	public $boutique_id ;
+	public $entrepot_id ;
 	public $isAdmin = TABLE::NON;
 	public $image = "default.png";
 	public $is_connecte = false;

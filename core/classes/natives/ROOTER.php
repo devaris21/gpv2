@@ -26,7 +26,7 @@ class ROOTER extends PATH
 
 
     const SECTION_SIMPLE = ["devaris21"];
-    const SECTION_ADMIN = ["gestion", "boutique"];
+    const SECTION_ADMIN = ["gestion", "boutique", "entrepot"];
     const SECTION_STOCKAGE = ["images", "documents"];
 
 
@@ -136,6 +136,26 @@ class ROOTER extends PATH
                             if ($employe->is_allowed()) {
                                 $employe->actualise();
                                 $boutique = $employe->boutique;
+                            }else{
+                                $this->new_root("devaris21", "home", "erreur500");
+                                $this->render();
+                                return false;
+                            }
+                        }else{
+                            $this->new_root($this->section, "access", "login");
+                            $this->render();
+                            return false;
+                        }
+                    }
+
+
+                    if ($this->section == "entrepot") {
+                        $datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
+                        if (count($datas) >0) {
+                            $employe = $datas[0];
+                            if ($employe->is_allowed()) {
+                                $employe->actualise();
+                                $entrepot = $employe->entrepot;
                             }else{
                                 $this->new_root("devaris21", "home", "erreur500");
                                 $this->render();
