@@ -21,25 +21,21 @@
                     <div class="row">
                         <div class="col-md-3">
                             <img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 60px;" alt=""><br>
-                            <h2 class="text-uppercase"><?= $params->societe ?></h2>
-                            <small>Tableau de bord général </small>
+                            <h2 class="text-uppercase"><?= $entrepot->name() ?></h2>
+                            <small><?= $entrepot->lieu ?></small>
                             <ul class="list-group clear-list m-t">
-                                <li class="list-group-item fist-item">
-                                    Commandes en cours <span class="label label-success float-right"><?= start0(count($groupes__)); ?></span> 
+                                <li class="list-group-item  fist-item">
+                                    Approvisionnement en cours <span class="label label-success float-right"><?= start0(count($approvisionnements__)); ?></span> 
                                 </li>
                                 <li class="list-group-item">
-                                    Livraisons en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]))); ?></span> 
+                                    Depôts en cours <span class="label label-success float-right"><?= start0(count($entrepot->fourni("miseenboutique", ["etat_id ="=>Home\ETAT::ENCOURS]))); ?></span> 
                                 </li>
                                 <li class="list-group-item">
-                                    Prospections en cours <span class="label label-success float-right"><?= start0(count($prospections__)); ?></span> 
+                                    Demandes de dépôts <span class="label label-success float-right"><?= start0(count($entrepot->fourni("miseenboutique", ["etat_id ="=>Home\ETAT::PARTIEL]))); ?></span> 
                                 </li>
                                 <li class="list-group-item"></li>
                             </ul>
-                            <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim btn-block"> <i class="fa fa-long-arrow-right"></i> Nouvelle vente directe</button>
-
-                            <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim btn-block"><i class="fa fa-bicycle"></i> Nouvelle prospection</button>
-
-                            <button data-toggle="modal" data-target="#modal-ventecave" class="btn btn-success dim btn-block"><i class="fa fa-home"></i> Nouvelle vente en cave</button>
+                            <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim btn-block"> <i class="fa fa-long-arrow-right"></i> Nouvelle production</button>
                         </div>
                         <div class="col-md-6">
                             <div class="text-center">
@@ -47,40 +43,19 @@
                                     <div class="flot-chart-content" id="flot-dashboard-chart"></div>
                                 </div><hr>
                                 <span>Vente directe / vente par prospection</span>
-                            </div><hr>
-                            <div class="row text-center">
-                                <div class="col">
-                                    <div class="">
-                                        <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::todayDirect(), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-                                        <small class="text-muted block">Ventes directes</small>
-                                    </div>
-                                </div>
-                                <div class="col border-right border-left">
-                                    <span class="h5 font-bold block"><?= money(comptage(Home\PROSPECTION::effectuee(dateAjoute()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-                                    <small class="text-muted block">Ventes par prospection</small>
-                                </div>
-                                <div class="col text-danger">
-                                    <span class="h5 font-bold block"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1))) ?> <small><?= $params->devise ?></small></span>
-                                    <small class="text-muted block">Dépense du jour</small>
-                                </div>
                             </div>
                         </div>
                         <div class="col-md-3 border-left">
                             <div class="statistic-box" style="margin-top: 0%">
                                 <div class="ibox">
                                     <div class="ibox-content">
-                                        <h5>Courbe des ventes</h5>
-                                        <div id="sparkline2"></div>
-                                    </div>
-
-                                    <div class="ibox-content">
-                                        <h5>Dette chez les clients</h5>
-                                        <h2 class="no-margins"><?= money(Home\CLIENT::Dettes()); ?> <?= $params->devise  ?></h2>
+                                        <h5>Dépense du jour</h5>
+                                        <h2 class="no-margins text-danger"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1), $entrepot->getId())) ?> <?= $params->devise  ?></h2>
                                     </div>
 
                                     <div class="ibox-content">
                                         <h5>En rupture de Stock</h5>
-                                        <h2 class="no-margins"><?= start0(count(Home\PRIXDEVENTE::rupture())) ?> produit(s)</h1>
+                                        <h2 class="no-margins"><?= start0(count(Home\PRIXDEVENTE::rupture($entrepot->getId()))) ?> produit(s)</h1>
                                         </div>
                                     </div>
                                 </div>
@@ -97,8 +72,7 @@
                                             <li class="list-group-item">
                                                 <i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <small><?= $pdv->quantite ?></small>          
                                                 <span class="float-right">
-                                                    <span title="en boutique" class="gras text-<?= ($pdv->boutique > 0)?"green":"danger" ?>"><?= money($pdv->boutique) ?></span>&nbsp;|&nbsp;
-                                                    <span title="en entrepôt" class=""><?= money($pdv->stock) ?></span>
+                                                    <span class="gras text-<?= ($pdv->stock > 0)?"green":"danger" ?>"><?= money($pdv->stock) ?></span>
                                                 </span>
                                             </li>
                                         <?php } ?>
@@ -115,41 +89,32 @@
                         <div class="col-lg-7">
                             <div class="ibox ">
                                 <div class="ibox-title">
-                                    <h5 class="text-uppercase">Programme de prospection du jour</h5>
+                                    <h5 class="text-uppercase">Sorties d'entrepots du jour</h5>
                                     <div class="ibox-tools">
-                                        <a href="<?= $this->url("gestion", "production", "programmes") ?>" data-toggle="tooltip" title="Modifier le programme">
-                                            <i class="fa fa-calendar"></i> Modifier le programme
-                                        </a>
+                                        
                                     </div>
                                 </div>
                                 <div class="ibox-content table-responsive">
                                     <table class="table table-hover no-margins">
                                         <thead>
                                             <tr>
-                                                <th>Commercial</th>
-                                                <th class="">Heure de sortie</th>
-                                                <th class="">Total</th>
+                                                <th>Reference</th>
+                                                <th class="">Boutique</th>
+                                                <th class="">Départ à</th>
                                                 <th class="">vendu</th>
                                                 <th class="">heure de retour</th>
                                                 <th class="">statut</th>
-                                                <th class="">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach (Home\PROSPECTION::programmee(dateAjoute()) as $key => $prospection) {
-                                                $prospection->actualise(); ?>
+                                            <?php foreach (Home\MISEENBOUTIQUE::programmee(dateAjoute()) as $key => $mise) {
+                                                $mise->actualise(); ?>
                                                 <tr>
-                                                    <td><?= $prospection->commercial->name()  ?></td>
-                                                    <td><?= depuis($prospection->created)  ?></td>
-                                                    <td><?= money($prospection->montant) ?> <?= $params->devise ?></td>
-                                                    <td class="gras text-green"><?= money($prospection->vendu) ?> <?= $params->devise ?></td>
-                                                    <td><?= depuis($prospection->dateretour)  ?></td>
-                                                    <td class="text-center"><span class="label label-<?= $prospection->etat->class ?>"><?= $prospection->etat->name ?></span> </td>
-                                                    <td class="text-center">
-                                                        <?php if ($prospection->etat_id == Home\ETAT::PARTIEL) { ?>
-                                                            <button onclick="validerProg(<?= $prospection->getId() ?>)" class="cursor simple_tag pull-right"><i class="fa fa-file-text-o"></i> Faire la prospection</button>
-                                                        <?php } ?>
-                                                    </td>
+                                                    <td><?= $mise->reference ?></td>
+                                                    <td><?= $mise->boutique->name()  ?></td>
+                                                    <td><?= depuis($mise->created)  ?></td>
+                                                    <td><?= depuis($mise->datereception)  ?></td>
+                                                    <td class="text-center"><span class="label label-<?= $mise->etat->class ?>"><?= $mise->etat->name ?></span> </td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
@@ -162,7 +127,7 @@
                         <div class="col-sm-5">
                             <div class="ibox ">
                                 <div class="ibox-title">
-                                    <h5 class="text-uppercase">Ventes directes du jour</h5>
+                                    <h5 class="text-uppercase">Production du jour</h5>
                                     <div class="ibox-tools">
                                        
                                     </div>
@@ -184,7 +149,7 @@
                                                     <td class="gras" style="color: <?= $produit->couleur ?>"><i class="fa fa-flask"></i> <?= $produit->name() ?></td>
                                                     <?php $total =0; foreach ($datas as $key => $pdv) {
                                                         $pdv->actualise();
-                                                        $nb = $pdv->vendeDirecte(dateAjoute(), dateAjoute());
+                                                        $nb = $pdv->vendeDirecte(dateAjoute(), dateAjoute(), $entrepot->getId());
                                                         $total += $nb * $pdv->prix->price;  ?>
                                                         <td class="text-center"><?= $nb ?></td>
                                                     <?php } ?>
@@ -193,7 +158,7 @@
                                             <?php } ?>
                                             <tr>
                                                 <td class="text-right" colspan="5">
-                                                    <h2><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute()), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
+                                                    <h2><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute(), $entrepot->getId()), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
                                                 </td>
                                             </tr>
                                         </tbody>
