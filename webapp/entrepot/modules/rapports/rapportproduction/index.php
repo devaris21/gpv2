@@ -46,7 +46,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="ibox-content">
+                    <div class="ibox-content" id="produits">
                         <div class="tabs-container">
 
                           <ul class="nav nav-tabs text-uppercase" role="tablist">
@@ -132,6 +132,9 @@
                                                             <div class="carre bg-success"></div><span>Quantité produite</span>
                                                         </div>
                                                         <div class="col-sm">
+                                                            <div class="carre bg-green"></div><span>Quantité sortie</span>
+                                                        </div>
+                                                        <div class="col-sm">
                                                             <div class="carre bg-dark"></div><span>Stock de fin de journée</span>
                                                         </div>
                                                     </div><hr>
@@ -161,7 +164,8 @@
                                                                             if ($pdv->id == $ligne->prixdevente_id) { 
                                                                                 ?>
                                                                                 <td>
-                                                                                    <h4 class="d-inline text-success gras"><?= start0($ligne->production) ?></h4>&nbsp;&nbsp;=>&nbsp;&nbsp;
+                                                                                    <h4 class="d-inline text-success gras"><?= start0($ligne->production) ?></h4>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                                                                    <h4 class="d-inline text-green gras"><?= start0($pdv->totalSortieEntrepot($production->ladate, $production->ladate, $entrepot->id)) ?></h4>&nbsp;&nbsp;=>&nbsp;&nbsp;
                                                                                     <h4 class="d-inline text-gray-dark gras"><?= start0($pdv->enEntrepot($production->ladate, $entrepot->id)) ?></h4>
                                                                                 </td>
                                                                             <?php }
@@ -171,21 +175,9 @@
                                                             <?php } ?>
                                                             <tr style="height: 18px;"></tr>
                                                             <tr>
-                                                                <td ><h4 class="text-center gras text-muted text-uppercase">En boutique</h4></td>
-                                                                <?php foreach ($lots as $key => $pdv) { ?>
-                                                                    <td><h4 class="gras" ><?= start0($pdv->enBoutique(dateAjoute())) ?></h4></td>
-                                                                <?php } ?>
-                                                            </tr>
-                                                            <tr>
                                                                 <td style="width: 30%"><h4 class="text-center gras text-uppercase mp0">En entrepot</h4></td>
                                                                 <?php foreach ($lots as $key => $pdv) { ?>
-                                                                    <td><h4 class="text-muted gras" ><?= start0($pdv->enEntrepot(dateAjoute())) ?></h4></td>
-                                                                <?php } ?>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><h3 class="text-center gras text-uppercase mp0">Stock global actuel</h3><small>Entrepot + boutique</small></td>
-                                                                <?php foreach ($lots as $key => $pdv) { ?>
-                                                                    <td><h3 class="text-green gras" ><?= start0($pdv->stockGlobal()) ?></h3></td>
+                                                                    <td><h4 class="text-muted gras" ><?= start0($pdv->enEntrepot($date2, $entrepot->id)) ?></h4></td>
                                                                 <?php } ?>
                                                             </tr>
                                                         </tbody>
@@ -231,8 +223,6 @@
             labels: [<?php foreach ($tableau[$produit->id] as $key => $data){ ?>"<?= $data->prix ?>", " ", " ",<?php } ?>],
             series: [
             [<?php foreach ($tableau[$produit->id] as $key => $data){ ?><?= $data->stock ?>, 0, 0,<?php } ?>],
-            [<?php foreach ($tableau[$produit->id] as $key => $data){ ?><?= $data->boutique ?> , 0, 0,<?php } ?>],
-            [<?php foreach ($tableau[$produit->id] as $key => $data){ ?>0, <?= $data->commande ?>, 0,<?php } ?>],
             ]
         }, {
          stackBars: true,
