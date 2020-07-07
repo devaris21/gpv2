@@ -56,15 +56,6 @@ class PRIXDEVENTE extends TABLE
 	}
 
 
-	public function stock(String $date, int $entrepot_id = null){
-		if ($boutique_id == null) {
-			$stock = intval($this->stock) + $this->production("2020-06-01", $date) - $this->vendu("2020-06-01", $date) - $this->perte("2020-06-01", $date);
-		}else{
-			$stock = intval($this->stock) + $this->production("2020-06-01", $date) - $this->vendu("2020-06-01", $date, $boutique_id) - $this->perte("2020-06-01", $date, $boutique_id);
-		}
-		return $stock;
-	}
-
 
 
 	public function production(string $date1 = "2020-06-01", string $date2, int $entrepot_id){
@@ -74,6 +65,28 @@ class PRIXDEVENTE extends TABLE
 		if (count($item) < 1) {$item = [new LIGNEPRODUCTIONJOUR()]; }
 		return $item[0]->production;
 	}
+
+	public function totalSortieEntrepot(string $date1 = "2020-06-01", string $date2, int $entrepot_id){
+		$requette = "SELECT SUM(quantite) as quantite  FROM lignemiseenboutique, prixdevente, miseenboutique WHERE lignemiseenboutique.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND lignemiseenboutique.miseenboutique_id = miseenboutique.id AND miseenboutique.etat_id != ? AND miseenboutique.entrepot_id = ? AND DATE(lignemiseenboutique.created) >= ? AND DATE(lignemiseenboutique.created) <= ? GROUP BY prixdevente.id";
+		$item = LIGNEMISEENBOUTIQUE::execute($requette, [$this->getId(), ETAT::ANNULEE, $entrepot_id, $date1, $date2]);
+		if (count($item) < 1) {$item = [new LIGNEMISEENBOUTIQUE()]; }
+		return $item[0]->quantite;
+	}
+
+	public function perteEntrepot(string $date1 = "2020-06-01", string $date2, int $entrepot_id){
+		$requette = "SELECT SUM(perte) as perte  FROM ligneperteentrepot, prixdevente, perteentrepot WHERE ligneperteentrepot.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND ligneperteentrepot.perteentrepot_id = perteentrepot.id AND perteentrepot.etat_id != ? AND perteentrepot.entrepot_id = ? AND DATE(ligneperteentrepot.created) >= ? AND DATE(ligneperteentrepot.created) <= ? GROUP BY prixdevente.id";
+		$item = LIGNEPERTEENTREPOT::execute($requette, [$this->getId(), ETAT::ANNULEE, $entrepot_id, $date1, $date2]);
+		if (count($item) < 1) {$item = [new LIGNEPERTEENTREPOT()]; }
+		return $item[0]->perte;
+	}
+
+	public function enEntrepot(string $date, int $entrepot_id){
+		$total = intval($this->stock) + $this->production("2020-06-01", $date, $entrepot_id) - $this->totalSortieEntrepot("2020-06-01", $date, $entrepot_id) - $this->perteEntrepot("2020-06-01", $date, $entrepot_id);
+		return $total;
+	}
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 	public function totalMiseEnBoutique(string $date1 = "2020-06-01", string $date2, int $boutique_id){
@@ -90,18 +103,8 @@ class PRIXDEVENTE extends TABLE
 	}
 
 
-	public function totalMiseEnBoutiqueParEntrepot(string $date1 = "2020-06-01", string $date2, int $entrepot_id){
-		$requette = "SELECT SUM(quantite) as quantite  FROM lignemiseenboutique, prixdevente, miseenboutique WHERE lignemiseenboutique.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND lignemiseenboutique.miseenboutique_id = miseenboutique.id AND miseenboutique.etat_id != ? AND miseenboutique.entrepot_id = ? AND DATE(lignemiseenboutique.created) >= ? AND DATE(lignemiseenboutique.created) <= ? GROUP BY prixdevente.id";
-		$item = LIGNEMISEENBOUTIQUE::execute($requette, [$this->getId(), ETAT::ANNULEE, $entrepot_id, $date1, $date2]);
-		if (count($item) < 1) {$item = [new LIGNEMISEENBOUTIQUE()]; }
-		return $item[0]->quantite;
-	}
 
-
-	public function enEntrepot(string $date, int $entrepot_id){
-		$total = intval($this->stock) + $this->production("2020-06-01", $date, $entrepot_id) - $this->totalMiseEnBoutiqueParEntrepot("2020-06-01", $date, $entrepot_id);
-		return $total;
-	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -123,7 +126,7 @@ class PRIXDEVENTE extends TABLE
 
 
 
-	public function perte(string $date1 = "2020-06-01", string $date2, int $boutique_id){
+	public function perteProspection(string $date1 = "2020-06-01", string $date2, int $boutique_id){
 		$total = 0;
 		$requette = "SELECT SUM(perte) as perte  FROM ligneprospection, prixdevente, prospection WHERE ligneprospection.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.boutique_id = ? AND prospection.etat_id != ? GROUP BY prixdevente.id";
 		$item = LIGNEPROSPECTION::execute($requette, [$this->getId(), $boutique_id, ETAT::ANNULEE]);
@@ -181,6 +184,7 @@ class PRIXDEVENTE extends TABLE
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public function montantStock(int $boutique_id){
 		$this->actualise();

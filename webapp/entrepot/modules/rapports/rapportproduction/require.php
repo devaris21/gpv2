@@ -29,12 +29,12 @@ foreach ($produits as $key => $produit) {
 
 		$data->name = $pdv->produit->name()." // ".$pdv->quantite->name()/*." ".$params->devise*/;
 		$data->prix = $pdv->prix->price();
-		$data->boutique = $pdv->enBoutique($date2);
-		$data->stock = $pdv->enEntrepot($date2);
-		$data->commande = $pdv->commandee();
-		if (!($data->boutique==0 && $data->stock==0 && $data->commande==0)) {
-			$tab[] = $data;
+		$data->stock = $pdv->enEntrepot($date2, $entrepot->getId());
+		$data->rupture = false;
+		if (!($data->stock==0)) {
+			$data->rupture = true;
 		}	
+		$tab[] = $data;
 	}
 	$tableau[$produit->getId()] = $tab;
 }

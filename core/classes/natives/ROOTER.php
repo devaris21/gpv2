@@ -136,6 +136,7 @@ class ROOTER extends PATH
                             if ($employe->is_allowed()) {
                                 $employe->actualise();
                                 $boutique = $employe->boutique;
+                                session("boutique_connecte_id", $boutique->getId());
                             }else{
                                 $this->new_root("devaris21", "home", "erreur500");
                                 $this->render();
@@ -156,6 +157,7 @@ class ROOTER extends PATH
                             if ($employe->is_allowed()) {
                                 $employe->actualise();
                                 $entrepot = $employe->entrepot;
+                                session("entrepot_connecte_id", $entrepot->getId());
                             }else{
                                 $this->new_root("devaris21", "home", "erreur500");
                                 $this->render();

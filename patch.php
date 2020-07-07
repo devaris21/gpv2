@@ -86,10 +86,27 @@ foreach (PRODUCTIONJOUR::getAll() as $key => $value) {
 	$value->entrepot_id = ENTREPOT::PRINCIPAL;
 	$value->save();
 }
-// foreach (LIGNECOMMANDE::getAll() as $key => $value) {
-// 	$value->price = $value->prixdevente->prix->price * $value->quantite;
-// 	$value->save();
-// }
+
+foreach (APPROVISIONNEMENT::getAll() as $key => $value) {
+	$value->entrepot_id = ENTREPOT::PRINCIPAL;
+	$value->save();
+}
+
+foreach (APPROEMBALLAGE::getAll() as $key => $value) {
+	$value->entrepot_id = ENTREPOT::PRINCIPAL;
+	$value->save();
+}
+
+foreach (APPROETIQUETTE::getAll() as $key => $value) {
+	$value->entrepot_id = ENTREPOT::PRINCIPAL;
+	$value->save();
+}
+
+
+foreach (LIGNECOMMANDE::getAll() as $key => $value) {
+	$value->price = $value->prixdevente->prix->price * $value->quantite;
+	$value->save();
+}
 
 // //mise en place de compte courant
 // $datas = ["Caisse courante"];

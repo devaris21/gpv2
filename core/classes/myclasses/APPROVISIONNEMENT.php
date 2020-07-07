@@ -16,6 +16,7 @@ class APPROVISIONNEMENT extends TABLE
 	public $reste = 0;
 	public $reglementfournisseur_id ;
 	public $fournisseur_id;
+		public $entrepot_id;
 	public $employe_id;
 	public $etat_id;
 	public $employe_id_reception;
@@ -30,6 +31,7 @@ class APPROVISIONNEMENT extends TABLE
 			if ($this->montant >= 0 ) {
 				$this->reference = "APP/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
 				$this->employe_id = getSession("employe_connecte_id");
+								$this->entrepot_id = getSession("entrepot_connecte_id");
 				$data = $this->save();
 			}else{
 				$data->status = false;

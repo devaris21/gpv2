@@ -18,7 +18,7 @@
             <div class="col-sm-9">
                 <h2 class="text-uppercase text-green gras">Mise en boutique de la production</h2>
                 <div class="container">
-                    <!-- <div class="row">
+                    <div class="row">
                         <div class="col-xs-7 gras ">Afficher même les rangements passées</div>
                         <div class="offset-1"></div>
                         <div class="col-xs-4">
@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <div class="col-sm-3">
@@ -64,13 +64,13 @@
             </div>
             <div class="ibox-content">
               <?php if (count($datas) > 0) { ?>
-                 <table class="table table-hover table-commande">
+                 <table class="table table-hover table-mise">
                     <tbody>
                         <?php foreach ($datas as $key => $mise) {
                             $mise->actualise(); 
                             $lots = $mise->fourni("lignemiseenboutique");
                             ?>
-                            <tr class="border-bottom">
+                            <tr class=" <?= ($mise->etat_id != Home\ETAT::ENCOURS)?'fini':'' ?> border-bottom">
                                 <td class="project-status">
                                     <span class="label label-<?= $mise->etat->class ?>"><?= $mise->etat->name ?></span>
                                 </td>

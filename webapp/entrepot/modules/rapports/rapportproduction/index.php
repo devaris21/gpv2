@@ -94,13 +94,12 @@
                                                 <h3 class="text-uppercase">Stock de <?= $produit->name() ?></h3>
                                                 <ul class="list-group text-left clear-list m-t">
                                                     <?php foreach ($tableau[$produit->getId()] as $key => $pdv) { 
-                                                        $qtetotale += $produit->quantiteProduite($date1, $date2);
-                                                        $total += $pdv->pdv->stock($date2) * $pdv->pdv->prix->price ; ?>
+                                                        $qtetotale += $produit->quantiteProduite($date1, $date2, $entrepot->getId());
+                                                        $total += $pdv->pdv->enEntrepot($date2, $entrepot->getId()) * $pdv->pdv->prix->price ; ?>
                                                         <li class="list-group-item">
                                                             <i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i>&nbsp;&nbsp;&nbsp; <?= $pdv->name ?>                                        
                                                             <span class="float-right">
-                                                                <span class="label label-<?= ($pdv->boutique>0)?"success":"danger" ?>"><?= money($pdv->boutique) ?></span>&nbsp;&nbsp;
-                                                                <small class=""><?= money($pdv->stock) ?></small>
+                                                                <span class="label label-<?= ($pdv->stock>0)?"success":"danger" ?>"><?= money($pdv->stock) ?></span>&nbsp;&nbsp;
                                                             </span>
                                                         </li>
                                                     <?php } ?>
@@ -163,7 +162,7 @@
                                                                                 ?>
                                                                                 <td>
                                                                                     <h4 class="d-inline text-success gras"><?= start0($ligne->production) ?></h4>&nbsp;&nbsp;=>&nbsp;&nbsp;
-                                                                                    <h4 class="d-inline text-gray-dark gras"><?= start0($pdv->stock($production->ladate)) ?></h4>
+                                                                                    <h4 class="d-inline text-gray-dark gras"><?= start0($pdv->enEntrepot($production->ladate, $entrepot->id)) ?></h4>
                                                                                 </td>
                                                                             <?php }
                                                                         }
