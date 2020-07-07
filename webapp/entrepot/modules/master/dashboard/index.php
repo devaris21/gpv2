@@ -55,7 +55,7 @@
 
                                     <div class="ibox-content">
                                         <h5>En rupture de Stock</h5>
-                                        <h2 class="no-margins"><?= start0(count(Home\PRIXDEVENTE::rupture($entrepot->id))) ?> produit(s)</h1>
+                                        <h2 class="no-margins"><?= start0(count(Home\PRIXDEVENTE::ruptureEntrepot($entrepot->id))) ?> produit(s)</h1>
                                         </div>
                                     </div>
                                 </div>

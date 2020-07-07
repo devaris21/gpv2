@@ -16,7 +16,7 @@
 
           <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-7">
-                <h2 class="text-uppercase">Le Stock des ressources de production</h2>
+                <h2 class="text-uppercase">Rapport de production</h2>
                 <span>Du <?= datecourt($date1) ?> au <?= datecourt($date2) ?></span>
             </div>
             <div class="col-sm-5">

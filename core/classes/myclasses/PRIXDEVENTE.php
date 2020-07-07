@@ -197,11 +197,25 @@ class PRIXDEVENTE extends TABLE
 		return ($this->vendu($date1, $date2, $boutique_id) + $this->livree($date1, $date2, $boutique_id) )* $this->prix->price ;
 	}
 
-	public static function rupture(int $boutique_id){
+
+
+	public static function ruptureBoutique(int $boutique_id){
 		$params = PARAMS::findLastId();
 		$datas = static::findBy(["isActive ="=>TABLE::OUI]);
 		foreach ($datas as $key => $item) {
 			if ($item->enBoutique(dateAjoute(), $boutique_id) > $params->ruptureStock) {
+				unset($datas[$key]);
+			}
+		}
+		return $datas;
+	}
+
+
+	public static function ruptureEntrepot(int $entrepot_id){
+		$params = PARAMS::findLastId();
+		$datas = static::findBy(["isActive ="=>TABLE::OUI]);
+		foreach ($datas as $key => $item) {
+			if ($item->enEntrepot(dateAjoute(), $entrepot_id) > $params->ruptureStock) {
 				unset($datas[$key]);
 			}
 		}
