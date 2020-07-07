@@ -199,7 +199,7 @@ class PROSPECTION extends TABLE
 						foreach ($datas as $key => $ligne) {
 							$ligne->actualise();
 							$lgn = new LIGNEDEVENTE();
-							$lgn->vente_id = $vente->getId();
+							$lgn->vente_id = $vente->id;
 							$lgn->prixdevente_id = $ligne->prixdevente_id;
 							$lgn->quantite = $ligne->quantite_vendu;
 							$lgn->save();
@@ -222,7 +222,7 @@ class PROSPECTION extends TABLE
 							$data = $vente->save();
 						}
 
-						$this->vente_id = $vente->getId();
+						$this->vente_id = $vente->id;
 					}
 				}
 				
@@ -284,7 +284,7 @@ class PROSPECTION extends TABLE
 				$payement->hydrater($post);
 				if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 					$payement->categorieoperation_id = CATEGORIEOPERATION::PAYE_TRICYLE;
-					$payement->manoeuvre_id = $this->getId();
+					$payement->manoeuvre_id = $this->id;
 					$payement->comment = "Réglement de la paye de tricycle ".$this->chauffeur()." pour la commande N°".$this->reference;
 					$data = $payement->enregistre();
 					if ($data->status) {

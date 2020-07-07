@@ -158,12 +158,12 @@ class COMMERCIAL extends PERSONNE
 	public function arrieres(){
 		$total = 0;
 		$requette = "SELECT SUM(montant) as montant, SUM(bonus) as bonus FROM paye WHERE paye.commercial_id = ? AND paye.valide = 1";
-		$item = PAYE::execute($requette, [$this->getId()]);
+		$item = PAYE::execute($requette, [$this->id]);
 		if (count($item) < 1) {$item = [new PAYE()]; }
 		$total += $item[0]->montant + $item[0]->bonus;
 
 		$requette = "SELECT SUM(mouvement.montant) as montant FROM lignepayement, mouvement WHERE lignepayement.mouvement_id = mouvement.id AND lignepayement.commercial_id = ? AND lignepayement.valide = 1 AND mouvement.valide = 1";
-		$item = MOUVEMENT::execute($requette, [$this->getId()]);
+		$item = MOUVEMENT::execute($requette, [$this->id]);
 		if (count($item) < 1) {$item = [new MOUVEMENT()]; }
 		$total -= $item[0]->montant;
 		if ($total < 0) {
@@ -179,7 +179,7 @@ class COMMERCIAL extends PERSONNE
 
 
 	public function vendu(string $date1 = "2020-06-01", string $date2){
-		return PROSPECTION::findBy(["commercial_id ="=>$this->getId(), "etat_id !="=>ETAT::ANNULEE, "DATE(prospection.dateretour) >="=>$date1, "DATE(prospection.dateretour) <="=>$date2]);
+		return PROSPECTION::findBy(["commercial_id ="=>$this->id, "etat_id !="=>ETAT::ANNULEE, "DATE(prospection.dateretour) >="=>$date1, "DATE(prospection.dateretour) <="=>$date2]);
 	}
 
 
@@ -201,7 +201,7 @@ class COMMERCIAL extends PERSONNE
 
 			if ($test || (count($datas) == 0)) {
 				$paye = new PAYE();
-				$paye->commercial_id = $commercial->getId();
+				$paye->commercial_id = $commercial->id;
 				$paye->started = date("Y-m")."-01 ";
 				$data = $paye->enregistre();
 			}

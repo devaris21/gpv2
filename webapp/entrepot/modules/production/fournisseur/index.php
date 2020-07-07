@@ -61,11 +61,11 @@
                                                                 <td class="text-center" style="font-size: 20px;"><?= start0($ligne->quantite_recu) ?></td>
                                                             <?php  }  ?>
                                                             <td class="text-center">
-                                                                <button onclick="terminer(<?= $appro->getId() ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Valider</button>
+                                                                <button onclick="terminer(<?= $appro->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Valider</button>
                                                             </td>
                                                             <td class="text-center">
                                                                 <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                                                    <button onclick="annuler(<?= $appro->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                                                    <button onclick="annuler(<?= $appro->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                                                 <?php } ?>
                                                             </td>                                                            
                                                         </tr>
@@ -103,9 +103,9 @@
                                                                         <?php } ?>
                                                                         <!-- <th class="text-center mp0" style="background-color: transparent; border: none">
                                                                             <?php if ($appro->type == "commande") { ?>
-                                                                               <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncommande", $appro->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de commande</a>
+                                                                               <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncommande", $appro->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de commande</a>
                                                                            <?php }else{ ?>
-                                                                            <a target="_blank" href="<?= $this->url("gestion", "fiches", "bonlivraison", $appro->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de livraison</a>
+                                                                            <a target="_blank" href="<?= $this->url("gestion", "fiches", "bonlivraison", $appro->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de livraison</a>
                                                                         <?php } ?>
                                                                     </th> -->
                                                                 </tr>
@@ -127,7 +127,7 @@
                                                                 <?php if ($appro->operation_id > 0) { ?>
                                                                  <td class="text-center" data-toggle="tooltip" title="imprimer le facture">
                                                                     <?php if ($employe->isAutoriser("caisse")) { ?>
-                                                                        <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $appro->operation->getId()) ?>"><i class="fa fa-file-text fa-2x"></i></a>
+                                                                        <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $appro->operation->id) ?>"><i class="fa fa-file-text fa-2x"></i></a>
                                                                     <?php } ?>       
                                                                 </td>
                                                             <?php } ?>
@@ -162,7 +162,7 @@
                                             <span class="pull-right text-right <?= ($transaction->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>">
                                                 <span class="gras" style="font-size: 16px"><?= money($transaction->montant) ?> <?= $params->devise ?> <?= ($transaction->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <br>
                                                 <small>Par <?= $transaction->modepayement->name() ?></small><br>
-                                                <a href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de caisse</a>
+                                                <a href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de caisse</a>
                                             </span>
                                         </p>
                                         <p class="m-b-xs"><?= $transaction->comment ?> </p>
@@ -191,7 +191,7 @@
                     <h2><?= $fournisseur->name() ?> 
 
                     <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                        <i onclick="modification('fournisseur', <?= $fournisseur->getId() ?>)" data-toggle="modal" data-target="#modal-fournisseur" class="pull-right fa fa-pencil cursor"></i>
+                        <i onclick="modification('fournisseur', <?= $fournisseur->id ?>)" data-toggle="modal" data-target="#modal-fournisseur" class="pull-right fa fa-pencil cursor"></i>
                     <?php } ?>
                 </h2>
                 <address>

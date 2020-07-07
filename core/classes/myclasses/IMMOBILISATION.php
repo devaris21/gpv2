@@ -41,7 +41,7 @@ class IMMOBILISATION extends TABLE
 										$amortissement = new AMORTISSEMENT();
 										$amortissement->cloner($this);
 										$amortissement->setId(null);
-										$amortissement->immobilisation_id = $this->getId();
+										$amortissement->immobilisation_id = $this->id;
 										$amortissement->typeamortissement_id = $this->typeamortissement_id;
 										$data = $amortissement->enregistre();
 									}
@@ -81,7 +81,7 @@ class IMMOBILISATION extends TABLE
 
 	public function amortis(){
 		$requette = "SELECT SUM(ligneamortissement.montant) as montant  FROM amortissement, ligneamortissement, immobilisation WHERE amortissement.immobilisation_id = immobilisation.id AND ligneamortissement.amortissement_id = amortissement.id AND immobilisation.id = ? AND amortissement.valide = 1 ";
-		$item = LIGNEAMORTISSEMENT::execute($requette, [$this->getId()]);
+		$item = LIGNEAMORTISSEMENT::execute($requette, [$this->id]);
 		if (count($item) < 1) {$item = [new LIGNEAMORTISSEMENT()]; }
 		return $item[0]->montant;
 	}

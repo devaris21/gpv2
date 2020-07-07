@@ -52,7 +52,7 @@ class REGLEMENTFOURNISSEUR extends TABLE
 				}
 				$data = $mouvement->enregistre();
 				if ($data->status) {
-					$this->mouvement_id = $mouvement->getId();
+					$this->mouvement_id = $mouvement->id;
 					$data = $this->save();
 					if ($data->status) {
 						if (!(isset($this->files) && is_array($this->files))) {

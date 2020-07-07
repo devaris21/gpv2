@@ -22,7 +22,7 @@ class LIGNEAMORTISSEMENT extends TABLE
 		$exercicecomptable = EXERCICECOMPTABLE::findLastId();
 		$datas = AMORTISSEMENT::findBy(["id ="=>$this->amortissement_id]);
 		if (count($datas) == 1) {
-			$this->exercicecomptable_id = $exercicecomptable->getId();
+			$this->exercicecomptable_id = $exercicecomptable->id;
 			$data = $this->save();
 		}else{
 			$data->status = false;

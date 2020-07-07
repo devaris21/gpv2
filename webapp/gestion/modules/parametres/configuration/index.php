@@ -75,8 +75,8 @@
                                                                 $item->actualise();  ?>
                                                                 <tr>
                                                                     <td class="gras"><?= $item->name(); ?></td>
-                                                                    <td data-toggle="modal" data-target="#modal-groupemanoeuvre" title="modifier ce groupe" onclick="modification('groupemanoeuvre', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                    <td title="supprimer ce groupe" onclick="suppression('groupemanoeuvre', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                    <td data-toggle="modal" data-target="#modal-groupemanoeuvre" title="modifier ce groupe" onclick="modification('groupemanoeuvre', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                    <td title="supprimer ce groupe" onclick="suppression('groupemanoeuvre', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                                 </tr>
                                                             <?php } ?>
                                                         </tbody>
@@ -121,8 +121,8 @@
                                                                         <i class="fa fa-map-marker"></i> <?= $item->adresse  ?><br>
                                                                         <i class="fa fa-phone"></i> <?= $item->contact  ?>  
                                                                     </td>
-                                                                    <td data-toggle="modal" data-target="#modal-manoeuvre" title="modifier ce manoeuvre" onclick="modification('manoeuvre', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                    <td title="supprimer ce manoeuvre" onclick="suppression('manoeuvre', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                    <td data-toggle="modal" data-target="#modal-manoeuvre" title="modifier ce manoeuvre" onclick="modification('manoeuvre', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                    <td title="supprimer ce manoeuvre" onclick="suppression('manoeuvre', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                                 </tr>
                                                             <?php } ?>
                                                         </tbody>
@@ -169,10 +169,10 @@
                                                                     </td>
 
                                                                     <td><h3 class="gras"><?= money($item->salaire) ?> <?= $params->devise ?></h3></td>
-                                                                    <td class="border-right" data-toggle="modal" data-target="#modal-salaire" title="modifier le salaire" onclick="modification('chauffeur', <?= $item->getId() ?>)"><i class="fa fa-refresh text-blue cursor"></i></td>
+                                                                    <td class="border-right" data-toggle="modal" data-target="#modal-salaire" title="modifier le salaire" onclick="modification('chauffeur', <?= $item->id ?>)"><i class="fa fa-refresh text-blue cursor"></i></td>
 
-                                                                    <td data-toggle="modal" data-target="#modal-chauffeur" title="modifier ce chauffeur" onclick="modification('chauffeur', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                    <td title="supprimer ce chauffeur" onclick="suppression('chauffeur', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                    <td data-toggle="modal" data-target="#modal-chauffeur" title="modifier ce chauffeur" onclick="modification('chauffeur', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                    <td title="supprimer ce chauffeur" onclick="suppression('chauffeur', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                                 </tr>
                                                             <?php } ?>
                                                         </tbody>
@@ -217,8 +217,8 @@
                                                                         <i class="fa fa-phone"></i> <?= $item->contact  ?>  
                                                                     </td>
                                                                     <td><i class="fa fa-fax"></i> <?= $item->fax ?></td>
-                                                                    <td data-toggle="modal" data-target="#modal-fournisseur" title="modifier ce fournisseur" onclick="modification('fournisseur', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                    <td title="supprimer ce fournisseur" onclick="suppression('fournisseur', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                    <td data-toggle="modal" data-target="#modal-fournisseur" title="modifier ce fournisseur" onclick="modification('fournisseur', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                    <td title="supprimer ce fournisseur" onclick="suppression('fournisseur', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                                 </tr>
                                                             <?php } ?>
                                                         </tbody>
@@ -263,8 +263,8 @@
                                                                         <i class="fa fa-phone"></i> <?= $item->contact  ?>  
                                                                     </td>
                                                                     <td><i class="fa fa-fax"></i> <?= $item->fax ?></td>
-                                                                    <td data-toggle="modal" data-target="#modal-prestataire" title="modifier ce prestataire" onclick="modification('prestataire', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                    <td title="supprimer ce prestataire" onclick="suppression('prestataire', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                    <td data-toggle="modal" data-target="#modal-prestataire" title="modifier ce prestataire" onclick="modification('prestataire', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                    <td title="supprimer ce prestataire" onclick="suppression('prestataire', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                                 </tr>
                                                             <?php } ?>
                                                         </tbody>
@@ -310,8 +310,8 @@
                                                                 <tr>
                                                                     <td><?= $i ?></td>
                                                                     <td class="gras"><?= $item->name(); ?></td>
-                                                                    <td data-toggle="modal" data-target="#modal-typevehicule" title="modifier l'élément" onclick="modification('typevehicule', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                    <td title="supprimer l'élément" onclick="suppression('typevehicule', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                    <td data-toggle="modal" data-target="#modal-typevehicule" title="modifier l'élément" onclick="modification('typevehicule', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                    <td title="supprimer l'élément" onclick="suppression('typevehicule', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                                 </tr>
                                                             <?php } ?>
                                                         </tbody>
@@ -346,8 +346,8 @@
                                                                 <tr>
                                                                     <td><?= $i ?></td>
                                                                     <td class="gras"><?= $item->name(); ?></td>
-                                                                    <td data-toggle="modal" data-target="#modal-groupevehicule" title="modifier l'élément" onclick="modification('groupevehicule', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                    <td title="supprimer l'élément" onclick="suppression('groupevehicule', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                    <td data-toggle="modal" data-target="#modal-groupevehicule" title="modifier l'élément" onclick="modification('groupevehicule', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                    <td title="supprimer l'élément" onclick="suppression('groupevehicule', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                                 </tr>
                                                             <?php } ?>
                                                         </tbody>
@@ -382,8 +382,8 @@
                                                                 <tr>
                                                                     <td><?= $i ?></td>
                                                                     <td class="gras"><?= $item->name(); ?></td>
-                                                                    <td data-toggle="modal" data-target="#modal-typeentretienvehicule" title="modifier l'élément" onclick="modification('typeentretienvehicule', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                    <td title="supprimer l'élément" onclick="suppression('typeentretienvehicule', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                    <td data-toggle="modal" data-target="#modal-typeentretienvehicule" title="modifier l'élément" onclick="modification('typeentretienvehicule', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                    <td title="supprimer l'élément" onclick="suppression('typeentretienvehicule', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                                 </tr>
                                                             <?php } ?>
                                                         </tbody>
@@ -429,8 +429,8 @@
                                                                     <h5 class="mp0"><?= $vehicule->typevehicule->name() ?></h5>
                                                                     <h5 class="mp0"><?= $vehicule->groupevehicule->name() ?></h5>
                                                                 </td>     
-                                                                <td data-toggle="modal" data-target="#modal-vehicule" title="modifier l'élément" onclick="modification('vehicule', <?= $vehicule->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                <td title="supprimer l'élément" onclick="suppressionWithPassword('vehicule', <?= $vehicule->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                <td data-toggle="modal" data-target="#modal-vehicule" title="modifier l'élément" onclick="modification('vehicule', <?= $vehicule->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                <td title="supprimer l'élément" onclick="suppressionWithPassword('vehicule', <?= $vehicule->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                             </tr>
                                                         <?php } ?>
                                                     </tbody>
@@ -472,8 +472,8 @@
                                                                 <h5 class="text-uppercase gras"><?= $machine->name() ?></h5>
                                                                 <h6 class=""><?= $machine->marque ?> <?= $machine->modele ?></h6>
                                                             </td>
-                                                            <td data-toggle="modal" data-target="#modal-machine" title="modifier l'élément" onclick="modification('machine', <?= $machine->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                            <td title="supprimer l'élément" onclick="suppression('machine', <?= $machine->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                            <td data-toggle="modal" data-target="#modal-machine" title="modifier l'élément" onclick="modification('machine', <?= $machine->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                            <td title="supprimer l'élément" onclick="suppression('machine', <?= $machine->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                         </tr>
                                                     <?php } ?>
                                                 </tbody>
@@ -539,25 +539,25 @@
                                                         $lots = [];
                                                         foreach ($datas as $key => $rem) {
                                                             $rem->actualise();
-                                                            $lots[] = $rem->role->getId(); ?>
+                                                            $lots[] = $rem->role->id; ?>
                                                             <button style="margin-top: 1%" employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-primary btn-xs refuser"><?= $rem->role->name() ?></button>
                                                             <?php } ?><hr class="mp3">
 
                                                             <?php foreach (Home\ROLE::getAll() as $key => $role) {
-                                                                if (!in_array($role->getId(), $lots)) { ?>
-                                                                   <button style="margin-top: 1%" employe="<?= $rem->employe_id ?>" role="<?= $role->getId() ?>" class="btn btn-white btn-xs autoriser"><?= $role->name() ?></button>
+                                                                if (!in_array($role->id, $lots)) { ?>
+                                                                   <button style="margin-top: 1%" employe="<?= $rem->employe_id ?>" role="<?= $role->id ?>" class="btn btn-white btn-xs autoriser"><?= $role->name() ?></button>
                                                                <?php } } ?>                
                                                            </td>
                                                            <td class="text-right">          
-                                                            <button onclick="resetPassword('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Init. mot de passe</button><br>
+                                                            <button onclick="resetPassword('employe', <?= $item->id ?>)" class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Init. mot de passe</button><br>
 
                                                             <?php if ($item->is_allowed == 1) { ?>
-                                                                <button onclick="lock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-lock text-orange"></i> Bloquer</button>
+                                                                <button onclick="lock('employe', <?= $item->id ?>)" class="btn btn-white btn-xs"><i class="fa fa-lock text-orange"></i> Bloquer</button>
                                                             <?php }else{ ?>
-                                                                <button onclick="unlock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-unlock text-green"></i> Débloquer</button>
+                                                                <button onclick="unlock('employe', <?= $item->id ?>)" class="btn btn-white btn-xs"><i class="fa fa-unlock text-green"></i> Débloquer</button>
                                                             <?php } ?>
-                                                            <button data-toggle="modal" data-target="#modal-employe" class="btn btn-white btn-xs" onclick="modification('employe', <?= $item->getId() ?>)"><i class="fa fa-pencil"></i></button>
-                                                            <button class="btn btn-white btn-xs" onclick="suppressionWithPassword('employe', <?= $item->getId() ?>)"><i class="fa fa-close text-red"></i></button>
+                                                            <button data-toggle="modal" data-target="#modal-employe" class="btn btn-white btn-xs" onclick="modification('employe', <?= $item->id ?>)"><i class="fa fa-pencil"></i></button>
+                                                            <button class="btn btn-white btn-xs" onclick="suppressionWithPassword('employe', <?= $item->id ?>)"><i class="fa fa-close text-red"></i></button>
                                                         </td>
                                                     </tr>
                                                 <?php } ?>

@@ -3,8 +3,8 @@ namespace Home;
 use Faker\Factory;
 $faker = Factory::create();
 
-if ($this->getId() != "") {
-	$tab = explode("@", $this->getId());
+if ($this->id != "") {
+	$tab = explode("@", $this->id);
 	$date1 = $tab[0];
 	$date2 = $tab[1];
 }else{
@@ -23,7 +23,7 @@ foreach ($produits as $key => $produit) {
 	foreach ($produit->fourni('prixdevente', ["isActive ="=>TABLE::OUI], [], ["quantite_id"=>"ASC"]) as $key => $pdv) {
 		$pdv->actualise();
 		$data = new \stdclass();
-		$data->id = $pdv->getId();
+		$data->id = $pdv->id;
 		$data->pdv = $pdv;
 		$pdv->tab = [];
 
@@ -36,7 +36,7 @@ foreach ($produits as $key => $produit) {
 			$tab[] = $data;
 		}	
 	}
-	$tableau[$produit->getId()] = $tab;
+	$tableau[$produit->id] = $tab;
 }
 
 

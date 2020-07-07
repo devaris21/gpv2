@@ -29,12 +29,12 @@ class RESSOURCE extends TABLE
 				$this->uploading($this->files);
 
 				foreach (PRODUIT::getAll() as $key => $produit) {
-					$datas = EXIGENCEPRODUCTION::findBy(["produit_id ="=>$produit->getId(), "ressource_id ="=>$data->lastid]);
+					$datas = EXIGENCEPRODUCTION::findBy(["produit_id ="=>$produit->id, "ressource_id ="=>$data->lastid]);
 					if (count($datas) == 0) {
 						$ligne = new EXIGENCEPRODUCTION();
 						$ligne->ressource_id = $data->lastid;
 						$ligne->quantite_produit = 0;
-						$ligne->produit_id = $produit->getId();
+						$ligne->produit_id = $produit->id;
 						$ligne->quantite_ressource = 0;
 						$ligne->enregistre();
 					}
@@ -88,13 +88,13 @@ class RESSOURCE extends TABLE
 	public function stock(String $date){
 		$total = 0;
 		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapprovisionnement, ressource, approvisionnement WHERE ligneapprovisionnement.ressource_id = ressource.id AND ressource.id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND DATE(approvisionnement.created) <= ? AND approvisionnement.etat_id = ? GROUP BY ressource.id";
-		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->getId(), $date, ETAT::VALIDEE]);
+		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, $date, ETAT::VALIDEE]);
 		if (count($item) < 1) {$item = [new LIGNEAPPROVISIONNEMENT()]; }
 		$total += $item[0]->quantite;
 
 
 		$requette = "SELECT SUM(consommation) as consommation  FROM ligneconsommationjour, ressource, productionjour WHERE ligneconsommationjour.ressource_id = ressource.id AND ressource.id = ? AND ligneconsommationjour.productionjour_id = productionjour.id AND DATE(productionjour.ladate) <= ? GROUP BY ressource.id";
-		$item = LIGNECONSOMMATIONJOUR::execute($requette, [$this->getId(), $date]);
+		$item = LIGNECONSOMMATIONJOUR::execute($requette, [$this->id, $date]);
 		if (count($item) < 1) {$item = [new LIGNECONSOMMATIONJOUR()]; }
 		$total -= $item[0]->consommation;
 
@@ -105,7 +105,7 @@ class RESSOURCE extends TABLE
 	public function achat(string $date1 = "2020-04-01", string $date2){
 		$total = 0;
 		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapprovisionnement, ressource, approvisionnement WHERE ligneapprovisionnement.ressource_id = ressource.id AND ressource.id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND approvisionnement.etat_id = ? AND DATE(approvisionnement.created) >= ? AND DATE(approvisionnement.created) <= ? GROUP BY ressource.id";
-		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->getId(), ETAT::VALIDEE, $date1, $date2]);
+		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEAPPROVISIONNEMENT()]; }
 		return $item[0]->quantite;
 	}
@@ -125,7 +125,7 @@ class RESSOURCE extends TABLE
 	public function en_cours(){
 		$total = 0;
 		$requette = "SELECT SUM(quantite) as quantite  FROM ligneapprovisionnement, ressource, approvisionnement WHERE ligneapprovisionnement.ressource_id = ressource.id AND ressource.id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND approvisionnement.etat_id = ? GROUP BY ressource.id";
-		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->getId(), ETAT::ENCOURS]);
+		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::ENCOURS]);
 		if (count($item) < 1) {$item = [new LIGNEAPPROVISIONNEMENT()]; }
 		return $item[0]->quantite;
 	}
@@ -133,7 +133,7 @@ class RESSOURCE extends TABLE
 
 
 	public function exigence(int $quantite, int $produit_id){
-		$datas = EXIGENCEPRODUCTION::findBy(["ressource_id ="=>$this->getId(), "produit_id ="=>$produit_id]);
+		$datas = EXIGENCEPRODUCTION::findBy(["ressource_id ="=>$this->id, "produit_id ="=>$produit_id]);
 		if (count($datas) == 1) {
 			$item = $datas[0];
 			if ($item->quantite_ressource == 0) {
@@ -149,7 +149,7 @@ class RESSOURCE extends TABLE
 	public function price(){
 		$total = 0;
 		$requette = "SELECT SUM(quantite_recu) as quantite, SUM(ligneapprovisionnement.price) as price FROM ligneapprovisionnement, ressource, approvisionnement WHERE ligneapprovisionnement.ressource_id = ressource.id AND ressource.id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND approvisionnement.etat_id = ? GROUP BY ressource.id";
-		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->getId(), ETAT::VALIDEE]);
+		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
 		if (count($item) < 1) {$item = [new LIGNEAPPROVISIONNEMENT()]; }
 		$total += $item[0]->price / $item[0]->quantite;
 

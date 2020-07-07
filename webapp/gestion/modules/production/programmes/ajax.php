@@ -45,9 +45,9 @@ if ($action == "modifierProgrammation") {
 					$test = true;
 					foreach ($livraison->lignelivraisons as $key => $ligne) {
 						$ligne->actualise();
-						$reste = $livraison->groupecommande->reste($ligne->produit->getId()) + $ligne->quantite;
-						if ($tableau[$ligne->produit->getId()] <= $reste) { 
-							unset($tableau[$ligne->produit->getId()]);
+						$reste = $livraison->groupecommande->reste($ligne->produit->id) + $ligne->quantite;
+						if ($tableau[$ligne->produit->id] <= $reste) { 
+							unset($tableau[$ligne->produit->id]);
 						}
 					}
 					
@@ -73,7 +73,7 @@ if ($action == "modifierProgrammation") {
 									$produit->livrer($qte);
 
 									$lignecommande = new LIGNEVENTE;
-									$lignecommande->livraison_id = $livraison->getId();
+									$lignecommande->livraison_id = $livraison->id;
 									$lignecommande->produit_id = $id;
 									$lignecommande->quantite = $qte;
 									$lignecommande->enregistre();
@@ -147,10 +147,10 @@ if ($action == "ValiderLivraisonProgrammee") {
 					$test = true;
 					foreach ($livraison->lignelivraisons as $key => $ligne) {
 						$ligne->actualise();
-						$reste = $livraison->groupecommande->reste($ligne->produit->getId()) + $ligne->quantite;
-						$qte = $tableau[$ligne->produit->getId()];
+						$reste = $livraison->groupecommande->reste($ligne->produit->id) + $ligne->quantite;
+						$qte = $tableau[$ligne->produit->id];
 						if ($qte <= $reste && $qte <= $ligne->produit->livrable()) { 
-							unset($tableau[$ligne->produit->getId()]);
+							unset($tableau[$ligne->produit->id]);
 						}
 					}
 
@@ -179,7 +179,7 @@ if ($action == "ValiderLivraisonProgrammee") {
 									$produit->livrer($qte);
 
 									$lignecommande = new LIGNEVENTE;
-									$lignecommande->livraison_id = $livraison->getId();
+									$lignecommande->livraison_id = $livraison->id;
 									$lignecommande->produit_id = $id;
 									$lignecommande->quantite = $qte;
 									$lignecommande->enregistre();

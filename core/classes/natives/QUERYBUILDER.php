@@ -69,9 +69,9 @@ abstract class QUERYBUILDER
             }
         }
 
-        if ($this->getId() != "") {
+        if ($this->id != "") {
             $data->mode ="update";
-            $id = $this->getId();
+            $id = $this->id;
             $this->set_modified() ;
             $requette = "UPDATE $table SET $setter WHERE id=$id";
         }else{
@@ -98,11 +98,11 @@ abstract class QUERYBUILDER
                 //recuperer le lastid
                 $class = self::fullyClassName($table);
                 $temp = $class::findLastId();
-                $id = $temp->getId();
+                $id = $temp->id;
                 $data->lastid = $id;
                 $this->setId($id);
             }else{
-                $data->lastid = $this->getId();
+                $data->lastid = $this->id;
             }
 
             if ($this::$tableName != self::fullyClassName("historique") ) {
@@ -129,7 +129,7 @@ abstract class QUERYBUILDER
         //on verifie si on peut vraiment le supprimé
         if (intval($this->id) > 0 && $this->protected == 0) {
             $req = $bdd->prepare("UPDATE $table SET valide=0 WHERE id=?");
-            $req->execute([$this->getId()]);
+            $req->execute([$this->id]);
             $data->status = true;
             $data->message = "La suppression a été effectuée avec succès ! ";
             //L'historque
@@ -152,7 +152,7 @@ abstract class QUERYBUILDER
         //on verifie si on peut vraiment le supprimé
         if (intval($this->id) > 0 && $this->protected == 0) {
             $req = $bdd->prepare("DELETE FROM $table WHERE id=?");
-            $req->execute([$this->getId()]);
+            $req->execute([$this->id]);
             $data->status = true;
             $data->message = "La suppression a été effectuée avec succès ! ";
             //L'historque

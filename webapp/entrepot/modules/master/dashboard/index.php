@@ -50,12 +50,12 @@
                                 <div class="ibox">
                                     <div class="ibox-content">
                                         <h5>Dépense du jour</h5>
-                                        <h2 class="no-margins text-danger"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1), $entrepot->getId())) ?> <?= $params->devise  ?></h2>
+                                        <h2 class="no-margins text-danger"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1), $entrepot->id)) ?> <?= $params->devise  ?></h2>
                                     </div>
 
                                     <div class="ibox-content">
                                         <h5>En rupture de Stock</h5>
-                                        <h2 class="no-margins"><?= start0(count(Home\PRIXDEVENTE::rupture($entrepot->getId()))) ?> produit(s)</h1>
+                                        <h2 class="no-margins"><?= start0(count(Home\PRIXDEVENTE::rupture($entrepot->id))) ?> produit(s)</h1>
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                 <div class="col-md border-right">
                                     <h6 class="text-uppercase text-center gras" style="color: <?= $produit->couleur; ?>">Stock de <?= $produit->name() ?></h6>
                                     <ul class="list-group clear-list m-t">
-                                        <?php foreach ($tableau[$produit->getId()] as $key => $pdv) { ?>
+                                        <?php foreach ($tableau[$produit->id] as $key => $pdv) { ?>
                                             <li class="list-group-item">
                                                 <i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <small><?= $pdv->quantite ?></small>          
                                                 <span class="float-right">
@@ -149,7 +149,7 @@
                                                     <td class="gras" style="color: <?= $produit->couleur ?>"><i class="fa fa-flask"></i> <?= $produit->name() ?></td>
                                                     <?php $total =0; foreach ($datas as $key => $pdv) {
                                                         $pdv->actualise();
-                                                        $nb = $pdv->vendeDirecte(dateAjoute(), dateAjoute(), $entrepot->getId());
+                                                        $nb = $pdv->vendeDirecte(dateAjoute(), dateAjoute(), $entrepot->id);
                                                         $total += $nb * $pdv->prix->price;  ?>
                                                         <td class="text-center"><?= $nb ?></td>
                                                     <?php } ?>
@@ -158,7 +158,7 @@
                                             <?php } ?>
                                             <tr>
                                                 <td class="text-right" colspan="5">
-                                                    <h2><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute(), $entrepot->getId()), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
+                                                    <h2><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute(), $entrepot->id), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -195,7 +195,7 @@
     <script>
         $(document).ready(function() {
 
-            var id = "<?= $this->getId();  ?>";
+            var id = "<?= $this->id;  ?>";
             if (id == 1) {
                 setTimeout(function() {
                     toastr.options = {

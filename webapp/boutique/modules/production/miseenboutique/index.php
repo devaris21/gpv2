@@ -114,12 +114,12 @@
                             <td>
                                 <br>
                                 <?php if ($mise->etat_id == Home\ETAT::ENCOURS) { ?>
-                                    <button onclick="terminer(<?= $mise->getId() ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
+                                    <button onclick="terminer(<?= $mise->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
                                     <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                        <!-- <button onclick="annulerMiseenboutique(<?= $mise->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button> -->
+                                        <!-- <button onclick="annulerMiseenboutique(<?= $mise->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button> -->
                                     <?php } ?>
                                 <?php } ?>
-                                <a href="<?= $this->url("boutique", "fiches", "bonmiseenboutique", $mise->getId()) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Voir le bon</a><br>
+                                <a href="<?= $this->url("boutique", "fiches", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Voir le bon</a><br>
                             </td>
                         </td>
                     </tr>

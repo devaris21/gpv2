@@ -49,7 +49,7 @@
                                                         <tr>
                                                             <th></th>
                                                             <?php foreach ($lots as $key => $value) { 
-                                                                if ($commande->reste($value->getId()) > 0) {
+                                                                if ($commande->reste($value->id) > 0) {
                                                                     $value->actualise(); ?>
                                                                     <th class="text-center">
                                                                         <h5 class="mp0"><?= $value->produit->name() ?></h5>
@@ -63,12 +63,12 @@
                                                         <tr>
                                                             <td><h4 class="mp0">Reste : </h4></td>
                                                             <?php foreach ($lots as $key => $value) {
-                                                                $reste = $commande->reste($value->getId());
+                                                                $reste = $commande->reste($value->id);
                                                                 if ($reste > 0) { ?>
                                                                    <td class="text-center"><?= start0($reste) ?></td>
                                                                <?php } 
                                                            } ?>
-                                                           <td style="width: 60px; padding: 0"><button onclick="fichecommande(<?= $commande->getId()  ?>)" style="font-size: 11px; margin-top: 5%; margin-left: 5%;" class="btn btn-success btn-sm dim"><i class="fa fa-plus"></i> de détails </button></td>
+                                                           <td style="width: 60px; padding: 0"><button onclick="fichecommande(<?= $commande->id  ?>)" style="font-size: 11px; margin-top: 5%; margin-left: 5%;" class="btn btn-success btn-sm dim"><i class="fa fa-plus"></i> de détails </button></td>
                                                        </tr>
                                                    </tbody>
                                                </table><hr>
@@ -103,9 +103,9 @@
                                                                     <?php } ?>
                                                                     <th class="text-center mp0" style="background-color: transparent; border: none">
                                                                         <?php if ($transaction->type == "commande") { ?>
-                                                                           <a target="_blank" href="<?= $this->url("boutique", "fiches", "boncommande", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de commande</a>
+                                                                           <a target="_blank" href="<?= $this->url("boutique", "fiches", "boncommande", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de commande</a>
                                                                        <?php }else{ ?>
-                                                                        <a target="_blank" href="<?= $this->url("boutique", "fiches", "bonlivraison", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de livraison</a>
+                                                                        <a target="_blank" href="<?= $this->url("boutique", "fiches", "bonlivraison", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de livraison</a>
                                                                     <?php } ?>
                                                                 </th>
                                                             </tr>
@@ -129,7 +129,7 @@
                                                                 </td>
                                                                 <td class="text-center" data-toggle="tooltip" title="imprimer le facture">
                                                                     <?php if ($employe->isAutoriser("caisse")) { ?>
-                                                                        <a target="_blank" href="<?= $this->url("boutique", "fiches", "boncaisse", $transaction->getId()) ?>"><i class="fa fa-file-text fa-2x"></i></a>
+                                                                        <a target="_blank" href="<?= $this->url("boutique", "fiches", "boncaisse", $transaction->id) ?>"><i class="fa fa-file-text fa-2x"></i></a>
                                                                     <?php } ?>       
                                                                 </td>
                                                             <?php }  ?>
@@ -163,7 +163,7 @@
                                             <span class="pull-right text-right text-green">
                                                 <span class="gras" style="font-size: 16px"><?= money($transaction->mouvement->montant) ?> <?= $params->devise ?> <?= ($transaction->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <br>
                                                 <small>Par <?= $transaction->modepayement->name() ?></small><br>
-                                                <a href="<?= $this->url("boutique", "fiches", "boncaisse", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de caisse</a>
+                                                <a href="<?= $this->url("boutique", "fiches", "boncaisse", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de caisse</a>
                                             </span>
                                         </p>
                                         <p class="m-b-xs"><?= $transaction->comment ?> </p>
@@ -190,7 +190,7 @@
                 <div id="contact-1" class="tab-pane active">
                     <h2><?= $client->name() ?> 
 
-                    <i onclick="modification('client', <?= $client->getId() ?>)" data-toggle="modal" data-target="#modal-client" class="pull-right fa fa-pencil cursor"></i>
+                    <i onclick="modification('client', <?= $client->id ?>)" data-toggle="modal" data-target="#modal-client" class="pull-right fa fa-pencil cursor"></i>
                 </h2>
                 <h4><?= $client->typeclient->name() ?></h4>
                 <address>
@@ -246,7 +246,7 @@
                         <?php foreach ($client->groupecommandes as $key => $commande) {
                             $commande->actualise(); 
                             ?>
-                            <tr class=" border-bottom cursor" ondblclick="chosir(<?= $commande->getId() ?>)">     
+                            <tr class=" border-bottom cursor" ondblclick="chosir(<?= $commande->id ?>)">     
                                 <td class="border-right" style="width: 82%;">
                                     <h4 class="text-uppercase">Commande du <?= datecourt($commande->created)  ?></h4>
                                     <table class="table table-bordered">
@@ -254,7 +254,7 @@
                                             <tr>
                                                 <th></th>
                                                 <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
-                                                    $reste = $commande->reste($produit->getId());
+                                                    $reste = $commande->reste($produit->id);
                                                     if ($reste > 0) { ?>
                                                         <th class="text-center"><?= $produit->name() ?></th>
                                                     <?php }
@@ -265,7 +265,7 @@
                                             <tr>
                                                 <td><h3>Reste : </h3></td>
                                                 <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
-                                                    $reste = $commande->reste($produit->getId());
+                                                    $reste = $commande->reste($produit->id);
                                                     if ($reste > 0) { ?>
                                                         <td class="text-center" style="font-size: 20px;"><?= start0($reste) ?></td>
                                                     <?php   } 

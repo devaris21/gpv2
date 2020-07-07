@@ -24,7 +24,7 @@
                 </li> -->
                 <?php if ($employe->isAutoriser("production")) { ?>
                     <li class="border-right">
-                        <a  data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->getId(); ?>) ">
+                        <a  data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->id; ?>) ">
                             <i class="fa fa-file-text-o"></i> Nouvelle Production
                         </a>
                     </li>

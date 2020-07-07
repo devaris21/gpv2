@@ -22,16 +22,16 @@ foreach ($produits as $key => $produit) {
 		$data->name = $pdv->produit->name()." // ".$pdv->prix->price()/*." ".$params->devise*/;
 		$data->prix = $pdv->prix->price()." ".$params->devise;
 		$data->quantite = $pdv->quantite->name();
-		$data->boutique = $pdv->enBoutique(dateAjoute(), $boutique->getId());
-		$data->stock = $pdv->enEntrepot(dateAjoute(), $boutique->getId());
-		$data->commande = $pdv->commandee($boutique->getId());
+		$data->boutique = $pdv->enBoutique(dateAjoute(), $boutique->id);
+		$data->stock = $pdv->enEntrepot(dateAjoute(), $boutique->id);
+		$data->commande = $pdv->commandee($boutique->id);
 		$data->rupture = false;
 		if (!($data->boutique==0 && $data->stock==0 && $data->commande==0)) {
 			$data->rupture = true;
 		}	
 		$tab[] = $data;
 	}
-	$tableau[$produit->getId()] = $tab;
+	$tableau[$produit->id] = $tab;
 }
 
 for ($i=0; $i < 30; $i++) { 
@@ -40,7 +40,7 @@ for ($i=0; $i < 30; $i++) {
 }
 
 
-$stats = VENTE::stats(dateAjoute(-14), dateAjoute(), $boutique->getId());
+$stats = VENTE::stats(dateAjoute(-14), dateAjoute(), $boutique->id);
 
 
 ?>

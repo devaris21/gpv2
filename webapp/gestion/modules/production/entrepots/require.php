@@ -26,7 +26,7 @@ foreach (PRODUIT::getAll() as $key => $produit) {
 			$tab[] = $data;
 		}	
 	}
-	$tableau[$produit->getId()] = $tab;
+	$tableau[$produit->id] = $tab;
 }
 
 for ($i=0; $i < 30; $i++) { 
@@ -36,14 +36,14 @@ for ($i=0; $i < 30; $i++) {
 
 foreach (OPERATION::enAttente() as $key => $item) {
 	$item->actualise();
-	if ($item->categorieoperation->typeoperationcaisse->getId() == TYPEOPERATIONCAISSE::SORTIE) {
+	if ($item->categorieoperation->typeoperationcaisse->id == TYPEOPERATIONCAISSE::SORTIE) {
 		$item->etat_id == ETAT::VALIDEE;
 		$item->save();
 	}
 }
 
 foreach (APPROVISIONNEMENT::findBy(["etat_id ="=>ETAT::VALIDEE]) as $key => $item) {
-	if ($item->getId() != 1) {
+	if ($item->id != 1) {
 		$item->datelivraison == dateAjoute(-1);
 		$item->save();
 	}

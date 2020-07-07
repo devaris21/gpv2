@@ -34,14 +34,14 @@ if ($action == "filtrer") {
 			$depenses[] = $operation;
 		} ?>
 		<tr>
-			<td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncaisse", $operation->getId())  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
+			<td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncaisse", $operation->id)  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
 			<td>
 				<h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->categorieoperation->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>"><?= $operation->categorieoperation->name() ?>  
 
 				<?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
 					|
-					&nbsp;&nbsp;<i onclick="modifierOperation(<?= $operation->getId() ?>)" class="cursor fa fa-pencil text-dark"></i> 
-					&nbsp;&nbsp;<i class="cursor fa fa-close text-red" onclick="suppressionWithPassword('operation', <?= $operation->getId() ?>)"></i>
+					&nbsp;&nbsp;<i onclick="modifierOperation(<?= $operation->id ?>)" class="cursor fa fa-pencil text-dark"></i> 
+					&nbsp;&nbsp;<i class="cursor fa fa-close text-red" onclick="suppressionWithPassword('operation', <?= $operation->id ?>)"></i>
 				<?php } ?>
 
 				<span class="pull-right"><i class="fa fa-clock-o"></i> <?= datelong($operation->created) ?></span>

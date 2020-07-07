@@ -1,8 +1,8 @@
 <?php 
 namespace Home;
 
-if ($this->getId() != "") {
-	$date = $this->getId();
+if ($this->id != "") {
+	$date = $this->id;
 }else{
 	$date = dateAjoute();
 }

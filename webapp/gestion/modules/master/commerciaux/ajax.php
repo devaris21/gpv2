@@ -49,7 +49,7 @@ if ($action === "rangement") {
 					$datas = explode(",", $manoeuvres);
 					foreach ($datas as $key => $value) {
 						$item = new MANOEUVREDURANGEMENT();
-						$item->productionjour_id = $productionjour->getId();
+						$item->productionjour_id = $productionjour->id;
 						$item->manoeuvre_id = $value;
 						$item->price = $montant / count($datas);
 						$item->enregistre();
@@ -58,8 +58,8 @@ if ($action === "rangement") {
 					$datas = MANOEUVRE::findBy(["groupemanoeuvre_id ="=>$groupemanoeuvre_id_rangement]);
 					foreach ($datas as $key => $value) {
 						$item = new MANOEUVREDURANGEMENT();
-						$item->productionjour_id = $productionjour->getId();
-						$item->manoeuvre_id = $value->getId();
+						$item->productionjour_id = $productionjour->id;
+						$item->manoeuvre_id = $value->id;
 						$item->price = $montant / count($datas);
 						$item->enregistre();
 					}

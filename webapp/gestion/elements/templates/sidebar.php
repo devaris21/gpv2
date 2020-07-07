@@ -134,7 +134,7 @@
                         <a href="<?= $this->url($this->section, "caisse", "caisse") ?>"><i class="fa fa-money"></i> <span class="nav-label">La caisse</span></a>
                     </li>
                     <li class="" id="tresorerie">
-                        <a href="<?= $this->url($this->section, "caisse", "tresorerie", $exercicecomptable->getId()) ?>"><i class="fa fa-money"></i> <span class="nav-label">Trésorerie générale</span></a>
+                        <a href="<?= $this->url($this->section, "caisse", "tresorerie", $exercicecomptable->id) ?>"><i class="fa fa-money"></i> <span class="nav-label">Trésorerie générale</span></a>
                     </li>
                     <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
 

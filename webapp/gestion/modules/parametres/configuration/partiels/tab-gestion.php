@@ -28,11 +28,11 @@
 
                                         <?php 
                                         foreach (Home\RESSOURCE::findBy([], [], ["name"=>"ASC"]) as $key => $ressource) {
-                                            $item = Home\EXIGENCEPRODUCTION::findBy(["produit_id ="=>$prod->getId(), "ressource_id ="=>$ressource->getId()])[0]; 
+                                            $item = Home\EXIGENCEPRODUCTION::findBy(["produit_id ="=>$prod->id, "ressource_id ="=>$ressource->id])[0]; 
                                             $item->actualise(); ?>
                                             <td class="text-center"><?= money($item->quantite_ressource); ?> <?= $item->ressource->abbr ?> pour <b><?= $item->quantite_produit ?></b></td>
                                         <?php } ?>
-                                        <td><i class="fa fa-pencil cursor" data-toggle="modal" data-target="#modal-exigence<?= $prod->getId() ?>"> </i></td>
+                                        <td><i class="fa fa-pencil cursor" data-toggle="modal" data-target="#modal-exigence<?= $prod->id ?>"> </i></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -136,25 +136,25 @@
                                     <tr>
                                         <td class="gras"><?= $produit->name(); ?></td>
                                         <?php foreach (Home\PRIX::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $prix) { 
-                                            $datas = $prix->fourni("prixdevente", ["produit_id ="=>$produit->getId()]);
+                                            $datas = $prix->fourni("prixdevente", ["produit_id ="=>$produit->id]);
                                             $pz = $datas[0]; $pz->actualise(); ?>
 
                                             <td class="text-center">
                                                 <div class="switch" style="display: inline-block;">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" <?= ($pz->isActive())?"checked":""  ?> onchange='changeActive("prixdevente", <?= $pz->getId() ?>)' class="onoffswitch-checkbox" id="pz<?= $pz->getId() ?>">
-                                                        <label class="onoffswitch-label" for="pz<?= $pz->getId() ?>">
+                                                        <input type="checkbox" <?= ($pz->isActive())?"checked":""  ?> onchange='changeActive("prixdevente", <?= $pz->id ?>)' class="onoffswitch-checkbox" id="pz<?= $pz->id ?>">
+                                                        <label class="onoffswitch-label" for="pz<?= $pz->id ?>">
                                                             <span class="onoffswitch-inner"></span>
                                                             <span class="onoffswitch-switch"></span>
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <?php if ($pz->isActive()) { ?>
-                                                    <div class="select-quantite" id="<?= $pz->getId() ?>" style="display: inline-block; width: 100px; margin: 0%">
+                                                    <div class="select-quantite" id="<?= $pz->id ?>" style="display: inline-block; width: 100px; margin: 0%">
                                                         <?php Native\BINDING::html("select", "quantite", $pz, "quantite_id")  ?>
                                                     </div>
 
-                                                    <div class="select-prix" id="<?= $pz->getId() ?>" style="display: inline-block; width: 100px; margin: 0%; color: orangered">
+                                                    <div class="select-prix" id="<?= $pz->id ?>" style="display: inline-block; width: 100px; margin: 0%; color: orangered">
                                                         <?php Native\BINDING::html("select", "prix", $pz, "prix_id_gros")  ?>
                                                     </div>
                                                 <?php } ?>
@@ -191,21 +191,21 @@
                                     <tr>
                                         <td class="gras"><?= $produit->name(); ?></td>
                                         <?php foreach (Home\QUANTITE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $qte) { 
-                                            $datas = $qte->fourni("prixdevente", ["produit_id ="=>$produit->getId()]);
+                                            $datas = $qte->fourni("prixdevente", ["produit_id ="=>$produit->id]);
                                             if (count($datas) > 0) {
                                                 $pz = $datas[0]; ?>
                                                 <?php if ($pz->isActive == Home\TABLE::OUI) { ?>
                                                     <td class="text-center">
-                                                        <span class="cursor" data-toggle="modal" data-target="#modal-prixdevente-stock" onclick="modification('prixdevente', <?= $pz->getId() ?>)"><?= $pz->stock ?> unités</span>
+                                                        <span class="cursor" data-toggle="modal" data-target="#modal-prixdevente-stock" onclick="modification('prixdevente', <?= $pz->id ?>)"><?= $pz->stock ?> unités</span>
                                                     </td>
                                                 <?php }else{ ?>
                                                     <td class="text-center">
-                                                        <span class="cursor" data-toggle="modal" data-target="#modal-prixdevente-stock" onclick="modification('prixdevente', <?= $pz->getId() ?>)"><?= $pz->stock ?> unités</span>
+                                                        <span class="cursor" data-toggle="modal" data-target="#modal-prixdevente-stock" onclick="modification('prixdevente', <?= $pz->id ?>)"><?= $pz->stock ?> unités</span>
                                                     </td>
                                                 <?php } ?>
                                             <?php }else{ ?>
                                                 <td class="text-center">
-                                                    <span class="cursor btn_modal" data-toggle="modal" data-target="#modal-prixdevente-stock" onclick="session('quantite_id', <?= $qte->getId() ?>)">0 unité</span>
+                                                    <span class="cursor btn_modal" data-toggle="modal" data-target="#modal-prixdevente-stock" onclick="session('quantite_id', <?= $qte->id ?>)">0 unité</span>
                                                 </td>
                                             <?php } ?> 
 

@@ -86,7 +86,7 @@ class FOURNISSEUR extends AUTH
 			$payement->hydrater($post);
 			if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 				$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
-				$payement->fournisseur_id = $this->getId();
+				$payement->fournisseur_id = $this->id;
 				$payement->comment = "Acréditation du compte du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
 				$data = $payement->enregistre();
 				if ($data->status) {
@@ -116,7 +116,7 @@ class FOURNISSEUR extends AUTH
 				$payement->hydrater($post);
 				if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 					$payement->categorieoperation_id = CATEGORIEOPERATION::REMBOURSEMENT_FOURNISSEUR;
-					$payement->fournisseur_id = $this->getId();
+					$payement->fournisseur_id = $this->id;
 					$payement->comment = "Rembourser à partir du acompte du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise."\n ".$_POST["comment1"];
 					$data = $payement->enregistre();
 					if ($data->status) {
@@ -189,7 +189,7 @@ class FOURNISSEUR extends AUTH
 						$data = $this->save();
 					}else{
 						$this->dette -= intval($montant);
-						$payement->fournisseur_id = $this->getId();
+						$payement->fournisseur_id = $this->id;
 						$payement->comment = "Reglement de la dette du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
 						$data = $payement->enregistre();
 						if ($data->status) {

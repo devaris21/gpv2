@@ -55,6 +55,6 @@
 
     </div><hr>
     <div>
-        <button onclick="modification('params', <?= $params->getId() ?>)" class="btn btn-primary dim pull-right" data-toggle="modal" data-target="#modal-params"><i class="fa fa-pencil"></i> Modifier les informations</button>
+        <button onclick="modification('params', <?= $params->id ?>)" class="btn btn-primary dim pull-right" data-toggle="modal" data-target="#modal-params"><i class="fa fa-pencil"></i> Modifier les informations</button>
     </div><br><br><br>
 </div>

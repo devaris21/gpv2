@@ -440,7 +440,7 @@ $data = $item->save();
 foreach (ROLE::getAll() as $key => $value) {
 	$tr = new ROLE_EMPLOYE();
 	$tr->employe_id = $data->lastid;
-	$tr->role_id = $value->getId();
+	$tr->role_id = $value->id;
 	$tr->setProtected(1);
 	$tr->enregistre();
 }

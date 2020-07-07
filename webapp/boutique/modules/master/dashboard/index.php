@@ -50,16 +50,16 @@
                             <div class="row text-center">
                                 <div class="col">
                                     <div class="">
-                                        <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::todayDirect($boutique->getId()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                        <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::todayDirect($boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
                                         <small class="text-muted block">Ventes directes du jour</small>
                                     </div>
                                 </div>
                                 <div class="col border-right border-left">
-                                    <span class="h5 font-bold block"><?= money(comptage(Home\PROSPECTION::effectuee(dateAjoute(), $boutique->getId()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                    <span class="h5 font-bold block"><?= money(comptage(Home\PROSPECTION::effectuee(dateAjoute(), $boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
                                     <small class="text-muted block">Ventes par prospection du jour</small>
                                 </div>
                                 <div class="col text-danger">
-                                    <span class="h5 font-bold block"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1), $boutique->getId())) ?> <small><?= $params->devise ?></small></span>
+                                    <span class="h5 font-bold block"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1), $boutique->id)) ?> <small><?= $params->devise ?></small></span>
                                     <small class="text-muted block">Dépense du jour</small>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
 
                                     <div class="ibox-content">
                                         <h5>En rupture de Stock</h5>
-                                        <h2 class="no-margins"><?= start0(count(Home\PRIXDEVENTE::rupture($boutique->getId()))) ?> produit(s)</h1>
+                                        <h2 class="no-margins"><?= start0(count(Home\PRIXDEVENTE::rupture($boutique->id))) ?> produit(s)</h1>
                                         </div>
                                     </div>
 
@@ -89,7 +89,7 @@
                                 <div class="col-md border-right">
                                     <h6 class="text-uppercase text-center gras" style="color: <?= $produit->couleur; ?>">Stock de <?= $produit->name() ?></h6>
                                     <ul class="list-group clear-list m-t">
-                                        <?php foreach ($tableau[$produit->getId()] as $key => $pdv) { ?>
+                                        <?php foreach ($tableau[$produit->id] as $key => $pdv) { ?>
                                             <li class="list-group-item">
                                                 <i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <small><?= $pdv->quantite ?></small>          
                                                 <span class="float-right">
@@ -129,7 +129,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach (Home\PROSPECTION::programmee(dateAjoute(), $boutique->getId()) as $key => $prospection) {
+                                            <?php foreach (Home\PROSPECTION::programmee(dateAjoute(), $boutique->id) as $key => $prospection) {
                                                 $prospection->actualise(); ?>
                                                 <tr>
                                                     <td><?= $prospection->commercial->name()  ?></td>
@@ -140,7 +140,7 @@
                                                     <td class="text-center"><span class="label label-<?= $prospection->etat->class ?>"><?= $prospection->etat->name ?></span> </td>
                                                     <td class="text-center">
                                                         <?php if ($prospection->etat_id == Home\ETAT::PARTIEL) { ?>
-                                                            <button onclick="validerProg(<?= $prospection->getId() ?>)" class="cursor simple_tag pull-right"><i class="fa fa-file-text-o"></i> Faire la prospection</button>
+                                                            <button onclick="validerProg(<?= $prospection->id ?>)" class="cursor simple_tag pull-right"><i class="fa fa-file-text-o"></i> Faire la prospection</button>
                                                         <?php } ?>
                                                     </td>
                                                 </tr>
@@ -177,7 +177,7 @@
                                                     <td class="gras" style="color: <?= $produit->couleur ?>"><i class="fa fa-flask"></i> <?= $produit->name() ?></td>
                                                     <?php $total =0; foreach ($datas as $key => $pdv) {
                                                         $pdv->actualise();
-                                                        $nb = $pdv->vendeDirecte(dateAjoute(), dateAjoute(), $boutique->getId());
+                                                        $nb = $pdv->vendeDirecte(dateAjoute(), dateAjoute(), $boutique->id);
                                                         $total += $nb * $pdv->prix->price;  ?>
                                                         <td class="text-center"><?= $nb ?></td>
                                                     <?php } ?>
@@ -186,7 +186,7 @@
                                             <?php } ?>
                                             <tr>
                                                 <td class="text-right" colspan="5">
-                                                    <h2><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute(), $boutique->getId()), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
+                                                    <h2><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute(), $boutique->id), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -222,7 +222,7 @@
     <script>
         $(document).ready(function() {
 
-            var id = "<?= $this->getId();  ?>";
+            var id = "<?= $this->id;  ?>";
             if (id == 1) {
                 setTimeout(function() {
                     toastr.options = {

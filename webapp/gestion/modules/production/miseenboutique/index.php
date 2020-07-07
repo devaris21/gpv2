@@ -113,7 +113,7 @@
                                 </td>
                                 <td>
                                     <br>
-                                    <a href="<?= $this->url("gestion", "fiches", "bonmiseenboutique", $mise->getId()) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Voir le bon</a><br>
+                                    <a href="<?= $this->url("gestion", "fiches", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Voir le bon</a><br>
                                 </td>
                             </td>
                         </tr>

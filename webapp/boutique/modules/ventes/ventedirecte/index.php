@@ -105,12 +105,12 @@
                                     <span><?= $vente->reglementclient->structure ?> - <?= $vente->reglementclient->numero ?></span>
                                 </td>
                                 <td>
-                                    <a href="<?= $this->url("boutique", "fiches", "bonvente", $vente->getId()) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Voir le reçu </a><br>
+                                    <a href="<?= $this->url("boutique", "fiches", "bonvente", $vente->id) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Voir le reçu </a><br>
                                         <!-- <?php if ($vente->etat_id == Home\ETAT::ENCOURS) { ?>
-                                            <button onclick="terminer(<?= $vente->getId() ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
+                                            <button onclick="terminer(<?= $vente->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
                                             <?php } ?> -->
                                             <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                                <button onclick="annulerVente(<?= $vente->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                                <button onclick="annulerVente(<?= $vente->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                             <?php } ?>
                                         </td>
                                     </tr>

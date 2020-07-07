@@ -199,7 +199,7 @@ if ($action == "validerApprovisionnement") {
 								if (count($datas) == 1) {
 									$ressource = $datas[0];
 									$lignecommande = new LIGNEAPPROVISIONNEMENT;
-									$lignecommande->approvisionnement_id = $approvisionnement->getId();
+									$lignecommande->approvisionnement_id = $approvisionnement->id;
 									$lignecommande->ressource_id = $id;
 									$lignecommande->quantite = $qte;
 									$lignecommande->price =  $prix;

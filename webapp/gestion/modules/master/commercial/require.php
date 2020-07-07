@@ -9,8 +9,8 @@ unset_session("commande-encours");
 $tableau_mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
 
-if ($this->getId() != null) {
-    $datas = COMMERCIAL::findBy(["id ="=> $this->getId()]);
+if ($this->id != null) {
+    $datas = COMMERCIAL::findBy(["id ="=> $this->id]);
 if (count($datas) > 0) {
     $commercial = $datas[0];
     $commercial->actualise();
@@ -44,7 +44,7 @@ $payes = $commercial->fourni("lignepayement", [], [], ["created"=>"DESC"]);
 
 $title = "GPV | ".$commercial->name();
 
-session("commercial_id", $commercial->getId());
+session("commercial_id", $commercial->id);
 
 }else{
     header("Location: ../master/commercials");

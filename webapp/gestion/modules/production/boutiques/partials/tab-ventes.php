@@ -40,7 +40,7 @@
 								<?php } ?>
 								<tr>
 									<td class="text-right" colspan="5">
-										<h2><?= money(comptage(Home\VENTE::prospection($index, $index, $boutique->getId()), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
+										<h2><?= money(comptage(Home\VENTE::prospection($index, $index, $boutique->id), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
 									</td>
 								</tr>
 							</tbody>
@@ -75,7 +75,7 @@
 										<td class="gras" style="color: <?= $produit->couleur ?>"><i class="fa fa-flask"></i> <?= $produit->name() ?></td>
 										<?php $total =0; foreach ($datas as $key => $pdv) {
 											$pdv->actualise();
-											$nb = $pdv->vendeDirecte($index, $index, $boutique->getId());
+											$nb = $pdv->vendeDirecte($index, $index, $boutique->id);
 											$total += $nb * $pdv->prix->price;  ?>
 											<td class="text-center"><?= $nb ?></td>
 										<?php } ?>
@@ -84,7 +84,7 @@
 								<?php } ?>
 								<tr>
 									<td class="text-right" colspan="5">
-										<h2><?= money(comptage(Home\VENTE::direct($index, $index, $boutique->getId()), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
+										<h2><?= money(comptage(Home\VENTE::direct($index, $index, $boutique->id), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
 									</td>
 								</tr>
 							</tbody>

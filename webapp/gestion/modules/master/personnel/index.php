@@ -76,13 +76,13 @@
                                 <div class="tabs-container">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <?php foreach ($groupes as $key => $groupe) { ?>
-                                            <li class=""><a class="nav-link" data-toggle="tab" href="#parc<?= $groupe->getId() ?>"><?= $groupe->name() ?> &nbsp;&nbsp;&nbsp;<span class="label bg-aqua"><?= count($groupe->manoeuvres) ?></span></a></li>
+                                            <li class=""><a class="nav-link" data-toggle="tab" href="#parc<?= $groupe->id ?>"><?= $groupe->name() ?> &nbsp;&nbsp;&nbsp;<span class="label bg-aqua"><?= count($groupe->manoeuvres) ?></span></a></li>
                                         <?php } ?>
                                     </ul>
                                     <div class="tab-content" id="parcs">
                                         <br>
                                         <?php foreach ($groupes as $key => $groupe) { ?>
-                                            <div role="tabpanel" id="parc<?= $groupe->getId() ?>" class="tab-pane">
+                                            <div role="tabpanel" id="parc<?= $groupe->id ?>" class="tab-pane">
                                                 <table class="table tableUser">
                                                     <tbody>
                                                         <?php foreach ($groupe->manoeuvres as $key => $man) { 
@@ -104,13 +104,13 @@
                                                                     <?php if ($employe->isAutoriser("paye des manoeuvre")) { ?>
                                                                         <h3 class="mp0"><?= money($solde) ?> <?= $params->devise ?></h3>
                                                                         <?php if ($solde > 0) { ?>
-                                                                            <button style="margin: 0%" data-toggle="modal" data-target="#modal-paye-manoeuvre<?= $man->getId() ?>" class="btn btn-primary dim btn-xs"><i class="fa fa-money"></i> Faire la paye</button>
+                                                                            <button style="margin: 0%" data-toggle="modal" data-target="#modal-paye-manoeuvre<?= $man->id ?>" class="btn btn-primary dim btn-xs"><i class="fa fa-money"></i> Faire la paye</button>
                                                                         <?php } ?>                                                                 
                                                                     <?php } ?>                                                                 
                                                                 </td>
                                                               <!--   <td class="project-actions">
-                                                                    <button onclick="available(<?= $man->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-lock"></i></button>
-                                                                    <button onclick="modification('manoeuvre', <?= $man->getId() ?>)"  data-toggle="modal" data-target="#modal-manoeuvre" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i></button>
+                                                                    <button onclick="available(<?= $man->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-lock"></i></button>
+                                                                    <button onclick="modification('manoeuvre', <?= $man->id ?>)"  data-toggle="modal" data-target="#modal-manoeuvre" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i></button>
                                                                 </td> -->
                                                             </tr>
                                                         <?php } ?>
@@ -141,7 +141,7 @@
                         </div>
                         <div class="ibox-content" style="min-height: 300px;">
                             <?php if (count($chauffeurs) > 0) { ?>
-                                <div role="tabpanel" id="parc<?= $groupe->getId() ?>" class="tab-pane">
+                                <div role="tabpanel" id="parc<?= $groupe->id ?>" class="tab-pane">
                                     <table class="table tableUser">
                                         <tbody>
                                             <?php foreach ($chauffeurs as $key => $man) { 
@@ -160,7 +160,7 @@
                                                         <?php if ($employe->isAutoriser("paye des manoeuvre")) { ?>
                                                             <h3 class="mp0 d-inline"><?= money($man->salaire) ?> <?= $params->devise ?></h3>
                                                             <?php if ($man->salaire > 0) { ?>
-                                                                <button style="margin: -3%" data-toggle="modal" data-target="#modal-paye-manoeuvre<?= $man->getId() ?>" class="btn btn-primary btn-xs pull-right dim"><i class="fa fa-money"></i> Faire la paye</button>
+                                                                <button style="margin: -3%" data-toggle="modal" data-target="#modal-paye-manoeuvre<?= $man->id ?>" class="btn btn-primary btn-xs pull-right dim"><i class="fa fa-money"></i> Faire la paye</button>
                                                             <?php } ?>  
                                                         <?php } ?>  
                                                     </td>

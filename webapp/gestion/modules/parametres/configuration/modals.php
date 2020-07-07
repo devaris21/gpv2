@@ -29,15 +29,15 @@
 								<div class="row">
 									<div class="col-6">
 										<label>Production</label>
-										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price" value="<?= $item->price ?>">
+										<input type="number" data-id="<?= $item->id; ?>" number class="form-control" name="price" value="<?= $item->price ?>">
 									</div>
 									<div class="col-6">
 										<label>Rangement</label>
-										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price_rangement" value="<?= $item->price_rangement ?>">
+										<input type="number" data-id="<?= $item->id; ?>" number class="form-control" name="price_rangement" value="<?= $item->price_rangement ?>">
 									</div>
 									<div class="col-6">
 										<label>Livraison</label>
-										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price_livraison" value="<?= $item->price_livraison ?>">
+										<input type="number" data-id="<?= $item->id; ?>" number class="form-control" name="price_livraison" value="<?= $item->price_livraison ?>">
 									</div>
 								</div><br>
 							</div>					
@@ -74,15 +74,15 @@
 								<div class="row">
 									<div class="col-6">
 										<label>Production</label>
-										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price" value="<?= $item->price ?>">
+										<input type="number" data-id="<?= $item->id; ?>" number class="form-control" name="price" value="<?= $item->price ?>">
 									</div>
 									<div class="col-6">
 										<label>Rangement</label>
-										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price_rangement" value="<?= $item->price_rangement ?>">
+										<input type="number" data-id="<?= $item->id; ?>" number class="form-control" name="price_rangement" value="<?= $item->price_rangement ?>">
 									</div>
 									<div class="col-6">
 										<label>Livraison</label>
-										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price_livraison" value="<?= $item->price_livraison ?>">
+										<input type="number" data-id="<?= $item->id; ?>" number class="form-control" name="price_livraison" value="<?= $item->price_livraison ?>">
 									</div>
 								</div><br>
 							</div>					
@@ -220,7 +220,7 @@
 
 <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
 	$lots = $produit->fourni('exigenceproduction'); ?>
-	<div class="modal inmodal fade" id="modal-exigence<?= $produit->getId() ?>">
+	<div class="modal inmodal fade" id="modal-exigence<?= $produit->id ?>">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -235,7 +235,7 @@
 								<div class="col-sm-6">
 									<label>Nombre de <?= $ligne->produit->name() ?></label>
 									<div class="form-group">
-										<input data-id="<?= $ligne->getId(); ?>" type="number" number class="form-control" value="<?= $ligne->quantite_produit; ?>">
+										<input data-id="<?= $ligne->id; ?>" type="number" number class="form-control" value="<?= $ligne->quantite_produit; ?>">
 									</div>
 								</div>
 								<div class="col-sm-6">

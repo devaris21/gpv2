@@ -108,10 +108,10 @@
                                                         </div>
 
                                                     <?php }else if ($item->etat_id == Home\ETAT::ENCOURS){ ?>
-                                                        <button onclick="terminerSansEntretenirVehicule(<?= $item->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-check text-green"></i> Terminer sans entretien</button><br><br>
+                                                        <button onclick="terminerSansEntretenirVehicule(<?= $item->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-check text-green"></i> Terminer sans entretien</button><br><br>
                                                         <div class="btn-group">
-                                                            <button title="Faire l'entretien" data-toggle="modal" data-target="#modal-entretienvehicule" onclick="session('demandeentretien_id', <?= $item->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-check text-green"></i> Reparer</button>
-                                                            <button data-toggle="tooltip" title="annuler la demande" class="btn btn-white btn-sm" onclick="annulerDemandeEntretien(<?= $item->getId() ?>)"><i class="fa fa-close text-red"></i></button>
+                                                            <button title="Faire l'entretien" data-toggle="modal" data-target="#modal-entretienvehicule" onclick="session('demandeentretien_id', <?= $item->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-check text-green"></i> Reparer</button>
+                                                            <button data-toggle="tooltip" title="annuler la demande" class="btn btn-white btn-sm" onclick="annulerDemandeEntretien(<?= $item->id ?>)"><i class="fa fa-close text-red"></i></button>
                                                         </div>
                                                     <?php } ?>                                      
                                                 </div>
@@ -174,11 +174,11 @@
                                                     </div>
 
                                                 <?php }else if ($item->etat_id == Home\ETAT::ENCOURS){ ?>
-                                                    <button onclick="terminerSansEntretenirMachine(<?= $item->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-check text-green"></i> Terminer sans entretien</button><br><br>
+                                                    <button onclick="terminerSansEntretenirMachine(<?= $item->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-check text-green"></i> Terminer sans entretien</button><br><br>
 
                                                     <div class="btn-group">
-                                                        <button title="Faire l'entretien" onclick="session('panne_id', <?= $item->getId() ?>)" data-toggle="modal" data-target="#modal-entretienmachine" class="btn btn-white btn-sm"><i class="fa fa-check text-green"></i> Reparer</button>
-                                                        <button data-toggle="tooltip" title="annuler la demande" class="btn btn-white btn-sm" onclick="annulerPanne(<?= $item->getId() ?>)"><i class="fa fa-close text-red"></i></button>
+                                                        <button title="Faire l'entretien" onclick="session('panne_id', <?= $item->id ?>)" data-toggle="modal" data-target="#modal-entretienmachine" class="btn btn-white btn-sm"><i class="fa fa-check text-green"></i> Reparer</button>
+                                                        <button data-toggle="tooltip" title="annuler la demande" class="btn btn-white btn-sm" onclick="annulerPanne(<?= $item->id ?>)"><i class="fa fa-close text-red"></i></button>
                                                     </div>
                                                 <?php } ?>                                      
                                             </div>
@@ -256,8 +256,8 @@
 
                                             <?php }else if ($item->etat_id == Home\ETAT::ENCOURS){ ?>
                                                 <div class="">
-                                                    <button onclick="session('entretienvehicule_id', <?= $item->getId() ?>)" data-toggle="modal" data-target="#modal-validerentretien-vehicule" title="Entretien terminé avec succes !" class="btn btn-white btn-block btn-sm"><i class="fa fa-check text-green"></i> Terminer</button>
-                                                    <button data-toggle="tooltip" title="Annuler Entretien" class="btn btn-white btn-block btn-sm" onclick="annulerEntretienVehicule(<?= $item->getId() ?>)"><i class="fa fa-close text-red"></i> Annuler</button>
+                                                    <button onclick="session('entretienvehicule_id', <?= $item->id ?>)" data-toggle="modal" data-target="#modal-validerentretien-vehicule" title="Entretien terminé avec succes !" class="btn btn-white btn-block btn-sm"><i class="fa fa-check text-green"></i> Terminer</button>
+                                                    <button data-toggle="tooltip" title="Annuler Entretien" class="btn btn-white btn-block btn-sm" onclick="annulerEntretienVehicule(<?= $item->id ?>)"><i class="fa fa-close text-red"></i> Annuler</button>
                                                 </div>
                                             <?php } ?>                                      
                                         </div>
@@ -321,8 +321,8 @@
 
                                         <?php }else if ($item->etat_id == Home\ETAT::ENCOURS){ ?>
                                             <div>
-                                                <button onclick="session('entretienmachine_id', <?= $item->getId() ?>)" title="Entretien terminé avec succes !" data-toggle="modal" data-target="#modal-validerentretien-machine" class="btn btn-white btn-block btn-sm"><i class="fa fa-check text-green"></i> Terminer</button>
-                                                <button data-toggle="tooltip" title="Entretien échoué" class="btn btn-white btn-block btn-sm" onclick="annulerEntretienMachine(<?= $item->getId() ?>)"><i class="fa fa-close text-red"></i> Annuler</button>
+                                                <button onclick="session('entretienmachine_id', <?= $item->id ?>)" title="Entretien terminé avec succes !" data-toggle="modal" data-target="#modal-validerentretien-machine" class="btn btn-white btn-block btn-sm"><i class="fa fa-check text-green"></i> Terminer</button>
+                                                <button data-toggle="tooltip" title="Entretien échoué" class="btn btn-white btn-block btn-sm" onclick="annulerEntretienMachine(<?= $item->id ?>)"><i class="fa fa-close text-red"></i> Annuler</button>
                                             </div>
                                         <?php } ?>                                      
                                     </div>

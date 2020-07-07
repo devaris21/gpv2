@@ -191,7 +191,7 @@ if ($action == "validerApprovisionnement") {
 								if (count($datas) == 1) {
 									$ressource = $datas[0];
 									$ligne = new LIGNEAPPROEMBALLAGE;
-									$ligne->approemballage_id = $approvisionnement->getId();
+									$ligne->approemballage_id = $approvisionnement->id;
 									$ligne->emballage_id = $id;
 									$ligne->quantite = $qte;
 									$ligne->price =  $prix;

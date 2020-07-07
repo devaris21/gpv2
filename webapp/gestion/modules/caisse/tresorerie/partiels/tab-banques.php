@@ -26,7 +26,7 @@
                         <div class="offset-1 col-lg-3">
                             <ul class="stat-list">
                                 <?php foreach (Home\COMPTEBANQUE::getAll() as $key => $banque) { ?>
-                                    <li onclick="session('comptebanque_id', <?= $banque->getId() ?>)" class="cursor" data-toggle="modal" data-target="#modal-optioncompte-<?= $banque->getId() ?>">
+                                    <li onclick="session('comptebanque_id', <?= $banque->id ?>)" class="cursor" data-toggle="modal" data-target="#modal-optioncompte-<?= $banque->id ?>">
                                         <h2 class="no-margins"><?= money($banque->solde(Home\PARAMS::DATE_DEFAULT, dateAjoute())) ?> <?= $params->devise ?></h2>
                                         <small><?= $banque->name() ?></small>
                                         <div class="stat-percent">à jour <i class="fa fa-calendar text-navy"></i></div>

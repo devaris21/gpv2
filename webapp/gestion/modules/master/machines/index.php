@@ -109,7 +109,7 @@
                                                 <td class="project-status text-right">
                                                     <span class=" label label-<?= $vehicule->etatvehicule->class ?>"><?= $vehicule->etatvehicule->name ?></span><br>
                                                     <?php if ($vehicule->etatvehicule_id == Home\ETATVEHICULE::RAS) { ?>
-                                                        <button onclick="session('vehicule_id', <?= $vehicule->getId() ?>)" data-toggle="modal" data-target="#modal-demandeentretien" class="btn btn-xs btn-warning"><i class="fa fa-car"></i> Déclarer un sinistre</button>
+                                                        <button onclick="session('vehicule_id', <?= $vehicule->id ?>)" data-toggle="modal" data-target="#modal-demandeentretien" class="btn btn-xs btn-warning"><i class="fa fa-car"></i> Déclarer un sinistre</button>
                                                     <?php } ?>
                                                 </td>      
 
@@ -151,7 +151,7 @@
                                             <td class="project-status text-right">
                                                 <span class=" label label-<?= $machine->etatvehicule->class ?>"><?= $machine->etatvehicule->name ?></span><br>
                                                 <?php if ($machine->etatvehicule_id == Home\ETATVEHICULE::RAS) { ?>
-                                                    <button class="btn btn-xs btn-warning" onclick="session('machine_id', <?= $machine->getId() ?>)" data-toggle="modal" data-target="#modal-panne"><i class="fa fa-plus"></i> panne</button>
+                                                    <button class="btn btn-xs btn-warning" onclick="session('machine_id', <?= $machine->id ?>)" data-toggle="modal" data-target="#modal-panne"><i class="fa fa-plus"></i> panne</button>
                                                 <?php } ?>
                                             </td>      
 

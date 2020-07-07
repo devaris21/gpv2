@@ -3,8 +3,8 @@ namespace Home;
 unset_session("produits");
 unset_session("commande-encours");
 
-if ($this->getId() != null) {
-	$datas = BOUTIQUE::findBy(["id ="=>$this->getId()]);
+if ($this->id != null) {
+	$datas = BOUTIQUE::findBy(["id ="=>$this->id]);
 	if (count($datas) > 0) {
 		$boutique = $datas[0];
 		$boutique->actualise();
@@ -64,10 +64,10 @@ if ($this->getId() != null) {
 			}
 
 		}
-		$statistiques = OPERATION::statistiques($boutique->getId());
+		$statistiques = OPERATION::statistiques($boutique->id);
 
 
-		session("boutique_id", $this->getId());
+		session("boutique_id", $this->id);
 		$produits = PRODUIT::findBy(["isActive ="=>TABLE::OUI]);
 		$rupture = 0;
 		$tableaux = [];
@@ -76,15 +76,15 @@ if ($this->getId() != null) {
 			foreach ($produit->fourni('prixdevente', ["isActive ="=>TABLE::OUI]) as $key => $pdv) {
 				$pdv->actualise();
 				$data = new \stdclass();
-				$data->id = $pdv->getId();
+				$data->id = $pdv->id;
 				$data->pdv = $pdv;
 				$pdv->tab = [];
 
 				$data->name = $pdv->produit->name()." // ".$pdv->prix->price()/*." ".$params->devise*/;
 				$data->prix = $pdv->prix->price()." ".$params->devise;
 				$data->quantite = $pdv->quantite->name();
-				$data->boutique = $pdv->enBoutique($date2, $boutique->getId());
-				$data->commande = $pdv->commandee($boutique->getId());
+				$data->boutique = $pdv->enBoutique($date2, $boutique->id);
+				$data->commande = $pdv->commandee($boutique->id);
 				$data->rupture = false;
 				if ($data->boutique <= $params->ruptureStock) {
 					$data->rupture = true;
@@ -92,12 +92,12 @@ if ($this->getId() != null) {
 				}	
 				$tab[] = $data;
 			}
-			$tableaux[$produit->getId()] = $tab;
+			$tableaux[$produit->id] = $tab;
 		}
 
 		$title = "GPV | ".$boutique->name();
 
-		$stats = VENTE::stats($date1, $date2, $boutique->getId());
+		$stats = VENTE::stats($date1, $date2, $boutique->id);
 
 		$productionjours = PRODUCTIONJOUR::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2], [],["ladate"=>"DESC"]);
 		usort($productionjours, 'comparerLadate');

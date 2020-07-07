@@ -2,8 +2,8 @@
 namespace Home;
 unset_session("ressources");
 
-if ($this->getId() != "") {
-	$tab = explode("@", $this->getId());
+if ($this->id != "") {
+	$tab = explode("@", $this->id);
 	$date1 = $tab[0];
 	$date2 = $tab[1];
 }else{

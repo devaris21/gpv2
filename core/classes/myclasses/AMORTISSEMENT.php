@@ -44,7 +44,7 @@ class AMORTISSEMENT extends TABLE
 								$annuite = round(($immobilisation->montant * (1 / $this->duree) * $taux), 2);
 							}
 							$ligne = new LIGNEAMORTISSEMENT();
-							$ligne->amortissement_id = $this->getId();
+							$ligne->amortissement_id = $this->id;
 							$ligne->montant = $annuite * (dateDiffe($this->started, date("Y")."-01-01") / 360);
 							$data = $ligne->enregistre();
 							if ($data->status) {
@@ -102,8 +102,8 @@ class AMORTISSEMENT extends TABLE
 				}
 
 				$ligne = new LIGNEAMORTISSEMENT();
-				$ligne->exercicecomptable_id = $exercice->getId();
-				$ligne->amortissement_id = $amor->getId();
+				$ligne->exercicecomptable_id = $exercice->id;
+				$ligne->amortissement_id = $amor->id;
 				$ligne->montant = $annuite;
 				$data = $ligne->enregistre();
 				if ($data->status) {

@@ -121,7 +121,7 @@
                                                                     $production->fourni("ligneconsommationjour");
                                                                     foreach ($ressources as $key => $ressource) {
                                                                         foreach ($production->ligneconsommationjours as $key => $ligne) {
-                                                                            if ($ressource->getId() == $ligne->ressource_id) { 
+                                                                            if ($ressource->id == $ligne->ressource_id) { 
                                                                                 ?>
                                                                                 <td>
                                                                                     <h5 class="d-inline text-success gras"><?= start0($ligne->consommation) ?></h5>&nbsp;&nbsp;|&nbsp;&nbsp;
@@ -207,7 +207,7 @@
                                                                     $production->fourni("ligneconsommationjour");
                                                                     foreach ($emballages as $key => $ressource) {
                                                                         foreach ($production->ligneconsommationjours as $key => $ligne) {
-                                                                            if ($ressource->getId() == $ligne->ressource_id) { 
+                                                                            if ($ressource->id == $ligne->ressource_id) { 
                                                                                 $achat = $ressource->achat($production->ladate, $production->ladate);
                                                                                 $stock = $ressource->stock($production->ladate); ?>
                                                                                 <td>
@@ -241,15 +241,15 @@
                                             <div class="tabs-container" id="produits">
                                                 <ul class="nav nav-tabs text-uppercase" role="tablist">
                                                     <?php foreach ($produits as $key => $produit) { ?>
-                                                        <li style=" border-bottom: 3px solid <?= $produit->couleur; ?>,"><a class="nav-link" data-toggle="tab" href="#pan-<?= $produit->getId() ?>"><i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <?= $produit->name() ?></a></li>
+                                                        <li style=" border-bottom: 3px solid <?= $produit->couleur; ?>,"><a class="nav-link" data-toggle="tab" href="#pan-<?= $produit->id ?>"><i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <?= $produit->name() ?></a></li>
                                                     <?php } ?>
                                                 </ul>
                                                 <div class="tab-content">
                                                     <?php foreach ($produits as $key => $produit) {
                                                         $requette = "SELECT * FROM etiquette, prixdevente WHERE etiquette.prixdevente_id = prixdevente.id AND prixdevente.isActive =? AND prixdevente.produit_id = ?";
-                                                        $etiquettes = Home\ETIQUETTE::execute($requette, [Home\TABLE::OUI, $produit->getId()]);
+                                                        $etiquettes = Home\ETIQUETTE::execute($requette, [Home\TABLE::OUI, $produit->id]);
                                                         $total = 0; ?>
-                                                        <div role="tabpanel" id="pan-<?= $produit->getId() ?>" class="tab-pane">
+                                                        <div role="tabpanel" id="pan-<?= $produit->id ?>" class="tab-pane">
                                                             <div class="panel-body"><br>
                                                                 <div class="row">
                                                                     <div class="col-md-3 text-left">
@@ -311,7 +311,7 @@
                                                                                             $production->fourni("ligneetiquettejour");
                                                                                             foreach ($etiquettes as $key => $etiq) {
                                                                                                 foreach ($production->ligneetiquettejours as $key => $ligne) {
-                                                                                                    if ($etiq->getId() == $ligne->etiquette_id) { 
+                                                                                                    if ($etiq->id == $ligne->etiquette_id) { 
                                                                                                         ?>
                                                                                                         <td>
                                                                                                             <h5 class="d-inline text-success gras"><?= start0($ligne->consommation) ?></h5>&nbsp;&nbsp;|&nbsp;&nbsp;
@@ -333,7 +333,7 @@
                                                             </div>
                                                         </div>
                                                         <?php 
-                                                        $tabvendu[$produit->getId()] = $total;
+                                                        $tabvendu[$produit->id] = $total;
                                                     } ?>
 
                                                 </div>

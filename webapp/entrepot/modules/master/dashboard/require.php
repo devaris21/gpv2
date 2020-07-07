@@ -20,14 +20,14 @@ foreach (PRODUIT::getAll() as $key => $produit) {
 		$data->name = $pdv->produit->name()." // ".$pdv->prix->price()/*." ".$params->devise*/;
 		$data->prix = $pdv->prix->price()." ".$params->devise;
 		$data->quantite = $pdv->quantite->name();
-		$data->stock = $pdv->enEntrepot(dateAjoute(), $entrepot->getId());
+		$data->stock = $pdv->enEntrepot(dateAjoute(), $entrepot->id);
 		$data->rupture = false;
 		if (!($data->stock==0)) {
 			$data->rupture = true;
 		}	
 		$tab[] = $data;
 	}
-	$tableau[$produit->getId()] = $tab;
+	$tableau[$produit->id] = $tab;
 }
 
 for ($i=0; $i < 30; $i++) { 
@@ -36,7 +36,7 @@ for ($i=0; $i < 30; $i++) {
 }
 
 
-$stats = VENTE::stats(dateAjoute(-14), dateAjoute(), $entrepot->getId());
+$stats = VENTE::stats(dateAjoute(-14), dateAjoute(), $entrepot->id);
 
 
 ?>

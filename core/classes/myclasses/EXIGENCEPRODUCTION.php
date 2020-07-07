@@ -55,14 +55,14 @@ class EXIGENCEPRODUCTION extends TABLE
 				foreach (PRODUIT::getAll() as $key => $produit) {
 					$ligne = new LIGNEPRODUCTIONJOUR();
 					$ligne->productionjour_id = $data->lastid;
-					$ligne->produit_id = $produit->getId();
+					$ligne->produit_id = $produit->id;
 					$ligne->enregistre();
 				}
 
 				foreach (RESSOURCE::getAll() as $key => $ressource) {
 					$ligne = new LIGNECONSOMMATIONJOUR();
 					$ligne->productionjour_id = $data->lastid;
-					$ligne->ressource_id = $ressource->getId();
+					$ligne->ressource_id = $ressource->id;
 					$ligne->enregistre();
 				}
 			}

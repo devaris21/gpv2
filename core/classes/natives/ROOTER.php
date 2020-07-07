@@ -96,7 +96,7 @@ class ROOTER extends PATH
                                     $datas = ROLE::findBy(["name ="=>$this->module]);
                                     if (count($datas) == 1) {
                                         $role = $datas[0];
-                                        if (in_array($role->getId(), $tableauDeRoles)) {
+                                        if (in_array($role->id, $tableauDeRoles)) {
 
                                             $productionjour = PRODUCTIONJOUR::today();
                                             $productionjour->actualise();
@@ -136,7 +136,7 @@ class ROOTER extends PATH
                             if ($employe->is_allowed()) {
                                 $employe->actualise();
                                 $boutique = $employe->boutique;
-                                session("boutique_connecte_id", $boutique->getId());
+                                session("boutique_connecte_id", $boutique->id);
                             }else{
                                 $this->new_root("devaris21", "home", "erreur500");
                                 $this->render();
@@ -157,7 +157,7 @@ class ROOTER extends PATH
                             if ($employe->is_allowed()) {
                                 $employe->actualise();
                                 $entrepot = $employe->entrepot;
-                                session("entrepot_connecte_id", $entrepot->getId());
+                                session("entrepot_connecte_id", $entrepot->id);
                             }else{
                                 $this->new_root("devaris21", "home", "erreur500");
                                 $this->render();

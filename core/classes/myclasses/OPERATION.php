@@ -53,7 +53,7 @@ class OPERATION extends TABLE
 						$data = $mouvement->enregistre();
 						if ($data->status) {
 							$this->reference = "BCA/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
-							$this->mouvement_id = $mouvement->getId();
+							$this->mouvement_id = $mouvement->id;
 							$data = $this->save();
 							var_dump($data);
 							if ($data->status) {

@@ -16,8 +16,8 @@ if ($action === "miseenboutique") {
 
 	if(!(isset($etat_id) && ($etat_id == ETAT::PARTIEL))){
 		foreach (PRIXDEVENTE::findBy(["isActive ="=>TABLE::OUI]) as $key => $pdv) {
-			if (isset($_POST["mise-".$pdv->getId()]) && intval($_POST["mise-".$pdv->getId()]) > 0) {
-				if($pdv->enEntrepot(dateAjoute(), $entrepot_id) < intval($_POST["mise-".$pdv->getId()])){
+			if (isset($_POST["mise-".$pdv->id]) && intval($_POST["mise-".$pdv->id]) > 0) {
+				if($pdv->enEntrepot(dateAjoute(), $entrepot_id) < intval($_POST["mise-".$pdv->id])){
 					$test = false;
 					break;
 				}else{
@@ -34,9 +34,9 @@ if ($action === "miseenboutique") {
 		if ($data->status) {
 			foreach ($tableau as $key => $pdv) {
 				$ligne = new LIGNEMISEENBOUTIQUE();
-				$ligne->miseenboutique_id = $meb->getId();
-				$ligne->prixdevente_id = $pdv->getId();
-				$ligne->quantite_depart = intval($_POST["mise-".$pdv->getId()]);
+				$ligne->miseenboutique_id = $meb->id;
+				$ligne->prixdevente_id = $pdv->id;
+				$ligne->quantite_depart = intval($_POST["mise-".$pdv->id]);
 				$data = $ligne->enregistre();
 			}
 		}

@@ -73,8 +73,8 @@
                             <tr>
                                 <td><?= $item->name() ?></td>
                                 <td><?= money($item->montant) ?> <?= $params->devise ?></td>
-                                <td data-toggle="modal" data-target="#modal-capitaux" title="modifier" onclick="modification('capitaux', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                <td title="supprimer la zone de livraison" onclick="suppressionWithPassword('capitaux', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                <td data-toggle="modal" data-target="#modal-capitaux" title="modifier" onclick="modification('capitaux', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                <td title="supprimer la zone de livraison" onclick="suppressionWithPassword('capitaux', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                             </tr>
                         <?php } ?>
                         <tr>
@@ -104,12 +104,12 @@
                             $reste = $item->resteAmortissement();
                             $total += $reste; ?>
                             <tr>
-                                <td><i class="fa fa-file-text-o cursor" data-toggle="modal" data-target="#modal-immobilisation-<?= $item->getId() ?>"></i></td>
+                                <td><i class="fa fa-file-text-o cursor" data-toggle="modal" data-target="#modal-immobilisation-<?= $item->id ?>"></i></td>
                                 <td><?= $item->name() ?></td>
                                 <td><?= money($item->montant) ?> <?= $params->devise ?></td>
                                 <td><?= money($reste) ?> <?= $params->devise ?></td>
-                                <td data-toggle="modal" data-target="#modal-capitaux" title="modifier" onclick="modification('capitaux', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                <td title="supprimer la zone de livraison" onclick="suppressionWithPassword('capitaux', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                <td data-toggle="modal" data-target="#modal-capitaux" title="modifier" onclick="modification('capitaux', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                <td title="supprimer la zone de livraison" onclick="suppressionWithPassword('capitaux', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                             </tr>
                         <?php } ?>
                         <tr>

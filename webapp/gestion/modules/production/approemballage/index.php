@@ -104,9 +104,9 @@
                             </td>
                             <td class="border-left">
                                 <?php if ($appro->etat_id == Home\ETAT::ENCOURS) { ?>
-                                    <button onclick="terminer(<?= $appro->getId() ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Valider</button>
+                                    <button onclick="terminer(<?= $appro->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Valider</button>
                                     <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                        <button onclick="annuler(<?= $appro->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                        <button onclick="annuler(<?= $appro->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                     <?php } ?>
                                 <?php } ?>
                             </td>

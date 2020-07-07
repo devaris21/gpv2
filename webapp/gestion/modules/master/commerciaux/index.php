@@ -83,7 +83,7 @@
                                 </td>
                                 <td><label class="label label-<?= $commercial->disponibilite->class ?>"><?= $commercial->disponibilite->name() ?></label></td>
                                 <td class="text-right">
-                                    <a href="<?= $this->url("gestion", "master", "commercial", $commercial->getId())  ?>" class="btn btn-white btn-xs"><i class="fa fa-eye"></i> Voir le compte</a>
+                                    <a href="<?= $this->url("gestion", "master", "commercial", $commercial->id)  ?>" class="btn btn-white btn-xs"><i class="fa fa-eye"></i> Voir le compte</a>
                                 </td>
                             </tr>
                         <?php } ?>

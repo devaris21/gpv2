@@ -2,8 +2,8 @@
 
 namespace Home;
 
-if ($this->getId() != null) {
-	$datas = PROSPECTION::findBy(["id ="=> $this->getId(), 'etat_id !='=>ETAT::ANNULEE]);
+if ($this->id != null) {
+	$datas = PROSPECTION::findBy(["id ="=> $this->id, 'etat_id !='=>ETAT::ANNULEE]);
 	if (count($datas) > 0) {
 		$livraison = $datas[0];
 		$livraison->actualise();

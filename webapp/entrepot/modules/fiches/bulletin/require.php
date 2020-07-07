@@ -2,8 +2,8 @@
 
 namespace Home;
 
-if ($this->getId() != null) {
-	$datas = PAYE::findBy(["id ="=> $this->getId()]);
+if ($this->id != null) {
+	$datas = PAYE::findBy(["id ="=> $this->id]);
 	if (count($datas) > 0) {
 		$paye = $datas[0];
 		$paye->actualise();

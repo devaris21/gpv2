@@ -69,7 +69,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php foreach (Home\PROSPECTION::effectuee($date, $boutique->getId()) as $key => $prospection) {
+                                                        <?php foreach (Home\PROSPECTION::effectuee($date, $boutique->id) as $key => $prospection) {
                                                             $prospection->actualise(); ?>
                                                             <tr>
                                                                 <td><?= $prospection->commercial->name()  ?></td>
@@ -79,7 +79,7 @@
                                                         <?php } ?>
                                                         <tr>
                                                             <td class="text-right" colspan="5">
-                                                                <h2><?= money(comptage(Home\VENTE::prospection($date, $date, $boutique->getId()), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
+                                                                <h2><?= money(comptage(Home\VENTE::prospection($date, $date, $boutique->id), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -114,7 +114,7 @@
                                                                 <td class="gras" style="color: <?= $produit->couleur ?>"><i class="fa fa-flask"></i> <?= $produit->name() ?></td>
                                                                 <?php $total =0; foreach ($datas as $key => $pdv) {
                                                                     $pdv->actualise();
-                                                                    $nb = $pdv->vendeDirecte($date, $date, $boutique->getId());
+                                                                    $nb = $pdv->vendeDirecte($date, $date, $boutique->id);
                                                                     $total += $nb * $pdv->prix->price;  ?>
                                                                     <td class="text-center"><?= $nb ?></td>
                                                                 <?php } ?>
@@ -123,7 +123,7 @@
                                                         <?php } ?>
                                                         <tr>
                                                             <td class="text-right" colspan="5">
-                                                                <h2><?= money(comptage(Home\VENTE::direct($date, $date, $boutique->getId()), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
+                                                                <h2><?= money(comptage(Home\VENTE::direct($date, $date, $boutique->id), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -144,7 +144,7 @@
                                                     <?php foreach ($commandes as $key => $commande) {
                                                         $commande->actualise(); ?>
                                                         <tr>
-                                                            <td><a href="<?= $this->url("boutique", "fiches", "boncommande", $commande->getId())  ?>"><i class="fa fa-2x fa-file-text-o"></i></a></td>
+                                                            <td><a href="<?= $this->url("boutique", "fiches", "boncommande", $commande->id)  ?>"><i class="fa fa-2x fa-file-text-o"></i></a></td>
                                                             <td>
                                                                 <span><?= $commande->groupecommande->client->name() ?></span>
                                                             </td>
@@ -170,7 +170,7 @@
                                                     <?php foreach ($livraisons as $key => $livraison) {
                                                         $livraison->actualise(); ?>
                                                         <tr>
-                                                            <td><a href="<?= $this->url("boutique", "fiches", "bonlivraison", $livraison->getId())  ?>"><i class="fa fa-2x text-warning fa-file-text-o"></i></a></td>
+                                                            <td><a href="<?= $this->url("boutique", "fiches", "bonlivraison", $livraison->id)  ?>"><i class="fa fa-2x text-warning fa-file-text-o"></i></a></td>
                                                             <td>
                                                                 <span><?= $livraison->groupelivraison->client->name() ?></span>
                                                             </td>
@@ -209,11 +209,11 @@
                                                         <td colspan="2">Repport du solde de la veille (<?= datecourt(dateAjoute(-1)) ?>) </td>
                                                         <td class="text-center">-</td>
                                                         <td class="text-center">-</td>
-                                                        <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute(-1), $boutique->getId())) ?> <?= $params->devise ?></td>
+                                                        <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute(-1), $boutique->id)) ?> <?= $params->devise ?></td>
                                                     </tr>
                                                     <?php foreach ($operations as $key => $operation) { ?>
                                                         <tr style="font-size: 11px;">
-                                                            <td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("boutique", "fiches", "boncaisse", $operation->getId())  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
+                                                            <td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("boutique", "fiches", "boncaisse", $operation->id)  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
                                                             <td>
                                                                 <h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>"><?= $operation->categorieoperation->name() ?> <span><?= ($operation->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <span class="pull-right"><i class="fa fa-clock-o"></i> <?= heurecourt($operation->created) ?></span></h6>
                                                                 <i style="font-size: 11px;"><?= $operation->comment ?></i>
@@ -266,10 +266,10 @@
                                 <h4 class="text-uppercase">Total des ventes</h4><br>   
 
                                 <h6>Total vente par production</h6>
-                                <h4 class="text-info"><?= money($p = comptage(Home\VENTE::prospection($date, $date, $boutique->getId()), "vendu", "somme")); ?> <?= $params->devise ?></h4>
+                                <h4 class="text-info"><?= money($p = comptage(Home\VENTE::prospection($date, $date, $boutique->id), "vendu", "somme")); ?> <?= $params->devise ?></h4>
 
                                 <h6>Total vente directe</h6>
-                                <h4 class="text-blue"><?= money($v = comptage(Home\VENTE::direct($date, $date, $boutique->getId()), "vendu", "somme")); ?> <?= $params->devise ?></h4>
+                                <h4 class="text-blue"><?= money($v = comptage(Home\VENTE::direct($date, $date, $boutique->id), "vendu", "somme")); ?> <?= $params->devise ?></h4>
 
                                 <h5 class="text-uppercase">Total des vente du jour</h5>
                                 <h3 class="text-blue"><?= money($p + $v); ?> <?= $params->devise ?></h3>

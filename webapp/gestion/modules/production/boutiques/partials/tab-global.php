@@ -13,10 +13,10 @@
 								Commandes en cours <span class="label label-success float-right"><?= start0(count($groupes__)); ?></span> 
 							</li>
 							<li class="list-group-item">
-								Livraisons en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "boutique_id ="=>$boutique->getId(), "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]))); ?></span> 
+								Livraisons en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "boutique_id ="=>$boutique->id, "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]))); ?></span> 
 							</li>
 							<li class="list-group-item">
-								Prospections en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "boutique_id ="=>$boutique->getId(), "typeprospection_id ="=>Home\TYPEPROSPECTION::PROSPECTION]))); ?></span> 
+								Prospections en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "boutique_id ="=>$boutique->id, "typeprospection_id ="=>Home\TYPEPROSPECTION::PROSPECTION]))); ?></span> 
 							</li>
 							<li class="list-group-item"></li>
 						</ul>
@@ -28,16 +28,16 @@
 						<div class="row text-center">
 							<div class="col">
 								<div class="">
-									<span class="h5 font-bold block"><?= money(comptage(Home\VENTE::todayDirect($boutique->getId()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+									<span class="h5 font-bold block"><?= money(comptage(Home\VENTE::todayDirect($boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
 									<small class="text-muted block">Ventes directes</small>
 								</div>
 							</div>
 							<div class="col border-right border-left">
-								<span class="h5 font-bold block"><?= money(comptage(Home\PROSPECTION::effectuee(dateAjoute(), $boutique->getId()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+								<span class="h5 font-bold block"><?= money(comptage(Home\PROSPECTION::effectuee(dateAjoute(), $boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
 								<small class="text-muted block">Ventes par prospection</small>
 							</div>
 							<div class="col text-danger">
-								<span class="h5 font-bold block"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1), $boutique->getId())) ?> <small><?= $params->devise ?></small></span>
+								<span class="h5 font-bold block"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1), $boutique->id)) ?> <small><?= $params->devise ?></small></span>
 								<small class="text-muted block">Dépense du jour</small>
 							</div>
 						</div>
@@ -83,7 +83,7 @@
 				<div class="col-md border-right">
 					<h6 class="text-uppercase text-center gras" style="color: <?= $produit->couleur; ?>">Stock de <?= $produit->name() ?></h6>
 					<ul class="list-group clear-list m-t">
-						<?php foreach ($tableaux[$produit->getId()] as $key => $pdv) { ?>
+						<?php foreach ($tableaux[$produit->id] as $key => $pdv) { ?>
 							<li class="list-group-item <?= ($pdv->rupture)?"rupture":""  ?>" >
 								<i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <small><?= $pdv->quantite ?></small>          
 								<span class="float-right">

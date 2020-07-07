@@ -174,7 +174,7 @@ class VENTE extends TABLE
 				$payement->hydrater($post);
 				if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 					$payement->categorieoperation_id = CATEGORIEOPERATION::PAYE_TRICYLE;
-					$payement->manoeuvre_id = $this->getId();
+					$payement->manoeuvre_id = $this->id;
 					$payement->comment = "Réglement de la paye de tricycle ".$this->chauffeur()." pour la commande N°".$this->reference;
 					$data = $payement->enregistre();
 					if ($data->status) {

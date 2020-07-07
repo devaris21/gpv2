@@ -35,7 +35,7 @@ class CONSOMMATIONJOUR extends TABLE
 				foreach (PRODUIT::getAll() as $key => $produit) {
 					$ligne = new LIGNEPRODUCTIONJOUR();
 					$ligne->productionjour_id = $data->lastid;
-					$ligne->produit_id = $produit->getId();
+					$ligne->produit_id = $produit->id;
 					$ligne->enregistre();
 				}
 			}

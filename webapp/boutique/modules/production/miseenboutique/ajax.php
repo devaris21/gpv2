@@ -16,8 +16,8 @@ if ($action === "miseenboutique") {
 
 	$datas = PRIXDEVENTE::getAll();
 	foreach (PRIXDEVENTE::getAll() as $key => $pdv) {
-		if (isset($_POST["mise-".$pdv->getId()]) && intval($_POST["mise-".$pdv->getId()]) > 0) {
-			if($pdv->enEntrepot(dateAjoute()) < intval($_POST["mise-".$pdv->getId()])){
+		if (isset($_POST["mise-".$pdv->id]) && intval($_POST["mise-".$pdv->id]) > 0) {
+			if($pdv->enEntrepot(dateAjoute()) < intval($_POST["mise-".$pdv->id])){
 				$test = false;
 				break;
 			}else{
@@ -32,10 +32,10 @@ if ($action === "miseenboutique") {
 		if ($data->status) {
 			foreach ($tableau as $key => $pdv) {
 				$ligne = new LIGNEMISEENBOUTIQUE();
-				$ligne->miseenboutique_id = $meb->getId();
-				$ligne->prixdevente_id = $pdv->getId();
-				$ligne->quantite = intval($_POST["mise-".$pdv->getId()]);
-				$ligne->restant = $pdv->enEntrepot(dateAjoute()) - intval($_POST["mise-".$pdv->getId()]);
+				$ligne->miseenboutique_id = $meb->id;
+				$ligne->prixdevente_id = $pdv->id;
+				$ligne->quantite = intval($_POST["mise-".$pdv->id]);
+				$ligne->restant = $pdv->enEntrepot(dateAjoute()) - intval($_POST["mise-".$pdv->id]);
 				$data = $ligne->enregistre();
 			}
 		}
@@ -95,7 +95,7 @@ if ($action == "validerMiseenboutique") {
 			$tests = $array;
 			foreach ($tests as $key => $value) {
 				foreach ($mise->lignemiseenboutiques as $cle => $lgn) {
-					if (($lgn->getId() == $key) && ($lgn->quantite_depart >= $value)) {
+					if (($lgn->id == $key) && ($lgn->quantite_depart >= $value)) {
 						unset($tests[$key]);
 					}
 				}
@@ -103,7 +103,7 @@ if ($action == "validerMiseenboutique") {
 			if (count($tests) == 0) {
 				foreach ($array as $key => $value) {
 					foreach ($mise->lignemiseenboutiques as $cle => $lgn) {
-						if ($lgn->getId() == $key) {
+						if ($lgn->id == $key) {
 							$lgn->quantite = $value;
 							$lgn->perte = $lgn->quantite_depart - $value;
 							$lgn->save();

@@ -203,10 +203,10 @@ public function save(){
         }
     }
 
-    if ($this->getId() != "") {
+    if ($this->id != "") {
         $data->mode ="update";
             //c'est une mise a jour (update)
-        $id = $this->getId();
+        $id = $this->id;
         $requette = "UPDATE $table SET $setter WHERE id=$id";
     }else{
         $data->mode ="insert";
@@ -239,11 +239,11 @@ public function save(){
         //recuperer le lastid
             $class = self::fullyClassName($table);
             $temp = $class::findLastId();
-            $id = $temp->getId();
+            $id = $temp->id;
             $data->lastid = $id;
             $this->setId($id);
         }else{
-            $data->lastid = $this->getId();
+            $data->lastid = $this->id;
         }
 
         if ($this::$tableName != self::fullyClassName("history") ) {
@@ -270,7 +270,7 @@ public function supprime(){
         //on verifie si on peut vraiment le supprimé
     if (intval($this->id) > 0 && $this->protected == 0) {
         $req = $bdd->prepare("UPDATE $table SET valide=0 WHERE id=?");
-        $req->execute([$this->getId()]);
+        $req->execute([$this->id]);
         $data->status = true;
         $data->message = "La suppression a été effectuée avec succès ! ";
             //L'historque
@@ -293,7 +293,7 @@ public function delete(){
         //on verifie si on peut vraiment le supprimé
     if (intval($this->id) > 0 && $this->protected == 0) {
         $req = $bdd->prepare("DELETE FROM $table WHERE id=?");
-        $req->execute([$this->getId()]);
+        $req->execute([$this->id]);
         $data->status = true;
         $data->message = "La suppression a été effectuée avec succès ! ";
             //L'historque
@@ -463,8 +463,8 @@ public function cloner($item){
 
 
 public function actualise(){
-    if (is_numeric($this->getId())) {
-        $datas = static::findBy(["id = "=> $this->getId()]);
+    if (is_numeric($this->id)) {
+        $datas = static::findBy(["id = "=> $this->id]);
         if (count($datas) > 0) {
             $temp = $datas[0];
             $objs = get_object_vars($temp);
@@ -501,7 +501,7 @@ public function fourni($nomTable, $params = [], Array $group =[], Array $order =
     $name = strtolower($nomTable)."s";
     $table .="_id";
     $class =  self::fullyClassName($nomTable);
-    $array = array_merge(["$table = "=> $this->getId()], $params);
+    $array = array_merge(["$table = "=> $this->id], $params);
     $datas = $class::findBy($array, $group, $order, $limit, $conn);
     $this->$name = $this->items = $datas;
     return $datas;
@@ -513,7 +513,7 @@ public function fourni__($nomTable){
     $this->actualise();
     $table .="_id";
     $class =  self::fullyClassName($nomTable);
-    $datas = $class::findBy(["$table != "=> $this->getId()]);
+    $datas = $class::findBy(["$table != "=> $this->id]);
     return $this->items = $datas;
 }
 }

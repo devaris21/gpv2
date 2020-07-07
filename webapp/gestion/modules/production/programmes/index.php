@@ -55,8 +55,8 @@
                           ?>
                           <div class="col-md-6 border-right border-bottom" style="margin-bottom: 2%;">
                             <h4><?= $livraison->groupecommande->client->name() ?> 
-                            || <small onclick="modifier(<?= $livraison->getId() ?>)" class=" cursor"><i class="fa fa-pencil"></i> Modifier</small> 
-                            <small onclick="deleteWithPassword('livraison', <?= $livraison->getId() ?>)" class="pull-right cursor"><i class="fa fa-close text-red fa-2x"></i></small>&nbsp;&nbsp;&nbsp;
+                            || <small onclick="modifier(<?= $livraison->id ?>)" class=" cursor"><i class="fa fa-pencil"></i> Modifier</small> 
+                            <small onclick="deleteWithPassword('livraison', <?= $livraison->id ?>)" class="pull-right cursor"><i class="fa fa-close text-red fa-2x"></i></small>&nbsp;&nbsp;&nbsp;
                           </h4>
                           <table class="table table-bordered">
                             <thead>
@@ -77,7 +77,7 @@
                             </tbody>
                           </table>
                           <?php if ($date == dateAjoute()) { ?>
-                           <button style="margin-top: -3%" onclick="validerProg(<?= $livraison->getId() ?>)" class="cursor simple_tag pull-right"><i class="fa fa-file-text-o"></i> Faire la livraison</button>
+                           <button style="margin-top: -3%" onclick="validerProg(<?= $livraison->id ?>)" class="cursor simple_tag pull-right"><i class="fa fa-file-text-o"></i> Faire la livraison</button>
                          <?php } ?>
                        </div>
                      <?php } ?>

@@ -60,7 +60,7 @@ class PRIXDEVENTE extends TABLE
 
 	public function production(string $date1 = "2020-06-01", string $date2, int $entrepot_id){
 		$requette = "SELECT SUM(production) as production  FROM productionjour, ligneproductionjour, prixdevente WHERE ligneproductionjour.prixdevente_id = prixdevente.id AND ligneproductionjour.productionjour_id = productionjour.id AND prixdevente.id = ? AND productionjour.etat_id != ? AND productionjour.entrepot_id = ? AND DATE(ligneproductionjour.created) >= ? AND DATE(ligneproductionjour.created) <= ? GROUP BY prixdevente.id";
-		$item = LIGNEPRODUCTIONJOUR::execute($requette, [$this->getId(), ETAT::ANNULEE, $entrepot_id, $date1, $date2]);
+		$item = LIGNEPRODUCTIONJOUR::execute($requette, [$this->id, ETAT::ANNULEE, $entrepot_id, $date1, $date2]);
 
 		if (count($item) < 1) {$item = [new LIGNEPRODUCTIONJOUR()]; }
 		return $item[0]->production;
@@ -68,14 +68,14 @@ class PRIXDEVENTE extends TABLE
 
 	public function totalSortieEntrepot(string $date1 = "2020-06-01", string $date2, int $entrepot_id){
 		$requette = "SELECT SUM(quantite) as quantite  FROM lignemiseenboutique, prixdevente, miseenboutique WHERE lignemiseenboutique.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND lignemiseenboutique.miseenboutique_id = miseenboutique.id AND miseenboutique.etat_id != ? AND miseenboutique.entrepot_id = ? AND DATE(lignemiseenboutique.created) >= ? AND DATE(lignemiseenboutique.created) <= ? GROUP BY prixdevente.id";
-		$item = LIGNEMISEENBOUTIQUE::execute($requette, [$this->getId(), ETAT::ANNULEE, $entrepot_id, $date1, $date2]);
+		$item = LIGNEMISEENBOUTIQUE::execute($requette, [$this->id, ETAT::ANNULEE, $entrepot_id, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEMISEENBOUTIQUE()]; }
 		return $item[0]->quantite;
 	}
 
 	public function perteEntrepot(string $date1 = "2020-06-01", string $date2, int $entrepot_id){
 		$requette = "SELECT SUM(perte) as perte  FROM ligneperteentrepot, prixdevente, perteentrepot WHERE ligneperteentrepot.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND ligneperteentrepot.perteentrepot_id = perteentrepot.id AND perteentrepot.etat_id != ? AND perteentrepot.entrepot_id = ? AND DATE(ligneperteentrepot.created) >= ? AND DATE(ligneperteentrepot.created) <= ? GROUP BY prixdevente.id";
-		$item = LIGNEPERTEENTREPOT::execute($requette, [$this->getId(), ETAT::ANNULEE, $entrepot_id, $date1, $date2]);
+		$item = LIGNEPERTEENTREPOT::execute($requette, [$this->id, ETAT::ANNULEE, $entrepot_id, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEPERTEENTREPOT()]; }
 		return $item[0]->perte;
 	}
@@ -91,7 +91,7 @@ class PRIXDEVENTE extends TABLE
 
 	public function totalMiseEnBoutique(string $date1 = "2020-06-01", string $date2, int $boutique_id){
 		$requette = "SELECT SUM(quantite) as quantite  FROM lignemiseenboutique, prixdevente, miseenboutique WHERE lignemiseenboutique.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND lignemiseenboutique.miseenboutique_id = miseenboutique.id AND miseenboutique.etat_id != ? AND miseenboutique.boutique_id = ? AND DATE(lignemiseenboutique.created) >= ? AND DATE(lignemiseenboutique.created) <= ? GROUP BY prixdevente.id";
-		$item = LIGNEMISEENBOUTIQUE::execute($requette, [$this->getId(), ETAT::ANNULEE, $boutique_id, $date1, $date2]);
+		$item = LIGNEMISEENBOUTIQUE::execute($requette, [$this->id, ETAT::ANNULEE, $boutique_id, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEMISEENBOUTIQUE()]; }
 		return $item[0]->quantite;
 	}
@@ -110,7 +110,7 @@ class PRIXDEVENTE extends TABLE
 
 	public function enProspection(string $date, int $boutique_id){
 		$requette = "SELECT SUM(quantite) as quantite  FROM ligneprospection, prixdevente, prospection WHERE ligneprospection.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.typeprospection_id = ? AND prospection.etat_id IN (?, ?) AND prospection.boutique_id = ? AND DATE(ligneprospection.created) <= ? GROUP BY prixdevente.id";
-		$item = LIGNEPROSPECTION::execute($requette, [$this->getId(), TYPEPROSPECTION::PROSPECTION, ETAT::ENCOURS, ETAT::PARTIEL, $boutique_id, $date]);
+		$item = LIGNEPROSPECTION::execute($requette, [$this->id, TYPEPROSPECTION::PROSPECTION, ETAT::ENCOURS, ETAT::PARTIEL, $boutique_id, $date]);
 		if (count($item) < 1) {$item = [new LIGNEPROSPECTION()]; }
 		return $item[0]->quantite;
 	}
@@ -119,7 +119,7 @@ class PRIXDEVENTE extends TABLE
 
 	public function livree(string $date1 = "2020-06-01", string $date2, int $boutique_id){
 		$requette = "SELECT SUM(quantite) as quantite  FROM ligneprospection, prixdevente, prospection WHERE ligneprospection.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.typeprospection_id = ? AND prospection.etat_id != ? AND prospection.boutique_id = ? AND DATE(ligneprospection.created) >= ? AND DATE(ligneprospection.created) <= ? GROUP BY prixdevente.id";
-		$item = LIGNEPROSPECTION::execute($requette, [$this->getId(), TYPEPROSPECTION::LIVRAISON, ETAT::ANNULEE, $boutique_id, $date1, $date2]);
+		$item = LIGNEPROSPECTION::execute($requette, [$this->id, TYPEPROSPECTION::LIVRAISON, ETAT::ANNULEE, $boutique_id, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEPROSPECTION()]; }
 		return $item[0]->quantite;
 	}
@@ -129,7 +129,7 @@ class PRIXDEVENTE extends TABLE
 	public function perteProspection(string $date1 = "2020-06-01", string $date2, int $boutique_id){
 		$total = 0;
 		$requette = "SELECT SUM(perte) as perte  FROM ligneprospection, prixdevente, prospection WHERE ligneprospection.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.boutique_id = ? AND prospection.etat_id != ? GROUP BY prixdevente.id";
-		$item = LIGNEPROSPECTION::execute($requette, [$this->getId(), $boutique_id, ETAT::ANNULEE]);
+		$item = LIGNEPROSPECTION::execute($requette, [$this->id, $boutique_id, ETAT::ANNULEE]);
 		if (count($item) < 1) {$item = [new LIGNEPROSPECTION()]; }
 		$total += $item[0]->perte;
 
@@ -140,7 +140,7 @@ class PRIXDEVENTE extends TABLE
 	public function vendu(string $date1 = "2020-06-01", string $date2, int $boutique_id){
 		$total = 0;
 		$requette = "SELECT SUM(quantite) as quantite  FROM lignedevente, prixdevente, vente WHERE lignedevente.prixdevente_id = prixdevente.id AND lignedevente.vente_id = vente.id AND prixdevente.id = ? AND vente.etat_id != ? AND vente.boutique_id =? AND DATE(lignedevente.created) >= ? AND DATE(lignedevente.created) <= ? GROUP BY prixdevente.id";
-		$item = LIGNEDEVENTE::execute($requette, [$this->getId(), ETAT::ANNULEE, $boutique_id, $date1, $date2]);
+		$item = LIGNEDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE, $boutique_id, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEDEVENTE()]; }
 		$total += $item[0]->quantite;
 
@@ -151,7 +151,7 @@ class PRIXDEVENTE extends TABLE
 	public function vendeDirecte(string $date1 = "2020-06-01", string $date2, int $boutique_id){
 		$total = 0;
 		$requette = "SELECT SUM(quantite) as quantite  FROM lignedevente, prixdevente, vente WHERE lignedevente.prixdevente_id = prixdevente.id AND lignedevente.vente_id = vente.id AND prixdevente.id = ? AND  vente.etat_id != ? AND vente.typevente_id = ? AND vente.boutique_id =? AND  DATE(lignedevente.created) >= ? AND DATE(lignedevente.created) <= ? GROUP BY prixdevente.id";
-		$item = LIGNEDEVENTE::execute($requette, [$this->getId(), ETAT::ANNULEE, TYPEVENTE::DIRECT, $boutique_id, $date1, $date2]);
+		$item = LIGNEDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE, TYPEVENTE::DIRECT, $boutique_id, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEDEVENTE()]; }
 		$total += $item[0]->quantite;
 
@@ -163,7 +163,7 @@ class PRIXDEVENTE extends TABLE
 		$total = 0;
 		$requette = "SELECT SUM(quantite) as quantite  FROM lignedevente, prixdevente, vente WHERE lignedevente.prixdevente_id = prixdevente.id AND lignedevente.vente_id = vente.id AND prixdevente.id = ? AND  vente.etat_id != ? AND vente.boutique_id =?  AND vente.typevente_id = ? AND DATE(lignedevente.created) >= ? AND DATE(lignedevente.created) <= ? GROUP BY prixdevente.id";
 
-		$item = LIGNEDEVENTE::execute($requette, [$this->getId(), ETAT::ANNULEE, $boutique_id, TYPEVENTE::PROSPECTION, $date1, $date2]);
+		$item = LIGNEDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE, $boutique_id, TYPEVENTE::PROSPECTION, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEDEVENTE()]; }
 		$total += $item[0]->quantite;
 
@@ -177,7 +177,7 @@ class PRIXDEVENTE extends TABLE
 		$datas = GROUPECOMMANDE::encours();
 		foreach ($datas as $key => $comm) {
 			if ($comm->boutique_id == $boutique_id) {
-				$total += $comm->reste($this->getId());
+				$total += $comm->reste($this->id);
 			}
 		}
 		return $total;
@@ -211,7 +211,7 @@ class PRIXDEVENTE extends TABLE
 
 
 	public function exigence(int $quantite, int $ressource_id){
-		$datas = EXIGENCEPRODUCTION::findBy(["produit_id ="=>$this->getId(), "ressource_id ="=>$ressource_id]);
+		$datas = EXIGENCEPRODUCTION::findBy(["produit_id ="=>$this->id, "ressource_id ="=>$ressource_id]);
 		if (count($datas) == 1) {
 			$item = $datas[0];
 			if ($item->quantite_produit == 0) {
@@ -226,9 +226,9 @@ class PRIXDEVENTE extends TABLE
 
 	public function coutProduction(String $type, int $quantite){
 		if(isJourFerie(dateAjoute())){
-			$datas = PAYEFERIE_PRODUIT::findBy(["produit_id ="=>$this->getId()]);
+			$datas = PAYEFERIE_PRODUIT::findBy(["produit_id ="=>$this->id]);
 		}else{
-			$datas = PAYE_PRODUIT::findBy(["produit_id ="=>$this->getId()]);
+			$datas = PAYE_PRODUIT::findBy(["produit_id ="=>$this->id]);
 		}
 		if (count($datas) > 0) {
 			$ppr = $datas[0];
@@ -262,11 +262,11 @@ class PRIXDEVENTE extends TABLE
 		}else{
 			$this->isActive = TABLE::OUI;
 			$pro = PRODUCTIONJOUR::today();
-			$datas = LIGNEPRODUCTIONJOUR::findBy(["productionjour_id ="=>$pro->getId(), "prixdevente_id ="=>$pdv->getId()]);
+			$datas = LIGNEPRODUCTIONJOUR::findBy(["productionjour_id ="=>$pro->id, "prixdevente_id ="=>$pdv->id]);
 			if (count($datas) == 0) {
 				$ligne = new LIGNEPRODUCTIONJOUR();
-				$ligne->productionjour_id = $pro->getId();
-				$ligne->prixdevente_id = $pdv->getId();
+				$ligne->productionjour_id = $pro->id;
+				$ligne->prixdevente_id = $pdv->id;
 				$ligne->enregistre();
 			}			
 		}

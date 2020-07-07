@@ -20,7 +20,7 @@ class PRIX extends TABLE
 				foreach (PRODUIT::getAll() as $key => $produit) {
 					$ligne = new PRIXDEVENTE();
 					$ligne->prix_id = $data->lastid;
-					$ligne->produit_id = $produit->getId();
+					$ligne->produit_id = $produit->id;
 					$ligne->enregistre();
 				}
 			}

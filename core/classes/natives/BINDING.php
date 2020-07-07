@@ -65,7 +65,7 @@ class BINDING
 					<option value="0"> -- Aucun --</option>
 				<?php }
 				foreach ($datas as $key => $item) { ?>
-					<option value="<?= $item->getId() ?>" <?= ($item->getId() == $element->$column)?"selected":"" ?>><?= $item->name() ?></option>
+					<option value="<?= $item->id ?>" <?= ($item->id == $element->$column)?"selected":"" ?>><?= $item->name() ?></option>
 				<?php } ?>
 			</select>
 
@@ -73,7 +73,7 @@ class BINDING
 			$class = TABLE::fullyClassName($object);
 			$datas = $class::getAll();
 			foreach ($datas as $key => $item) { ?>
-				<label class="cursor"><input type="<?= $type ?>" value="<?= $item->getId() ?>" <?= (is_array($element) && in_array($item->getId(), $element))?"checked=checked":""  ?> name="<?= ($name != "")?$name:$object."_id" ?>"> <?= $item->name ?></label> &nbsp;&nbsp;&nbsp;&nbsp;
+				<label class="cursor"><input type="<?= $type ?>" value="<?= $item->id ?>" <?= (is_array($element) && in_array($item->id, $element))?"checked=checked":""  ?> name="<?= ($name != "")?$name:$object."_id" ?>"> <?= $item->name ?></label> &nbsp;&nbsp;&nbsp;&nbsp;
 			<?php } 
 		}
 	}

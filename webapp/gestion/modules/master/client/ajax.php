@@ -36,7 +36,7 @@ if ($action == "newproduit") {
 						$pdv->actualise(); ?>
 						<td width="80" class="text-center">
 							<label><?= $pdv->quantite->name() ?></label>
-							<input type="text" data-pdv="<?= $pdv->getId() ?>" number class="form-control text-center gras" style="padding: 3px">
+							<input type="text" data-pdv="<?= $pdv->id ?>" number class="form-control text-center gras" style="padding: 3px">
 						</td>
 					<?php } } ?>				
 				</tr>
@@ -74,7 +74,7 @@ if ($action == "newproduit") {
 						$pdv->actualise(); ?>
 						<td width="80" class="text-center">
 							<label><?= $pdv->quantite->name() ?></label>
-							<input type="text" data-pdv="<?= $pdv->getId() ?>" number class="form-control text-center gras" style="padding: 3px">
+							<input type="text" data-pdv="<?= $pdv->id ?>" number class="form-control text-center gras" style="padding: 3px">
 						</td>
 					<?php } ?>				
 				</tr>
@@ -178,7 +178,7 @@ if ($action == "newproduit") {
 										$montant += $pdv->prix->price * intval($qte);
 
 										$lignedevente = new LIGNEDEVENTE;
-										$lignedevente->vente_id = $vente->getId();
+										$lignedevente->vente_id = $vente->id;
 										$lignedevente->prixdevente_id = $id;
 										$lignedevente->quantite = intval($qte);
 										$lignedevente->enregistre();	
@@ -251,7 +251,7 @@ if ($action == "newproduit") {
 										$montant += $pdv->prix->price * intval($qte);
 
 										$ligneprospection = new LIGNEPROSPECTION;
-										$ligneprospection->prospection_id = $prospection->getId();
+										$ligneprospection->prospection_id = $prospection->id;
 										$ligneprospection->prixdevente_id = $id;
 										$ligneprospection->quantite = intval($qte);
 								//$ligneprospection->price =  $pdv->prix->price * $qte;
@@ -321,7 +321,7 @@ if ($action == "newproduit") {
 
 							$commande = new COMMANDE();
 							$commande->hydrater($_POST);
-							$commande->groupecommande_id = $groupecommande->getId();
+							$commande->groupecommande_id = $groupecommande->id;
 							$data = $commande->enregistre();
 							if ($data->status) {
 								foreach ($prixdeventes as $key => $value) {
@@ -340,7 +340,7 @@ if ($action == "newproduit") {
 										$montant += $prix;
 
 										$lignecommande = new LIGNECOMMANDE;
-										$lignecommande->commande_id = $commande->getId();
+										$lignecommande->commande_id = $commande->id;
 										$lignecommande->prixdevente_id = $id;
 										$lignecommande->quantite = $qte;
 										$lignecommande->price =  $prix;
@@ -468,7 +468,7 @@ if ($action == "newproduit") {
 						$qte = end($lot);
 						$pdv = PRIXDEVENTE::findBy(["id ="=>$id])[0];
 						$pdv->actualise();
-						if ($qte > 0 && $groupecommande->reste($pdv->getId()) >= $qte && $qte <= $pdv->enBoutique(dateAjoute())) {
+						if ($qte > 0 && $groupecommande->reste($pdv->id) >= $qte && $qte <= $pdv->enBoutique(dateAjoute())) {
 							unset($tests[$key]);
 						}
 					}
@@ -478,7 +478,7 @@ if ($action == "newproduit") {
 						// 	$_POST["chauffeur_id"] = 0;
 						// }
 						$prospection->hydrater($_POST);
-						$prospection->groupecommande_id = $groupecommande->getId();
+						$prospection->groupecommande_id = $groupecommande->id;
 						$prospection->typeprospection_id = TYPEPROSPECTION::LIVRAISON;
 						$prospection->montant = getSession("total");
 						$data = $prospection->enregistre();
@@ -506,7 +506,7 @@ if ($action == "newproduit") {
 									// }
 
 									$ligneprospection = new LIGNEPROSPECTION;
-									$ligneprospection->prospection_id = $prospection->getId();
+									$ligneprospection->prospection_id = $prospection->id;
 									$ligneprospection->prixdevente_id = $id;
 									$ligneprospection->quantite = $qte;
 									$ligneprospection->enregistre();
@@ -600,7 +600,7 @@ if ($action == "newproduit") {
 						if (count($tests) == 0) {
 							$livraison = new VENTE();
 							$livraison->hydrater($_POST);
-							$livraison->groupecommande_id = $groupecommande->getId();
+							$livraison->groupecommande_id = $groupecommande->id;
 							$livraison->etat_id = ETAT::PARTIEL;
 							$data = $livraison->save();
 							if ($data->status) {
@@ -614,7 +614,7 @@ if ($action == "newproduit") {
 										$produit = $datas[0];
 
 										$lignecommande = new LIGNEDEVENTE;
-										$lignecommande->livraison_id = $livraison->getId();
+										$lignecommande->livraison_id = $livraison->id;
 										$lignecommande->produit_id = $id;
 										$lignecommande->quantite = $qte;
 										$lignecommande->enregistre();

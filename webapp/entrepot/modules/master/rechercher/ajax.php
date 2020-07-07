@@ -71,7 +71,7 @@ if ($action == "filtrer") {
 									<tr class="<?= ($commande->etat_id != ETAT::ENCOURS)?'fini':'' ?> border-bottom" style="border-bottom: 2px solid black">
 										<td class="project-status">
 											<span class="label label-<?= $commande->etat->class ?>"><?= $commande->etat->name ?></span><br><br>
-											<a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncommande", $commande->getId()) ?>">
+											<a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncommande", $commande->id) ?>">
 												<i class="d-block fa fa-file-text-o fa-3x"></i></a>
 											</td>
 											<td class="project-title border-right" style="width: 30%;">
@@ -120,9 +120,9 @@ if ($action == "filtrer") {
 											<td class="project-status">
 												<span class="label label-<?= $livraison->etat->class ?>"><?= $livraison->etat->name ?></span><br><br>
 												<?php if ($livraison->typeprospection_id == TYPEPROSPECTION::LIVRAISON) { ?>
-													<a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonlivraison", $livraison->getId()) ?>"><i class="d-block fa fa-file-text-o fa-3x"></i></a>
+													<a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonlivraison", $livraison->id) ?>"><i class="d-block fa fa-file-text-o fa-3x"></i></a>
 												<?php }else{ ?>
-													<a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonsortie", $livraison->getId()) ?>"><i class="d-block fa fa-file-text-o fa-3x"></i></a>
+													<a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonsortie", $livraison->id) ?>"><i class="d-block fa fa-file-text-o fa-3x"></i></a>
 												<?php } ?>
 											</td>
 											<td class="project-title border-right" style="width: 30%;">
@@ -188,7 +188,7 @@ if ($action == "filtrer") {
 										<tr class="<?= (date("Y-m-d", strtotime($vente->created)) != dateAjoute())?'fini':'' ?> border-bottom" style="border-bottom: 2px solid black">
 											<td class="project-status">
 												<span class="label label-<?= $vente->etat->class ?>"><?= $vente->etat->name ?></span><br><br>
-												<a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonvente", $vente->getId()) ?>">
+												<a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonvente", $vente->id) ?>">
 													<i class="d-block fa fa-file-text-o fa-3x"></i></a>
 												</td>
 												<td class="project-title border-right">
@@ -237,7 +237,7 @@ if ($action == "filtrer") {
 											<tr class=" <?= ($appro->etat_id != ETAT::ENCOURS)?'fini':'' ?> border-bottom">
 												<td class="project-status">
 													<span class="label label-<?= $appro->etat->class ?>"><?= $appro->etat->name ?></span><br><br>
-													<a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonapprovisionnament", $appro->getId()) ?>">
+													<a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonapprovisionnament", $appro->id) ?>">
 														<i class="d-block fa fa-file-text-o fa-3x"></i></a>
 													</td>
 													<td class=" border-right" style="width: 30%;">
@@ -283,7 +283,7 @@ if ($action == "filtrer") {
 											<?php foreach ($operations as $key => $operation) {
 												$operation->actualise(); ?>
 												<tr>
-													<td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncaisse", $operation->getId())  ?>"><i class="fa fa-file-text-o fa-3x"></i></a></td>
+													<td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncaisse", $operation->id)  ?>"><i class="fa fa-file-text-o fa-3x"></i></a></td>
 													<td>
 														<h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->categorieoperation->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>"><?= $operation->categorieoperation->name() ?> <span><?= ($operation->etat_id == ETAT::ENCOURS)?"*":"" ?></span> <span class="pull-right"><i class="fa fa-clock-o"></i> <?= datelong($operation->created) ?></span></h6>
 														<i><?= $operation->comment ?></i>

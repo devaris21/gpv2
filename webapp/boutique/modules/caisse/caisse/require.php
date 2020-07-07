@@ -1,8 +1,8 @@
 <?php 
 namespace Home;
 
-if ($this->getId() != "") {
-	$tab = explode("@", $this->getId());
+if ($this->id != "") {
+	$tab = explode("@", $this->id);
 	$date1 = $tab[0];
 	$date2 = $tab[1];
 }else{
@@ -45,7 +45,7 @@ usort($tableau, "comparerDateCreated");
 
 $entrees = $depenses = 0;
 foreach ($tableau as $key => $value) {
-	if ($value->mouvement->comptebanque_id == $comptecourant->getId()) {
+	if ($value->mouvement->comptebanque_id == $comptecourant->id) {
 		if ($value->mouvement->typemouvement_id == TYPEMOUVEMENT::DEPOT) {
 			$entrees += $value->mouvement->montant;
 		}else{
@@ -56,7 +56,7 @@ foreach ($tableau as $key => $value) {
 	}
 	
 }
-$statistiques = OPERATION::statistiques($boutique->getId());
+$statistiques = OPERATION::statistiques($boutique->id);
 
 $title = "GPV | Compte de la caisse courante";
 

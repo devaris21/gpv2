@@ -82,7 +82,7 @@
                                             <tr>
                                                 <th></th>
                                                 <?php foreach ($lots as $key => $value) { 
-                                                    if ($commande->reste($value->getId()) > 0) {
+                                                    if ($commande->reste($value->id) > 0) {
                                                     $value->actualise(); ?>
                                                         <th class="text-center">
                                                             <h5 class="mp0"><?= $value->produit->name() ?></h5>
@@ -96,7 +96,7 @@
                                             <tr>
                                                 <td><h4 class="mp0">Reste : </h4></td>
                                                 <?php foreach ($lots as $key => $value) {
-                                                    $reste = $commande->reste($value->getId());
+                                                    $reste = $commande->reste($value->id);
                                                     if ($reste > 0) { ?>
                                                      <td class="text-center"><?= start0($reste) ?></td>
                                                  <?php } 
@@ -107,7 +107,7 @@
                              </td>
                              <td>
                                 <br>
-                                <button onclick="fichecommande(<?= $commande->getId()  ?>)" class="btn btn-block btn-primary btn-sm dim"><i class="fa fa-plus"></i> de détails </button>
+                                <button onclick="fichecommande(<?= $commande->id  ?>)" class="btn btn-block btn-primary btn-sm dim"><i class="fa fa-plus"></i> de détails </button>
                             </td>
                         </tr>
                     <?php  } ?>

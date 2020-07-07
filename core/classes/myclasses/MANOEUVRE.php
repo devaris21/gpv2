@@ -80,7 +80,7 @@ class MANOEUVRE extends PERSONNE
 					$payement->hydrater($post);
 					$payement = new OPERATION();
 					$payement->categorieoperation_id = CATEGORIEOPERATION::PAYE;
-					$payement->manoeuvre_id = $this->getId();
+					$payement->manoeuvre_id = $this->id;
 					$payement->comment = "Réglement de la paye de ".$this->name();
 					$data = $payement->enregistre();
 				}else{

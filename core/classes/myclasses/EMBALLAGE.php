@@ -51,7 +51,7 @@ class EMBALLAGE extends TABLE
 
 	public function consommee(string $date1 = "2020-06-01", string $date2){
 		$requette = "SELECT SUM(production) as production  FROM productionjour, ligneproductionjour, prixdevente, quantite, emballage WHERE ligneproductionjour.prixdevente_id = prixdevente.id AND ligneproductionjour.productionjour_id = productionjour.id AND prixdevente.quantite_id = quantite.id AND emballage.quantite_id = quantite.id AND  emballage.id = ? AND productionjour.etat_id != ? AND DATE(ligneproductionjour.created) >= ? AND DATE(ligneproductionjour.created) <= ? GROUP BY emballage.id";
-		$item = LIGNEPRODUCTIONJOUR::execute($requette, [$this->getId(), ETAT::ANNULEE, $date1, $date2]);
+		$item = LIGNEPRODUCTIONJOUR::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEPRODUCTIONJOUR()]; }
 		return $item[0]->production;
 	}
@@ -60,7 +60,7 @@ class EMBALLAGE extends TABLE
 	public function achat(string $date1 = "2020-04-01", string $date2){
 		$total = 0;
 		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapproemballage, emballage, approemballage WHERE ligneapproemballage.emballage_id = emballage.id AND emballage.id = ? AND ligneapproemballage.approemballage_id = approemballage.id AND approemballage.etat_id = ? AND DATE(approemballage.created) >= ? AND DATE(approemballage.created) <= ? GROUP BY emballage.id";
-		$item = LIGNEAPPROEMBALLAGE::execute($requette, [$this->getId(), ETAT::VALIDEE, $date1, $date2]);
+		$item = LIGNEAPPROEMBALLAGE::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEAPPROEMBALLAGE()]; }
 		return $item[0]->quantite;
 	}
@@ -70,7 +70,7 @@ class EMBALLAGE extends TABLE
 	public function en_cours(){
 		$total = 0;
 		$requette = "SELECT SUM(quantite) as quantite  FROM ligneapproemballage, emballage, approemballage WHERE ligneapproemballage.emballage_id = emballage.id AND emballage.id = ? AND ligneapproemballage.approemballage_id = approemballage.id AND approemballage.etat_id = ? GROUP BY emballage.id";
-		$item = LIGNEAPPROEMBALLAGE::execute($requette, [$this->getId(), ETAT::ENCOURS]);
+		$item = LIGNEAPPROEMBALLAGE::execute($requette, [$this->id, ETAT::ENCOURS]);
 		if (count($item) < 1) {$item = [new LIGNEAPPROEMBALLAGE()]; }
 		return $item[0]->quantite;
 	}
@@ -78,7 +78,7 @@ class EMBALLAGE extends TABLE
 
 
 	public function exigence(int $quantite, int $produit_id){
-		$datas = EXIGENCEPRODUCTION::findBy(["emballage_id ="=>$this->getId(), "produit_id ="=>$produit_id]);
+		$datas = EXIGENCEPRODUCTION::findBy(["emballage_id ="=>$this->id, "produit_id ="=>$produit_id]);
 		if (count($datas) == 1) {
 			$item = $datas[0];
 			if ($item->quantite_emballage == 0) {
@@ -94,7 +94,7 @@ class EMBALLAGE extends TABLE
 	public function price(){
 		$total = 0;
 		$requette = "SELECT SUM(quantite_recu) as quantite, SUM(ligneapproemballage.price) as price FROM ligneapproemballage, emballage, approemballage WHERE ligneapproemballage.emballage_id = emballage.id AND emballage.id = ? AND ligneapproemballage.approemballage_id = approemballage.id AND approemballage.etat_id = ? GROUP BY emballage.id";
-		$item = LIGNEAPPROEMBALLAGE::execute($requette, [$this->getId(), ETAT::VALIDEE]);
+		$item = LIGNEAPPROEMBALLAGE::execute($requette, [$this->id, ETAT::VALIDEE]);
 		if (count($item) < 1) {$item = [new LIGNEAPPROEMBALLAGE()]; }
 		if ($item[0]->quantite > 0) {
 			$total += $item[0]->price / $item[0]->quantite;
@@ -120,9 +120,9 @@ class EMBALLAGE extends TABLE
 
 	public function coutProduction(String $type, int $quantite){
 		if(isJourFerie(dateAjoute())){
-			$datas = PAYEFERIE_PRODUIT::findBy(["produit_id ="=>$this->getId()]);
+			$datas = PAYEFERIE_PRODUIT::findBy(["produit_id ="=>$this->id]);
 		}else{
-			$datas = PAYE_PRODUIT::findBy(["produit_id ="=>$this->getId()]);
+			$datas = PAYE_PRODUIT::findBy(["produit_id ="=>$this->id]);
 		}
 		if (count($datas) > 0) {
 			$ppr = $datas[0];
@@ -156,11 +156,11 @@ class EMBALLAGE extends TABLE
 		}else{
 			$this->isActive = TABLE::OUI;
 			$pro = PRODUCTIONJOUR::today();
-			$datas = LIGNEPRODUCTIONJOUR::findBy(["productionjour_id ="=>$pro->getId(), "prixdevente_id ="=>$pdv->getId()]);
+			$datas = LIGNEPRODUCTIONJOUR::findBy(["productionjour_id ="=>$pro->id, "prixdevente_id ="=>$pdv->id]);
 			if (count($datas) == 0) {
 				$ligne = new LIGNEPRODUCTIONJOUR();
-				$ligne->productionjour_id = $pro->getId();
-				$ligne->prixdevente_id = $pdv->getId();
+				$ligne->productionjour_id = $pro->id;
+				$ligne->prixdevente_id = $pdv->id;
 				$ligne->enregistre();
 			}			
 		}

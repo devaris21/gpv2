@@ -39,8 +39,8 @@ class PRODUCTIONJOUR extends TABLE
 			if (count($pro->fourni("ligneproductionjour")) == 0) {
 				foreach (PRIXDEVENTE::getAll() as $key => $pdv) {
 					$ligne = new LIGNEPRODUCTIONJOUR();
-					$ligne->productionjour_id = $pro->getId();
-					$ligne->prixdevente_id = $pdv->getId();
+					$ligne->productionjour_id = $pro->id;
+					$ligne->prixdevente_id = $pdv->id;
 					$ligne->enregistre();
 				}
 			}
@@ -48,8 +48,8 @@ class PRODUCTIONJOUR extends TABLE
 			if (count($pro->fourni("ligneconsommationjour")) == 0) {
 				foreach (RESSOURCE::getAll() as $key => $ressource) {
 					$ligne = new LIGNECONSOMMATIONJOUR();
-					$ligne->productionjour_id = $pro->getId();
-					$ligne->ressource_id = $ressource->getId();
+					$ligne->productionjour_id = $pro->id;
+					$ligne->ressource_id = $ressource->id;
 					$ligne->enregistre();
 				}
 			}
@@ -58,8 +58,8 @@ class PRODUCTIONJOUR extends TABLE
 			if (count($pro->fourni("ligneetiquettejour")) == 0) {
 				foreach (ETIQUETTE::getAll() as $key => $ressource) {
 					$ligne = new LIGNEETIQUETTEJOUR();
-					$ligne->productionjour_id = $pro->getId();
-					$ligne->etiquette_id = $ressource->getId();
+					$ligne->productionjour_id = $pro->id;
+					$ligne->etiquette_id = $ressource->id;
 					$ligne->enregistre();
 				}
 			}
@@ -72,14 +72,14 @@ class PRODUCTIONJOUR extends TABLE
 				foreach (PRODUIT::getAll() as $key => $produit) {
 					$ligne = new LIGNEPRODUCTIONJOUR();
 					$ligne->productionjour_id = $data->lastid;
-					$ligne->produit_id = $produit->getId();
+					$ligne->produit_id = $produit->id;
 					$ligne->enregistre();
 				}
 
 				foreach (RESSOURCE::getAll() as $key => $ressource) {
 					$ligne = new LIGNECONSOMMATIONJOUR();
 					$ligne->productionjour_id = $data->lastid;
-					$ligne->ressource_id = $ressource->getId();
+					$ligne->ressource_id = $ressource->id;
 					$ligne->enregistre();
 				}
 				
@@ -87,7 +87,7 @@ class PRODUCTIONJOUR extends TABLE
 				foreach (ETIQUETTE::getAll() as $key => $ressource) {
 					$ligne = new LIGNEETIQUETTEJOUR();
 					$ligne->productionjour_id = $data->lastid;
-					$ligne->etiquette_id = $ressource->getId();
+					$ligne->etiquette_id = $ressource->id;
 					$ligne->enregistre();
 				}
 			}

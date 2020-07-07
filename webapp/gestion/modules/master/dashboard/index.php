@@ -93,7 +93,7 @@
                                 <div class="col-md border-right">
                                     <h6 class="text-uppercase text-center gras" style="color: <?= $produit->couleur; ?>">Stock de <?= $produit->name() ?></h6>
                                     <ul class="list-group clear-list m-t">
-                                        <?php foreach ($tableau[$produit->getId()] as $key => $pdv) { ?>
+                                        <?php foreach ($tableau[$produit->id] as $key => $pdv) { ?>
                                             <li class="list-group-item">
                                                 <i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <small><?= $pdv->quantite ?></small>          
                                                 <span class="float-right">
@@ -147,7 +147,7 @@
                                                     <td class="text-center"><span class="label label-<?= $prospection->etat->class ?>"><?= $prospection->etat->name ?></span> </td>
                                                     <td class="text-center">
                                                         <?php if ($prospection->etat_id == Home\ETAT::PARTIEL) { ?>
-                                                            <button onclick="validerProg(<?= $prospection->getId() ?>)" class="cursor simple_tag pull-right"><i class="fa fa-file-text-o"></i> Faire la prospection</button>
+                                                            <button onclick="validerProg(<?= $prospection->id ?>)" class="cursor simple_tag pull-right"><i class="fa fa-file-text-o"></i> Faire la prospection</button>
                                                         <?php } ?>
                                                     </td>
                                                 </tr>
@@ -230,7 +230,7 @@
     <script>
         $(document).ready(function() {
 
-            var id = "<?= $this->getId();  ?>";
+            var id = "<?= $this->id;  ?>";
             if (id == 1) {
                 setTimeout(function() {
                     toastr.options = {

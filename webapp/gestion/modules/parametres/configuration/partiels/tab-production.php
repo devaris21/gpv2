@@ -36,16 +36,16 @@
                                         <td>
                                             <div class="switch">
                                                 <div class="onoffswitch">
-                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("produit", <?= $item->getId() ?>)' class="onoffswitch-checkbox" id="example<?= $item->getId() ?>">
-                                                    <label class="onoffswitch-label" for="example<?= $item->getId() ?>">
+                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("produit", <?= $item->id ?>)' class="onoffswitch-checkbox" id="example<?= $item->id ?>">
+                                                    <label class="onoffswitch-label" for="example<?= $item->id ?>">
                                                         <span class="onoffswitch-inner"></span>
                                                         <span class="onoffswitch-switch"></span>
                                                     </label>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td data-toggle="modal" data-target="#modal-produit" title="modifier le produit" onclick="modification('produit', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                        <td data-toggle="tooltip" title="modifier le produit" onclick="suppressionWithPassword('produit', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                        <td data-toggle="modal" data-target="#modal-produit" title="modifier le produit" onclick="modification('produit', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                        <td data-toggle="tooltip" title="modifier le produit" onclick="suppressionWithPassword('produit', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -89,8 +89,8 @@
                                         <td><?= $item->unite; ?></td>
                                         <td><?= $item->abbr; ?></td>
                                         <td><?= $item->produit->name(); ?></td>
-                                        <td data-toggle="modal" data-target="#modal-ressource" title="modifier l'élément" onclick="modification('ressource', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                        <td title="supprimer la ressource" onclick="suppressionWithPassword('ressource', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                        <td data-toggle="modal" data-target="#modal-ressource" title="modifier l'élément" onclick="modification('ressource', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                        <td title="supprimer la ressource" onclick="suppressionWithPassword('ressource', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -128,16 +128,16 @@
                                         <td>
                                             <div class="switch">
                                                 <div class="onoffswitch">
-                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("quantite", <?= $item->getId() ?>)' class="onoffswitch-checkbox" id="qte<?= $item->getId() ?>">
-                                                    <label class="onoffswitch-label" for="qte<?= $item->getId() ?>">
+                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("quantite", <?= $item->id ?>)' class="onoffswitch-checkbox" id="qte<?= $item->id ?>">
+                                                    <label class="onoffswitch-label" for="qte<?= $item->id ?>">
                                                         <span class="onoffswitch-inner"></span>
                                                         <span class="onoffswitch-switch"></span>
                                                     </label>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td data-toggle="modal" data-target="#modal-quantite" title="modifier la quatité" onclick="modification('quantite', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                        <td title="supprimer la quantité" onclick="suppressionWithPassword('quantite', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                        <td data-toggle="modal" data-target="#modal-quantite" title="modifier la quatité" onclick="modification('quantite', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                        <td title="supprimer la quantité" onclick="suppressionWithPassword('quantite', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -175,16 +175,16 @@
                                         <td>
                                             <div class="switch">
                                                 <div class="onoffswitch">
-                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("prix", <?= $item->getId() ?>)' class="onoffswitch-checkbox" id="prix<?= $item->getId() ?>">
-                                                    <label class="onoffswitch-label" for="prix<?= $item->getId() ?>">
+                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("prix", <?= $item->id ?>)' class="onoffswitch-checkbox" id="prix<?= $item->id ?>">
+                                                    <label class="onoffswitch-label" for="prix<?= $item->id ?>">
                                                         <span class="onoffswitch-inner"></span>
                                                         <span class="onoffswitch-switch"></span>
                                                     </label>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td data-toggle="modal" data-target="#modal-prix" title="modifier la zone de livraison" onclick="modification('prix', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                        <td title="supprimer la zone de livraison" onclick="suppressionWithPassword('prix', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                        <td data-toggle="modal" data-target="#modal-prix" title="modifier la zone de livraison" onclick="modification('prix', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                        <td title="supprimer la zone de livraison" onclick="suppressionWithPassword('prix', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -217,8 +217,8 @@
                                 <?php $i =0; foreach (Home\ZONEDEVENTE::findBy([], [], ["name"=>"ASC"]) as $key => $item) { ?>
                                     <tr>
                                         <td class="gras"><?= $item->name(); ?></td>
-                                        <td data-toggle="modal" data-target="#modal-zonedevente" title="modifier la zone de livraison" onclick="modification('zonedevente', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                        <td title="supprimer la zone de livraison" onclick="suppressionWithPassword('zonedevente', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                        <td data-toggle="modal" data-target="#modal-zonedevente" title="modifier la zone de livraison" onclick="modification('zonedevente', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                        <td title="supprimer la zone de livraison" onclick="suppressionWithPassword('zonedevente', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>

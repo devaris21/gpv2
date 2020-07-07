@@ -52,7 +52,7 @@
                             <ul class="nav nav-tabs text-uppercase" role="tablist">
                                 <li ><a class="nav-link" data-toggle="tab" href="#pan-0"><i class="fa fa-flask" ></i> Global</a></li>
                                 <?php foreach ($produits as $key => $produit) { ?>
-                                    <li style=" border-bottom: 3px solid <?= $produit->couleur; ?>,"><a class="nav-link" data-toggle="tab" href="#pan-<?= $produit->getId() ?>"><i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <?= $produit->name() ?></a></li>
+                                    <li style=" border-bottom: 3px solid <?= $produit->couleur; ?>,"><a class="nav-link" data-toggle="tab" href="#pan-<?= $produit->id ?>"><i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <?= $produit->name() ?></a></li>
                                 <?php } ?>
                             </ul>
                             <div class="tab-content">
@@ -86,14 +86,14 @@
 
                                 <?php foreach ($produits as $key => $produit) {
                                     $total = 0; ?>
-                                    <div role="tabpanel" id="pan-<?= $produit->getId() ?>" class="tab-pane">
+                                    <div role="tabpanel" id="pan-<?= $produit->id ?>" class="tab-pane">
                                         <div class="panel-body"><br>
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <h3 class="text-uppercase">Stock de <?= $produit->name() ?></h3>
                                                     <ul class="list-group text-left clear-list m-t">
-                                                        <?php foreach ($tableau[$produit->getId()] as $key => $pdv) { 
-                                                            $total += $pdv->pdv->montantVendu($date1, $date2, $boutique->getId()); ?>
+                                                        <?php foreach ($tableau[$produit->id] as $key => $pdv) { 
+                                                            $total += $pdv->pdv->montantVendu($date1, $date2, $boutique->id); ?>
                                                             <li class="list-group-item">
                                                                 <i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i>&nbsp;&nbsp;&nbsp; <?= $pdv->name ?>                                        
                                                                 <span class="float-right">
@@ -131,7 +131,7 @@
                                                                     <th rowspan="2" class="border-none"></th>
                                                                     <?php 
                                                                     $lots = $produit->fourni("prixdevente", ["isActive ="=>Home\TABLE::OUI], [], ["quantite_id"=>"ASC"]) ;
-                                                                    foreach ($tableau[$produit->getId()] as $key => $pdv) { ?>
+                                                                    foreach ($tableau[$produit->id] as $key => $pdv) { ?>
                                                                         <th><small><?= $pdv->prix ?> <?= $params->devise ?></small></th>
                                                                     <?php } ?>
                                                                 </tr>
@@ -142,15 +142,15 @@
                                                                     $i++; ?>
                                                                     <tr>
                                                                         <td><?= datecourt($production->ladate)  ?></td>
-                                                                        <?php foreach ($tableau[$produit->getId()] as $key => $pdv) {
-                                                                            $pdv->tab[] = $pdv->pdv->montantVendu($production->ladate, $production->ladate, $boutique->getId());
+                                                                        <?php foreach ($tableau[$produit->id] as $key => $pdv) {
+                                                                            $pdv->tab[] = $pdv->pdv->montantVendu($production->ladate, $production->ladate, $boutique->id);
                                                                             ?>
                                                                             <td>
-                                                                                <h5 class="d-inline text-green"><?= start0($pdv->pdv->vendu($production->ladate, $production->ladate, $boutique->getId())); ?></h5> &nbsp;&nbsp;|&nbsp;&nbsp;
+                                                                                <h5 class="d-inline text-green"><?= start0($pdv->pdv->vendu($production->ladate, $production->ladate, $boutique->id)); ?></h5> &nbsp;&nbsp;|&nbsp;&nbsp;
 
-                                                                                <h5 class="d-inline text-success"><?= start0($pdv->pdv->livree($production->ladate, $production->ladate, $boutique->getId())) ?></h5> &nbsp;&nbsp;|&nbsp;&nbsp;
+                                                                                <h5 class="d-inline text-success"><?= start0($pdv->pdv->livree($production->ladate, $production->ladate, $boutique->id)) ?></h5> &nbsp;&nbsp;|&nbsp;&nbsp;
 
-                                                                                <h5 class="d-inline text-danger"><?= start0($pdv->pdv->perte($production->ladate, $production->ladate, $boutique->getId())); ?></h5>
+                                                                                <h5 class="d-inline text-danger"><?= start0($pdv->pdv->perte($production->ladate, $production->ladate, $boutique->id)); ?></h5>
                                                                             </td>
                                                                         <?php } ?>
                                                                     </tr>
@@ -158,8 +158,8 @@
                                                                 <tr style="height: 18px;"></tr>
                                                                 <tr>
                                                                     <td class="text-center"><h4 class="text-center gras text-uppercase mp0">Vente totale</h4></td>
-                                                                    <?php foreach ($tableau[$produit->getId()] as $key => $pdv) { ?>
-                                                                        <td><h3 class="text-green gras" ><?= money($pdv->pdv->montantVendu($date1, $date2, $boutique->getId())) ?> <?= $params->devise ?></h3></td>
+                                                                    <?php foreach ($tableau[$produit->id] as $key => $pdv) { ?>
+                                                                        <td><h3 class="text-green gras" ><?= money($pdv->pdv->montantVendu($date1, $date2, $boutique->id)) ?> <?= $params->devise ?></h3></td>
                                                                     <?php } ?>
                                                                 </tr>
                                                             </tbody>
@@ -168,7 +168,7 @@
                                                 </div>
 
                                                 <div class="col-md-2">
-                                                    <?php foreach ($tableau[$produit->getId()] as $key => $pdv) { ?>
+                                                    <?php foreach ($tableau[$produit->id] as $key => $pdv) { ?>
                                                         <div class="ibox">
                                                             <div class="ibox-content">
                                                                 <h5>Courbe des ventes de <?= $pdv->pdv->quantite->name() ?></h5>
@@ -182,7 +182,7 @@
                                         </div>
                                     </div>
                                     <?php 
-                                    $tabvendu[$produit->getId()] = $total;
+                                    $tabvendu[$produit->id] = $total;
                                 } ?>
 
                             </div>
@@ -214,7 +214,7 @@
     $(document).ready(function() {
 
         <?php foreach ($produits as $key => $produit) { 
-            foreach ($tableau[$produit->getId()] as $key => $pdv) { ?>
+            foreach ($tableau[$produit->id] as $key => $pdv) { ?>
                 var sparklineCharts = function(){
                     $("#sparkline-<?= $pdv->id ?>").sparkline([<?php foreach ($pdv->tab as $i){ echo $i.", "; } ?>], {
                         type: 'line',
@@ -250,7 +250,7 @@
         labels: [<?php foreach ($produits as $key => $prod) { echo "'".$prod->name()."', "; } ?>],
         datasets: [{
             label: 'Parfum le plus vendu',
-            data: [<?php foreach ($produits as $key => $prod) { echo "'".$tabvendu[$prod->getId()]."', "; } ?>],
+            data: [<?php foreach ($produits as $key => $prod) { echo "'".$tabvendu[$prod->id]."', "; } ?>],
             backgroundColor: [<?php foreach ($produits as $key => $prod) { echo "'".$prod->couleur."', "; } ?>],
         }]
     },
@@ -278,7 +278,7 @@
         labels: [<?php foreach (Home\QUANTITE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $prod) { echo "'".$prod->name()."', "; } ?>],
         datasets: [{
             label: 'Emballage le plus vendu',
-            data: [<?php foreach (Home\QUANTITE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $prod) { echo "'".$prod->vendu($date1, $date2, $boutique->getId())."', "; } ?>],
+            data: [<?php foreach (Home\QUANTITE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $prod) { echo "'".$prod->vendu($date1, $date2, $boutique->id)."', "; } ?>],
             backgroundColor: [<?php foreach (Home\QUANTITE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $prod) { echo "'".$faker->hexColor()."', "; } ?>],
         }]
     },

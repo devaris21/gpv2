@@ -92,7 +92,7 @@ class PRESTATAIRE extends AUTH
 
 	public function se_connecter(){
 		$connexion = new CONNEXION;
-		$connexion->prestataire_id = $this->getId();
+		$connexion->prestataire_id = $this->id;
 		$connexion->connexion_prestataire();
 	}
 
@@ -100,13 +100,13 @@ class PRESTATAIRE extends AUTH
 
 	public function se_deconnecter(){
 		$connexion = new CONNEXION;
-		$connexion->prestataire_id = $this->getId();
+		$connexion->prestataire_id = $this->id;
 		$connexion->deconnexion_prestataire();
 	}
 
 
 	public function last_connexion(){
-		$datas = CONNEXION::findBy(["prestataire_id = "=> $this->getId()], [], ["id"=>"DESC"], 1);
+		$datas = CONNEXION::findBy(["prestataire_id = "=> $this->id], [], ["id"=>"DESC"], 1);
 		if (count($datas) == 1) {
 			$connexion = $datas[0];
 			if ($connexion->date_deconnexion == null) {
@@ -121,15 +121,15 @@ class PRESTATAIRE extends AUTH
 
 
 	public function produits(){
-		return PRODUIT::findBy(["prestataire_id !="=> $this->getId(), "typeproduit_id ="=>1]);
+		return PRODUIT::findBy(["prestataire_id !="=> $this->id, "typeproduit_id ="=>1]);
 	}
 
 	public function services(){
-		return PRODUIT::findBy(["prestataire_id !="=> $this->getId(), "typeproduit_id ="=>2]);
+		return PRODUIT::findBy(["prestataire_id !="=> $this->id, "typeproduit_id ="=>2]);
 	}
 
 	public function vehicules(){
-		return PRODUIT::findBy(["prestataire_id !="=> $this->getId(), "typeproduit_id ="=>3]);
+		return PRODUIT::findBy(["prestataire_id !="=> $this->id, "typeproduit_id ="=>3]);
 	}
 
 

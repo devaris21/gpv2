@@ -27,7 +27,7 @@ public static $tableName = __CLASS__;
 		extract($element::tableName());
 		$story = new HISTORY;
 		$story->record = $table;
-		$story->recordId = $element->getId();
+		$story->recordId = $element->id;
 		$story->typeSave = $type_save;
 		$story->sentense =  $element->sentense;
 

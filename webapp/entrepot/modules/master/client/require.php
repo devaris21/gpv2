@@ -6,8 +6,8 @@ GROUPECOMMANDE::etat();
 unset_session("produits");
 unset_session("commande-encours");
 
-if ($this->getId() != null) {
-	$datas = CLIENT::findBy(["id ="=> $this->getId()]);
+if ($this->id != null) {
+	$datas = CLIENT::findBy(["id ="=> $this->id]);
 	if (count($datas) > 0) {
 		$client = $datas[0];
 		$client->actualise();
@@ -38,7 +38,7 @@ if ($this->getId() != null) {
 
 		$title = "GPV | ".$client->name();
 
-		session("client_id", $client->getId());
+		session("client_id", $client->id);
 		
 	}else{
 		header("Location: ../master/clients");

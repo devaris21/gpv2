@@ -14,10 +14,10 @@ if ($action == "connexion") {
 		$user = $data->element;
 		if (!$data->new) {
 			$user->se_connecter();
-			session("employe_connecte_id", $user->getId());
+			session("employe_connecte_id", $user->id);
 			$data->setUrl("boutique", "master", "dashboard", "1");
 		}else{
-			session("temp_employe_id", $user->getId());	
+			session("temp_employe_id", $user->id);	
 		}
 	}		
 	echo json_encode($data);
@@ -38,7 +38,7 @@ if ($action == "newUser") {
 				$data = $element->save();
 				if ($data->status) {
 					$element->se_connecter();
-					session("employe_connecte_id", $element->getId());
+					session("employe_connecte_id", $element->id);
 					$data->setUrl("boutique", "master", "dashboard");
 				}
 			}else{

@@ -3,8 +3,8 @@ namespace Home;
 
 unset_session("ressources");
 
-if ($this->getId() != null) {
-	$datas = FOURNISSEUR::findBy(["id ="=> $this->getId()]);
+if ($this->id != null) {
+	$datas = FOURNISSEUR::findBy(["id ="=> $this->id]);
 	if (count($datas) > 0) {
 		$fournisseur = $datas[0];
 		$fournisseur->actualise();
@@ -20,7 +20,7 @@ if ($this->getId() != null) {
 
 		$title = "GPV | ".$fournisseur->name();
 
-		session("fournisseur_id", $fournisseur->getId());
+		session("fournisseur_id", $fournisseur->id);
 		
 	}else{
 		header("Location: ../master/fournisseurs");

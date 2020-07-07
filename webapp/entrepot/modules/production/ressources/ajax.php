@@ -80,7 +80,7 @@ if ($action == "enregistrerApprovisionnement") {
 						$ressource = $datas[0];
 
 						$ligne = new LIGNEAPPROVISIONNEMENT;
-						$ligne->approvisionnement_id = $approvisionnement->getId();
+						$ligne->approvisionnement_id = $approvisionnement->id;
 						$ligne->ressource_id = $id;
 						$ligne->quantite = $qte;
 						$ligne->save();	

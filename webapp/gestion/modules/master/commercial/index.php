@@ -126,11 +126,11 @@
                                                             <td class="gras text-green"><?= money($prospection->vendu) ?> <?= $params->devise ?></td>
                                                             <td style="width: 12%">
                                                                 <div class="btn-group">
-                                                                    <a href="<?= $this->url("gestion", "fiches", "bonsortie", $prospection->getId()) ?>" target="_blank" class="btn btn-xs btn-white cursor"><i class="fa fa-file-text text-blue"></i></a>
-                                                                    <button type="button" onclick="terminer(<?= $prospection->getId() ?>)" class="btn btn-xs btn-white cursor"><i class="fa fa-check"></i></button>
+                                                                    <a href="<?= $this->url("gestion", "fiches", "bonsortie", $prospection->id) ?>" target="_blank" class="btn btn-xs btn-white cursor"><i class="fa fa-file-text text-blue"></i></a>
+                                                                    <button type="button" onclick="terminer(<?= $prospection->id ?>)" class="btn btn-xs btn-white cursor"><i class="fa fa-check"></i></button>
 
                                                                     <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                                                        <button type="button" onclick="annulerProspection(<?= $prospection->getId() ?>)" class="btn btn-xs btn-white cursor"><i class="fa fa-close text-red"></i></button>
+                                                                        <button type="button" onclick="annulerProspection(<?= $prospection->id ?>)" class="btn btn-xs btn-white cursor"><i class="fa fa-close text-red"></i></button>
                                                                     <?php } ?>
                                                                 </div>
                                                             </td>
@@ -207,7 +207,7 @@
                                                     <span class="pull-right text-right">
                                                         <span class="gras" style="font-size: 16px"><?= money($transaction->mouvement->montant) ?> <?= $params->devise ?></span><br>
                                                         <small>Par <?= $transaction->modepayement->name() ?></small><br>
-                                                        <a href="<?= $this->url("gestion", "fiches", "bulletin", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Voir bulletin</a>
+                                                        <a href="<?= $this->url("gestion", "fiches", "bulletin", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Voir bulletin</a>
                                                     </span>
                                                 </p>
                                                 <p class="m-b-xs"><?= $transaction->comment ?> </p>
@@ -233,7 +233,7 @@
                     <h2><?= $commercial->name() ?> 
 
                     <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                        <i onclick="modification('commercial', <?= $commercial->getId() ?>)" data-toggle="modal" data-target="#modal-commercial" class="pull-right fa fa-pencil cursor"></i>
+                        <i onclick="modification('commercial', <?= $commercial->id ?>)" data-toggle="modal" data-target="#modal-commercial" class="pull-right fa fa-pencil cursor"></i>
                     <?php } ?>
                 </h2>
                 <address>
@@ -244,7 +244,7 @@
                 <div class="m-b-lg">
                     <span>Salaire mensuel fixe si objectif atteint</span><br>
                     <h2 class="font-bold d-inline"><?= money($commercial->salaire) ?> <?= $params->devise  ?></h2> 
-                    <i onclick="modification('commercial', <?= $commercial->getId() ?>)" data-toggle="modal" data-target="#modal-salaire" class="fa fa-pencil fa-2x pull-right cursor"></i>
+                    <i onclick="modification('commercial', <?= $commercial->id ?>)" data-toggle="modal" data-target="#modal-salaire" class="fa fa-pencil fa-2x pull-right cursor"></i>
                     <br><br>
 
                     <span>Objectif journalier</span><br>

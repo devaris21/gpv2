@@ -116,12 +116,12 @@
                                     </table>
                                 </td>
                                 <td>
-                                    <a href="<?= $this->url("gestion", "fiches", "bonsortie", $prospection->getId()) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Bon de sortie</a><br>
+                                    <a href="<?= $this->url("gestion", "fiches", "bonsortie", $prospection->id) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Bon de sortie</a><br>
                                     <?php if ($prospection->etat_id == Home\ETAT::ENCOURS) { ?>
-                                        <button onclick="terminer(<?= $prospection->getId() ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
+                                        <button onclick="terminer(<?= $prospection->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
                                     <?php } ?>
                                     <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                        <button onclick="annulerProspection(<?= $prospection->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                        <button onclick="annulerProspection(<?= $prospection->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                     <?php } ?>
                                 </td>
                             </tr>

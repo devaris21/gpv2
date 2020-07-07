@@ -59,7 +59,7 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins text-green"><?= money($comptecourant->depots($date1 , $date2)) ?></h1>
-                            <div class="stat-percent font-bold text-green"><?= money(Home\REGLEMENTCLIENT::total($date1 , $date2, $boutique->getId())) ?></div>
+                            <div class="stat-percent font-bold text-green"><?= money(Home\REGLEMENTCLIENT::total($date1 , $date2, $boutique->id)) ?></div>
                             <small>Reglements de clients</small>
                         </div>
                     </div>
@@ -108,7 +108,7 @@
                                     </div><br>
 
                                     <div class="cursor" data-toggle="modal" data-target="#modal-attente">
-                                        <h3 class="no-margins text-blue"><?= money(comptage(Home\OPERATION::enAttente($boutique->getId()), "montant", "somme")) ?> <?= $params->devise ?> *</h3>
+                                        <h3 class="no-margins text-blue"><?= money(comptage(Home\OPERATION::enAttente($boutique->id), "montant", "somme")) ?> <?= $params->devise ?> *</h3>
                                         <small>Versement en attente</small>
                                     </div>
                                 </div>
@@ -215,15 +215,15 @@
                                         </tr>
                                         <?php foreach ($tableau as $key => $operation) {  ?>
                                             <tr>
-                                                <td class="text-center" style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("gestion", $operation->fiche, "boncaisse", $operation->getId())  ?>"><i class="fa fa-file-text-o fa-2x"></i></a> 
+                                                <td class="text-center" style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("gestion", $operation->fiche, "boncaisse", $operation->id)  ?>"><i class="fa fa-file-text-o fa-2x"></i></a> 
                                                 </td>
                                                 <td>
                                                     <h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->mouvement->typemouvement_id == Home\TYPEMOUVEMENT::DEPOT)?"text-green":"text-red" ?>"><?= $operation->type ?>  
 
                                                     <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
                                                         |
-                                                        &nbsp;&nbsp;<i onclick="modifierOperation(<?= $operation->getId() ?>)" class="cursor fa fa-pencil text-dark"></i> 
-                                                        &nbsp;&nbsp;<i class="cursor fa fa-close text-red" onclick="suppressionWithPassword('operation', <?= $operation->getId() ?>)"></i>
+                                                        &nbsp;&nbsp;<i onclick="modifierOperation(<?= $operation->id ?>)" class="cursor fa fa-pencil text-dark"></i> 
+                                                        &nbsp;&nbsp;<i class="cursor fa fa-close text-red" onclick="suppressionWithPassword('operation', <?= $operation->id ?>)"></i>
                                                     <?php } ?>
 
                                                     <span class="pull-right"><i class="fa fa-clock-o"></i> <?= datelong($operation->created) ?></span>
@@ -232,7 +232,7 @@
                                             </td>
                                            <!--  <td width="110" class="text-center" style="padding: 0; border-right: 2px dashed grey">
                                              <?php if ($operation->etat_id == Home\ETAT::ENCOURS) { ?>
-                                                 <button style="padding: 2px 6px;" onclick="valider(<?= $operation->getId() ?>)" class="cursor simple_tag"><i class="fa fa-file-text-o"></i> Valider</button><span style="display: none">en attente</span>
+                                                 <button style="padding: 2px 6px;" onclick="valider(<?= $operation->id ?>)" class="cursor simple_tag"><i class="fa fa-file-text-o"></i> Valider</button><span style="display: none">en attente</span>
                                              <?php } ?>
                                              <br><small style="display: inline-block; font-style: 8px; line-height: 12px;"><?= $operation->structure ?> - <?= $operation->numero ?></small>
                                          </td> -->
@@ -299,10 +299,10 @@
            <div class="modal-body">
             <table class="table table-bordered table-hover table-operation">
                 <tbody class="tableau-attente">
-                    <?php foreach (Home\OPERATION::enAttente($boutique->getId()) as $key => $operation) {
+                    <?php foreach (Home\OPERATION::enAttente($boutique->id) as $key => $operation) {
                         $operation->actualise(); ?>
                         <tr>
-                            <td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("boutique", "fiches", "boncaisse", $operation->getId())  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
+                            <td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("boutique", "fiches", "boncaisse", $operation->id)  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
                             <td>
                                 <h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>"><?= $operation->categorieoperation->name() ?> <span><?= ($operation->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <span class="pull-right"><i class="fa fa-clock-o"></i> <?= datelong($operation->created) ?></span></h6>
                                 <i><?= $operation->comment ?></i>
@@ -315,7 +315,7 @@
                                 <small><?= $operation->numero ?></small>
                             </td>
                             <td class="text-center">
-                                <button onclick="valider(<?= $operation->getId() ?>)" class="cursor simple_tag"><i class="fa fa-file-text-o"></i> Valider</button><span style="display: none">en attente</span>
+                                <button onclick="valider(<?= $operation->id ?>)" class="cursor simple_tag"><i class="fa fa-file-text-o"></i> Valider</button><span style="display: none">en attente</span>
                             </td>
                         </tr>
                     <?php } ?>

@@ -29,7 +29,7 @@ foreach (PRODUIT::getAll() as $key => $produit) {
 		}	
 		$tab[] = $data;
 	}
-	$tableau[$produit->getId()] = $tab;
+	$tableau[$produit->id] = $tab;
 }
 
 for ($i=0; $i < 30; $i++) { 

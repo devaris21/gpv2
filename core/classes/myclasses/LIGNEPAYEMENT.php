@@ -43,7 +43,7 @@ class LIGNEPAYEMENT extends TABLE
 					$mouvement->comment = "Paye du commercial ".$commercial->name;
 					$data = $mouvement->enregistre();
 					if ($data->status) {
-						$this->mouvement_id = $mouvement->getId();
+						$this->mouvement_id = $mouvement->id;
 						$data = $this->save();
 					}
 				}else{

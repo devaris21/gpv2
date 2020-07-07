@@ -34,8 +34,8 @@
                                     <td><div class="border" style="width: 20px; height: 20px; background-color: <?= $item->color ?>"></div></td>
                                     <td class="gras"><?= $item->name(); ?></td>
                                     <td class="gras text-<?= ($item->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"green":"red"  ?>"><?= $item->typeoperationcaisse->name(); ?></td>
-                                    <td data-toggle="modal" data-target="#modal-categorieoperation" title="modifier la categorie" onclick="modification('categorieoperation', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                    <td title="supprimer la categorie" onclick="suppressionWithPassword('categorieoperation', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                    <td data-toggle="modal" data-target="#modal-categorieoperation" title="modifier la categorie" onclick="modification('categorieoperation', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                    <td title="supprimer la categorie" onclick="suppressionWithPassword('categorieoperation', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -89,7 +89,7 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <br>
-                                                    <input type="hidden" name="id" value="<?= $params->getId() ?>">
+                                                    <input type="hidden" name="id" value="<?= $params->id ?>">
                                                     <button class="btn btn-primary dim "><i class="fa fa-check"></i> Mettre à jour</button>
                                                 </div>
                                             </div>

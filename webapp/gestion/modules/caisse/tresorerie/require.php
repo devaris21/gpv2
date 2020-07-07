@@ -2,8 +2,8 @@
 namespace Home;
 
 
-if ($this->getId() != null) {
-	$datas = EXERCICECOMPTABLE::findBy(["id ="=> $this->getId()]);
+if ($this->id != null) {
+	$datas = EXERCICECOMPTABLE::findBy(["id ="=> $this->id]);
 	if (count($datas) > 0) {
 		$exercice = $datas[0];
 		$exercice->actualise();

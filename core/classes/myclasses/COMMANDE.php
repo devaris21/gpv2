@@ -68,7 +68,7 @@ class COMMANDE extends TABLE
 			$test = true;
 			foreach ($datas as $key => $ligne) {
 				$ligne->actualise();
-				if ($ligne->quantite > $this->groupecommande->reste($ligne->produit->getId())) {
+				if ($ligne->quantite > $this->groupecommande->reste($ligne->produit->id)) {
 					$test = false;
 					break;
 				}

@@ -14,7 +14,7 @@ if ($action == "locked") {
 		if (count($datas) == 1) {
 			$user = $datas[0];
 			if ($user->checkPassword($password)) {
-				session("employe_connecte_id", $user->getId());
+				session("employe_connecte_id", $user->id);
 				$data->status = true;
 				session("last_access", time());
 				unset_session("page_session");

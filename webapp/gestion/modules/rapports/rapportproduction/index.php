@@ -52,7 +52,7 @@
                           <ul class="nav nav-tabs text-uppercase" role="tablist">
                             <li ><a class="nav-link" data-toggle="tab" href="#pan-0"><i class="fa fa-flask" ></i> Global</a></li>
                             <?php foreach ($produits as $key => $produit) { ?>
-                                <li style=" border-bottom: 3px solid <?= $produit->couleur; ?>,"><a class="nav-link" data-toggle="tab" href="#pan-<?= $produit->getId() ?>"><i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <?= $produit->name() ?></a></li>
+                                <li style=" border-bottom: 3px solid <?= $produit->couleur; ?>,"><a class="nav-link" data-toggle="tab" href="#pan-<?= $produit->id ?>"><i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <?= $produit->name() ?></a></li>
                             <?php } ?>
                         </ul>
 
@@ -87,13 +87,13 @@
 
                             <?php foreach ($produits as $key => $produit) {
                                 $qtetotale = $total = 0; ?>
-                                <div role="tabpanel" id="pan-<?= $produit->getId() ?>" class="tab-pane">
+                                <div role="tabpanel" id="pan-<?= $produit->id ?>" class="tab-pane">
                                     <div class="panel-body"><br>
                                         <div class="row">
                                             <div class="col-md-4 text-left">
                                                 <h3 class="text-uppercase">Stock de <?= $produit->name() ?></h3>
                                                 <ul class="list-group text-left clear-list m-t">
-                                                    <?php foreach ($tableau[$produit->getId()] as $key => $pdv) { 
+                                                    <?php foreach ($tableau[$produit->id] as $key => $pdv) { 
                                                         $qtetotale += $produit->quantiteProduite($date1, $date2);
                                                         $total += $pdv->pdv->stock($date2) * $pdv->pdv->prix->price ; ?>
                                                         <li class="list-group-item">
@@ -120,7 +120,7 @@
 
                                                     <div class="ibox-content">
                                                         <h5>Comparaison du stock / commande / prix</h5>
-                                                        <div id="ct-chart-<?= $produit->getId() ?>" style="height: 150px; width:100%"></div>
+                                                        <div id="ct-chart-<?= $produit->id ?>" style="height: 150px; width:100%"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -159,7 +159,7 @@
                                                                     $production->fourni("ligneproductionjour");
                                                                     foreach ($lots as $key => $pdv) {
                                                                         foreach ($production->ligneproductionjours as $key => $ligne) {
-                                                                            if ($pdv->getId() == $ligne->prixdevente_id) { 
+                                                                            if ($pdv->id == $ligne->prixdevente_id) { 
                                                                                 ?>
                                                                                 <td>
                                                                                     <h4 class="d-inline text-success gras"><?= start0($ligne->production) ?></h4>&nbsp;&nbsp;=>&nbsp;&nbsp;
@@ -199,7 +199,7 @@
                                     </div>
                                 </div>
                                 <?php 
-                                $tabproduit[$produit->getId()] = $qtetotale;
+                                $tabproduit[$produit->id] = $qtetotale;
                             } ?>
 
                         </div>
@@ -228,12 +228,12 @@
 <script type="text/javascript">
     $(function(){
         <?php foreach ($produits as $key => $produit) { ?>
-         new Chartist.Bar('#ct-chart-<?= $produit->getId() ?>', {
-            labels: [<?php foreach ($tableau[$produit->getId()] as $key => $data){ ?>"<?= $data->prix ?>", " ", " ",<?php } ?>],
+         new Chartist.Bar('#ct-chart-<?= $produit->id ?>', {
+            labels: [<?php foreach ($tableau[$produit->id] as $key => $data){ ?>"<?= $data->prix ?>", " ", " ",<?php } ?>],
             series: [
-            [<?php foreach ($tableau[$produit->getId()] as $key => $data){ ?><?= $data->stock ?>, 0, 0,<?php } ?>],
-            [<?php foreach ($tableau[$produit->getId()] as $key => $data){ ?><?= $data->boutique ?> , 0, 0,<?php } ?>],
-            [<?php foreach ($tableau[$produit->getId()] as $key => $data){ ?>0, <?= $data->commande ?>, 0,<?php } ?>],
+            [<?php foreach ($tableau[$produit->id] as $key => $data){ ?><?= $data->stock ?>, 0, 0,<?php } ?>],
+            [<?php foreach ($tableau[$produit->id] as $key => $data){ ?><?= $data->boutique ?> , 0, 0,<?php } ?>],
+            [<?php foreach ($tableau[$produit->id] as $key => $data){ ?>0, <?= $data->commande ?>, 0,<?php } ?>],
             ]
         }, {
          stackBars: true,
@@ -267,7 +267,7 @@
         labels: [<?php foreach ($produits as $key => $prod) { echo "'".$prod->name()."', "; } ?>],
         datasets: [{
             label: 'Parfum le plus vendu',
-            data: [<?php foreach ($produits as $key => $prod) { echo "'".ceil($tabproduit[$prod->getId()])."', "; } ?>],
+            data: [<?php foreach ($produits as $key => $prod) { echo "'".ceil($tabproduit[$prod->id])."', "; } ?>],
             backgroundColor: [<?php foreach ($produits as $key => $prod) { echo "'".$prod->couleur."', "; } ?>],
         }]
     },

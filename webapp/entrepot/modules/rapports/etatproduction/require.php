@@ -1,8 +1,8 @@
 <?php 
 namespace Home;
 
-if ($this->getId() != "") {
-	$tab = explode("@", $this->getId());
+if ($this->id != "") {
+	$tab = explode("@", $this->id);
 	$date1 = $tab[0];
 	$date2 = $tab[1];
 }else{
@@ -19,9 +19,9 @@ foreach ($pdvs as $key => $pdv) {
 
 	foreach (RESSOURCE::getAll() as $key => $ressource) {
 		$name = trim($ressource->name());
-		$pdv->$name = $pdv->exigence(($pdv->production + $pdv->perte), $ressource->getId());
+		$pdv->$name = $pdv->exigence(($pdv->production + $pdv->perte), $ressource->id);
 		$a = "perte-$name";
-		$pdv->$a = $pdv->exigence($pdv->perte, $ressource->getId());
+		$pdv->$a = $pdv->exigence($pdv->perte, $ressource->id);
 	}
 }
 
