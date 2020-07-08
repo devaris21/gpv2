@@ -198,12 +198,22 @@ class VENTE extends TABLE
 	}
 
 
-	public static function direct(string $date1, string $date2, int $boutique_id){
-		return static::findBy(["typevente_id ="=>TYPEVENTE::DIRECT, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE, "boutique_id ="=>$boutique_id]);
+	public static function direct(string $date1, string $date2, int $boutique_id = null){
+		if ($boutique_id == null) {
+			return static::findBy(["typevente_id ="=>TYPEVENTE::DIRECT, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE]);
+		}else{
+			return static::findBy(["typevente_id ="=>TYPEVENTE::DIRECT, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE, "boutique_id ="=>$boutique_id]);
+
+		}
 	}
 
-	public static function prospection(string $date1, string $date2, int $boutique_id){
-		return static::findBy(["typevente_id ="=>TYPEVENTE::PROSPECTION, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE, "boutique_id ="=>$boutique_id]);
+	public static function prospection(string $date1, string $date2, int $boutique_id = null){
+		if ($boutique_id == null) {
+			return static::findBy(["typevente_id ="=>TYPEVENTE::PROSPECTION, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE]);
+		}else{
+			return static::findBy(["typevente_id ="=>TYPEVENTE::PROSPECTION, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE, "boutique_id ="=>$boutique_id]);
+
+		}
 	}
 
 
@@ -217,34 +227,55 @@ class VENTE extends TABLE
 
 
 
-	public static function stats(string $date1 = "2020-04-01", string $date2, int $boutique_id){
+	public static function stats(string $date1 = "2020-04-01", string $date2, int $boutique_id = null){
 		$tableaux = [];
 		$nb = ceil(dateDiffe($date1, $date2) / 12);
 		$index = $date1;
-		while ( $index <= $date2 ) {
-			$debut = $index;
-			$fin = dateAjoute1($index, ceil($nb/2));
+		if ($boutique_id == null) {
+			while ( $index <= $date2 ) {
+				$debut = $index;
+				$fin = dateAjoute1($index, ceil($nb/2));
 
-			$data = new \stdclass;
-			$data->year = date("Y", strtotime($index));
-			$data->month = date("m", strtotime($index));
-			$data->day = date("d", strtotime($index));
-			$data->nb = $nb;
+				$data = new \stdclass;
+				$data->year = date("Y", strtotime($index));
+				$data->month = date("m", strtotime($index));
+				$data->day = date("d", strtotime($index));
+				$data->nb = $nb;
 			////////////
 
-			$data->direct = comptage(VENTE::direct($debut, $fin, $boutique_id), "vendu", "somme");
-			$data->prospection = comptage(VENTE::prospection($debut, $fin, $boutique_id), "vendu", "somme");
-			$data->marge = 0 ;
+				$data->direct = comptage(VENTE::direct($debut, $fin), "vendu", "somme");
+				$data->prospection = comptage(VENTE::prospection($debut, $fin), "vendu", "somme");
+				$data->marge = 0 ;
 
-			$tableaux[] = $data;
+				$tableaux[] = $data;
 			///////////////////////
-			
-			$index = $fin;
+
+				$index = $fin;
+			}
+		}else{
+			while ( $index <= $date2 ) {
+				$debut = $index;
+				$fin = dateAjoute1($index, ceil($nb/2));
+
+				$data = new \stdclass;
+				$data->year = date("Y", strtotime($index));
+				$data->month = date("m", strtotime($index));
+				$data->day = date("d", strtotime($index));
+				$data->nb = $nb;
+			////////////
+
+				$data->direct = comptage(VENTE::direct($debut, $fin, $boutique_id), "vendu", "somme");
+				$data->prospection = comptage(VENTE::prospection($debut, $fin, $boutique_id), "vendu", "somme");
+				$data->marge = 0 ;
+
+				$tableaux[] = $data;
+			///////////////////////
+
+				$index = $fin;
+			}
 		}
 		return $tableaux;
 	}
-
-
 
 	public function sentenseCreate(){}
 	public function sentenseUpdate(){}

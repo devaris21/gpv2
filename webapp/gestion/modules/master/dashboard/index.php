@@ -35,11 +35,11 @@
                                 </li>
                                 <li class="list-group-item"></li>
                             </ul>
-                            <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim btn-block"> <i class="fa fa-long-arrow-right"></i> Nouvelle vente directe</button>
+                          <!--   <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim btn-block"> <i class="fa fa-long-arrow-right"></i> Nouvelle vente directe</button>
 
                             <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim btn-block"><i class="fa fa-bicycle"></i> Nouvelle prospection</button>
 
-                            <button data-toggle="modal" data-target="#modal-ventecave" class="btn btn-success dim btn-block"><i class="fa fa-home"></i> Nouvelle vente en cave</button>
+                            <button data-toggle="modal" data-target="#modal-ventecave" class="btn btn-success dim btn-block"><i class="fa fa-home"></i> Nouvelle vente en cave</button> -->
                         </div>
                         <div class="col-md-6">
                             <div class="text-center">
@@ -51,16 +51,16 @@
                             <div class="row text-center">
                                 <div class="col">
                                     <div class="">
-                                        <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::todayDirect(), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                        <span class="h5 font-bold block"><?= money(comptage($directs, "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
                                         <small class="text-muted block">Ventes directes</small>
                                     </div>
                                 </div>
                                 <div class="col border-right border-left">
-                                    <span class="h5 font-bold block"><?= money(comptage(Home\PROSPECTION::effectuee(dateAjoute()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                    <span class="h5 font-bold block"><?= money(comptage($prospections, "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
                                     <small class="text-muted block">Ventes par prospection</small>
                                 </div>
                                 <div class="col text-danger">
-                                    <span class="h5 font-bold block"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1))) ?> <small><?= $params->devise ?></small></span>
+                                    <span class="h5 font-bold block"><?= money($depenses) ?> <small><?= $params->devise ?></small></span>
                                     <small class="text-muted block">Dépense du jour</small>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
 
                                     <div class="ibox-content">
                                         <h5>En rupture de Stock</h5>
-                                        <h2 class="no-margins"><?= start0(count(Home\PRIXDEVENTE::rupture())) ?> produit(s)</h1>
+                                        <h2 class="no-margins"><?= start0($rupture) ?> produit(s)</h1>
                                         </div>
                                     </div>
                                 </div>
@@ -117,9 +117,7 @@
                                 <div class="ibox-title">
                                     <h5 class="text-uppercase">Programme de prospection du jour</h5>
                                     <div class="ibox-tools">
-                                        <a href="<?= $this->url("gestion", "production", "programmes") ?>" data-toggle="tooltip" title="Modifier le programme">
-                                            <i class="fa fa-calendar"></i> Modifier le programme
-                                        </a>
+                                       
                                     </div>
                                 </div>
                                 <div class="ibox-content table-responsive">
@@ -215,7 +213,6 @@
             <?php include($this->rootPath("composants/assets/modals/modal-vente.php")); ?> 
             <?php include($this->rootPath("composants/assets/modals/modal-prospection.php")); ?> 
             <?php include($this->rootPath("composants/assets/modals/modal-ventecave.php")); ?> 
-            <?php include($this->rootPath("composants/assets/modals/modal-miseenboutique.php")); ?> 
 
         </div>
     </div>

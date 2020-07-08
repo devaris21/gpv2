@@ -12,6 +12,7 @@ VENTE::ResetProgramme();
 $title = "GPV | Tableau de bord";
 
 $tableau = [];
+$rupture = 0;
 foreach (PRODUIT::getAll() as $key => $produit) {
 	$tab = [];
 	foreach ($produit->fourni('prixdevente', ["isActive ="=>TABLE::OUI]) as $key => $pdv) {
@@ -20,12 +21,14 @@ foreach (PRODUIT::getAll() as $key => $produit) {
 		$data->name = $pdv->produit->name()." // ".$pdv->prix->price()/*." ".$params->devise*/;
 		$data->prix = $pdv->prix->price()." ".$params->devise;
 		$data->quantite = $pdv->quantite->name();
-		$data->boutique = $pdv->enBoutique(dateAjoute());
-		$data->stock = $pdv->enEntrepot(dateAjoute());
-		$data->commande = $pdv->commandee();
+		$data->boutique = $data->commande = $data->stock = 0;
+		$data->boutique += $pdv->enBoutique(dateAjoute());
+		$data->commande += $pdv->commandee();
+		$data->stock += $pdv->enEntrepot(dateAjoute());
 		$data->rupture = false;
-		if (!($data->boutique==0 && $data->stock==0 && $data->commande==0)) {
+		if ($data->boutique <= $params->ruptureStock || $data->stock <= $params->ruptureStock) {
 			$data->rupture = true;
+			$rupture++;
 		}	
 		$tab[] = $data;
 	}
@@ -37,8 +40,11 @@ for ($i=0; $i < 30; $i++) {
 	$stats[] = 2;
 }
 
+$directs = VENTE::findBy(["DATE(created) ="=>dateAjoute(), "typevente_id="=>TYPEVENTE::DIRECT, "etat_id !="=>ETAT::ANNULEE]);
+$prospections = PROSPECTION::findBy(["DATE(dateretour) ="=>dateAjoute(), "etat_id ="=>ETAT::VALIDEE]);
+$depenses = OPERATION::sortie(dateAjoute() , dateAjoute(+1));
 
-$stats = VENTE::stats(dateAjoute(-14), dateAjoute());
+$stats = []; VENTE::stats(dateAjoute(-14), dateAjoute());
 
 
 ?>

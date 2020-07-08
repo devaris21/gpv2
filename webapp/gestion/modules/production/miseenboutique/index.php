@@ -59,18 +59,18 @@
             <div class="ibox-title">
                 <h5>Toutes les mises en boutique de la production</h5>
                 <div class="ibox-tools">
-                    <button style="margin-top: -5%;" data-toggle="modal" data-target="#modal-miseenboutique" class="btn btn-primary dim btn-block"><i class="fa fa-plus"></i> Nouvelle mise en boutique</button>
+                    <!-- <button style="margin-top: -5%;" data-toggle="modal" data-target="#modal-miseenboutique" class="btn btn-primary dim btn-block"><i class="fa fa-plus"></i> Nouvelle mise en boutique</button> -->
                 </div>
             </div>
             <div class="ibox-content">
               <?php if (count($datas) > 0) { ?>
-                 <table class="table table-hover table-commande">
+                 <table class="table table-hover table-mise">
                     <tbody>
                         <?php foreach ($datas as $key => $mise) {
                             $mise->actualise(); 
                             $lots = $mise->fourni("lignemiseenboutique");
                             ?>
-                            <tr class="border-bottom">
+                            <tr class="<?= ($mise->etat_id != Home\ETAT::ENCOURS)?'fini':'' ?> border-bottom">
                                 <td class="project-status">
                                     <span class="label label-<?= $mise->etat->class ?>"><?= $mise->etat->name ?></span>
                                 </td>
@@ -130,8 +130,6 @@
 
 
 <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?> 
-
-<?php include($this->rootPath("composants/assets/modals/modal-miseenboutique.php")); ?> 
 
 
 </div>

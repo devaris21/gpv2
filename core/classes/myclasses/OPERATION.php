@@ -122,33 +122,56 @@ class OPERATION extends TABLE
 
 
 
-	public static function entree(string $date1 = "2020-04-01", string $date2, int $boutique_id){
-		$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? AND operation.boutique_id = ?";
-		$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::ENTREE, $date1, $date2, $boutique_id]);
-		if (count($item) < 1) {$item = [new OPERATION()]; }
-		return $item[0]->montant;
+	public static function entree(string $date1 = "2020-04-01", string $date2, int $boutique_id = null){
+		if ($boutique_id == null) {
+			$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ?";
+			$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::ENTREE, $date1, $date2]);
+			if (count($item) < 1) {$item = [new OPERATION()]; }
+			return $item[0]->montant;
+		}else{
+			$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? AND operation.boutique_id = ?";
+			$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::ENTREE, $date1, $date2, $boutique_id]);
+			if (count($item) < 1) {$item = [new OPERATION()]; }
+			return $item[0]->montant;
+		}
 	}
 
 
 
-	public static function sortie(string $date1 = "2020-04-01", string $date2, int $boutique_id){
-		$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? AND operation.boutique_id = ? ";
-		$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::SORTIE, $date1, $date2, $boutique_id]);
-		if (count($item) < 1) {$item = [new OPERATION()]; }
-		return $item[0]->montant;
+	public static function sortie(string $date1 = "2020-04-01", string $date2, int $boutique_id = null){
+		if ($boutique_id == null) {
+			$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ?";
+			$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::SORTIE, $date1, $date2]);
+			if (count($item) < 1) {$item = [new OPERATION()]; }
+			return $item[0]->montant;
+		}else{
+			$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? AND operation.boutique_id = ? ";
+			$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::SORTIE, $date1, $date2, $boutique_id]);
+			if (count($item) < 1) {$item = [new OPERATION()]; }
+			return $item[0]->montant;
+		}
 	}
 
 
-	public static function resultat(string $date1 = "2020-04-01", string $date2, int $boutique_id){
-		return static::entree($date1, $date2, $boutique_id) - static::sortie($date1, $date2, $boutique_id);
+	public static function resultat(string $date1 = "2020-04-01", string $date2, int $boutique_id = null){
+		if ($boutique_id == null) {
+			return static::entree($date1, $date2) - static::sortie($date1, $date2);
+		}else{
+			return static::entree($date1, $date2, $boutique_id) - static::sortie($date1, $date2, $boutique_id);
+		}
 	}
 
 
 
 
 
-	public static function enAttente(int $boutique_id){
-		return static::findBy(["etat_id ="=> ETAT::ENCOURS, "boutique_id ="=>$boutique_id]);
+	public static function enAttente(int $boutique_id = null){
+		if ($boutique_id == null) {
+			return static::findBy(["etat_id ="=> ETAT::ENCOURS]);
+		}else{
+			return static::findBy(["etat_id ="=> ETAT::ENCOURS, "boutique_id ="=>$boutique_id]);
+
+		}
 	}
 
 

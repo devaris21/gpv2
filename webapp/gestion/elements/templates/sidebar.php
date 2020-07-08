@@ -130,9 +130,9 @@
 
 
                 <?php if ($employe->isAutoriser("caisse")) { ?>
-                    <li class="" id="caisse">
+                   <!--  <li class="" id="caisse">
                         <a href="<?= $this->url($this->section, "caisse", "caisse") ?>"><i class="fa fa-money"></i> <span class="nav-label">La caisse</span></a>
-                    </li>
+                    </li> -->
                     <li class="" id="tresorerie">
                         <a href="<?= $this->url($this->section, "caisse", "tresorerie", $exercicecomptable->id) ?>"><i class="fa fa-money"></i> <span class="nav-label">Trésorerie générale</span></a>
                     </li>

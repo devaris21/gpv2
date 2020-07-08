@@ -59,7 +59,7 @@
             <div class="ibox-title">
                 <h5>Toutes les prospections</h5>
                 <div class="ibox-tools">
-                    <button style="margin-top: -5%;" type="button" data-toggle=modal data-target='#modal-prospection' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle prospection </button>
+                    <!-- <button style="margin-top: -5%;" type="button" data-toggle=modal data-target='#modal-prospection' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle prospection </button> -->
                 </div>
             </div>
             <div class="ibox-content" style="min-height: 300px">
@@ -145,8 +145,6 @@
     <?php 
     foreach ($prospections as $key => $prospection) {
         if ($prospection->etat_id == Home\ETAT::ENCOURS) { 
-            $prospection->actualise();
-            $prospection->fourni("ligneprospection");
             include($this->rootPath("composants/assets/modals/modal-prospection2.php"));
         } 
     } 

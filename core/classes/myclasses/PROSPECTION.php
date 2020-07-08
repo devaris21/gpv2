@@ -92,10 +92,7 @@ class PROSPECTION extends TABLE
 
 
 	//les livraions effectuéez du jour
-	public static function effectuee(String $date, int $boutique_id = null){
-		if ($boutique_id == null) {
-			return static::findBy(["DATE(dateretour) ="=>$date, "etat_id ="=>ETAT::VALIDEE]);
-		}
+	public static function effectuee(String $date, int $boutique_id){
 		return static::findBy(["DATE(dateretour) ="=>$date, "etat_id ="=>ETAT::VALIDEE, "boutique_id ="=>$boutique_id]);
 	}
 

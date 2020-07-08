@@ -59,7 +59,7 @@
             <div class="ibox-title">
                 <h5>Toutes les ventes</h5>
                 <div class="ibox-tools">
-                    <button style="margin-top: -5%;" type="button" data-toggle=modal data-target='#modal-clients' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle livraison </button>
+                    <!-- <button style="margin-top: -5%;" type="button" data-toggle=modal data-target='#modal-clients' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle livraison </button> -->
                 </div>
             </div>
             <div class="ibox-content" style="min-height: 300px">
@@ -152,8 +152,6 @@
         <?php 
         foreach ($livraisons as $key => $livraison) {
             if ($livraison->etat_id == Home\ETAT::ENCOURS) { 
-                $livraison->actualise();
-                $livraison->fourni("ligneprospection");
                 include($this->rootPath("composants/assets/modals/modal-livraison2.php"));
             } 
         } 

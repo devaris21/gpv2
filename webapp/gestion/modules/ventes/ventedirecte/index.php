@@ -59,7 +59,7 @@
             <div class="ibox-title">
                 <h5>Toutes les ventes directes</h5>
                 <div class="ibox-tools">
-                    <button style="margin-top: -5%;" data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim float-right"> <i class="fa fa-file-text-o"></i> Nouvelle vente directe</button>
+                    <!-- <button style="margin-top: -5%;" data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim float-right"> <i class="fa fa-file-text-o"></i> Nouvelle vente directe</button> -->
                 </div>
             </div>
             <div class="ibox-content" style="min-height: 300px">
