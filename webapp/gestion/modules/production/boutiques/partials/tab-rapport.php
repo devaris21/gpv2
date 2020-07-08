@@ -2,15 +2,15 @@
 
 	<div class="ibox-content">
 		<br>
-		<div class="tabs-container" id="produits">
+		<div class="tabs-container produits">
 			<ul class="nav nav-tabs text-uppercase" role="tablist">
-				<li ><a class="nav-link" data-toggle="tab" href="#pan-0"><i class="fa fa-flask" ></i> Global</a></li>
+				<li ><a class="nav-link active" data-toggle="tab" href="#pan-0"><i class="fa fa-flask" ></i> Global</a></li>
 				<?php foreach ($produits as $key => $produit) { ?>
 					<li style=" border-bottom: 3px solid <?= $produit->couleur; ?>,"><a class="nav-link" data-toggle="tab" href="#pan-<?= $produit->id ?>"><i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <?= $produit->name() ?></a></li>
 				<?php } ?>
 			</ul>
 			<div class="tab-content">
-				<div role="tabpanel" id="pan-0" class="tab-pane">
+				<div role="tabpanel" id="pan-0" class="tab-pane active">
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-12 border-right border-left text-center">
@@ -22,14 +22,31 @@
 
 									<div class="col-sm-6 text-center">
 										<div class="flot-chart">
-											<div class="flot-chart-content" id="flot-dashboard-chart"></div>
-										</div><hr>
+											<div class="flot-chart-content" id="flot-dashboard-chart1"></div>
+										</div><br><br>
 										<span>Vente directe / vente par prospection</span>
+										<hr>
+										<div class="row text-center">
+											<div class="col">
+												<div class="">
+													<span class="h5 font-bold block text-primary"><?= money(comptage(Home\VENTE::direct($date1, $date2, $boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+													<small class="text-muted block">Ventes directes</small>
+												</div>
+											</div>
+											<div class="col border-right border-left text-danger">
+												<span class="h5 font-bold block"><?= money(comptage(Home\VENTE::prospection($date1, $date2, $boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+												<small class="text-muted block">Ventes par prospection</small>
+											</div>
+											<div class="col text-blue">
+												<span class="h5 font-bold block"><?= money(comptage(Home\VENTE::cave($date1, $date2, $boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+												<small class="text-muted block">Ventes en cave</small>
+											</div>
+										</div>
 									</div>
 
 									<div class="col-sm-3 border-left">
 										<h5 class="text-uppercase">Emballage le plus vendu</h5><br>
-										<canvas id="myChart2"></canvas>
+										<canvas id="myChart3"></canvas>
 									</div>
 								</div><hr> 
 							</div>
@@ -86,7 +103,7 @@
 													<?php 
 													$lots = $produit->fourni("prixdevente", ["isActive ="=>Home\TABLE::OUI], [], ["quantite_id"=>"ASC"]) ;
 													foreach ($tableaux[$produit->id] as $key => $pdv) { ?>
-														<th><small><?= $pdv->prix ?> <?= $params->devise ?></small></th>
+														<th><small><?= $pdv->quantite ?></small></th>
 													<?php } ?>
 												</tr>
 											</thead>
@@ -104,7 +121,7 @@
 
 																<h5 class="d-inline text-success"><?= start0($pdv->pdv->livree($production->ladate, $production->ladate, $boutique->id)) ?></h5> &nbsp;&nbsp;|&nbsp;&nbsp;
 
-																<h5 class="d-inline text-danger"><?= start0($pdv->pdv->perte($production->ladate, $production->ladate, $boutique->id)); ?></h5>
+																<h5 class="d-inline text-danger"><?= start0($pdv->pdv->perteProspection($production->ladate, $production->ladate, $boutique->id)); ?></h5>
 															</td>
 														<?php } ?>
 													</tr>

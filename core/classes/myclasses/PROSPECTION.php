@@ -187,6 +187,9 @@ class PROSPECTION extends TABLE
 					$vente->created = null;
 					$vente->modified = null;
 					$vente->typevente_id = TYPEVENTE::PROSPECTION;
+					if ($this->typeprospection_id == TYPEPROSPECTION::VENTECAVE) {
+						$vente->typevente_id = TYPEVENTE::VENTECAVE;
+					}
 					$vente->setId(null);
 					$data = $vente->enregistre();
 					if ($data->status) {

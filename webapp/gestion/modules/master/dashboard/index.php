@@ -51,17 +51,17 @@
                             <div class="row text-center">
                                 <div class="col">
                                     <div class="">
-                                        <span class="h5 font-bold block"><?= money(comptage($directs, "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                        <span class="h5 font-bold block text-primary"><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
                                         <small class="text-muted block">Ventes directes</small>
                                     </div>
                                 </div>
-                                <div class="col border-right border-left">
-                                    <span class="h5 font-bold block"><?= money(comptage($prospections, "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                <div class="col border-right border-left text-danger">
+                                    <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::prospection(dateAjoute(), dateAjoute()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
                                     <small class="text-muted block">Ventes par prospection</small>
                                 </div>
-                                <div class="col text-danger">
-                                    <span class="h5 font-bold block"><?= money($depenses) ?> <small><?= $params->devise ?></small></span>
-                                    <small class="text-muted block">Dépense du jour</small>
+                                <div class="col text-blue">
+                                    <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::cave(dateAjoute(), dateAjoute()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                    <small class="text-muted block">Ventes en cave</small>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +117,7 @@
                                 <div class="ibox-title">
                                     <h5 class="text-uppercase">Programme de prospection du jour</h5>
                                     <div class="ibox-tools">
-                                       
+                                     
                                     </div>
                                 </div>
                                 <div class="ibox-content table-responsive">
@@ -162,7 +162,7 @@
                                 <div class="ibox-title">
                                     <h5 class="text-uppercase">Ventes directes du jour</h5>
                                     <div class="ibox-tools">
-                                       
+                                     
                                     </div>
                                 </div>
                                 <div class="ibox-content table-responsive">
@@ -244,34 +244,36 @@
 
             var sparklineCharts = function(){
 
-             $("#sparkline2").sparkline([24, 43, 43, 55, 44, 62, 44, 72], {
-                 type: 'line',
-                 width: '100%',
-                 height: '60',
-                 lineColor: '#1ab394',
-                 fillColor: "#ffffff"
-             });
+               $("#sparkline2").sparkline([24, 43, 43, 55, 44, 62, 44, 72], {
+                   type: 'line',
+                   width: '100%',
+                   height: '60',
+                   lineColor: '#1ab394',
+                   fillColor: "#ffffff"
+               });
 
-         };
+           };
 
-         var sparkResize;
+           var sparkResize;
 
-         $(window).resize(function(e) {
+           $(window).resize(function(e) {
             clearTimeout(sparkResize);
             sparkResize = setTimeout(sparklineCharts, 500);
         });
 
-         sparklineCharts();
+           sparklineCharts();
 
 
 
 
-         var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->direct ?>], <?php } ?> ];
+           var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->direct ?>], <?php } ?> ];
 
-         var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->prospection ?>], <?php } ?> ];
+           var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->prospection ?>], <?php } ?> ];
 
-         var dataset = [
-         {
+           var data3 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->cave ?>], <?php } ?> ];
+
+           var dataset = [
+           {
             label: "Vente directe",
             data: data1,
             color: "#1ab394",
@@ -286,6 +288,17 @@
             label: "Vente par prospection",
             data: data2,
             color: "#cc0000",
+            bars: {
+                show: true,
+                align: "right",
+                barWidth: 12 * 60 * 60 * 600,
+                lineWidth:0
+            }
+
+        }, {
+            label: "Vente en cave",
+            data: data2,
+            color: "#0088cc",
             bars: {
                 show: true,
                 align: "right",

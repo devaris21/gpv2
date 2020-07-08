@@ -32,7 +32,21 @@ namespace Home;
 // 	$item->save();
 // }
 
+
+$datas = ["Vente par commande", "Vente en Cave"];
+foreach ($datas as $key => $value) {
+	$item = new TYPEVENTE();
+	$item->name = $value;
+	$item->setProtected(1);
+	$item->save();
+}
+
 foreach (BOUTIQUE::getAll() as $key => $value) {
+	$value->comptebanque_id = COMPTEBANQUE::COURANT;
+	$value->save();
+}
+
+foreach (ENTREPOT::getAll() as $key => $value) {
 	$value->comptebanque_id = COMPTEBANQUE::COURANT;
 	$value->save();
 }

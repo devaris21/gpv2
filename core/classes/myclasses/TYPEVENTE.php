@@ -12,6 +12,7 @@ class TYPEVENTE extends TABLE
 	const DIRECT      = 1;
 	const PROSPECTION = 2;
 	const COMMANDE = 3;
+	const VENTECAVE = 4;
 	
 	public $name;
 

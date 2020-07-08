@@ -160,9 +160,15 @@ class PRIXDEVENTE extends TABLE
 
 
 	public function livree(string $date1 = "2020-06-01", string $date2, int $boutique_id = null){
-		$requette = "SELECT SUM(quantite) as quantite  FROM ligneprospection, prixdevente, prospection WHERE ligneprospection.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.typeprospection_id = ? AND prospection.etat_id != ? AND prospection.boutique_id = ? AND DATE(ligneprospection.created) >= ? AND DATE(ligneprospection.created) <= ? GROUP BY prixdevente.id";
-		$item = LIGNEPROSPECTION::execute($requette, [$this->id, TYPEPROSPECTION::LIVRAISON, ETAT::ANNULEE, $boutique_id, $date1, $date2]);
-		if (count($item) < 1) {$item = [new LIGNEPROSPECTION()]; }
+		if ($boutique_id == null) {
+			$requette = "SELECT SUM(quantite) as quantite  FROM ligneprospection, prixdevente, prospection WHERE ligneprospection.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.typeprospection_id = ? AND prospection.etat_id != ? AND DATE(ligneprospection.created) >= ? AND DATE(ligneprospection.created) <= ? GROUP BY prixdevente.id";
+			$item = LIGNEPROSPECTION::execute($requette, [$this->id, TYPEPROSPECTION::LIVRAISON, ETAT::ANNULEE, $date1, $date2]);
+			if (count($item) < 1) {$item = [new LIGNEPROSPECTION()]; }
+		}else{
+			$requette = "SELECT SUM(quantite) as quantite  FROM ligneprospection, prixdevente, prospection WHERE ligneprospection.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.typeprospection_id = ? AND prospection.etat_id != ? AND prospection.boutique_id = ? AND DATE(ligneprospection.created) >= ? AND DATE(ligneprospection.created) <= ? GROUP BY prixdevente.id";
+			$item = LIGNEPROSPECTION::execute($requette, [$this->id, TYPEPROSPECTION::LIVRAISON, ETAT::ANNULEE, $boutique_id, $date1, $date2]);
+			if (count($item) < 1) {$item = [new LIGNEPROSPECTION()]; }
+		}
 		return $item[0]->quantite;
 	}
 
@@ -170,10 +176,17 @@ class PRIXDEVENTE extends TABLE
 
 	public function perteProspection(string $date1 = "2020-06-01", string $date2, int $boutique_id = null){
 		$total = 0;
-		$requette = "SELECT SUM(perte) as perte  FROM ligneprospection, prixdevente, prospection WHERE ligneprospection.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.boutique_id = ? AND prospection.etat_id != ? GROUP BY prixdevente.id";
-		$item = LIGNEPROSPECTION::execute($requette, [$this->id, $boutique_id, ETAT::ANNULEE]);
-		if (count($item) < 1) {$item = [new LIGNEPROSPECTION()]; }
-		$total += $item[0]->perte;
+		if ($boutique_id == null) {
+			$requette = "SELECT SUM(perte) as perte  FROM ligneprospection, prixdevente, prospection WHERE ligneprospection.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.etat_id != ? GROUP BY prixdevente.id";
+			$item = LIGNEPROSPECTION::execute($requette, [$this->id, ETAT::ANNULEE]);
+			if (count($item) < 1) {$item = [new LIGNEPROSPECTION()]; }
+			$total += $item[0]->perte;
+		}else{
+			$requette = "SELECT SUM(perte) as perte  FROM ligneprospection, prixdevente, prospection WHERE ligneprospection.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.boutique_id = ? AND prospection.etat_id != ? GROUP BY prixdevente.id";
+			$item = LIGNEPROSPECTION::execute($requette, [$this->id, $boutique_id, ETAT::ANNULEE]);
+			if (count($item) < 1) {$item = [new LIGNEPROSPECTION()]; }
+			$total += $item[0]->perte;
+		}
 
 		return $total;
 	}
@@ -181,10 +194,17 @@ class PRIXDEVENTE extends TABLE
 
 	public function vendu(string $date1 = "2020-06-01", string $date2, int $boutique_id = null){
 		$total = 0;
-		$requette = "SELECT SUM(quantite) as quantite  FROM lignedevente, prixdevente, vente WHERE lignedevente.prixdevente_id = prixdevente.id AND lignedevente.vente_id = vente.id AND prixdevente.id = ? AND vente.etat_id != ? AND vente.boutique_id =? AND DATE(lignedevente.created) >= ? AND DATE(lignedevente.created) <= ? GROUP BY prixdevente.id";
-		$item = LIGNEDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE, $boutique_id, $date1, $date2]);
-		if (count($item) < 1) {$item = [new LIGNEDEVENTE()]; }
-		$total += $item[0]->quantite;
+		if ($boutique_id == null) {
+			$requette = "SELECT SUM(quantite) as quantite  FROM lignedevente, prixdevente, vente WHERE lignedevente.prixdevente_id = prixdevente.id AND lignedevente.vente_id = vente.id AND prixdevente.id = ? AND vente.etat_id != ? AND DATE(lignedevente.created) >= ? AND DATE(lignedevente.created) <= ? GROUP BY prixdevente.id";
+			$item = LIGNEDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
+			if (count($item) < 1) {$item = [new LIGNEDEVENTE()]; }
+			$total += $item[0]->quantite;
+		}else{
+			$requette = "SELECT SUM(quantite) as quantite  FROM lignedevente, prixdevente, vente WHERE lignedevente.prixdevente_id = prixdevente.id AND lignedevente.vente_id = vente.id AND prixdevente.id = ? AND vente.etat_id != ? AND vente.boutique_id =? AND DATE(lignedevente.created) >= ? AND DATE(lignedevente.created) <= ? GROUP BY prixdevente.id";
+			$item = LIGNEDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE, $boutique_id, $date1, $date2]);
+			if (count($item) < 1) {$item = [new LIGNEDEVENTE()]; }
+			$total += $item[0]->quantite;
+		}
 
 		return $total;
 	}

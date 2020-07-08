@@ -12,6 +12,7 @@ class ENTREPOT extends TABLE
 	const PRINCIPAL = 1;
 
 	public $name;
+	public $comptebanque_id;
 
 	public function enregistre(){
 		$data = new RESPONSE;

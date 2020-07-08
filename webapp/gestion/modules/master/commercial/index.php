@@ -229,6 +229,10 @@
     <div class="col-sm-4">
         <div class="ibox selected">
             <div class="ibox-content">
+                <div>
+                    <?php Native\BINDING::html("select", "commercial", $commercial, "id") ?>
+                </div><hr>
+
                 <div id="contact-1" class="tab-pane active">
                     <h2><?= $commercial->name() ?> 
 

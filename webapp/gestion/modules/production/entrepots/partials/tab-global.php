@@ -6,17 +6,17 @@
 				<div class="row">
 					<div class="col-md-4">
 						<img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 60px;" alt=""><br>
-						<h2 class="text-uppercase"><?= $boutique->name() ?></h2>
-						<small><?= $boutique->lieu ?> </small>
+						<h2 class="text-uppercase"><?= $entrepot->name() ?></h2>
+						<small><?= $entrepot->lieu ?> </small>
 						<ul class="list-group clear-list m-t">
 							<li class="list-group-item fist-item">
 								Commandes en cours <span class="label label-success float-right"><?= start0(count($groupes__)); ?></span> 
 							</li>
 							<li class="list-group-item">
-								Livraisons en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "boutique_id ="=>$boutique->id, "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]))); ?></span> 
+								Livraisons en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "boutique_id ="=>$entrepot->id, "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]))); ?></span> 
 							</li>
 							<li class="list-group-item">
-								Prospections en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "boutique_id ="=>$boutique->id, "typeprospection_id ="=>Home\TYPEPROSPECTION::PROSPECTION]))); ?></span> 
+								Prospections en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "boutique_id ="=>$entrepot->id, "typeprospection_id ="=>Home\TYPEPROSPECTION::PROSPECTION]))); ?></span> 
 							</li>
 							<li class="list-group-item"></li>
 						</ul>
@@ -28,16 +28,16 @@
 						<div class="row text-center">
 							<div class="col">
 								<div class="">
-									<span class="h5 font-bold block"><?= money(comptage(Home\VENTE::todayDirect($boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+									<span class="h5 font-bold block"><?= money(comptage(Home\VENTE::todayDirect($entrepot->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
 									<small class="text-muted block">Ventes directes</small>
 								</div>
 							</div>
 							<div class="col border-right border-left">
-								<span class="h5 font-bold block"><?= money(comptage(Home\PROSPECTION::effectuee(dateAjoute(), $boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+								<span class="h5 font-bold block"><?= money(comptage(Home\PROSPECTION::effectuee(dateAjoute(), $entrepot->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
 								<small class="text-muted block">Ventes par prospection</small>
 							</div>
 							<div class="col text-danger">
-								<span class="h5 font-bold block"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1), $boutique->id)) ?> <small><?= $params->devise ?></small></span>
+								<span class="h5 font-bold block"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1), $entrepot->id)) ?> <small><?= $params->devise ?></small></span>
 								<small class="text-muted block">Dépense du jour</small>
 							</div>
 						</div>

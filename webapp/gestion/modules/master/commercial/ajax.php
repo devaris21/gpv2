@@ -15,6 +15,12 @@ if ($action == "filtrer") {
 }
 
 
+if ($action == "changer") {
+	$data->setUrl("gestion", "master", "commercial", $id);
+	echo json_encode($data);
+}
+
+
 if ($action == "paye") {
 	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 	if (count($datas) > 0) {

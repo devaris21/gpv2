@@ -1,7 +1,9 @@
 <?php 
 namespace Home;
+use Faker\Factory;
 unset_session("produits");
 unset_session("commande-encours");
+$faker = Factory::create();
 
 if ($this->id != null) {
 	$datas = BOUTIQUE::findBy(["id ="=>$this->id]);
@@ -68,6 +70,7 @@ if ($this->id != null) {
 
 
 		session("boutique_id", $this->id);
+		$quantites = QUANTITE::findBy(["isActive ="=>TABLE::OUI]);
 		$produits = PRODUIT::findBy(["isActive ="=>TABLE::OUI]);
 		$rupture = 0;
 		$tableaux = [];
@@ -80,7 +83,7 @@ if ($this->id != null) {
 				$data->pdv = $pdv;
 				$pdv->tab = [];
 
-				$data->name = $pdv->produit->name()." // ".$pdv->prix->price()/*." ".$params->devise*/;
+				$data->name = $pdv->produit->name()." // ".$pdv->quantite->name()/*." ".$params->devise*/;
 				$data->prix = $pdv->prix->price()." ".$params->devise;
 				$data->quantite = $pdv->quantite->name();
 				$data->boutique = $pdv->enBoutique($date2, $boutique->id);

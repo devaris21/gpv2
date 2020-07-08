@@ -74,7 +74,7 @@
                         <a href="<?= $this->url($this->section, "production", "boutiques", Home\BOUTIQUE::PRINCIPAL) ?>"><i class="fa fa-home"></i> <span class="nav-label">Les boutiques</span></a>
                     </li>
                     <li class="" id="entrepots">
-                        <a href="<?= $this->url($this->section, "production", "entrepots") ?>"><i class="fa fa-home"></i> <span class="nav-label">Les Entrepôts</span></a>
+                        <a href="<?= $this->url($this->section, "production", "entrepots", Home\ENTREPOT::PRINCIPAL) ?>"><i class="fa fa-home"></i> <span class="nav-label">Les Entrepôts</span></a>
                     </li>
                     <li class="" id="miseenboutique">
                         <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span></a>

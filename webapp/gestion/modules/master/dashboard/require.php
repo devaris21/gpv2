@@ -40,8 +40,6 @@ for ($i=0; $i < 30; $i++) {
 	$stats[] = 2;
 }
 
-$directs = VENTE::findBy(["DATE(created) ="=>dateAjoute(), "typevente_id="=>TYPEVENTE::DIRECT, "etat_id !="=>ETAT::ANNULEE]);
-$prospections = PROSPECTION::findBy(["DATE(dateretour) ="=>dateAjoute(), "etat_id ="=>ETAT::VALIDEE]);
 $depenses = OPERATION::sortie(dateAjoute() , dateAjoute(+1));
 
 $stats = []; VENTE::stats(dateAjoute(-14), dateAjoute());

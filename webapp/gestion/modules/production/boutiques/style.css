@@ -27,3 +27,13 @@
 .ct-series-a line:nth-of-type(n+1) {
 	stroke: #bbb;
 }
+
+
+.carre{
+	height: 15px;
+	width: 15px;
+	display: inline-block;
+	margin: 0;
+	margin-right: 2%;
+	border: 1px solid #000;
+}

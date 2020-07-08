@@ -41,4 +41,16 @@ $(function(){
 		})
 	}
 
+
+	$("select[name=id]").change(function(){
+		var url = "../../webapp/gestion/modules/master/commercial/ajax.php";
+		var id = $(this).val();
+		var formdata = new FormData();
+		formdata.append('id', id);
+		formdata.append('action', "changer");
+		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+			window.location.href = data.url;
+		}, "json")
+	})
+
 })

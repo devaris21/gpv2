@@ -75,10 +75,16 @@ class QUANTITE extends TABLE
 	}
 
 
-	public function vendu(string $date1 = "2020-06-01", string $date2, int $boutique){
+	public function vendu(string $date1 = "2020-06-01", string $date2, int $boutique_id = null){
 		$total = 0;
-		foreach ($this->fourni("prixdevente") as $key => $value) {
-			$total += $value->vendu($date1, $date2, $boutique);
+		if ($boutique_id ==null) {
+			foreach ($this->fourni("prixdevente") as $key => $value) {
+				$total += $value->vendu($date1, $date2);
+			}
+		}else{
+			foreach ($this->fourni("prixdevente") as $key => $value) {
+				$total += $value->vendu($date1, $date2, $boutique);
+			}
 		}
 		return $total;
 	}

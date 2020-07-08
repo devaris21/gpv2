@@ -217,6 +217,16 @@ class VENTE extends TABLE
 	}
 
 
+	public static function cave(string $date1, string $date2, int $boutique_id = null){
+		if ($boutique_id == null) {
+			return static::findBy(["typevente_id ="=>TYPEVENTE::VENTECAVE, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE]);
+		}else{
+			return static::findBy(["typevente_id ="=>TYPEVENTE::VENTECAVE, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE, "boutique_id ="=>$boutique_id]);
+
+		}
+	}
+
+
 
 	public static function entree(string $date1 = "2020-04-01", string $date2){
 		$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ?";
@@ -245,6 +255,7 @@ class VENTE extends TABLE
 
 				$data->direct = comptage(VENTE::direct($debut, $fin), "vendu", "somme");
 				$data->prospection = comptage(VENTE::prospection($debut, $fin), "vendu", "somme");
+				$data->cave = comptage(VENTE::cave($debut, $fin), "vendu", "somme");
 				$data->marge = 0 ;
 
 				$tableaux[] = $data;
@@ -266,6 +277,7 @@ class VENTE extends TABLE
 
 				$data->direct = comptage(VENTE::direct($debut, $fin, $boutique_id), "vendu", "somme");
 				$data->prospection = comptage(VENTE::prospection($debut, $fin, $boutique_id), "vendu", "somme");
+				$data->cave = comptage(VENTE::cave($debut, $fin, $boutique_id), "vendu", "somme");
 				$data->marge = 0 ;
 
 				$tableaux[] = $data;
