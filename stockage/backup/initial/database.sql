@@ -3,7 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
+<<<<<<< HEAD
 -- Généré le : jeu. 09 juil. 2020 à 17:47
+=======
+-- Généré le : mer. 08 juil. 2020 à 15:48
+>>>>>>> origin/test
 -- Version du serveur :  5.7.24
 -- Version de PHP : 7.3.2
 
@@ -188,7 +192,11 @@ CREATE TABLE `boutique` (
   `id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `lieu` varchar(200) COLLATE utf8_bin NOT NULL,
+<<<<<<< HEAD
   `comptebanque_id` int(11) DEFAULT '0',
+=======
+  `comptebanque_id` int(11) NOT NULL DEFAULT '0',
+>>>>>>> origin/test
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -846,11 +854,24 @@ CREATE TABLE `employe` (
 -- Déchargement des données de la table `employe`
 --
 
+<<<<<<< HEAD
 INSERT INTO `employe` (`id`, `name`, `adresse`, `email`, `contact`, `login`, `password`, `image`, `boutique_id`, `entrepot_id`, `isAdmin`, `is_new`, `is_allowed`, `visibility`, `pass`, `created`, `modified`, `protected`, `valide`) VALUES
 (1, 'Super Administrateur', '...', 'info@devaris21.com', '...', 'devaris21', '40991305d039c4e924b4b7fdb1a6ef031c708f2d', 'default.png', 1, 1, 0, 0, 1, 1, '', '2020-06-02 10:39:07', '2020-06-02 10:39:07', 1, 1),
 (2, 'Ange', 'Bassam rosiers', 'angecoulibaly325@gmail.com', '52267256', 'legion', '73456d3e26d1e29842ff82b89f2ed17a8abfe86d', 'default.png', 1, 1, 0, 0, 1, 1, 'ff58c677', '2020-06-02 10:54:45', '2020-06-02 10:54:45', 0, 1),
 (3, 'Onadié Coulibaly', 'Grand Bassam', 'onadie.casmir@gmail.com', '01793000', 'onadie.casmir', 'da7b67fb7139ac067d71027451bf74d27dd52f66', 'default.png', 1, 1, 0, 0, 1, 1, '971369c3', '2020-06-03 18:18:25', '2020-06-03 18:18:25', 0, 1),
 (4, 'Aduono', 'Martial', 'info@douceurs-natures.com', '01399277', 'MAduobo2020', '7c4b7a77d82ec8463b3e4f8d493c4c1bc26f966c', 'default.png', 1, 1, 0, 0, 1, 1, '79bb9a5a', '2020-06-15 18:02:03', '2020-06-15 18:02:03', 0, 1);
+=======
+CREATE TABLE `entrepot` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `lieu` varchar(200) COLLATE utf8_bin NOT NULL,
+  `comptebanque_id` int(11) NOT NULL DEFAULT '0',
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+>>>>>>> origin/test
 
 -- --------------------------------------------------------
 
@@ -3290,6 +3311,23 @@ INSERT INTO `ligneetiquettejour` (`id`, `productionjour_id`, `etiquette_id`, `co
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `ligneetiquettejour`
+--
+
+CREATE TABLE `ligneetiquettejour` (
+  `id` int(11) NOT NULL,
+  `productionjour_id` int(11) NOT NULL,
+  `etiquette_id` int(11) NOT NULL,
+  `consommation` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `lignemiseenboutique`
 --
 
@@ -3403,7 +3441,28 @@ CREATE TABLE `lignepayement` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
 
 --
+<<<<<<< HEAD
 -- Déchargement des données de la table `lignepayement`
+=======
+-- Structure de la table `ligneperteentrepot`
+--
+
+CREATE TABLE `ligneperteentrepot` (
+  `id` int(11) NOT NULL,
+  `perteentrepot_id` int(11) NOT NULL,
+  `prixdevente_id` int(11) NOT NULL,
+  `perte` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ligneproductionjour`
+>>>>>>> origin/test
 --
 
 INSERT INTO `lignepayement` (`id`, `reference`, `commercial_id`, `mouvement_id`, `modepayement_id`, `etat_id`, `structure`, `numero`, `comment`, `employe_id`, `created`, `modified`, `protected`, `valide`) VALUES
@@ -5889,6 +5948,28 @@ INSERT INTO `paye` (`id`, `commercial_id`, `montant`, `bonus`, `started`, `finis
 
 --
 -- Structure de la table `perteentrepot`
+<<<<<<< HEAD
+=======
+--
+
+CREATE TABLE `perteentrepot` (
+  `id` int(11) NOT NULL,
+  `reference` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `employe_id` int(11) NOT NULL,
+  `entrepot_id` int(11) NOT NULL,
+  `etat_id` int(11) NOT NULL,
+  `comment` text COLLATE utf8_bin,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `prestataire`
+>>>>>>> origin/test
 --
 
 CREATE TABLE `perteentrepot` (
@@ -6703,6 +6784,21 @@ CREATE TABLE `typebareme` (
 INSERT INTO `typebareme` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
 (1, 'Prix normal de boutique', '2020-07-01 16:07:03', '2020-07-01 16:07:03', 1, 1),
 (2, 'Prix de gros', '2020-07-01 16:07:03', '2020-07-01 16:07:03', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `typebareme`
+--
+
+CREATE TABLE `typebareme` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -7557,7 +7653,35 @@ ALTER TABLE `paye`
   ADD PRIMARY KEY (`id`);
 
 --
+<<<<<<< HEAD
 -- Index pour la table `perteentrepot`
+=======
+-- Index pour la table `payeferie_produit`
+--
+ALTER TABLE `payeferie_produit`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `paye_chauffeur`
+--
+ALTER TABLE `paye_chauffeur`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `paye_produit`
+--
+ALTER TABLE `paye_produit`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `perteentrepot`
+--
+ALTER TABLE `perteentrepot`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `prestataire`
+>>>>>>> origin/test
 --
 ALTER TABLE `perteentrepot`
   ADD PRIMARY KEY (`id`);
@@ -7993,6 +8117,12 @@ ALTER TABLE `ligneetiquettejour`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
+-- AUTO_INCREMENT pour la table `ligneetiquettejour`
+--
+ALTER TABLE `ligneetiquettejour`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `lignemiseenboutique`
 --
 ALTER TABLE `lignemiseenboutique`
@@ -8003,6 +8133,12 @@ ALTER TABLE `lignemiseenboutique`
 --
 ALTER TABLE `lignepayement`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT pour la table `ligneperteentrepot`
+--
+ALTER TABLE `ligneperteentrepot`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `ligneperteentrepot`
@@ -8072,6 +8208,15 @@ ALTER TABLE `paye`
 
 --
 -- AUTO_INCREMENT pour la table `perteentrepot`
+<<<<<<< HEAD
+=======
+--
+ALTER TABLE `perteentrepot`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `prestataire`
+>>>>>>> origin/test
 --
 ALTER TABLE `perteentrepot`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -8176,7 +8321,11 @@ ALTER TABLE `typeapprovisionnement`
 -- AUTO_INCREMENT pour la table `typebareme`
 --
 ALTER TABLE `typebareme`
+<<<<<<< HEAD
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+=======
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+>>>>>>> origin/test
 
 --
 -- AUTO_INCREMENT pour la table `typebien`
