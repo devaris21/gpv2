@@ -46,7 +46,7 @@ usort($tableau, "comparerDateCreated");
 
 $entrees = $depenses = 0;
 foreach ($tableau as $key => $value) {
-	if ($value->mouvement->comptebanque_id == COMPTEBANQUE::COURANT) {
+	if ($value->mouvement->comptebanque_id == $comptecourant->id) {
 		if ($value->mouvement->typemouvement_id == TYPEMOUVEMENT::DEPOT) {
 			$entrees += $value->mouvement->montant;
 		}else{

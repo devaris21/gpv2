@@ -24,19 +24,6 @@ if ($this->id != null) {
 
 
 
-
-		$operations = OPERATION::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2]);
-		foreach ($operations as $key => $value) {
-			$value->actualise();
-			$value->fiche = "boncaisse";
-			$value->type = $value->categorieoperation->name();
-		}
-		$clients = REGLEMENTCLIENT::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2]);
-		foreach ($clients as $key => $value) {
-			$value->actualise();
-			$value->fiche = "boncaisse";
-			$value->type = "Reglement de client";
-		}
 		$fournisseurs = REGLEMENTFOURNISSEUR::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2]);
 		foreach ($fournisseurs as $key => $value) {
 			$value->actualise();
@@ -50,12 +37,12 @@ if ($this->id != null) {
 			$value->type = "Paye de commercial";
 		}
 
-		$tableau = array_merge($operations, $clients, $fournisseurs, $payes);
+		$tableau = array_merge($fournisseurs, $payes);
 		usort($tableau, "comparerDateCreated");
 
 		$entrees = $depenses = 0;
 		foreach ($tableau as $key => $value) {
-			if ($value->mouvement->comptebanque_id == COMPTEBANQUE::COURANT) {
+			if ($value->mouvement->comptebanque_id == $comptecourant->id) {
 				if ($value->mouvement->typemouvement_id == TYPEMOUVEMENT::DEPOT) {
 					$entrees += $value->mouvement->montant;
 				}else{
@@ -101,6 +88,11 @@ if ($this->id != null) {
 		$title = "GPV | ".$entrepot->name();
 
 		$stats = VENTE::stats($date1, $date2, $entrepot->id);
+
+		$ressources = RESSOURCE::getAll();
+		$etiquettes = ETIQUETTE::getAll();
+		$emballages = EMBALLAGE::getAll();
+
 
 		$productionjours = PRODUCTIONJOUR::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2], [],["ladate"=>"DESC"]);
 		usort($productionjours, 'comparerLadate');

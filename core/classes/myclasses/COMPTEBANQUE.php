@@ -139,8 +139,10 @@ class COMPTEBANQUE extends TABLE
 		for ($i=$nb; $i > 0 ; $i--) { 
 			$date = dateAjoute1($date, 1);
 			$data = new \stdclass;
-			$data->time = strtotime($date);
-			$data->montant = $this->solde($date1, $date);
+			$data->year = date("Y", strtotime($date));
+			$data->month = date("m", strtotime($date));
+			$data->day = date("d", strtotime($date));
+			$data->montant = $this->solde(null, $date);
 
 			$tableaux[] = $data;
 		}

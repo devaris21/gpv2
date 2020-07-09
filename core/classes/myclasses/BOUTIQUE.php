@@ -19,6 +19,15 @@ class BOUTIQUE extends TABLE
 		$data = new RESPONSE;
 		if ($this->name != "") {
 			$data = $this->save();
+			if ($data->status) {
+				$compte = new COMPTEBANQUE;
+				$compte->name = "Compte de ".$this->name();
+				$data = $compte->enregistre();
+				if ($data->status) {
+					$this->comptebanque_id = $data->lastid;
+					$this->save();
+				}
+			}
 		}else{
 			$data->status = false;
 			$data->message = "Veuillez renseigner le nom de la boutique !";

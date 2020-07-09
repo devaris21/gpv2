@@ -21,7 +21,7 @@ class GROUPECOMMANDE extends TABLE
 	public static function etat(){
 		foreach (static::findBy(["etat_id ="=>ETAT::ENCOURS]) as $key => $groupe) {
 			$test = false;
-			foreach (PRODUIT::getAll() as $key => $produit) {
+			foreach (PRIXDEVENTE::getAll() as $key => $produit) {
 				if ($groupe->reste($produit->id) > 0) {
 					$test = true;
 					break;
@@ -43,10 +43,10 @@ class GROUPECOMMANDE extends TABLE
 		if (count($item) < 1) {$item = [new LIGNECOMMANDE()]; }
 		$total += $item[0]->quantite;
 
-		$requette = "SELECT SUM(quantite) as quantite FROM lignedevente, prixdevente, vente, groupecommande WHERE lignedevente.prixdevente_id = prixdevente.id AND lignedevente.vente_id = vente.id AND vente.groupecommande_id = groupecommande.id AND groupecommande.id = ? AND vente.etat_id != ? AND prixdevente.id = ? GROUP BY prixdevente.id";
-		$item = LIGNEDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE, $prixdevente_id]);
-		if (count($item) < 1) {$item = [new LIGNEDEVENTE()]; }
-		$total -= $item[0]->quantite;
+		// $requette = "SELECT SUM(quantite) as quantite FROM lignedevente, prixdevente, vente, groupecommande WHERE lignedevente.prixdevente_id = prixdevente.id AND lignedevente.vente_id = vente.id AND vente.groupecommande_id = groupecommande.id AND groupecommande.id = ? AND vente.etat_id != ? AND prixdevente.id = ? GROUP BY prixdevente.id";
+		// $item = LIGNEDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE, $prixdevente_id]);
+		// if (count($item) < 1) {$item = [new LIGNEDEVENTE()]; }
+		// $total -= $item[0]->quantite;
 
 		$requette = "SELECT SUM(quantite_vendu) as quantite FROM ligneprospection, prixdevente, prospection, groupecommande WHERE groupecommande.id = ? AND prospection.groupecommande_id = groupecommande.id AND ligneprospection.prixdevente_id = prixdevente.id AND ligneprospection.prospection_id = prospection.id AND prospection.etat_id != ? AND prixdevente.id = ? GROUP BY prixdevente.id";
 		$item = LIGNEPROSPECTION::execute($requette, [$this->id, ETAT::ANNULEE, $prixdevente_id]);

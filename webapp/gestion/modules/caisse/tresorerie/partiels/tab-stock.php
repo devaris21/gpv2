@@ -2,7 +2,7 @@
 <div role="tabpanel" id="tab-stock" class="tab-pane">
     <div class="panel-body">
 
-        <div class="row">
+      <!--   <div class="row">
             <div class="col-lg-3">
                 <div class="widget style1 blue-bg">
                     <div class="row">
@@ -55,47 +55,90 @@
                     </div>
                 </div>
             </div>
-        </div><br>
+        </div> --><br>
 
 
         <div class="row">
             <div class="col-md-7">
-                <h2 class="text-uppercase">Stock des intrants</h2>
-                <table class="table table-striped table-hover text-center">
-                    <thead>
-                        <tr>
-                            <th class="text-left">Libéllé</th>
-                            <th>stock init</th>
-                            <th>Achat</th>
-                            <th>Conso</th>
-                            <th>En cours</th>
-                            <th>stock final</th>
-                            <th>Valeur final</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $total = 0;
-                        foreach (Home\RESSOURCE::getAll() as $key => $ressource) {
-                            $prix = $ressource->stock($exercice->datefin()) * $ressource->price();
-                            $total += $prix; ?>
+
+                <div>
+                    <h2 class="text-uppercase">Stock des intrants</h2>
+                    <table class="table table-striped table-hover text-center">
+                        <thead>
                             <tr>
-                                <td class="gras text-left">Stock de <?= $ressource->name() ?></td>
-                                <td class="text-center"><?= $ressource->stock($exercice->created) ?> <?= $ressource->abbr ?></td>
-                                <td class="text-center"><?= $ressource->achat($exercice->created, $exercice->datefin()) ?> <?= $ressource->abbr ?></td>
-                                <td class="text-center"><?= $ressource->consommee($exercice->created, $exercice->datefin()) ?> <?= $ressource->abbr ?></td>
-                                <td class="text-center"><?= $ressource->en_cours() ?> <?= $ressource->abbr ?></td>
-                                <td class="text-center"><?= $ressource->stock($exercice->datefin()) + $ressource->en_cours() ?> <?= $ressource->abbr ?></td>
-                                <td class="text-center"><?= money($prix) ?> <?= $params->devise ?></td>
+                                <th class="text-left">Libéllé</th>
+                                <th>stock init</th>
+                                <th>Achat</th>
+                                <th>Conso</th>
+                                <th>En cours</th>
+                                <th>stock final</th>
+                                <th>Valeur final</th>
                             </tr>
-                        <?php } ?>
-                        <tr>
-                            <td colspan="5" class="text-right"><h2 class="mp0">Total =</h2></td>
-                            <td colspan="2" class="text-right"><h2 class="mp0"><?= money($total) ?> <?= $params->devise ?></h2></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php $total = 0;
+                            foreach (Home\RESSOURCE::getAll() as $key => $ressource) {
+                                $prix = $ressource->stock($exercice->datefin()) * $ressource->price();
+                                $total += $prix; ?>
+                                <tr>
+                                    <td class="gras text-left">Stock de <?= $ressource->name() ?></td>
+                                    <td class="text-center"><?= $ressource->stock($exercice->created) ?> <?= $ressource->abbr ?></td>
+                                    <td class="text-center"><?= $ressource->achat($exercice->created, $exercice->datefin()) ?> <?= $ressource->abbr ?></td>
+                                    <td class="text-center"><?= $ressource->consommee($exercice->created, $exercice->datefin()) ?> <?= $ressource->abbr ?></td>
+                                    <td class="text-center"><?= $ressource->en_cours() ?> <?= $ressource->abbr ?></td>
+                                    <td class="text-center"><?= $ressource->stock($exercice->datefin()) + $ressource->en_cours() ?> <?= $ressource->abbr ?></td>
+                                    <td class="text-center"><?= money($prix) ?> <?= $params->devise ?></td>
+                                </tr>
+                            <?php } ?>
+                            <tr>
+                                <td colspan="4" class="text-right"><h2 class="mp0">Total =</h2></td>
+                                <td colspan="2" class=""><h2 class="mp0 text-right"><?= money($total) ?> <?= $params->devise ?></h2></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div><br>
+
+
+                <div>
+                    <h2 class="text-uppercase">Stock des emballage</h2>
+                    <table class="table table-striped table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Libéllé</th>
+                                <th>stock init</th>
+                                <th>Achat</th>
+                                <th>Conso</th>
+                                <th>En cours</th>
+                                <th>stock final</th>
+                                <th>Valeur final</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $total = 0;
+                            foreach (Home\EMBALLAGE::getAll() as $key => $ressource) {
+                                $prix = $ressource->stock($exercice->datefin()) * $ressource->price();
+                                $total += $prix; ?>
+                                <tr>
+                                    <td class="gras text-left">Stock de <?= $ressource->name() ?></td>
+                                    <td class="text-center"><?= $ressource->stock($exercice->created) ?> </td>
+                                    <td class="text-center"><?= $ressource->achat($exercice->created, $exercice->datefin()) ?></td>
+                                    <td class="text-center"><?= $ressource->consommee($exercice->created, $exercice->datefin()) ?></td>
+                                    <td class="text-center"><?= $ressource->en_cours() ?></td>
+                                    <td class="text-center"><?= $ressource->stock($exercice->datefin()) + $ressource->en_cours() ?></td>
+                                    <td class="text-center"><?= money($prix) ?> <?= $params->devise ?></td>
+                                </tr>
+                            <?php } ?>
+                            <tr>
+                                <td colspan="4" class="text-right"><h2 class="mp0">Total =</h2></td>
+                                <td colspan="2" class=""><h2 class="mp0 text-right"><?= money($total) ?> <?= $params->devise ?></h2></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="col-md-5">

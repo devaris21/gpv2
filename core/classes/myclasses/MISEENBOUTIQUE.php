@@ -43,7 +43,7 @@ class MISEENBOUTIQUE extends TABLE
 
 
 
-	public function valider(Array $post){
+	public function valider(){
 		$data = new RESPONSE;
 		if ($this->etat_id == ETAT::ENCOURS) {
 			$this->etat_id = ETAT::VALIDEE;

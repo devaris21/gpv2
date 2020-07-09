@@ -1,6 +1,7 @@
 <?php 
 namespace Home;
-
+use Faker\Factory;
+$faker = Factory::create();
 
 if ($this->id != null) {
 	$datas = EXERCICECOMPTABLE::findBy(["id ="=> $this->id]);

@@ -29,7 +29,7 @@ $(function(){
 		formdata.append('id', id);
 		formdata.append('action', "changer");
 		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-			window.location.reload();
+			window.location.href = data.url;
 		}, 'json')
 	})
 

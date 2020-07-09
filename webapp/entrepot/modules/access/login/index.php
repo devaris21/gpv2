@@ -5,7 +5,7 @@
 
 <body class="gray-bg">
 
-    <div class="loginColumns animated fadeInDown">
+    <div class="loginColumns animated fadeInDown" style="margin-top: -3%">
         <div class="row">
             <div class="col-md-6">
 
@@ -18,12 +18,17 @@
 
                 <p>Pour tous autre chose, veuillez contacter votre administrateur système.</p>
 
+                <br>
+                <a href="<?= $this->url("gestion", "access", "login") ?>" class="btn btn-default dim btn-block"><i class="fa fa-long-arrow-left"></i> Revenir en arrière</a>
+                <br>
+                <a href="<?= $this->url("boutique", "access", "login") ?>" class="btn btn-default dim btn-block"><i class="fa fa-long-arrow-left"></i> Aller à ma boutique</a>
+
 
             </div>
             <div class="col-md-6">
                 <div class="ibox-content text-center">
                     <img style="width: 150px" src="<?= $this->stockage("images", "societe", $params->image) ?>">
-                    <h1 class="logo-name text-center" style="font-size: 90px; letter-spacing: 5px; margin: 0% !important; padding: 0% !important;">GPV</h1>
+                    <h1 class="logo-name text-center" style="font-size: 70px; letter-spacing: 5px; margin: 0% !important; padding: 0% !important;">GPV</h1>
                     <form method="POST" class="m-t" role="form" id="formConnexion" >
                         <div class="form-group">
                             <input type="text" name="login" class="form-control" placeholder="identifiant" required>
@@ -47,17 +52,17 @@
                 &copy; DEVARIS 21, tous droits reservés
             </div>
             <div class="col-md-6 text-right">
-               <small>© 2019-2020</small>
-           </div>
-       </div>
+             <small>© 2019-2020</small>
+         </div>
+     </div>
 
-   </div>
+ </div>
 
-   <div style="position: absolute; bottom: 0; height: 250px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
+ <div style="position: absolute; bottom: 0; height: 200px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
 
-   </div>
+ </div>
 
-   <div class="modal inmodal" id="modal-newUser" tabindex="-1" role="dialog" aria-hidden="true">
+ <div class="modal inmodal" id="modal-newUser" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog ">
         <div class="modal-content animated bounceInRight">
             <div class="modal-header">

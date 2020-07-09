@@ -1,7 +1,7 @@
 
 <div role="tabpanel" id="tab-capitaux" class="tab-pane">
     <div class="panel-body">
-        <div class="row">
+       <!--  <div class="row">
             <div class="col-lg-3">
                 <div class="widget style1 blue-bg">
                     <div class="row">
@@ -54,7 +54,7 @@
                     </div>
                 </div>
             </div>
-        </div><br>
+        </div> --><br>
 
         <div class="row">
             <div class="col-md-6">

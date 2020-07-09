@@ -1,4 +1,4 @@
-//Flot Bar Chart
+x//Flot Bar Chart
 $(function() {
     var barOptions = {
         series: {
@@ -286,7 +286,7 @@ $(function() {
             tooltip: true,
             tooltipOpts: {
                 content: "%s for %x was %y",
-                xDateFormat: "%y-%0m-%0d",
+                xDateFormat: "%y-0%m-%0d",
 
                 onHover: function(flotItem, $tooltipEl) {
                     // console.log(flotItem, $tooltipEl);

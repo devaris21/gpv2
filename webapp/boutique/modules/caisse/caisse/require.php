@@ -20,7 +20,7 @@ foreach ($operations as $key => $value) {
 	$value->fiche = "boncaisse";
 	$value->type = $value->categorieoperation->name();
 }
-$clients = $boutique->fourni("REGLEMENTCLIENT", ["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2]);
+$clients = $boutique->fourni("reglementclient", ["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2]);
 foreach ($clients as $key => $value) {
 	$value->actualise();
 	$value->fiche = "boncaisse";

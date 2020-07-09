@@ -1,6 +1,6 @@
   <div role="tabpanel" id="tab-banques" class="tab-pane">
     <div class="panel-body">
-       <div class="row">
+     <div class="row">
         <div class="col-lg-12">
             <div class="ibox ">
                 <div class="ibox-title">
@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="flot-chart" style="height: 250px">
-                                <div class="flot-chart-content" id="flot-line-chart-multi"></div>
+                                <div class="flot-chart-content" id="flot-dashboard-banque" height="700px"></div>
                             </div><hr>
                             <div class="row text-center">
                                 <div class="col-md">

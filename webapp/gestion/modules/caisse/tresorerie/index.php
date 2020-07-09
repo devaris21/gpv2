@@ -24,7 +24,6 @@
                             <li><a class="nav-link" data-toggle="tab" href="#tab-capitaux"><i class="fa fa-home"></i> Capitaux & Immobilisation</a></li>
                             <li><a class="nav-link" data-toggle="tab" href="#tab-stock"><i class="fa fa-cubes"></i> Stock & en-cours</a></li>
                             <li><a class="nav-link" data-toggle="tab" href="#tab-banques"><i class="fa fa-money"></i> Comptes & Banques</a></li>
-                            <li><a class="nav-link" data-toggle="tab" href="#tab-tiers"><i class="fa fa-users"></i> Comptes de tiers</a></li>
                             <li><a class="nav-link" data-toggle="tab" href="#tab-recettes"><i class="fa fa-charts-line"></i> Recettes & charges</a></li>
                         </ul>
 
@@ -34,7 +33,6 @@
                             <?php include($this->relativePath("partiels/tab-capitaux.php")) ?>
                             <?php include($this->relativePath("partiels/tab-stock.php")) ?>
                             <?php include($this->relativePath("partiels/tab-banques.php")) ?>
-                            <?php include($this->relativePath("partiels/tab-tiers.php")) ?>
                             <?php include($this->relativePath("partiels/tab-recettes.php")) ?>
 
                         </div>
@@ -319,72 +317,85 @@
 
 
 
-    <script type="text/javascript">
+    <script>
+        $(document).ready(function() {
 
-    //Flot Multiple Axes Line Chart
-    $(function() {
-        function euroFormatter(v, axis) {
-            return v.toFixed(axis.tickDecimals) + "€";
-        }
-
-        function doPlot(position) {
-            $.plot($("#flot-line-chart-multi"), [
-                <?php foreach (Home\COMPTEBANQUE::findBy(["DATE(created) >= "=>$exercice->created]) as $key => $banque) { ?>
-                    {
-                        data: [
-                        <?php foreach ($banque->evolution($exercice->created, $exercice->datefin()) as $key => $value) { ?>
-                            [<?= $value->time ?>, <?= $value->montant ?>],
-                        <?php } ?>
-                        ],
-                        label: "<?= $banque->name() ?>"
-                    },
-                    <?php } ?> ], {
-                        xaxes: [{
-                            mode: 'time'
-                        }],
-                        yaxes: [{
-                            min: 0
-                        }, {
-                // align if we are to the right
-                alignTicksWithAxis: position == "right" ? 1 : null,
-                position: position,
-                tickFormatter: euroFormatter
-            }],
-            legend: {
-                position: 'sw'
+           var dataset = [
+           <?php foreach (Home\COMPTEBANQUE::findBy(["DATE(created) >= "=>$exercice->created]) as $key => $banque) { ?>
+              {
+                label: "<?= $banque->name() ?>",
+                data: [<?php foreach ($banque->evolution($exercice->created, $exercice->datefin()) as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->montant ?>], <?php } ?> ],
+                yaxis: 2,
+                color: "<?= $faker->hexColor ?>",
+                lines: {
+                    lineWidth:1,
+                    show: true,
+                },
+                splines: {
+                    show: false,
+                    tension: 0.6,
+                    lineWidth: 1,
+                    fill: 0.1
+                },
             },
-            colors: ["#8878ac"],
-            grid: {
-                color: "#999999",
-                hoverable: true,
-                clickable: true,
-                tickColor: "#D4D4D4",
-                borderWidth:0,
-                hoverable: true //IMPORTANT! this is needed for tooltip to work,
 
+        <?php } ?> 
+
+        ];
+
+
+        var options = {
+            xaxis: {
+                mode: "time",
+                tickSize: [4, "day"],
+                tickLength: 0,
+                axisLabel: "Date",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Arial',
+                axisLabelPadding: 10,
+                color: "#d5d5d5"
             },
-            tooltip: true,
-            tooltipOpts: {
-                content: "%s: %y au %x",
-                xDateFormat: "%d-%m-%Y",
-
-                onHover: function(flotItem, $tooltipEl) {
-                    // console.log(flotItem, $tooltipEl);
-                }
+            yaxes: [{
+                position: "left",
+                max: 1070,
+                color: "#d5d5d5",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Arial',
+                axisLabelPadding: 3
+            }, {
+                position: "right",
+                clolor: "#d5d5d5",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: ' Arial',
+                axisLabelPadding: 67
             }
+            ],
+            legend: {
+                noColumns: 1,
+                labelBoxBorderColor: "#000000",
+                position: "nw"
+            },
+            grid: {
+                hoverable: false,
+                borderWidth: 0
+            }
+        };
 
-        });
+        function gd(year, month, day) {
+            return new Date(year, month - 1, day).getTime();
         }
 
-        doPlot("right");
+        var previousPoint = null, previousLabel = null;
 
-        $("button").click(function() {
-            doPlot($(this).text());
-        });
+        $.plot($("#flot-dashboard-banque"), dataset, options);
     });
+</script>
 
 
-
+<script type="text/javascript">
 
 
     $(document).ready(function() {

@@ -28,6 +28,8 @@ class OPERATION extends TABLE
 	public function enregistre(){
 		$data = new RESPONSE;
 		$this->employe_id = getSession("employe_connecte_id");
+		$this->boutique_id = getSession("boutique_connecte_id");
+		
 		$datas = EMPLOYE::findBy(["id ="=>$this->employe_id]);
 		if (count($datas) == 1) {
 			$datas = CATEGORIEOPERATION::findBy(["id ="=>$this->categorieoperation_id]);
@@ -176,34 +178,63 @@ class OPERATION extends TABLE
 
 
 
-	public static function statistiques(int $boutique_id){
+	public static function statistiques(int $boutique_id = null){
 		$tableau_mois = ["", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 		$tableau_mois_abbr = ["", "Jan", "Fév", "Mar", "Avr", "Mai", "Jui", "Juil", "Août", "Sept", "Oct", "Nov", "Déc"];
 		$mois1 = date("m", strtotime("-1 year")); $year1 = date("Y", strtotime("-1 year"));
 		$mois2 = date("m"); $year2 = date("Y");
 		$tableaux = [];
-		while ( $year2 >= $year1) {
-			$debut = $year1."-".$mois1."-01";
-			$fin = $year1."-".$mois1."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);
-			$data = new RESPONSE;
-			$data->name = $tableau_mois_abbr[intval($mois1)]." ".$year1;
+
+		if ($boutique_id == null) {
+			while ( $year2 >= $year1) {
+				$debut = $year1."-".$mois1."-01";
+				$fin = $year1."-".$mois1."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);
+				$data = new RESPONSE;
+				$data->name = $tableau_mois_abbr[intval($mois1)]." ".$year1;
 			//$data->name = $year1."-".start0($mois1)."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);;
 			////////////
 
-			$data->entree = OPERATION::entree($debut, $fin, $boutique_id);
-			$data->sortie = OPERATION::sortie($debut, $fin, $boutique_id);
-			$data->resultat = $data->entree - $data->sortie;
+				$data->entree = OPERATION::entree($debut, $fin);
+				$data->sortie = OPERATION::sortie($debut, $fin);
+				$data->resultat = $data->entree - $data->sortie;
 
-			$tableaux[] = $data;
+				$tableaux[] = $data;
 			///////////////////////
-			if ($mois2 == $mois1 && $year2 == $year1) {
-				break;
-			}else{
-				if ($mois1 == 12) {
-					$mois1 = 01;
-					$year1++;
+				if ($mois2 == $mois1 && $year2 == $year1) {
+					break;
 				}else{
-					$mois1++;
+					if ($mois1 == 12) {
+						$mois1 = 01;
+						$year1++;
+					}else{
+						$mois1++;
+					}
+				}
+			}
+		}else{
+			while ( $year2 >= $year1) {
+				$debut = $year1."-".$mois1."-01";
+				$fin = $year1."-".$mois1."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);
+				$data = new RESPONSE;
+				$data->name = $tableau_mois_abbr[intval($mois1)]." ".$year1;
+			//$data->name = $year1."-".start0($mois1)."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);;
+			////////////
+
+				$data->entree = OPERATION::entree($debut, $fin, $boutique_id);
+				$data->sortie = OPERATION::sortie($debut, $fin, $boutique_id);
+				$data->resultat = $data->entree - $data->sortie;
+
+				$tableaux[] = $data;
+			///////////////////////
+				if ($mois2 == $mois1 && $year2 == $year1) {
+					break;
+				}else{
+					if ($mois1 == 12) {
+						$mois1 = 01;
+						$year1++;
+					}else{
+						$mois1++;
+					}
 				}
 			}
 		}

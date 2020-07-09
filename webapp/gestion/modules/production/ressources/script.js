@@ -12,7 +12,7 @@ $(function(){
 
 
     $(".tabs-container li:nth-child(1) a.nav-link").addClass('active')
-    ele = $("#ressources div.tab-pane:first").addClass('active')
+    ele = $(".produits div.tab-pane:first").addClass('active')
     
     //nouvelle ressource
     $(".newressource").click(function(event) {

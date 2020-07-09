@@ -1,9 +1,8 @@
 <?php 
 namespace Home;
 
-$title = "GPV | Rangements de la production";
+$title = "GPV | Mise en boutique de la production";
 
-$datas = MISEENBOUTIQUE::findBy([], [], ["created"=>"DESC"]);
-
+$datas = $boutique->fourni("miseenboutique", [], [], ["created"=>"DESC"]);
 
 ?>

@@ -13,11 +13,6 @@
                     <form id="formMiseenboutique" classname="miseenboutique">
                         <div class="row">
                             <div class="col-sm-6 col-md-4">
-                                <label>Entrepot de sortie</label>
-                                <?php Native\BINDING::html("select", "entrepot") ?>
-                            </div>
-
-                            <div class="col-sm-6 col-md-4">
                                 <label>Boutique de destination</label>
                                 <?php Native\BINDING::html("select", "boutique") ?>
                             </div>
@@ -54,6 +49,7 @@
                             </div>
 
                             <div class="">
+                                <input type="hidden" name="entrepot_id" value="<?= $entrepot->id ?>">
                                 <button class="btn pull-right dim btn-primary" ><i class="fa fa-check"></i> Valider la mise en boutique</button>
                             </div><br>
                         </form>
