@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <div class="tabs-container">
+                        <div class="tabs-container produits">
 
                           <ul class="nav nav-tabs text-uppercase" role="tablist">
                             <li ><a class="nav-link" data-toggle="tab" href="#pan-0"><i class="fa fa-flask" ></i> Global</a></li>
@@ -56,7 +56,7 @@
                             <?php } ?>
                         </ul>
 
-                        <div class="tab-content">
+                        <div class="tab-content loading-data">
                             <div role="tabpanel" id="pan-0" class="tab-pane">
                                 <div class="panel-body">
                                     <div class="row">
@@ -172,13 +172,13 @@
                                                             <?php } ?>
                                                             <tr style="height: 18px;"></tr>
                                                             <tr>
-                                                                <td ><h4 class="text-center gras text-muted text-uppercase">En boutique</h4></td>
+                                                                <td ><h4 class="text-center gras text-muted text-uppercase">En boutiques</h4></td>
                                                                 <?php foreach ($lots as $key => $pdv) { ?>
                                                                     <td><h4 class="gras" ><?= start0($pdv->enBoutique(dateAjoute())) ?></h4></td>
                                                                 <?php } ?>
                                                             </tr>
                                                             <tr>
-                                                                <td style="width: 30%"><h4 class="text-center gras text-uppercase mp0">En entrepot</h4></td>
+                                                                <td style="width: 30%"><h4 class="text-center gras text-uppercase mp0">En entrepots</h4></td>
                                                                 <?php foreach ($lots as $key => $pdv) { ?>
                                                                     <td><h4 class="text-muted gras" ><?= start0($pdv->enEntrepot(dateAjoute())) ?></h4></td>
                                                                 <?php } ?>
@@ -186,7 +186,7 @@
                                                             <tr>
                                                                 <td><h3 class="text-center gras text-uppercase mp0">Stock global actuel</h3><small>Entrepot + boutique</small></td>
                                                                 <?php foreach ($lots as $key => $pdv) { ?>
-                                                                    <td><h3 class="text-green gras" ><?= start0($pdv->stockGlobal()) ?></h3></td>
+                                                                    <td><h3 class="text-green gras" ><?= start0($pdv->stock(dateAjoute())) ?></h3></td>
                                                                 <?php } ?>
                                                             </tr>
                                                         </tbody>
@@ -306,6 +306,7 @@
     }
 });
 
+     $(".loading-data").removeClass("loading-data");
 
  })
 </script>

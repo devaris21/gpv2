@@ -33,12 +33,29 @@ namespace Home;
 // }
 
 
+foreach (OPERATION::findBy(["mouvement_id = "=> 0]) as $key => $value) {
+	$datas = MOUVEMENT::findBy(["comment ="=> $value->comment]);
+	if (count($datas) == 1) {
+		$mvt = $datas[0];
+		$value->mouvement_id = $mvt->id;
+		$value->save();
+	}
+}
+
+
+
 $datas = ["Vente par commande", "Vente en Cave"];
 foreach ($datas as $key => $value) {
 	$item = new TYPEVENTE();
 	$item->name = $value;
 	$item->setProtected(1);
 	$item->save();
+}
+
+foreach (EMPLOYE::getAll() as $key => $value) {
+	$value->entrepot_id = ENTREPOT::PRINCIPAL;
+	$value->boutique_id = ENTREPOT::PRINCIPAL;
+	$value->save();
 }
 
 foreach (BOUTIQUE::getAll() as $key => $value) {
@@ -118,9 +135,13 @@ foreach (APPROETIQUETTE::getAll() as $key => $value) {
 
 
 foreach (LIGNECOMMANDE::getAll() as $key => $value) {
+	$value->actualise();
 	$value->price = $value->prixdevente->prix->price * $value->quantite;
 	$value->save();
 }
+
+
+
 
 // //mise en place de compte courant
 // $datas = ["Caisse courante"];

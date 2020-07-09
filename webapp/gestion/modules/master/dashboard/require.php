@@ -22,9 +22,9 @@ foreach (PRODUIT::getAll() as $key => $produit) {
 		$data->prix = $pdv->prix->price()." ".$params->devise;
 		$data->quantite = $pdv->quantite->name();
 		$data->boutique = $data->commande = $data->stock = 0;
-		$data->boutique += $pdv->enBoutique(dateAjoute());
-		$data->commande += $pdv->commandee();
-		$data->stock += $pdv->enEntrepot(dateAjoute());
+		$data->boutique = $pdv->enBoutique(dateAjoute());
+		$data->commande = $pdv->commandee();
+		$data->stock = $pdv->enEntrepot(dateAjoute());
 		$data->rupture = false;
 		if ($data->boutique <= $params->ruptureStock || $data->stock <= $params->ruptureStock) {
 			$data->rupture = true;
@@ -42,7 +42,7 @@ for ($i=0; $i < 30; $i++) {
 
 $depenses = OPERATION::sortie(dateAjoute() , dateAjoute(+1));
 
-$stats = []; VENTE::stats(dateAjoute(-14), dateAjoute());
+$stats = VENTE::stats(dateAjoute(-14), dateAjoute());
 
 
 ?>

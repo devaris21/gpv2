@@ -141,7 +141,7 @@
                 </div>
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-5 border-left    ">
                 <h2 class="text-uppercase">Stock des produits </h2>
                 <table class="table table-hover">
                     <thead>
@@ -165,7 +165,7 @@
                                 $a = $pdv->stock($exercice->created);
                             } ?>
                             <tr>
-                                <td class="gras text-muted text-center" rowspan="<?= count($datas)+1 ?>">
+                                <td class="gras text-center" style="color: <?= $produit->couleur ?>" rowspan="<?= count($datas)+1 ?>">
                                     <br><i class="fa fa-flask fa-3x"></i><br><?= $produit->name() ?>
                                 </td>
                                 <td class="gras text-muted"><?= $pdv->prix->price() ?> <?= $params->devise ?></td>

@@ -44,12 +44,10 @@ class LIGNECOMMANDE extends TABLE
 
 
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des infos de l'accessoire N°$this->id  $this->name .";
 	}
 
 
 	public function sentenseDelete(){
-		return $this->sentense = "on a retiré le chauffeur ".$this->chauffeur->name()." sur vehicule ".$this->vehicule->marque->name." ".$this->vehicule->modele." immatriculé ".$this->vehicule->immatriculation;
 	}
 
 }

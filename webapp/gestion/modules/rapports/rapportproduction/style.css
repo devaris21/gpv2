@@ -10,3 +10,8 @@
 	margin-right: 2%;
 	border: 1px solid #000;
 }
+
+
+    .tab-content.loading-data .tab-pane {
+      display: block;
+  }

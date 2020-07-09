@@ -31,7 +31,6 @@
             $ventecaves__ = Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::VENTECAVE]);
             $livraisons__ = Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]);
             $approvisionnements__ = Home\APPROVISIONNEMENT::encours();
-            $datas1__ = array_merge(Home\PANNE::encours(), Home\DEMANDEENTRETIEN::encours(), Home\ENTRETIENVEHICULE::encours(), Home\ENTRETIENMACHINE::encours());
 
             ?>
             <ul class="nav metismenu" id="side-menu">
@@ -79,18 +78,6 @@
                     <li class="" id="miseenboutique">
                         <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span></a>
                     </li>
-                   <!--  
-                   <li class="" id="fournisseurs">
-                        <a href="<?= $this->url($this->section, "production", "fournisseurs") ?>"><i class="fa fa-address-book-o"></i> <span class="nav-label">Liste des Fournisseurs</span></a>
-                    </li>
-                    <li class="groupe">
-                        <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Approvisionnements</span> <span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li id="approressource"><a href="<?= $this->url($this->section, "production", "approressource", 7) ?>">Appro de ressources</a></li>
-                            <li id="approemballage"><a href="<?= $this->url($this->section, "production", "approemballage", 7) ?>">Appro d'emballage</a></li>
-                            <li id="approetiquette"><a href="<?= $this->url($this->section, "production", "approetiquette", 7) ?>">Appro d'etiquette</a></li>
-                        </ul>
-                    </li> -->
                     <li class="" id="ressources">
                         <a href="<?= $this->url($this->section, "production", "ressources", "$datea@$dateb") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Les stocks</span></a>
                     </li>
@@ -107,28 +94,17 @@
                 <li class="" id="rapportvente">
                     <a href="<?= $this->url($this->section, "rapports", "rapportvente", "$datea@$dateb") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de vente</span></a>
                 </li>
-                <li class="groupe">
+          <!--       <li class="groupe">
                     <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Etats récapitulatifs</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li id="etatclients"><a href="<?= $this->url($this->section, "rapports", "etatclients", "$datea@$dateb") ?>">... des clients</a></li>
                         <li id="etatproduction"><a href="<?= $this->url($this->section, "rapports", "etatproduction", "$datea@$dateb") ?>">... de production</a></li>
                         <li id="etatcomptes"><a href="<?= $this->url($this->section, "rapports", "etatcomptes", "$datea@$dateb") ?>">... des comptes</a></li>
-                        <!--  <li id="etatpersonnel"><a href="<?= $this->url($this->section, "rapports", "etatpersonnel", "$datea@$dateb") ?>">... du personnel</a></li> -->
                     </ul>
-                </li>
+                </li> -->
 
                 <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
                 
-<!-- 
-                
-                <li class="" id="machines">
-                    <a href="<?= $this->url($this->section, "master", "machines") ?>"><i class="fa fa-steam"></i> <span class="nav-label">Véhicules et machines</span></a>
-                </li>            
-                <li class="" id="pannes">
-                    <a href="<?= $this->url($this->section, "master", "pannes") ?>"><i class="fa fa-wrench"></i> <span class="nav-label">Pannes et entretien</span> <?php if (count($datas1__) > 0) { ?> <span class="label label-warning float-right"><?= count($datas1__) ?></span> <?php } ?></a>
-                </li>
-                <li class="dropdown-divider" style="background-color: #000"></li> -->
-
 
                 <?php if ($employe->isAutoriser("caisse")) { ?>
                    <!--  <li class="" id="caisse">
@@ -163,6 +139,6 @@
 
 <style type="text/css">
     li.dropdown-divider{
-     !important;
- }
+       !important;
+   }
 </style>

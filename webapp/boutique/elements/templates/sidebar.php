@@ -31,7 +31,6 @@
             $ventecaves__ = Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::VENTECAVE]);
             $livraisons__ = Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]);
             $approvisionnements__ = Home\APPROVISIONNEMENT::encours();
-            $datas1__ = array_merge(Home\PANNE::encours(), Home\DEMANDEENTRETIEN::encours(), Home\ENTRETIENVEHICULE::encours(), Home\ENTRETIENMACHINE::encours());
 
             ?>
             <ul class="nav metismenu" id="side-menu">
@@ -82,16 +81,6 @@
 
                 <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
                 
-<!-- 
-                
-                <li class="" id="machines">
-                    <a href="<?= $this->url($this->section, "master", "machines") ?>"><i class="fa fa-steam"></i> <span class="nav-label">Véhicules et machines</span></a>
-                </li>            
-                <li class="" id="pannes">
-                    <a href="<?= $this->url($this->section, "master", "pannes") ?>"><i class="fa fa-wrench"></i> <span class="nav-label">Pannes et entretien</span> <?php if (count($datas1__) > 0) { ?> <span class="label label-warning float-right"><?= count($datas1__) ?></span> <?php } ?></a>
-                </li>
-                <li class="dropdown-divider" style="background-color: #000"></li> -->
-
 
                 <?php if ($employe->isAutoriser("caisse")) { ?>
                     <li class="" id="caisse">

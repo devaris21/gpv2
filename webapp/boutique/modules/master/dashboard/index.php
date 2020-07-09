@@ -35,7 +35,7 @@
                                 </li>
                                 <li class="list-group-item"></li>
                             </ul>
-                          
+                            
                             <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim btn-block"> <i class="fa fa-long-arrow-right"></i> Nouvelle vente directe</button>
 
                             <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim btn-block"><i class="fa fa-bicycle"></i> Nouvelle prospection</button>
@@ -125,7 +125,6 @@
                                                 <th class="">vendu</th>
                                                 <th class="">heure de retour</th>
                                                 <th class="">statut</th>
-                                                <th class="">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -138,11 +137,6 @@
                                                     <td class="gras text-green"><?= money($prospection->vendu) ?> <?= $params->devise ?></td>
                                                     <td><?= depuis($prospection->dateretour)  ?></td>
                                                     <td class="text-center"><span class="label label-<?= $prospection->etat->class ?>"><?= $prospection->etat->name ?></span> </td>
-                                                    <td class="text-center">
-                                                        <?php if ($prospection->etat_id == Home\ETAT::PARTIEL) { ?>
-                                                            <button onclick="validerProg(<?= $prospection->id ?>)" class="cursor simple_tag pull-right"><i class="fa fa-file-text-o"></i> Faire la prospection</button>
-                                                        <?php } ?>
-                                                    </td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
@@ -215,7 +209,6 @@
 
     <?php include($this->rootPath("webapp/boutique/elements/templates/script.php")); ?>
 
-    <script type="text/javascript" src="<?= $this->relativePath("../../production/programmes/script.js") ?>"></script>
     <script type="text/javascript" src="<?= $this->relativePath("../../master/client/script.js") ?>"></script>
     <script type="text/javascript" src="<?= $this->relativePath("../../production/miseenboutique/script.js") ?>"></script>
 
@@ -239,34 +232,34 @@
 
             var sparklineCharts = function(){
 
-             $("#sparkline2").sparkline([24, 43, 43, 55, 44, 62, 44, 72], {
-                 type: 'line',
-                 width: '100%',
-                 height: '60',
-                 lineColor: '#1ab394',
-                 fillColor: "#ffffff"
-             });
+               $("#sparkline2").sparkline([24, 43, 43, 55, 44, 62, 44, 72], {
+                   type: 'line',
+                   width: '100%',
+                   height: '60',
+                   lineColor: '#1ab394',
+                   fillColor: "#ffffff"
+               });
 
-         };
+           };
 
-         var sparkResize;
+           var sparkResize;
 
-         $(window).resize(function(e) {
+           $(window).resize(function(e) {
             clearTimeout(sparkResize);
             sparkResize = setTimeout(sparklineCharts, 500);
         });
 
-         sparklineCharts();
+           sparklineCharts();
 
 
 
 
-         var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->direct ?>], <?php } ?> ];
+           var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->direct ?>], <?php } ?> ];
 
-         var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->prospection ?>], <?php } ?> ];
+           var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->prospection ?>], <?php } ?> ];
 
-         var dataset = [
-         {
+           var dataset = [
+           {
             label: "Vente directe",
             data: data1,
             color: "#1ab394",

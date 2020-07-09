@@ -18,7 +18,7 @@
             <div class="row justify-content-md-center">
                 <div class="col-lg-10">
                     <div class="ibox"  >
-                        <div class="ibox-content"  style="height: 33cm; background-image: url(<?= $this->stockage("images", "societe", "filigrane.png")  ?>) ; background-size: 50%; background-position: center center; background-repeat: no-repeat;">
+                        <div class="ibox-content"  style="min-height: 33cm; background-image: url(<?= $this->stockage("images", "societe", "filigrane.png")  ?>) ; background-size: 50%; background-position: center center; background-repeat: no-repeat;">
 
 
                             <div>
@@ -48,7 +48,8 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <h5><span>Zone de livraison :</span> <span class="text-uppercase"><?= $commande->zonedevente->name() ?></span></h5>   
-                                        <h5><span>Lieu de livraison :</span> <span class="text-uppercase"><?= $commande->lieu ?></span></h5>   <?php if ($commande->typebareme_id == Home\TYPEBAREME::GROS) { ?>
+                                        <h5><span>Lieu de livraison :</span> <span class="text-uppercase"><?= $commande->lieu ?></span></h5>   
+                                        <?php if ($commande->typebareme_id == Home\TYPEBAREME::GROS) { ?>
                                             <h5 class="text-uppercase text-blue">vente au <?= $commande->typebareme->name() ?></span></h5>
                                         <?php } ?>                         
                                     </div>

@@ -37,3 +37,19 @@
 	margin-right: 2%;
 	border: 1px solid #000;
 }
+
+    @-webkit-keyframes clignoter {
+        0%{color: rgba(255, 0, 0, 0.09)}
+        25%{color: rgba(255, 0, 0, 0.09)}
+        50%{color: rgba(255, 0, 0, 0.09)}
+        75%{color: rgba(255, 0, 0, 0.09)}
+    }
+
+    .rupture{
+        animation: clignoter 0.5s infinite;
+    }
+
+
+    .tab-content.loading-data .tab-pane {
+      display: block;
+  }

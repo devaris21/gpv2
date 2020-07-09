@@ -19,7 +19,7 @@
                 <div class="col-lg-10">
                     <div class="ibox" >
                         <div class="ibox-content border"  style="background-color: #fcfcfc">
-                            <div class="">
+                            <div class="facture">
                                 <div class="row">
                                     <div class="col-sm-5">
                                         <div class="row">
@@ -60,48 +60,29 @@
                                         <span>pour <i><?= $operation->comment ?></i>.</span>
                                         <p class="m-b-xs"><?= $operation->structure ?> - <?= $operation->numero ?></p><br>
                                     </div>
-    
-
-                                    <?php if($operation->client_id > 1){ ?>
-                                        <table class="table">
-                                            <tbody>
-                                                <tr class="border">
-                                                    <td colspan="3" class="text-right">
-                                                        <h4 class="text-uppercase mp0">Solde de l'acompte du client =</h4>
-                                                    </td>
-                                                    <td></td>
-                                                    <td colspan="1" class="text-center"><h3 class="gras text-"><?= money($operation->acompteClient) ?> <?= $params->devise ?></h3></td>
-                                                </tr>
-                                                <tr class="border">
-                                                    <td colspan="3" class="text-uppercase text-right"><h4 class=" text-red ">Dette totale du client = </h4></td>
-                                                    <td></td>
-                                                    <td colspan="1" class="text-center"><h3 class="gras text-danger"><?= money($operation->detteClient) ?> <?= $params->devise ?></h3></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    <?php } ?>
 
                                     <br><br>
 
                                     <div class="row">
                                         <div class="col-6">
-                                            <div class="text-left" style="height: 90px">
+                                            <div class="text-left" style="height: 120px">
                                                 <span><u>Signature du bénéficiaire</u></span>
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <div class="text-right" style="height: 90px">
+                                            <div class="text-right" style="height: 120px">
                                                 <span><u>Signature & Cachet</u></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
+                                <p class="text-center"><small><i>* Aucun remboursement n'est admis après réglement !</i></small></p>
+                            </div><br><hr><br>
+
+                            <div class="facture2">
+
                             </div>
-
-
-                            <hr><hr>
-                            <p class="text-center"><small><i>* Aucun remboursement n'est admis après réglement !</i></small></p>
-
                         </div>
                     </div>
 

@@ -111,7 +111,7 @@
 
 
                     <br>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-lg-7">
                             <div class="ibox ">
                                 <div class="ibox-title">
@@ -201,7 +201,7 @@
                         </div>              
 
                     </div>
-
+ -->
                 </div>
             </div>
             <br>
@@ -220,7 +220,6 @@
 
     <?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
 
-    <script type="text/javascript" src="<?= $this->relativePath("../../production/programmes/script.js") ?>"></script>
     <script type="text/javascript" src="<?= $this->relativePath("../../master/client/script.js") ?>"></script>
     <script type="text/javascript" src="<?= $this->relativePath("../../production/miseenboutique/script.js") ?>"></script>
 
@@ -297,7 +296,7 @@
 
         }, {
             label: "Vente en cave",
-            data: data2,
+            data: data3,
             color: "#0088cc",
             bars: {
                 show: true,

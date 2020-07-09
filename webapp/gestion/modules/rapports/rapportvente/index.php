@@ -71,6 +71,23 @@
                                                             <div class="flot-chart-content" id="flot-dashboard-chart"></div>
                                                         </div><hr>
                                                         <span>Vente directe / vente par prospection</span>
+                                                        <hr>
+                                                        <div class="row text-center">
+                                                            <div class="col">
+                                                                <div class="">
+                                                                    <span class="h5 font-bold block text-primary"><?= money(comptage(Home\VENTE::direct($date1, $date2), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                                                    <small class="text-muted block">Ventes directes</small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col border-right border-left text-danger">
+                                                                <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::prospection($date1, $date2), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                                                <small class="text-muted block">Ventes par prospection</small>
+                                                            </div>
+                                                            <div class="col text-blue">
+                                                                <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::cave($date1, $date2), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                                                <small class="text-muted block">Ventes en cave</small>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                     <div class="col-sm-3 border-left">
@@ -151,7 +168,7 @@
 
                                                                                 <h5 class="d-inline text-success"><?= start0($pdv->pdv->livree($production->ladate, $production->ladate)) ?></h5> &nbsp;&nbsp;|&nbsp;&nbsp;
 
-                                                                                <h5 class="d-inline text-danger"><?= start0($pdv->pdv->perte($production->ladate, $production->ladate)); ?></h5>
+                                                                                <h5 class="d-inline text-danger"><?= start0($pdv->pdv->perteProspection($production->ladate, $production->ladate)); ?></h5>
                                                                             </td>
                                                                         <?php } ?>
                                                                     </tr>
@@ -269,8 +286,8 @@
 
 
 
-        var ctx = document.getElementById('myChart2').getContext('2d');
-        var chart = new Chart(ctx, {
+    var ctx = document.getElementById('myChart2').getContext('2d');
+    var chart = new Chart(ctx, {
     // The type of chart we want to create
     type: 'doughnut',
 
@@ -291,80 +308,80 @@
 });
 
 
-        
-        var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->direct ?>], <?php } ?> ];
 
-        var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->prospection ?>], <?php } ?> ];
+var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->direct ?>], <?php } ?> ];
 
-        var dataset = [
-        {
-            label: "Vente directe",
-            data: data1,
-            color: "#1ab394",
-            bars: {
-                show: true,
-                align: "left",
-                barWidth: 25 * 60 * 60 * 600,
-                lineWidth:0
-            }
+var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->prospection ?>], <?php } ?> ];
 
-        }, {
-            label: "Vente par prospection",
-            data: data2,
-            color: "#cc0000",
-            bars: {
-                show: true,
-                align: "right",
-                barWidth: 25 * 60 * 60 * 600,
-                lineWidth:0
-            }
+var dataset = [
+{
+    label: "Vente directe",
+    data: data1,
+    color: "#1ab394",
+    bars: {
+        show: true,
+        align: "left",
+        barWidth: 25 * 60 * 60 * 600,
+        lineWidth:0
+    }
 
-        }
-        ];
+}, {
+    label: "Vente par prospection",
+    data: data2,
+    color: "#cc0000",
+    bars: {
+        show: true,
+        align: "right",
+        barWidth: 25 * 60 * 60 * 600,
+        lineWidth:0
+    }
 
-
-        var options = {
-            xaxis: {
-                mode: "time",
-                tickSize: [<?= $lot->nb  ?>, "day"],
-                tickLength: 0,
-                axisLabel: "Date",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Arial',
-                axisLabelPadding: 10,
-                color: "#d5d5d5"
-            },
-            yaxes: [{
-                position: "left",
-                color: "#d5d5d5",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Arial',
-                axisLabelPadding: 3
-            }
-            ],
-            legend: {
-                noColumns: 1,
-                labelBoxBorderColor: "#000000",
-                position: "nw"
-            },
-            grid: {
-                hoverable: false,
-                borderWidth: 0
-            }
-        };
-
-        function gd(year, month, day) {
-            return new Date(year, month - 1, day).getTime();
-        }
-
-        var previousPoint = null, previousLabel = null;
-
-        $.plot($("#flot-dashboard-chart"), dataset, options);
+}
+];
 
 
-    });
+var options = {
+    xaxis: {
+        mode: "time",
+        tickSize: [<?= $lot->nb  ?>, "day"],
+        tickLength: 0,
+        axisLabel: "Date",
+        axisLabelUseCanvas: true,
+        axisLabelFontSizePixels: 12,
+        axisLabelFontFamily: 'Arial',
+        axisLabelPadding: 10,
+        color: "#d5d5d5"
+    },
+    yaxes: [{
+        position: "left",
+        color: "#d5d5d5",
+        axisLabelUseCanvas: true,
+        axisLabelFontSizePixels: 12,
+        axisLabelFontFamily: 'Arial',
+        axisLabelPadding: 3
+    }
+    ],
+    legend: {
+        noColumns: 1,
+        labelBoxBorderColor: "#000000",
+        position: "nw"
+    },
+    grid: {
+        hoverable: false,
+        borderWidth: 0
+    }
+};
+
+function gd(year, month, day) {
+    return new Date(year, month - 1, day).getTime();
+}
+
+var previousPoint = null, previousLabel = null;
+
+$.plot($("#flot-dashboard-chart"), dataset, options);
+
+
+});
 </script>
 
 

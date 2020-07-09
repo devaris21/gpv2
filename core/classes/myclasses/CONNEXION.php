@@ -14,7 +14,6 @@ class CONNEXION extends TABLE
 	public $date_connexion;
 	public $date_deconnexion ;
 	public $employe_id = null;
-	public $prestataire_id = null;
 
 	public function enregistre(){
 		return $this->save();

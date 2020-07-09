@@ -15,47 +15,16 @@
         
 
         <div class="row white-bg dashboard-header">
-            <div class="col-md-3">
-                <ul class="list-group clear-list">
-                    <li class="list-group-item">
-                        Total Actif
-                        <span class="float-right">145 000 Fcfa</span>
-                    </li>
-                    <li class="list-group-item">
-                        Chiffre d'affaire
-                        <span class="float-right">145 000 Fcfa</span>
-                    </li><br>
-                    <li class="list-group-item fist-item">
-                        Solde prévisionnel
-                        <span class="float-right">154 015 000</span>
-                    </li>
-                    <li class="list-group-item">
-                        Impôts et TVA
-                        <span class="float-right">
-                            10:16 am
-                        </span>
-                    </li><br>
-                    <li class="list-group-item">
-                        Masse salariale
-                        <span class="float-right">
-                            08:22 pm
-                        </span>
-                    </li>
-                    <li class="list-group-item">
-                        Dette de clients
-                        <span class="float-right">
-                            11:06 pm
-                        </span>
-                    </li>                    
-                    <li class="list-group-item">
-                        Dette de fournisseurs
-                        <span class="float-right">145 000 Fcfa</span>
-                    </li>
-                </ul>
+            <div class="col-md-3" style="font-size: 12px">
+                <br><br>
+                <button class="btn btn-primary dim btn-block"><i class="fa fa-truck"></i> Bilan comptable </button>
+                <button class="btn btn-success dim btn-block"><i class="fa fa-truck"></i> Voir le budget prévisionnel </button>
+                <button class="btn btn-warning dim btn-block"><i class="fa fa-truck"></i> Documents de synthèse </button>
+                <button data-toggle="modal" data-target="#modal-cloture" class="btn btn-success dim btn-block"><i class="fa fa-truck"></i> Cloture de l'exercice </button>
             </div>
-            <div class="offset-1 col-md-8">
-                <div class="flot-chart">
-                    <div class="flot-chart-content" id="flot-dashboard-chart" height="700px"></div>
+            <div class="col-md-9">
+                <div class="flot-chart ">
+                    <div class="flot-chart-content" id="flot-dashboard-chart"></div>
                 </div><hr>
                 <div class="row text-center">
                     <div class="col">
@@ -73,24 +42,6 @@
                         <small class="text-muted block">Resultat net</small>
                     </div>
                 </div>
-            </div>
-        </div><hr>
-
-        <div class="row text-center" style="font-size: 11px">
-            <div class="col-md">
-                <button class="btn btn-primary dim"><i class="fa fa-cart-plus"></i> Faire nouvelle commande</button>
-            </div>
-            <div class="col-md">
-                <button class="btn btn-success dim"><i class="fa fa-truck"></i> Bilan comptable </button>
-            </div>
-            <div class="col-md">
-                <button class="btn btn-success dim"><i class="fa fa-truck"></i> Voir le budget prévisionnel </button>
-            </div>
-            <div class="col-md">
-                <button class="btn btn-warning dim"><i class="fa fa-truck"></i> Documents de synthèse </button>
-            </div>
-            <div class="col-md">
-                <button data-toggle="modal" data-target="#modal-cloture" class="btn btn-success dim"><i class="fa fa-truck"></i> Cloture de l'exercice </button>
             </div>
         </div>
     </div>

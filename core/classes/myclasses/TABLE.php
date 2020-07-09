@@ -115,17 +115,17 @@ abstract class TABLE
     public function setCreated($date = null){
         $this->created = $date;
         if ($date == null) {
-           $this->created = date("Y-m-d H:i:s");
-       }
-       return $this;
-   }
+         $this->created = date("Y-m-d H:i:s");
+     }
+     return $this;
+ }
 
-   public function setModified($date = null){
+ public function setModified($date = null){
     $this->modified = $date;
     if ($date == null) {
-     $this->modified = date("Y-m-d H:i:s");
- }
- return $this;
+       $this->modified = date("Y-m-d H:i:s");
+   }
+   return $this;
 }
 
 

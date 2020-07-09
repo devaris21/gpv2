@@ -57,7 +57,6 @@ class OPERATION extends TABLE
 							$this->reference = "BCA/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
 							$this->mouvement_id = $mouvement->id;
 							$data = $this->save();
-							var_dump($data);
 							if ($data->status) {
 								if (!(isset($this->files) && is_array($this->files))) {
 									$this->files = [];

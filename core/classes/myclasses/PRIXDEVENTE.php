@@ -60,13 +60,13 @@ class PRIXDEVENTE extends TABLE
 
 	public function production(string $date1 = "2020-06-01", string $date2, int $entrepot_id = null){
 		if ($entrepot_id == null) {
-			$requette = "SELECT SUM(production) as production  FROM productionjour, ligneproductionjour, prixdevente WHERE ligneproductionjour.prixdevente_id = prixdevente.id AND ligneproductionjour.productionjour_id = productionjour.id AND prixdevente.id = ? AND productionjour.etat_id != ? AND DATE(ligneproductionjour.created) >= ? AND DATE(ligneproductionjour.created) <= ? GROUP BY prixdevente.id";
+			$requette = "SELECT SUM(production) as production  FROM productionjour, ligneproductionjour, prixdevente WHERE ligneproductionjour.prixdevente_id = prixdevente.id AND ligneproductionjour.productionjour_id = productionjour.id AND prixdevente.id = ? AND productionjour.etat_id != ? AND DATE(productionjour.created) >= ? AND DATE(productionjour.created) <= ? GROUP BY prixdevente.id";
 			$item = LIGNEPRODUCTIONJOUR::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
 
 			if (count($item) < 1) {$item = [new LIGNEPRODUCTIONJOUR()]; }
 			return $item[0]->production;
 		}else{
-			$requette = "SELECT SUM(production) as production  FROM productionjour, ligneproductionjour, prixdevente WHERE ligneproductionjour.prixdevente_id = prixdevente.id AND ligneproductionjour.productionjour_id = productionjour.id AND prixdevente.id = ? AND productionjour.etat_id != ? AND productionjour.entrepot_id = ? AND DATE(ligneproductionjour.created) >= ? AND DATE(ligneproductionjour.created) <= ? GROUP BY prixdevente.id";
+			$requette = "SELECT SUM(production) as production  FROM productionjour, ligneproductionjour, prixdevente WHERE ligneproductionjour.prixdevente_id = prixdevente.id AND ligneproductionjour.productionjour_id = productionjour.id AND prixdevente.id = ? AND productionjour.etat_id != ? AND productionjour.entrepot_id = ? AND DATE(productionjour.created) >= ? AND DATE(productionjour.created) <= ? GROUP BY prixdevente.id";
 			$item = LIGNEPRODUCTIONJOUR::execute($requette, [$this->id, ETAT::ANNULEE, $entrepot_id, $date1, $date2]);
 
 			if (count($item) < 1) {$item = [new LIGNEPRODUCTIONJOUR()]; }

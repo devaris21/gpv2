@@ -8,5 +8,4 @@ $params = PARAMS::findLastId();
 
 $title = "GPV | Espace de connexion";
 
-
 ?>

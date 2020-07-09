@@ -150,7 +150,7 @@
 
                                                                                 <h5 class="d-inline text-success"><?= start0($pdv->pdv->livree($production->ladate, $production->ladate, $boutique->id)) ?></h5> &nbsp;&nbsp;|&nbsp;&nbsp;
 
-                                                                                <h5 class="d-inline text-danger"><?= start0($pdv->pdv->perte($production->ladate, $production->ladate, $boutique->id)); ?></h5>
+                                                                                <h5 class="d-inline text-danger"><?= start0($pdv->pdv->perteProspection($production->ladate, $production->ladate, $boutique->id)); ?></h5>
                                                                             </td>
                                                                         <?php } ?>
                                                                     </tr>

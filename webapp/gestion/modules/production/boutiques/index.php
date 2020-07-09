@@ -227,7 +227,7 @@ var chart = new Chart(ctx, {
         labels: [<?php foreach ($quantites as $key => $prod) { echo "'".$prod->name()."', "; } ?>],
         datasets: [{
             label: 'Emballage le plus vendu',
-            data: [<?php foreach ($quantites as $key => $prod) { echo "'".$prod->vendu($date1, $date2)."', "; } ?>],
+            data: [<?php foreach ($quantites as $key => $prod) { echo "'".$prod->vendu($date1, $date2, $boutique->id)."', "; } ?>],
             backgroundColor: [<?php foreach ($quantites as $key => $prod) { echo "'".$faker->hexColor()."', "; } ?>],
         }]
     },
@@ -357,23 +357,7 @@ new Chart(ctx, {type: 'line', data: lineData, options:lineOptions});
 
 </script>
 
-<style type="text/css">
-    @-webkit-keyframes clignoter {
-        0%{color: rgba(255, 0, 0, 0.09)}
-        25%{color: rgba(255, 0, 0, 0.09)}
-        50%{color: rgba(255, 0, 0, 0.09)}
-        75%{color: rgba(255, 0, 0, 0.09)}
-    }
 
-    .rupture{
-        animation: clignoter 0.5s infinite;
-    }
-
-
-    .tab-content.loading-data .tab-pane {
-      display: block;
-  }
-</style>
 </body>
 
 
