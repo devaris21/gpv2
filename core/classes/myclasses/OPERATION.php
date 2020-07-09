@@ -28,6 +28,8 @@ class OPERATION extends TABLE
 	public function enregistre(){
 		$data = new RESPONSE;
 		$this->employe_id = getSession("employe_connecte_id");
+		$this->boutique_id = getSession("boutique_connecte_id");
+		
 		$datas = EMPLOYE::findBy(["id ="=>$this->employe_id]);
 		if (count($datas) == 1) {
 			$datas = CATEGORIEOPERATION::findBy(["id ="=>$this->categorieoperation_id]);

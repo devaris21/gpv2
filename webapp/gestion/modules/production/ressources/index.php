@@ -50,7 +50,7 @@
                     </div>
                     <div class="ibox-content">
 
-                        <div class="tabs-container" id="ressources">
+                        <div class="tabs-container produits" id="ressources">
 
                             <ul class="nav nav-tabs">
                                 <li><a class="nav-link text-uppercase active" data-toggle="tab" href="#tab-1"><i class="fa fa-globe"></i> Stock des matières premières</a></li>
@@ -238,7 +238,7 @@
 
                                         <div class="ibox-content">
                                             <br>
-                                            <div class="tabs-container" id="produits">
+                                            <div class="tabs-container produits" id="produits">
                                                 <ul class="nav nav-tabs text-uppercase" role="tablist">
                                                     <?php foreach ($produits as $key => $produit) { ?>
                                                         <li style=" border-bottom: 3px solid <?= $produit->couleur; ?>,"><a class="nav-link" data-toggle="tab" href="#pan-<?= $produit->id ?>"><i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <?= $produit->name() ?></a></li>

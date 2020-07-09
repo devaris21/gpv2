@@ -79,7 +79,8 @@
                     <li class="" id="miseenboutique">
                         <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span></a>
                     </li>
-                    <li class="" id="fournisseurs">
+                   <!--  
+                   <li class="" id="fournisseurs">
                         <a href="<?= $this->url($this->section, "production", "fournisseurs") ?>"><i class="fa fa-address-book-o"></i> <span class="nav-label">Liste des Fournisseurs</span></a>
                     </li>
                     <li class="groupe">
@@ -89,7 +90,7 @@
                             <li id="approemballage"><a href="<?= $this->url($this->section, "production", "approemballage", 7) ?>">Appro d'emballage</a></li>
                             <li id="approetiquette"><a href="<?= $this->url($this->section, "production", "approetiquette", 7) ?>">Appro d'etiquette</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li class="" id="ressources">
                         <a href="<?= $this->url($this->section, "production", "ressources", "$datea@$dateb") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Les stocks</span></a>
                     </li>

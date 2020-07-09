@@ -21,6 +21,7 @@
                     <div class="tabs-container produits">
                         <ul class="nav nav-tabs text-uppercase" role="tablist">
                             <li ><a class="nav-link" data-toggle="tab" href="#pan-global"><i class="fa fa-globe" ></i> Global</a></li>
+                            <li ><a class="nav-link" data-toggle="tab" href="#pan-stock"><i class="fa fa-globe" ></i> Les stocks</a></li>
                             <li ><a class="nav-link" data-toggle="tab" href="#pan-ventes"><i class="fa fa-handshake-o" ></i> Production et Sortie des <?= dateDiffe($date1, $date2)  ?> derniers  jours</a></li>
                             <li ><a class="nav-link" data-toggle="tab" href="#pan-caisse"><i class="fa fa-money" ></i> La caisse</a></li>
                             <li style="width: 270px; position: absolute; right: 0;"><?php Native\BINDING::html("select", "entrepot", $entrepot, "id") ?></li>
@@ -28,6 +29,7 @@
                         <div class="tab-content loading-data">
 
                             <?php include($this->relativePath("partials/tab-global.php")); ?>
+                            <?php include($this->relativePath("partials/tab-stock.php")); ?>
                             <?php include($this->relativePath("partials/tab-ventes.php")); ?>
                             <?php include($this->relativePath("partials/tab-caisse.php")); ?>
 

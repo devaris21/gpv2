@@ -110,7 +110,11 @@ class PRIXDEVENTE extends TABLE
 			$total = intval($this->stock) + $this->production("2020-06-01", $date) - $this->totalSortieEntrepot("2020-06-01", $date) - $this->perteEntrepot("2020-06-01", $date);
 			return $total;
 		}else{
-			$total = intval($this->stock) + $this->production("2020-06-01", $date, $entrepot_id) - $this->totalSortieEntrepot("2020-06-01", $date, $entrepot_id) - $this->perteEntrepot("2020-06-01", $date, $entrepot_id);
+			$stock = 0;
+			if ($entrepot_id == ENTREPOT::PRINCIPAL) {
+				$stock = intval($this->stock);
+			}
+			$total = $stock + $this->production("2020-06-01", $date, $entrepot_id) - $this->totalSortieEntrepot("2020-06-01", $date, $entrepot_id) - $this->perteEntrepot("2020-06-01", $date, $entrepot_id);
 			return $total;
 		}
 	}
@@ -121,13 +125,13 @@ class PRIXDEVENTE extends TABLE
 
 	public function totalMiseEnBoutique(string $date1 = "2020-06-01", string $date2, int $boutique_id = null){
 		if ($boutique_id == null) {
-			$requette = "SELECT SUM(quantite) as quantite  FROM lignemiseenboutique, prixdevente, miseenboutique WHERE lignemiseenboutique.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND lignemiseenboutique.miseenboutique_id = miseenboutique.id AND miseenboutique.etat_id != ? AND DATE(lignemiseenboutique.created) >= ? AND DATE(lignemiseenboutique.created) <= ? GROUP BY prixdevente.id";
-			$item = LIGNEMISEENBOUTIQUE::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
+			$requette = "SELECT SUM(quantite) as quantite  FROM lignemiseenboutique, prixdevente, miseenboutique WHERE lignemiseenboutique.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND lignemiseenboutique.miseenboutique_id = miseenboutique.id AND miseenboutique.etat_id = ? AND DATE(lignemiseenboutique.created) >= ? AND DATE(lignemiseenboutique.created) <= ? GROUP BY prixdevente.id";
+			$item = LIGNEMISEENBOUTIQUE::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
 			if (count($item) < 1) {$item = [new LIGNEMISEENBOUTIQUE()]; }
 			return $item[0]->quantite;
 		}else{
-			$requette = "SELECT SUM(quantite) as quantite  FROM lignemiseenboutique, prixdevente, miseenboutique WHERE lignemiseenboutique.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND lignemiseenboutique.miseenboutique_id = miseenboutique.id AND miseenboutique.etat_id != ? AND miseenboutique.boutique_id = ? AND DATE(lignemiseenboutique.created) >= ? AND DATE(lignemiseenboutique.created) <= ? GROUP BY prixdevente.id";
-			$item = LIGNEMISEENBOUTIQUE::execute($requette, [$this->id, ETAT::ANNULEE, $boutique_id, $date1, $date2]);
+			$requette = "SELECT SUM(quantite) as quantite  FROM lignemiseenboutique, prixdevente, miseenboutique WHERE lignemiseenboutique.prixdevente_id = prixdevente.id AND prixdevente.id = ? AND lignemiseenboutique.miseenboutique_id = miseenboutique.id AND miseenboutique.etat_id = ? AND miseenboutique.boutique_id = ? AND DATE(lignemiseenboutique.created) >= ? AND DATE(lignemiseenboutique.created) <= ? GROUP BY prixdevente.id";
+			$item = LIGNEMISEENBOUTIQUE::execute($requette, [$this->id, ETAT::VALIDEE, $boutique_id, $date1, $date2]);
 			if (count($item) < 1) {$item = [new LIGNEMISEENBOUTIQUE()]; }
 			return $item[0]->quantite;
 		}

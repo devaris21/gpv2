@@ -147,11 +147,14 @@ class RESSOURCE extends TABLE
 
 
 	public function price(){
-		$total = 0;
 		$requette = "SELECT SUM(quantite_recu) as quantite, SUM(ligneapprovisionnement.price) as price FROM ligneapprovisionnement, ressource, approvisionnement WHERE ligneapprovisionnement.ressource_id = ressource.id AND ressource.id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND approvisionnement.etat_id = ? GROUP BY ressource.id";
-		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
-		if (count($item) < 1) {$item = [new LIGNEAPPROVISIONNEMENT()]; }
-		$total += $item[0]->price / $item[0]->quantite;
+		$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
+		if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
+		$item = $datas[0];
+		if ($item->quantite == 0) {
+			return 0;
+		}
+		$total = $item->price / $item->quantite;
 
 		return $total;
 	}

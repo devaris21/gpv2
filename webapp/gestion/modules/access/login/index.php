@@ -18,6 +18,11 @@
 
                 <p>Pour tous autre chose, veuillez contacter votre administrateur système.</p>
 
+                <br>
+                <a href="<?= $this->url("boutique", "access", "login") ?>" class="btn btn-default dim btn-block"><i class="fa fa-long-arrow-left"></i> Aller à ma boutique</a>
+                <br>
+                <a href="<?= $this->url("entrepot", "access", "login") ?>" class="btn btn-default dim btn-block"><i class="fa fa-long-arrow-left"></i> Aller à mon entrepot</a>
+
 
             </div>
             <div class="col-md-6">
@@ -53,7 +58,7 @@
 
    </div>
 
-   <div style="position: absolute; bottom: 0; height: 250px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
+   <div style="position: absolute; bottom: 0; height: 200px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
 
    </div>
 

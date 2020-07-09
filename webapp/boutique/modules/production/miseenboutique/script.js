@@ -81,7 +81,7 @@ $(function(){
     }
 
 
-    $(".formValiderMiseenboutique").submit(function(event) {
+    $("#formValiderMiseenboutique").submit(function(event) {
         Loader.start();
         $(this).find("input.vendus").last().change();
         var url = "../../webapp/boutique/modules/production/miseenboutique/ajax.php";

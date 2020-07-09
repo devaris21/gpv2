@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mer. 01 juil. 2020 à 12:47
+-- Généré le : mer. 08 juil. 2020 à 15:48
 -- Version du serveur :  5.7.24
 -- Version de PHP : 7.3.2
 
@@ -98,6 +98,7 @@ CREATE TABLE `approemballage` (
   `reste` int(11) NOT NULL,
   `transport` int(11) NOT NULL,
   `fournisseur_id` int(11) NOT NULL,
+  `entrepot_id` int(11) NOT NULL,
   `reglementfournisseur_id` int(11) DEFAULT NULL,
   `datelivraison` datetime DEFAULT NULL,
   `etat_id` int(11) NOT NULL,
@@ -128,6 +129,7 @@ CREATE TABLE `approetiquette` (
   `transport` int(11) NOT NULL,
   `fournisseur_id` int(11) NOT NULL,
   `reglementfournisseur_id` int(11) DEFAULT NULL,
+  `entrepot_id` int(11) DEFAULT NULL,
   `datelivraison` datetime DEFAULT NULL,
   `etat_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
@@ -156,6 +158,7 @@ CREATE TABLE `approvisionnement` (
   `reste` int(11) NOT NULL,
   `transport` int(11) NOT NULL,
   `fournisseur_id` int(11) NOT NULL,
+  `entrepot_id` int(11) DEFAULT NULL,
   `reglementfournisseur_id` int(11) DEFAULT NULL,
   `datelivraison` datetime DEFAULT NULL,
   `etat_id` int(11) NOT NULL,
@@ -206,6 +209,7 @@ CREATE TABLE `boutique` (
   `id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `lieu` varchar(200) COLLATE utf8_bin NOT NULL,
+  `comptebanque_id` int(11) NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -417,7 +421,7 @@ CREATE TABLE `commande` (
   `avance` int(11) NOT NULL,
   `reste` int(11) NOT NULL,
   `reglementclient_id` int(11) DEFAULT NULL,
-  `operation_id` int(11) NOT NULL,
+  `typebareme_id` int(11) NOT NULL,
   `datelivraison` date NOT NULL,
   `employe_id` int(11) NOT NULL,
   `etat_id` int(11) NOT NULL,
@@ -664,7 +668,7 @@ CREATE TABLE `dotation` (
 
 CREATE TABLE `emballage` (
   `id` int(11) NOT NULL,
-  `prixdevente_id` int(11) NOT NULL,
+  `quantite_id` int(11) NOT NULL,
   `stock` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -687,6 +691,9 @@ CREATE TABLE `employe` (
   `login` varchar(50) COLLATE utf8_bin NOT NULL,
   `password` text COLLATE utf8_bin NOT NULL,
   `image` varchar(50) COLLATE utf8_bin NOT NULL,
+  `boutique_id` int(11) NOT NULL DEFAULT '0',
+  `entrepot_id` int(11) NOT NULL DEFAULT '0',
+  `isAdmin` int(11) NOT NULL DEFAULT '0',
   `is_new` int(11) NOT NULL DEFAULT '0',
   `is_allowed` int(11) NOT NULL DEFAULT '1',
   `visibility` int(11) NOT NULL DEFAULT '0',
@@ -722,6 +729,7 @@ CREATE TABLE `entrepot` (
   `id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `lieu` varchar(200) COLLATE utf8_bin NOT NULL,
+  `comptebanque_id` int(11) NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -999,6 +1007,7 @@ CREATE TABLE `gestionnaire` (
 CREATE TABLE `groupecommande` (
   `id` int(11) NOT NULL,
   `client_id` int(20) NOT NULL,
+  `boutique_id` int(20) NOT NULL,
   `etat_id` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -1120,8 +1129,8 @@ CREATE TABLE `ligneamortissement` (
 
 CREATE TABLE `ligneapproemballage` (
   `id` int(11) NOT NULL,
-  `approetiquette_id` int(11) NOT NULL,
-  `etiquette_id` int(11) NOT NULL,
+  `approemballage_id` int(11) NOT NULL,
+  `emballage_id` int(11) NOT NULL,
   `quantite` float NOT NULL,
   `quantite_recu` float NOT NULL,
   `price` int(11) NOT NULL,
@@ -1139,8 +1148,8 @@ CREATE TABLE `ligneapproemballage` (
 
 CREATE TABLE `ligneapproetiquette` (
   `id` int(11) NOT NULL,
-  `approemballage_id` int(11) NOT NULL,
-  `emballage_id` int(11) NOT NULL,
+  `approetiquette_id` int(11) NOT NULL,
+  `etiquette_id` int(11) NOT NULL,
   `quantite` float NOT NULL,
   `quantite_recu` float NOT NULL,
   `price` int(11) NOT NULL,
@@ -1180,6 +1189,7 @@ CREATE TABLE `lignecommande` (
   `commande_id` int(11) NOT NULL,
   `prixdevente_id` int(11) NOT NULL,
   `quantite` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1223,6 +1233,23 @@ CREATE TABLE `lignedevente` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `ligneetiquettejour`
+--
+
+CREATE TABLE `ligneetiquettejour` (
+  `id` int(11) NOT NULL,
+  `productionjour_id` int(11) NOT NULL,
+  `etiquette_id` int(11) NOT NULL,
+  `consommation` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `lignemiseenboutique`
 --
 
@@ -1230,7 +1257,9 @@ CREATE TABLE `lignemiseenboutique` (
   `id` int(11) NOT NULL,
   `miseenboutique_id` int(11) NOT NULL,
   `prixdevente_id` int(11) NOT NULL,
+  `quantite_depart` int(11) NOT NULL,
   `quantite` int(11) NOT NULL,
+  `perte` int(11) NOT NULL,
   `restant` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -1255,6 +1284,23 @@ CREATE TABLE `lignepayement` (
   `numero` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `comment` text COLLATE utf8_bin,
   `employe_id` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ligneperteentrepot`
+--
+
+CREATE TABLE `ligneperteentrepot` (
+  `id` int(11) NOT NULL,
+  `perteentrepot_id` int(11) NOT NULL,
+  `prixdevente_id` int(11) NOT NULL,
+  `perte` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1400,6 +1446,7 @@ CREATE TABLE `miseenboutique` (
   `entrepot_id` int(11) NOT NULL,
   `etat_id` int(11) NOT NULL,
   `comment` text COLLATE utf8_bin,
+  `datereception` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1611,6 +1658,25 @@ CREATE TABLE `paye_produit` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `perteentrepot`
+--
+
+CREATE TABLE `perteentrepot` (
+  `id` int(11) NOT NULL,
+  `reference` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `employe_id` int(11) NOT NULL,
+  `entrepot_id` int(11) NOT NULL,
+  `etat_id` int(11) NOT NULL,
+  `comment` text COLLATE utf8_bin,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `prestataire`
 --
 
@@ -1660,6 +1726,7 @@ CREATE TABLE `prixdevente` (
   `id` int(11) NOT NULL,
   `produit_id` int(11) NOT NULL,
   `prix_id` int(11) NOT NULL,
+  `prix_id_gros` int(11) NOT NULL,
   `quantite_id` int(11) NOT NULL,
   `isActive` int(11) NOT NULL,
   `stock` int(11) DEFAULT NULL,
@@ -1680,9 +1747,9 @@ CREATE TABLE `productionjour` (
   `ladate` date DEFAULT NULL,
   `comment` text COLLATE utf8_bin NOT NULL,
   `groupemanoeuvre_id` int(11) NOT NULL,
+  `entrepot_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
   `etat_id` int(11) NOT NULL,
-  `groupemanoeuvre_id_rangement` int(11) NOT NULL,
   `dateRangement` date DEFAULT NULL,
   `total_production` int(11) NOT NULL,
   `total_rangement` int(11) NOT NULL,
@@ -1732,6 +1799,7 @@ CREATE TABLE `prospection` (
   `transport` int(11) DEFAULT NULL,
   `etat_id` int(11) NOT NULL,
   `vente_id` int(11) DEFAULT NULL,
+  `boutique_id` int(11) DEFAULT NULL,
   `commercial_id` int(11) NOT NULL,
   `employe_id` int(11) DEFAULT NULL,
   `dateretour` datetime DEFAULT NULL,
@@ -1779,6 +1847,7 @@ CREATE TABLE `reglementclient` (
   `acompteClient` int(11) NOT NULL,
   `detteClient` int(11) NOT NULL,
   `etat_id` int(11) NOT NULL,
+  `boutique_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
   `date_approbation` datetime DEFAULT NULL,
   `image` text COLLATE utf8_bin,
@@ -1948,6 +2017,21 @@ CREATE TABLE `typeamortissement` (
 --
 
 CREATE TABLE `typeapprovisionnement` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `typebareme`
+--
+
+CREATE TABLE `typebareme` (
   `id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
@@ -2191,7 +2275,6 @@ CREATE TABLE `vente` (
   `typevente_id` int(11) DEFAULT NULL,
   `groupecommande_id` int(11) DEFAULT NULL,
   `zonedevente_id` int(11) DEFAULT NULL,
-  `boutique_id` int(11) DEFAULT NULL,
   `montant` int(11) DEFAULT NULL,
   `vendu` int(11) DEFAULT NULL,
   `recu` int(11) DEFAULT NULL,
@@ -2202,7 +2285,7 @@ CREATE TABLE `vente` (
   `dateretour` datetime DEFAULT NULL,
   `comment` text COLLATE utf8_bin,
   `reglementclient_id` int(11) DEFAULT NULL,
-  `operation_id` int(11) NOT NULL,
+  `boutique_id` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -2481,6 +2564,12 @@ ALTER TABLE `lignedevente`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `ligneetiquettejour`
+--
+ALTER TABLE `ligneetiquettejour`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `lignemiseenboutique`
 --
 ALTER TABLE `lignemiseenboutique`
@@ -2490,6 +2579,12 @@ ALTER TABLE `lignemiseenboutique`
 -- Index pour la table `lignepayement`
 --
 ALTER TABLE `lignepayement`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `ligneperteentrepot`
+--
+ALTER TABLE `ligneperteentrepot`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2601,6 +2696,12 @@ ALTER TABLE `paye_produit`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `perteentrepot`
+--
+ALTER TABLE `perteentrepot`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `prestataire`
 --
 ALTER TABLE `prestataire`
@@ -2700,6 +2801,12 @@ ALTER TABLE `typeamortissement`
 -- Index pour la table `typeapprovisionnement`
 --
 ALTER TABLE `typeapprovisionnement`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `typebareme`
+--
+ALTER TABLE `typebareme`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -3049,6 +3156,12 @@ ALTER TABLE `lignedevente`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `ligneetiquettejour`
+--
+ALTER TABLE `ligneetiquettejour`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `lignemiseenboutique`
 --
 ALTER TABLE `lignemiseenboutique`
@@ -3058,6 +3171,12 @@ ALTER TABLE `lignemiseenboutique`
 -- AUTO_INCREMENT pour la table `lignepayement`
 --
 ALTER TABLE `lignepayement`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `ligneperteentrepot`
+--
+ALTER TABLE `ligneperteentrepot`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -3169,6 +3288,12 @@ ALTER TABLE `paye_produit`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `perteentrepot`
+--
+ALTER TABLE `perteentrepot`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `prestataire`
 --
 ALTER TABLE `prestataire`
@@ -3268,6 +3393,12 @@ ALTER TABLE `typeamortissement`
 -- AUTO_INCREMENT pour la table `typeapprovisionnement`
 --
 ALTER TABLE `typeapprovisionnement`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `typebareme`
+--
+ALTER TABLE `typebareme`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

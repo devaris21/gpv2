@@ -25,32 +25,21 @@ if ($this->id != null) {
 
 
 
-		$operations = OPERATION::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2]);
+		$operations = $boutique->fourni("operation", ["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2]);
 		foreach ($operations as $key => $value) {
 			$value->actualise();
 			$value->fiche = "boncaisse";
 			$value->type = $value->categorieoperation->name();
 		}
-		$clients = REGLEMENTCLIENT::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2]);
+		$clients = $boutique->fourni("reglementclient", ["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2]);
 		foreach ($clients as $key => $value) {
 			$value->actualise();
 			$value->fiche = "boncaisse";
 			$value->type = "Reglement de client";
 		}
-		$fournisseurs = REGLEMENTFOURNISSEUR::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2]);
-		foreach ($fournisseurs as $key => $value) {
-			$value->actualise();
-			$value->fiche = "boncaisse";
-			$value->type = "Reglement de fournisseur";
-		}
-		$payes = LIGNEPAYEMENT::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2]);
-		foreach ($payes as $key => $value) {
-			$value->actualise();
-			$value->fiche = "boncaisse";
-			$value->type = "Paye de commercial";
-		}
 
-		$tableau = array_merge($operations, $clients, $fournisseurs, $payes);
+
+		$tableau = array_merge($operations, $clients);
 		usort($tableau, "comparerDateCreated");
 
 		$entrees = $depenses = 0;

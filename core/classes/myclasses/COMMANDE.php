@@ -40,6 +40,8 @@ class COMMANDE extends TABLE
 					$params = PARAMS::findLastId();
 
 					$this->employe_id = getSession("employe_connecte_id");
+					$this->boutique_id = getSession("boutique_connecte_id");
+
 					$this->reference = "BCO/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
 					$this->taux_tva = $params->tva;
 
