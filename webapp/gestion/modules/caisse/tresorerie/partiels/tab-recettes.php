@@ -13,24 +13,31 @@
                             </div><hr>
                             <div class="row stat-list text-center">
                                 <div class="col-4">
-                                    <h3 class="no-margins text-green"><?= money(Home\OPERATION::entree($exercice->created , $exercice->datefin())) ?> <?= $params->devise ?> </h3>
+                                    <h3 class="no-margins text-green"><?= money($ca) ?> <?= $params->devise ?> </h3>
                                     <small>Chiffres d'affaires</small>
 
                                     <div class="progress progress-mini" style="margin-top: 5%;">
                                         <div class="progress-bar" style="width: 100%; background-color: #dedede"></div>
-                                    </div>
+                                    </div><br>
+                                    <h3 class="no-margins text-red"><?= money($payements) ?> <?= $params->devise ?> </h3>
+                                    <small>Payes des commerciaux</small>
                                 </div>
                                 <div class="col-4">
                                     <br>
-                                    <h2 class="no-margins gras"><?= money(Home\OPERATION::resultat($exercice->created, $exercice->datefin())) ?> <small><?= $params->devise ?></small></h2>
+                                    <h2 class="no-margins gras"><?= money($marges) ?> <small><?= $params->devise ?></small></h2>
                                     <small>Marge brute</small>
                                     <div class="progress progress-mini">
                                         <div class="progress-bar" style="width: 100%;"></div>
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <h3 class="no-margins text-red"><?= money(Home\OPERATION::sortie($exercice->created , $exercice->datefin())) ?> <?= $params->devise ?> </h3>
-                                    <small>Dépenses totales</small>
+                                    <h3 class="no-margins text-red"><?= money($charges) ?> <?= $params->devise ?> </h3>
+                                    <small>Charges directes totales</small>
+                                    <div class="progress progress-mini">
+                                        <div class="progress-bar" style="width: 100%;"></div>
+                                    </div><br>
+                                    <h3 class="no-margins text-red"><?= money($appros) ?> <?= $params->devise ?> </h3>
+                                    <small>Approvisionnement</small>
                                 </div>
                             </div>                                
                         </div>
@@ -54,18 +61,18 @@
                     <div class="col-sm-6">
                         <div class="widget red-bg p-lg text-center">
                             <div class="m-b-md">
-                               <h3 class="font-bold no-margins">10 000 000 Fcfa</h3><br>
+                             <h3 class="font-bold no-margins">10 000 000 Fcfa</h3><br>
 
-                                <h4 class="font-bold no-margins">Dépenses</h4>
-                                <h1 class="m-xs">45%</h1>
+                             <h4 class="font-bold no-margins">Dépenses</h4>
+                             <h1 class="m-xs">45%</h1>
 
-                                <small>des prévisions atteintes</small>
-                           </div>
-                       </div>
-                   </div>
-               </div>
+                             <small>des prévisions atteintes</small>
+                         </div>
+                     </div>
+                 </div>
+             </div>
 
-               <div class="ibox">
+             <div class="ibox">
                 <div class="ibox-content" style="padding-bottom: 0;">
                     <button data-toggle="modal" data-target="#modal-entree" class="btn btn-sm btn-primary dim"><i class="fa fa-check"></i> Nouvelle entrée</button>
                     <button data-toggle="modal" data-target="#modal-depense" class="btn btn-sm btn-danger dim pull-right"><i class="fa fa-check"></i> Nouvelle dépense</button><hr class="mp3">
@@ -95,12 +102,12 @@
                             <td class="text-center">-</td>
                             <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute(-8))) ?> <?= $params->devise ?></td>
                         </tr>
-                        <?php foreach ($operations as $key => $operation) {  ?>
+                        <?php foreach ($tableau as $key => $operation) {  ?>
                             <tr>
-                                <td class="text-center" style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $operation->id)  ?>"><i class="fa fa-file-text-o fa-2x"></i></a> 
+                                <td class="text-center" style="background-color: rgba(<?= (isset($operation->categorieoperation))?hex2rgb($operation->categorieoperation->color):"255, 255, 255"; ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("gestion", "fiches", $operation->fiche, $operation->id)  ?>"><i class="fa fa-file-text-o fa-2x"></i></a> 
                                 </td>
                                 <td>
-                                    <h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>"><?= $operation->categorieoperation->name() ?>  
+                                    <h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->mouvement->typemouvement_id == Home\TYPEMOUVEMENT::DEPOT)?"text-green":"text-red" ?>"><?= $operation->type ?>  
 
                                     <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
                                         |
@@ -112,41 +119,35 @@
                                 </h6>
                                 <i><?= $operation->comment ?> ## <u style="font-size: 9px; font-style: italic;"><?= $operation->structure ?> - <?= $operation->numero ?></u></i>
                             </td>
-                                           <!--  <td width="110" class="text-center" style="padding: 0; border-right: 2px dashed grey">
-                                             <?php if ($operation->etat_id == Home\ETAT::ENCOURS) { ?>
-                                                 <button style="padding: 2px 6px;" onclick="valider(<?= $operation->id ?>)" class="cursor simple_tag"><i class="fa fa-file-text-o"></i> Valider</button><span style="display: none">en attente</span>
-                                             <?php } ?>
-                                             <br><small style="display: inline-block; font-style: 8px; line-height: 12px;"><?= $operation->structure ?> - <?= $operation->numero ?></small>
-                                         </td> -->
-                                         <?php if ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE) { ?>
-                                            <td class="text-center text-green gras" style="padding-top: 12px;">
-                                                <?= money($operation->montant) ?> <?= $params->devise ?>
-                                            </td>
-                                            <td class="text-center"> - </td>
-                                        <?php }elseif ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::SORTIE) { ?>
-                                            <td class="text-center"> - </td>
-                                            <td class="text-center text-red gras" style="padding-top: 12px;">
-                                                <?= money($operation->montant) ?> <?= $params->devise ?>
-                                            </td>
-                                        <?php } ?>
-                                        <?php $last += ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)? $operation->montant : -$operation->montant ; ?>
-                                        <td class="text-center gras" style="padding-top: 12px; background-color: #fafafa"><?= money($last) ?> <?= $params->devise ?></td>
-                                    </tr>
-                                <?php } ?>
-                                <tr style="height: 15px;"></tr>
-                                <tr>
-                                    <td style="border-right: 2px dashed grey" colspan="2"><h4 class="text-uppercase mp0 text-right">Total des comptes au <?= datecourt(dateAjoute()) ?></h4></td>
-                                    <td><h3 class="text-center text-green"><?= money(comptage($entrees, "montant", "somme") + $repport) ?> <?= $params->devise ?></h3></td>
-                                    <td><h3 class="text-center text-red"><?= money(comptage($depenses, "montant", "somme")) ?> <?= $params->devise ?></h3></td>
-                                    <td style="background-color: #fafafa"><h3 class="text-center text-blue gras"><?= money($last) ?> <?= $params->devise ?></h3></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-            
+                            <?php if ($operation->mouvement->typemouvement_id == Home\TYPEMOUVEMENT::DEPOT) { ?>
+                                <td class="text-center text-green gras" style="padding-top: 12px;">
+                                    <?= money($operation->mouvement->montant) ?> <?= $params->devise ?>
+                                </td>
+                                <td class="text-center"> - </td>
+                            <?php }elseif ($operation->mouvement->typemouvement_id == Home\TYPEMOUVEMENT::RETRAIT) { ?>
+                                <td class="text-center"> - </td>
+                                <td class="text-center text-red gras" style="padding-top: 12px;">
+                                    <?= money($operation->mouvement->montant) ?> <?= $params->devise ?>
+                                </td>
+                            <?php } ?>
+                            <?php $last += ($operation->mouvement->typemouvement_id == Home\TYPEMOUVEMENT::DEPOT)? $operation->mouvement->montant : -$operation->mouvement->montant ; ?>
+                            <td class="text-center gras" style="padding-top: 12px; background-color: #fafafa"><?= money($last) ?> <?= $params->devise ?></td>
+                        </tr>
+                    <?php } ?>
+                    <tr style="height: 15px;"></tr>
+                    <tr>
+                        <td style="border-right: 2px dashed grey" colspan="2"><h4 class="text-uppercase mp0 text-right">Total des comptes au <?= datecourt(dateAjoute()) ?></h4></td>
+                        <td><h3 class="text-center text-green"><?= money($entrees + $repport) ?> <?= $params->devise ?></h3></td>
+                        <td><h3 class="text-center text-red"><?= money($depenses) ?> <?= $params->devise ?></h3></td>
+                        <td style="background-color: #fafafa"><h3 class="text-center text-blue gras"><?= money($last) ?> <?= $params->devise ?></h3></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </div><br>
+    </div>
+
+</div>
+
+</div>
+</div><br>
 

@@ -78,7 +78,6 @@
                     <li class="" id="miseenboutique">
                         <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span></a>
                     </li>
-
                     <li class="" id="ressources">
                         <a href="<?= $this->url($this->section, "production", "ressources", "$datea@$dateb") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Les stocks</span></a>
                     </li>

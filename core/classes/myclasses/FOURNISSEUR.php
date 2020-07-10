@@ -215,6 +215,12 @@ class FOURNISSEUR extends AUTH
 
 
 
+	public static function dettes(){
+		return comptage(static::getAll(), "dette", "somme");
+	}
+
+
+
 	public function versements(string $date1 = "2020-04-01", string $date2){
 		$datas = $this->fourni("operation", ["DATE(created) >= " => $date1, "DATE(created) <= " => $date2]);
 		foreach ($datas as $key => $ope) {
