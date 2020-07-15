@@ -184,6 +184,13 @@
 
         <div class="ibox-content">
             <div class="tab-content">
+
+                <div>
+                    <?php Native\BINDING::html("select", "client", $client, "id") ?>
+                </div><hr>
+
+
+
                 <div id="contact-1" class="tab-pane active">
                     <h2><?= $client->name() ?> 
 

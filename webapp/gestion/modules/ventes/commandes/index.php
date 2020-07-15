@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 
-<?php include($this->rootPath("webapp/boutique/elements/templates/head.php")); ?>
+<?php include($this->rootPath("webapp/gestion/elements/templates/head.php")); ?>
 
 
 <body class="fixed-sidebar">
 
     <div id="wrapper">
 
-        <?php include($this->rootPath("webapp/boutique/elements/templates/sidebar.php")); ?>  
+        <?php include($this->rootPath("webapp/gestion/elements/templates/sidebar.php")); ?>  
 
         <div id="page-wrapper" class="gray-bg">
 
-          <?php include($this->rootPath("webapp/boutique/elements/templates/header.php")); ?>  
+          <?php include($this->rootPath("webapp/gestion/elements/templates/header.php")); ?>  
 
           <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-9">
@@ -119,7 +119,7 @@
 </div>
 
 
-<?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?> 
+<?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?> 
 
 </div>
 </div>
@@ -129,7 +129,7 @@
 <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?> 
 
 
-<?php include($this->rootPath("webapp/boutique/elements/templates/script.php")); ?>
+<?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
 <script type="text/javascript" src="<?= $this->relativePath("../../master/client/script.js") ?>"></script>
 
 

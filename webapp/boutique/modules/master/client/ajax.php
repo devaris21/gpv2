@@ -8,6 +8,10 @@ use Native\RESPONSE;
 $data = new RESPONSE;
 extract($_POST);
 
+if ($action == "changer") {
+	$data->setUrl("boutique", "master", "client", $id);
+	echo json_encode($data);
+}
 
 if ($action == "newproduit") {
 	$params = PARAMS::findLastId();

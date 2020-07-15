@@ -9,6 +9,12 @@ $data = new RESPONSE;
 extract($_POST);
 
 
+if ($action == "changer") {
+	$data->setUrl("gestion", "master", "client", $id);
+	echo json_encode($data);
+}
+
+
 if ($action == "newproduit") {
 	$params = PARAMS::findLastId();
 	$rooter = new ROOTER;
