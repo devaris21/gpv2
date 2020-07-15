@@ -27,7 +27,7 @@
 
             <?php 
             $groupes__ = Home\GROUPECOMMANDE::encours();
-            $prospections__ = Home\PROSPECTION::encours();
+            $prospections__ = Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::PROSPECTION]);;
             $ventecaves__ = Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::VENTECAVE]);
             $livraisons__ = Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]);
             $approvisionnements__ = Home\APPROVISIONNEMENT::encours();

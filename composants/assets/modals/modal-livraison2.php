@@ -64,14 +64,14 @@
                                 <label>Nom du receptionniste <span style="color: red">*</span> </label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input type="text" value="<?= $livraison->nom_receptionniste ?>" name="nom_receptionniste" class="form-control" required>
+                                    <input type="text" value="<?= $livraison->groupecommande->client->name() ?>" name="nom_receptionniste" class="form-control" required>
                                 </div>
                             </div><br>
                             <div>
                                 <label>Contact du receptionniste </label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                                    <input type="text" value="<?= $livraison->contact_receptionniste ?>" name="contact_receptionniste" class="form-control">
+                                    <input type="text" value="<?= $livraison->groupecommande->client->contact ?>" name="contact_receptionniste" class="form-control">
                                 </div>
                             </div><br>
                             <div>

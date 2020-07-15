@@ -77,7 +77,7 @@
                                                     <img style="width: 120%" src="<?= $this->stockage("images", "produits", $ligne->produit->image) ?>">                        
                                                 </td>
                                                 <td width="35%" class="desc">
-                                                    <h3 class="mp0 text-uppercase gras"><?= $ligne->prixdevente->produit->name() ?><br> <small><?= $ligne->prixdevente->produit->description ?></small></h3>
+                                                    <h3 class="mp0 text-uppercase gras"><?= $ligne->prixdevente->produit->name() ?><br> <small><?= $ligne->prixdevente->quantite->name() ?></small></h3>
                                                 </td>
                                                 <td class="text-center"><h4 class="text-muted"><?= money(($commande->typebareme_id == Home\TYPEBAREME::GROS)?$ligne->prixdevente->prix_gros->price:$ligne->prixdevente->prix->price) ?> <?= $params->devise ?></h4></td>
                                                 <td class="text-center"><h3 style="font-weight: 300px"><i>x <?= $ligne->quantite ?></i></h3></td>

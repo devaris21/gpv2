@@ -84,10 +84,7 @@
                                                 <?php foreach ($lots as $key => $value) { 
                                                     if ($commande->reste($value->id) > 0) {
                                                     $value->actualise(); ?>
-                                                        <th class="text-center">
-                                                            <h5 class="mp0"><?= $value->produit->name() ?></h5>
-                                                            <h6 class="mp0"><?= $value->prix->price() ?></h6>
-                                                        </th>
+                                                        <th class="text-center text-uppercase"><small class="gras"><?= $value->produit->name() ?></small><br> <small><?= $value->quantite->name() ?></small></th>
                                                     <?php }
                                                 } ?>
                                             </tr>

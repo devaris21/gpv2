@@ -82,7 +82,7 @@
                                             </td>
                                             <td class="desc">
                                                 <h5 class="mp0 text-uppercase gras"><?= $ligne->prixdevente->produit->name() ?></h5>
-                                                <span><?= $ligne->prixdevente->prix->price() ?> <?= $params->devise ?></span>
+                                                <span><?= $ligne->prixdevente->quantite->name() ?></span>
                                             </td>
                                             <td class="text-center">
                                                 <h2 class="gras mp0"><?= start0($ligne->quantite) ?></h2>

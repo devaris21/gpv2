@@ -51,90 +51,10 @@
                                     <div role="tabpanel" id="tabpersonnel" class="tab-pane">
                                         <div class="row">
 
-                                         <div class="col-md-4 bloc">
-                                            <div class="ibox border">
-                                                <div class="ibox-title">
-                                                    <h5 class="text-uppercase">Groupe de manoeuvre</h5>
-                                                    <div class="ibox-tools">
-                                                        <a class="btn_modal" data-toggle="modal" data-target="#modal-groupemanoeuvre">
-                                                            <i class="fa fa-plus"></i> Ajouter
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="ibox-content">
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Libéllé</th>
-                                                                <th></th>
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $i =0; foreach (Home\GROUPEMANOEUVRE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
-                                                                $item->actualise();  ?>
-                                                                <tr>
-                                                                    <td class="gras"><?= $item->name(); ?></td>
-                                                                    <td data-toggle="modal" data-target="#modal-groupemanoeuvre" title="modifier ce groupe" onclick="modification('groupemanoeuvre', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                    <td title="supprimer ce groupe" onclick="suppression('groupemanoeuvre', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
-                                                                </tr>
-                                                            <?php } ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-8 bloc">
-                                            <div class="ibox border">
-                                                <div class="ibox-title">
-                                                    <h5 class="text-uppercase">Les manoeuvres</h5>
-                                                    <div class="ibox-tools">
-                                                        <a class="btn_modal" data-toggle="modal" data-target="#modal-manoeuvre">
-                                                            <i class="fa fa-plus"></i> Ajouter
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="ibox-content">
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                            <tr>
-                                                                <th></th>
-                                                                <th>Libéllé</th>
-                                                                <th>Coordonnées</th>
-                                                                <th></th>
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $i =0; foreach (Home\MANOEUVRE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
-                                                                $item->actualise(); ?>
-                                                                <tr>
-                                                                    <td>
-                                                                        <img alt="image" style="width: 40px;" class="m-t-xs" src="<?= $this->stockage("images", "manoeuvres", $item->image) ?>">
-                                                                    </td>
-                                                                    <td>
-                                                                        <span class="gras"><?= $item->name(); ?></span><br>
-                                                                        <?= $item->groupemanoeuvre->name() ?>
-                                                                    </td>
-                                                                    <td>
-                                                                        <i class="fa fa-map-marker"></i> <?= $item->adresse  ?><br>
-                                                                        <i class="fa fa-phone"></i> <?= $item->contact  ?>  
-                                                                    </td>
-                                                                    <td data-toggle="modal" data-target="#modal-manoeuvre" title="modifier ce manoeuvre" onclick="modification('manoeuvre', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                    <td title="supprimer ce manoeuvre" onclick="suppression('manoeuvre', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
-                                                                </tr>
-                                                            <?php } ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         <div class="col-sm-12 bloc">
                                             <div class="ibox border">
                                                 <div class="ibox-title">
-                                                    <h5 class="text-uppercase">Les chauffeurs</h5>
+                                                    <h5 class="text-uppercase">Les commerciaux</h5>
                                                     <div class="ibox-tools">
                                                         <a class="btn_modal" data-toggle="modal" data-target="#modal-chauffeur">
                                                             <i class="fa fa-plus"></i> Ajouter
@@ -227,7 +147,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-12 bloc">
+<!--                                         <div class="col-md-12 bloc">
                                             <div class="ibox border">
                                                 <div class="ibox-title">
                                                     <h5 class="text-uppercase">Vos prestataires de services</h5>
@@ -251,7 +171,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <?php $i =0; foreach (Home\PRESTATAIRE::findBy([], [], ["name"=>"ASC"]) as $key => $item) { ?>
+                                                            <?php //$i =0; foreach (Home\PRESTATAIRE::findBy([], [], ["name"=>"ASC"]) as $key => $item) { ?>
                                                                 <tr>
                                                                     <td>
                                                                         <img alt="image" style="width: 40px;" class="m-t-xs" src="<?= $this->stockage("images", "prestataires", $item->image) ?>">
@@ -266,12 +186,12 @@
                                                                     <td data-toggle="modal" data-target="#modal-prestataire" title="modifier ce prestataire" onclick="modification('prestataire', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
                                                                     <td title="supprimer ce prestataire" onclick="suppression('prestataire', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                                 </tr>
-                                                            <?php } ?>
+                                                            <?php // } ?>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
 
                                     </div>
                                 </div>

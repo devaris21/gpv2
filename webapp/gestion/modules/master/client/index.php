@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 
-<?php include($this->rootPath("webapp/gestion/elements/templates/head.php")); ?>
+<?php include($this->rootPath("webapp/boutique/elements/templates/head.php")); ?>
 
 
 <body class="fixed-sidebar">
 
     <div id="wrapper">
 
-        <?php include($this->rootPath("webapp/gestion/elements/templates/sidebar.php")); ?>  
+        <?php include($this->rootPath("webapp/boutique/elements/templates/sidebar.php")); ?>  
 
         <div id="page-wrapper" class="gray-bg">
 
-          <?php include($this->rootPath("webapp/gestion/elements/templates/header.php")); ?>  
+          <?php include($this->rootPath("webapp/boutique/elements/templates/header.php")); ?>  
 
           <div class="wrapper wrapper-content  animated fadeInRight">
             <div class="row">
@@ -51,10 +51,7 @@
                                                             <?php foreach ($lots as $key => $value) { 
                                                                 if ($commande->reste($value->id) > 0) {
                                                                     $value->actualise(); ?>
-                                                                    <th class="text-center">
-                                                                        <h5 class="mp0"><?= $value->produit->name() ?></h5>
-                                                                        <h6 class="mp0"><?= $value->prix->price() ?></h6>
-                                                                    </th>
+                                                                    <th class="text-center text-uppercase"><small class="gras"><?= $value->produit->name() ?></small><br> <small><?= $value->quantite->name() ?></small></th>
                                                                 <?php }
                                                             } ?>
                                                         </tr>
@@ -99,13 +96,13 @@
                                                                 <tr>
                                                                     <?php foreach ($transaction->items as $key => $ligne) {
                                                                         $ligne->actualise();  ?>
-                                                                        <th class="text-center text-uppercase"><?= $ligne->prixdevente->produit->name() ?></th>
+                                                                        <th class="text-center text-uppercase"><small class="gras"><?= $ligne->prixdevente->produit->name() ?></small><br> <small><?= $ligne->prixdevente->quantite->name() ?></small></th>
                                                                     <?php } ?>
                                                                     <th class="text-center mp0" style="background-color: transparent; border: none">
                                                                         <?php if ($transaction->type == "commande") { ?>
-                                                                           <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncommande", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de commande</a>
+                                                                           <a target="_blank" href="<?= $this->url("boutique", "fiches", "boncommande", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de commande</a>
                                                                        <?php }else{ ?>
-                                                                        <a target="_blank" href="<?= $this->url("gestion", "fiches", "bonlivraison", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de livraison</a>
+                                                                        <a target="_blank" href="<?= $this->url("boutique", "fiches", "bonlivraison", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de livraison</a>
                                                                     <?php } ?>
                                                                 </th>
                                                             </tr>
@@ -115,7 +112,7 @@
                                                                 <?php 
                                                                 foreach ($transaction->items as $key => $ligne) {
                                                                     $ligne->actualise() ?>
-                                                                    <td><h5 class="text-<?= ($transaction->type == "livraison")? "orange":"green" ?> text-center"> <?= start0(($transaction->type == "livraison")? $ligne->quantite_livree: $ligne->quantite) ?> </h5></td>
+                                                                    <td><h5 class="text-<?= ($transaction->type == "prospection")? "orange":"green" ?> text-center"> <?= start0(($transaction->type == "prospection")? $ligne->quantite_vendu: $ligne->quantite) ?> </h5></td>
                                                                 <?php  } ?>
 
                                                                 <?php if ($transaction->type == "commande" && $transaction->reglementclient_id != 0) { ?>
@@ -129,7 +126,7 @@
                                                                 </td>
                                                                 <td class="text-center" data-toggle="tooltip" title="imprimer le facture">
                                                                     <?php if ($employe->isAutoriser("caisse")) { ?>
-                                                                        <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->id) ?>"><i class="fa fa-file-text fa-2x"></i></a>
+                                                                        <a target="_blank" href="<?= $this->url("boutique", "fiches", "boncaisse", $transaction->id) ?>"><i class="fa fa-file-text fa-2x"></i></a>
                                                                     <?php } ?>       
                                                                 </td>
                                                             <?php }  ?>
@@ -163,7 +160,7 @@
                                             <span class="pull-right text-right text-green">
                                                 <span class="gras" style="font-size: 16px"><?= money($transaction->mouvement->montant) ?> <?= $params->devise ?> <?= ($transaction->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <br>
                                                 <small>Par <?= $transaction->modepayement->name() ?></small><br>
-                                                <a href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de caisse</a>
+                                                <a href="<?= $this->url("boutique", "fiches", "boncaisse", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de caisse</a>
                                             </span>
                                         </p>
                                         <p class="m-b-xs"><?= $transaction->comment ?> </p>
@@ -286,7 +283,7 @@
 
 
 
-<?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+<?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?>
 
 <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?>  
 <?php include($this->rootPath("composants/assets/modals/modal-acompte.php")); ?>  
@@ -298,7 +295,7 @@
 </div>
 
 
-<?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
+<?php include($this->rootPath("webapp/boutique/elements/templates/script.php")); ?>
 
 
 </body>

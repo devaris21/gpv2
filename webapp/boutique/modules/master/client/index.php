@@ -51,10 +51,7 @@
                                                             <?php foreach ($lots as $key => $value) { 
                                                                 if ($commande->reste($value->id) > 0) {
                                                                     $value->actualise(); ?>
-                                                                    <th class="text-center">
-                                                                        <h5 class="mp0"><?= $value->produit->name() ?></h5>
-                                                                        <h6 class="mp0"><?= $value->prix->price() ?></h6>
-                                                                    </th>
+                                                                    <th class="text-center text-uppercase"><small class="gras"><?= $value->produit->name() ?></small><br> <small><?= $value->quantite->name() ?></small></th>
                                                                 <?php }
                                                             } ?>
                                                         </tr>
@@ -99,7 +96,7 @@
                                                                 <tr>
                                                                     <?php foreach ($transaction->items as $key => $ligne) {
                                                                         $ligne->actualise();  ?>
-                                                                        <th class="text-center text-uppercase"><?= $ligne->prixdevente->produit->name() ?></th>
+                                                                        <th class="text-center text-uppercase"><small class="gras"><?= $ligne->prixdevente->produit->name() ?></small><br> <small><?= $ligne->prixdevente->quantite->name() ?></small></th>
                                                                     <?php } ?>
                                                                     <th class="text-center mp0" style="background-color: transparent; border: none">
                                                                         <?php if ($transaction->type == "commande") { ?>
@@ -115,7 +112,7 @@
                                                                 <?php 
                                                                 foreach ($transaction->items as $key => $ligne) {
                                                                     $ligne->actualise() ?>
-                                                                    <td><h5 class="text-<?= ($transaction->type == "livraison")? "orange":"green" ?> text-center"> <?= start0(($transaction->type == "livraison")? $ligne->quantite_livree: $ligne->quantite) ?> </h5></td>
+                                                                    <td><h5 class="text-<?= ($transaction->type == "prospection")? "orange":"green" ?> text-center"> <?= start0(($transaction->type == "prospection")? $ligne->quantite_vendu: $ligne->quantite) ?> </h5></td>
                                                                 <?php  } ?>
 
                                                                 <?php if ($transaction->type == "commande" && $transaction->reglementclient_id != 0) { ?>

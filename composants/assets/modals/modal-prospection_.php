@@ -40,6 +40,13 @@
                             <form id="formProspection">
                                 <input type="hidden" name="commercial_id" value="<?= $commercial->getId() ?>">
                                 <div>
+                                    <label>Barème de prix <span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <?php Native\BINDING::html("select", "typebareme"); ?>
+                                    </div>
+                                </div><br>
+
+                                <div>
                                     <label>Zone de vente <span style="color: red">*</span> </label>                                
                                     <div class="input-group">
                                         <?php Native\BINDING::html("select", "zonedevente"); ?>

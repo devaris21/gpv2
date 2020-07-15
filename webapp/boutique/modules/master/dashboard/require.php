@@ -13,6 +13,7 @@ $title = "GPV | Tableau de bord";
 
 $tableau = [];
 $produits = PRODUIT::findBy(["isActive ="=>TABLE::OUI]);
+$quantites = QUANTITE::findBy(["isActive ="=>TABLE::OUI]);
 
 foreach ($produits as $key => $produit) {
 	$tab = [];

@@ -57,7 +57,7 @@
     <div class="wrapper wrapper-content">
         <div class="ibox">
             <div class="ibox-title">
-                <h5>Toutes les ventes</h5>
+                <h5>Toutes les livraisons</h5>
                 <div class="ibox-tools">
                     <button style="margin-top: -5%;" type="button" data-toggle=modal data-target='#modal-clients' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle livraison </button>
                 </div>
@@ -98,7 +98,7 @@
                                                 <th></th>
                                                 <?php foreach ($livraison->ligneprospections as $key => $ligne) { 
                                                     $ligne->actualise(); ?>
-                                                    <th class="text-center text-uppercase"><?= $ligne->prixdevente->produit->name() ?> <br><small><?= $ligne->prixdevente->prix->price() ?> <?= $params->devise ?></small></th>
+                                                     <th class="text-center text-uppercase"><small class="gras"><?= $ligne->prixdevente->produit->name() ?></small><br> <small><?= $ligne->prixdevente->quantite->name() ?></small></th>
                                                 <?php } ?>
                                             </tr>
                                         </thead>

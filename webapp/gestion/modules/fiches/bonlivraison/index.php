@@ -76,7 +76,7 @@
                                             </td>
                                             <td class="desc">
                                                 <h3 class="mp0 text-uppercase gras"><?= $ligne->prixdevente->produit->name() ?></h3>
-                                                <span><?= $ligne->prixdevente->prix->price() ?> <?= $params->devise  ?></span>
+                                                <span><?= $ligne->prixdevente->quantite->name() ?></span>
                                             </td>
                                             <td class="text-center"><h2 class="gras"><?= start0(money($ligne->quantite)) ?></h2></td>
                                             <td class="text-center"><h2><?= ($livraison->etat_id == Home\ETAT::VALIDEE)? $ligne->quantite_vendu : "" ?></h2></td>

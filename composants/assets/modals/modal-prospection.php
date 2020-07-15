@@ -38,7 +38,12 @@
                         </div>
                         <div class="ibox-content"  style="background-color: #fafafa">
                             <form id="formProspection">
-
+                                <div>
+                                    <label>Barème de prix <span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <?php Native\BINDING::html("select", "typebareme"); ?>
+                                    </div>
+                                </div><br>
                                 <div>
                                     <label>Choisissez le commercial <span style="color: red">*</span> </label>                               
                                     <div class="input-group">

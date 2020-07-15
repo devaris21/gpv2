@@ -31,10 +31,8 @@
                             <tr>
                                 <th colspan="3"></th>
                                 <?php foreach ($datas as $key => $value) {
-                                $value->actualise(); ?>
-                                    <th class="text-center">
-                                    <h5 class="mp0"><?= $value->produit->name() ?></h5> 
-                                    <h6 class="mp0"><?= $value->prix->price() ?> <?= $params->devise ?></h6></th>
+                                    $value->actualise(); ?>
+                                    <th class="text-center text-uppercase"><small class="gras"><?= $value->produit->name() ?></small><br> <small><?= $value->quantite->name() ?></small></th>
                                 <?php } ?>
                             </tr>
                         </thead>
@@ -45,10 +43,10 @@
                                 $ligne->fourni("lignecommande");
                                 $ligne->type = "commande";
                             }
-                            $datas2 = $groupecommande->fourni("vente", ["etat_id !="=>Home\ETAT::ANNULEE]);
+                            $datas2 = $groupecommande->fourni("prospection", ["etat_id !="=>Home\ETAT::ANNULEE]);
                             foreach ($datas2 as $key => $ligne) {
-                                $ligne->fourni("lignedevente");
-                                $ligne->type= "vente";
+                                $ligne->fourni("ligneprospection");
+                                $ligne->type= "prospection";
                             }
                             $lots = array_merge($datas1, $datas2);
                             usort($lots, "comparerDateCreated");
@@ -59,7 +57,7 @@
                                         <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
                                             <?php if ($ligne->type == "commande") { ?>
                                                 <i class="fa fa-close fa-3x d-block text-red cursor" onclick="annulerCommande(<?= $ligne->getId() ?>)"></i>
-                                            <?php }else if($ligne->type == "vente" && $ligne->etat_id == Home\ETAT::ENCOURS){ ?> 
+                                            <?php }else if($ligne->type == "prospection" && $ligne->etat_id == Home\ETAT::ENCOURS){ ?> 
                                                 <i class="fa fa-close fa-3x d-block text-red cursor" onclick="annulerLivraison(<?= $ligne->getId() ?>)"></i>
                                             <?php } ?> 
                                         <?php } ?> 
@@ -69,7 +67,7 @@
                                         <small><?= datelong($ligne->created)  ?></small>
                                     </td>
                                     <td data-toggle="tooltip" title="imprimer le bon de <?= $ligne->type ?>">
-                                        <?php if ($ligne->type == "vente") { ?>
+                                        <?php if ($ligne->type == "prospection") { ?>
                                             <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonlivraison", $ligne->getId()) ?>">
                                                 <i class="fa fa-file-text fa-2x d-block"></i></a>
                                             <?php }else{ ?>
@@ -84,64 +82,64 @@
                                                     $item->actualise();
                                                     if ($item->prixdevente->getId() == $value->getId() ) { 
                                                         $test = $item->quantite;
-                                                        if ($ligne->type == "vente") {
+                                                        if ($ligne->type == "prospection") {
                                                             $test = $item->quantite;
                                                         }
                                                         break;
                                                     }
                                                 }
                                                 ?>
-                                                <td><h3 class="text-<?= ($ligne->type == "vente")? "orange":"green" ?> text-center"> <?= $test  ?> </h3></td>
-                                                <?php
-                                            }
-                                            ?>
+                                                <td><h3 class="text-<?= ($ligne->type == "prospection")? "orange":"green" ?> text-center"> <?= $test  ?> </h3></td>
+                                                    <?php
+                                                }
+                                                ?>
 
-                                            <?php if ($ligne->type == "commande" && $ligne->operation_id != 0) { ?>
-                                                <td>
-                                                    <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;">T = <?= money($ligne->montant) ?> <?= $params->devise  ?> </h4>
-                                                    <small>Avance <?= money($ligne->avance) ?> <?= $params->devise  ?> <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $ligne->operation->modepayement->name();  ?>">(<?= $ligne->operation->modepayement->initial;  ?>)</small></small>
-                                                </td>
-                                                <td data-toggle="tooltip" title="imprimer le facture">
-                                                    <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncaisse", $ligne->operation_id) ?>"><i class="fa fa-file-text fa-2x d-block"></i></a>
-                                                </td>
-                                            <?php }  ?>
+                                                <?php if ($ligne->type == "commande" && $ligne->reglementclient_id != 0) { ?>
+                                                    <td>
+                                                        <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;">T = <?= money($ligne->montant) ?> <?= $params->devise  ?> </h4>
+                                                        <small>Avance <?= money($ligne->avance) ?> <?= $params->devise  ?> <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $ligne->operation->modepayement->name();  ?>">(<?= $ligne->operation->modepayement->initial;  ?>)</small></small>
+                                                    </td>
+                                                    <td data-toggle="tooltip" title="imprimer le facture">
+                                                        <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncaisse", $ligne->reglementclient_id) ?>"><i class="fa fa-file-text fa-2x d-block"></i></a>
+                                                    </td>
+                                                <?php }  ?>
 
-                                            <?php if ($ligne->type == "vente" && $ligne->etat_id == Home\ETAT::VALIDEE) { ?>
-                                                <td >
-                                                    <i class="fa fa-check fa-2x text-green"></i>
-                                                </td>
-                                            <?php }  ?>
+                                                <?php if ($ligne->type == "vente" && $ligne->etat_id == Home\ETAT::VALIDEE) { ?>
+                                                    <td >
+                                                        <i class="fa fa-check fa-2x text-green"></i>
+                                                    </td>
+                                                <?php }  ?>
+                                            </tr>
+                                        <?php }
+                                        ?>
+
+                                        <tr style="height: 20px;"></tr>
+
+                                        <tr>
+                                            <td colspan="3"><h2 class="text-uppercase text-right">Reste à livrer : </h2></td>
+                                            <?php foreach ($datas as $key => $value) { ?>
+                                                <td widtd="90" class="text-center"><h2 class="gras"><?= money($groupecommande->reste($value->getId())) ?></h2></td>
+                                            <?php } ?>
                                         </tr>
-                                    <?php }
-                                    ?>
+                                    </tbody>
+                                </table><br><hr>
 
-                                    <tr style="height: 20px;"></tr>
-
-                                    <tr>
-                                        <td colspan="3"><h2 class="text-uppercase text-right">Reste à livrer : </h2></td>
-                                        <?php foreach ($datas as $key => $value) { ?>
-                                            <td widtd="90" class="text-center"><h2 class="gras"><?= money($groupecommande->reste($value->getId())) ?></h2></td>
-                                        <?php } ?>
-                                    </tr>
-                                </tbody>
-                            </table><br><hr>
-
-                            <div class="row text-center">
-                                <div class="col-md">
-                                    <button class="btn btn-primary dim" onclick="fairenewcommande(<?= $groupecommande->getId() ?>)"><i class="fa fa-cart-plus"></i> Faire nouvelle commande</button>
-                                </div>
+                                <div class="row text-center">
+                                    <div class="col-md">
+                                        <button class="btn btn-primary dim" onclick="fairenewcommande(<?= $groupecommande->getId() ?>)"><i class="fa fa-cart-plus"></i> Faire nouvelle commande</button>
+                                    </div>
 
                              <!--    <div class=" col-md">
                                     <button class="btn btn-success dim" onclick="newProgrammation(<?= $groupecommande->getId() ?>)"><i class="fa fa-truck"></i> Programmer livraison </button>
                                 </div>
- -->
-                                <div class=" col-md">
-                                    <button class="btn btn-warning dim" onclick="newlivraison(<?= $groupecommande->getId()  ?>)"><i class="fa fa-truck"></i> Faire livraison aujourd'hui</button>
-                                </div>
+                            -->
+                            <div class=" col-md">
+                                <button class="btn btn-warning dim" onclick="newlivraison(<?= $groupecommande->getId()  ?>)"><i class="fa fa-truck"></i> Faire livraison aujourd'hui</button>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>

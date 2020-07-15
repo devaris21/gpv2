@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 
-<?php include($this->rootPath("webapp/gestion/elements/templates/head.php")); ?>
+<?php include($this->rootPath("webapp/boutique/elements/templates/head.php")); ?>
 
 
 <body class="fixed-sidebar">
 
     <div id="wrapper">
 
-        <?php include($this->rootPath("webapp/gestion/elements/templates/sidebar.php")); ?>  
+        <?php include($this->rootPath("webapp/boutique/elements/templates/sidebar.php")); ?>  
 
         <div id="page-wrapper" class="gray-bg">
 
-          <?php include($this->rootPath("webapp/gestion/elements/templates/header.php")); ?>  
+          <?php include($this->rootPath("webapp/boutique/elements/templates/header.php")); ?>  
 
           <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-9">
@@ -57,9 +57,9 @@
     <div class="wrapper wrapper-content">
         <div class="ibox">
             <div class="ibox-title">
-                <h5>Toutes les ventes</h5>
+                <h5>Toutes les livraisons</h5>
                 <div class="ibox-tools">
-                    <!-- <button style="margin-top: -5%;" type="button" data-toggle=modal data-target='#modal-clients' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle livraison </button> -->
+                    <button style="margin-top: -5%;" type="button" data-toggle=modal data-target='#modal-clients' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle livraison </button>
                 </div>
             </div>
             <div class="ibox-content" style="min-height: 300px">
@@ -98,7 +98,7 @@
                                                 <th></th>
                                                 <?php foreach ($livraison->ligneprospections as $key => $ligne) { 
                                                     $ligne->actualise(); ?>
-                                                    <th class="text-center text-uppercase"><?= $ligne->prixdevente->produit->name() ?> <br><small><?= $ligne->prixdevente->prix->price() ?> <?= $params->devise ?></small></th>
+                                                     <th class="text-center text-uppercase"><small class="gras"><?= $ligne->prixdevente->produit->name() ?></small><br> <small><?= $ligne->prixdevente->quantite->name() ?></small></th>
                                                 <?php } ?>
                                             </tr>
                                         </thead>
@@ -124,7 +124,7 @@
                                         </table>
                                     </td>
                                     <td>
-                                        <a href="<?= $this->url("gestion", "fiches", "bonsortie", $livraison->id) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Bon de sortie</a><br>
+                                        <a href="<?= $this->url("boutique", "fiches", "bonsortie", $livraison->id) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Bon de sortie</a><br>
                                         <?php if ($livraison->etat_id == Home\ETAT::ENCOURS) { ?>
                                             <button onclick="terminer(<?= $livraison->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
                                         <?php } ?>
@@ -145,13 +145,15 @@
         </div>
 
 
-        <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+        <?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?>
 
         <?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
 
         <?php 
         foreach ($livraisons as $key => $livraison) {
             if ($livraison->etat_id == Home\ETAT::ENCOURS) { 
+                $livraison->actualise();
+                $livraison->fourni("ligneprospection");
                 include($this->rootPath("composants/assets/modals/modal-livraison2.php"));
             } 
         } 
@@ -161,7 +163,7 @@
 </div>
 
 
-<?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
+<?php include($this->rootPath("webapp/boutique/elements/templates/script.php")); ?>
 <script type="text/javascript" src="<?= $this->relativePath("../../master/client/script.js") ?>"></script>
 
 

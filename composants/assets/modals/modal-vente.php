@@ -45,6 +45,13 @@
                             <input type="hidden" name="etat_id" value="<?= Home\ETAT::VALIDEE ?>" class="form-control">
 
                             <div>
+                                <label>Barème de prix <span style="color: red">*</span> </label>
+                                <div class="input-group">
+                                    <?php Native\BINDING::html("select", "typebareme"); ?>
+                                </div>
+                            </div><br>
+
+                            <div>
                                 <label>Mode de payement <span style="color: red">*</span> </label>                                
                                 <div class="input-group">
                                     <?php Native\BINDING::html("select", "modepayement"); ?>
