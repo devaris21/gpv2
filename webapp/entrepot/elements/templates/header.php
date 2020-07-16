@@ -22,6 +22,15 @@
                         <i class="fa fa-eye"></i> Prix par zone
                     </a>
                 </li> -->
+
+                 <?php if ($employe->isAutoriser("production")) { ?>
+                    <li class="border-right">
+                        <a  data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->id; ?>) ">
+                            <i class="fa fa-file-text-o"></i> Nouvelle Production
+                        </a>
+                    </li>
+                <?php } ?>
+                
                 
                 <li class="" style="height: 30px">
                     <a href="#" id="btn-deconnexion" style="display: inline-block; margin-top: -37%">

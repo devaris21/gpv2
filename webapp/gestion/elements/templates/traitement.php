@@ -33,6 +33,7 @@ if ($action === "productionjour") {
 
 				//on augmente les etiquettes sur la perte
 				if (isset($_POST["etiq-".$ligne->prixdevente_id])) {
+					$_POST["etiq-".$ligne->prixdevente_id] = intval($_POST["etiq-".$ligne->prixdevente_id]);
 					$_POST["etiq-".$ligne->prixdevente_id] += $ligne->production;
 				}
 				$ligne->save();
@@ -46,10 +47,11 @@ if ($action === "productionjour") {
 
 		$productionjour->fourni("ligneetiquettejour");
 		foreach ($productionjour->ligneetiquettejours as $cle => $ligne) {
-			if (isset($_POST["etiq-".$ligne->prixdevente_id])) {
-				$ligne->consommation = intval($_POST["etiq-".$ligne->prixdevente_id]);
+			$ligne->actualise();
+			if (isset($_POST["etiq-".$ligne->etiquette->prixdevente_id])) {
+				$ligne->consommation = intval($_POST["etiq-".$ligne->etiquette->prixdevente_id]);
 
-				$datas =  ETIQUETTE::findBy(["etiquette_id ="=>$ligne->prixdevente_id]);
+				$datas =  ETIQUETTE::findBy(["id ="=>$ligne->etiquette->prixdevente_id]);
 				if (count($datas) > 0) {
 					$etiq = $datas[0];
 					if ($etiq->stock(dateAjoute()) < $ligne->consommation) {

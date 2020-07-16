@@ -31,9 +31,6 @@
                     <h1 class="logo-name text-center" style="font-size: 70px; letter-spacing: 5px; margin: 0% !important; padding: 0% !important;">GPV</h1>
                     <form method="POST" class="m-t" role="form" id="formConnexion" >
                         <div class="form-group">
-                            <?php Native\BINDING::html("select", "entrepot");  ?>
-                        </div><br>
-                        <div class="form-group">
                             <input type="text" name="login" class="form-control" placeholder="identifiant" required>
                         </div>
                         <div class="form-group">

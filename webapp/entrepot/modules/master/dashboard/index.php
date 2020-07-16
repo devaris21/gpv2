@@ -35,7 +35,7 @@
                                 </li>
                                 <li class="list-group-item"></li>
                             </ul>
-                            <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim btn-block"> <i class="fa fa-long-arrow-right"></i> Nouvelle production</button>
+                            <button data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->id; ?>) " class="btn btn-warning dim btn-block"> <i class="fa fa-long-arrow-right"></i> Nouvelle production</button>
                         </div>
                         <div class="col-md-6">
                             <div class="text-center">

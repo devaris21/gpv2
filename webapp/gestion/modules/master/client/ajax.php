@@ -182,9 +182,9 @@ if ($action == "newproduit") {
 										$pdv = $datas[0];
 										$pdv->actualise();
 										if ($typebareme_id == TYPEBAREME::NORMAL) {
-											$montant = $pdv->prix->price * intval($qte);
+											$montant += $pdv->prix->price * intval($qte);
 										}else{
-											$montant = $pdv->prix_gros->price * intval($qte);
+											$montant += $pdv->prix_gros->price * intval($qte);
 										}
 
 										$lignedevente = new LIGNEDEVENTE;
@@ -259,9 +259,9 @@ if ($action == "newproduit") {
 										$pdv = $datas[0];
 										$pdv->actualise();
 										if ($typebareme_id == TYPEBAREME::NORMAL) {
-											$montant = $pdv->prix->price * intval($qte);
+											$montant += $pdv->prix->price * intval($qte);
 										}else{
-											$montant = $pdv->prix_gros->price * intval($qte);
+											$montant += $pdv->prix_gros->price * intval($qte);
 										}
 
 										$ligneprospection = new LIGNEPROSPECTION;
