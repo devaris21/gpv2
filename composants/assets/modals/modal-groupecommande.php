@@ -97,7 +97,7 @@
                                                 <?php if ($ligne->type == "commande" && $ligne->reglementclient_id != 0) { ?>
                                                     <td>
                                                         <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;">T = <?= money($ligne->montant) ?> <?= $params->devise  ?> </h4>
-                                                        <small>Avance <?= money($ligne->avance) ?> <?= $params->devise  ?> <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $ligne->operation->modepayement->name();  ?>">(<?= $ligne->operation->modepayement->initial;  ?>)</small></small>
+                                                        <small>Avance <?= money($ligne->avance) ?> <?= $params->devise  ?> <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $ligne->reglementclient->modepayement->name();  ?>">(<?= $ligne->reglementclient->modepayement->initial;  ?>)</small></small>
                                                     </td>
                                                     <td data-toggle="tooltip" title="imprimer le facture">
                                                         <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncaisse", $ligne->reglementclient_id) ?>"><i class="fa fa-file-text fa-2x d-block"></i></a>

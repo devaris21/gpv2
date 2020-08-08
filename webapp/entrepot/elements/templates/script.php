@@ -70,6 +70,7 @@
         $(function(){
 
         // selecteur item de page
+        var section = "<?= $this->getSection() ?>"
         var modul = "<?= $this->getModule() ?>"
         var url = "<?= $this->getPage() ?>"
 
@@ -87,16 +88,13 @@
     });
 
 
-        // var modul = "<?= $this->getModule() ?>"
-        // $("li.section").click(function(event) {
-        //     $("li.section").removeClass('active')
-        //     $(this).addClass("active")
-        // });
-        // $("li.section").each(function(index, el) {
-        //     if ($(this).attr("id") == modul){
-        //         $(this).click()
-        //         $(".navbar-static-side .tabs-container .tab-pane[data-id="+modul+"]").addClass('active');
-        //     }
-        // });
+    $("a.onglets").each(function(){
+        if ($(this).attr("id") == "onglet-"+section) {
+            $("a.onglets").removeClass("active btn-warning")
+            $("a.onglets").addClass("btn-white");
+            $(this).addClass("active btn-warning").removeClass("btn-white");
+        }
+    })
+
     });
 </script>

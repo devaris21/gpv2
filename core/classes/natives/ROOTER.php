@@ -3,7 +3,8 @@ namespace Native;
 use Native\SHAMMAN;
 use Home\ROLE;
 use Home\EMPLOYE;
-use Home\UTILISATEUR;
+use Home\ENTREPOT;
+use Home\BOUTIQUE;
 use Home\PRODUCTIONJOUR;
 use Home\EXERCICECOMPTABLE;
 use Home\PARAMS;
@@ -135,8 +136,16 @@ class ROOTER extends PATH
                             $employe = $datas[0];
                             if ($employe->is_allowed()) {
                                 $employe->actualise();
-                                $boutique = $employe->boutique;
-                                session("boutique_connecte_id", $boutique->id);
+
+                                $datas = BOUTIQUE::findBy(["id ="=>$employe->boutique_id]);
+                                if (count($datas) == 1) {
+                                    $boutique = $datas[0];
+                                    session("boutique_connecte_id", $boutique->id);
+                                }else{
+                                    $this->new_root("devaris21", "home", "erreur500");
+                                    $this->render();
+                                    return false;
+                                }
                             }else{
                                 $this->new_root("devaris21", "home", "erreur500");
                                 $this->render();
@@ -156,8 +165,16 @@ class ROOTER extends PATH
                             $employe = $datas[0];
                             if ($employe->is_allowed()) {
                                 $employe->actualise();
-                                $entrepot = $employe->entrepot;
-                                session("entrepot_connecte_id", $entrepot->id);
+                                $datas = ENTREPOT::findBy(["id ="=>$employe->entrepot_id]);
+                                if (count($datas) == 1) {
+                                    $entrepot = $datas[0];
+                                    session("entrepot_connecte_id", $entrepot->id);
+                                }else{
+                                    $this->new_root("devaris21", "home", "erreur500");
+                                    $this->render();
+                                    return false;
+                                }
+
                             }else{
                                 $this->new_root("devaris21", "home", "erreur500");
                                 $this->render();
@@ -241,6 +258,10 @@ class ROOTER extends PATH
 
     public function getModule(){
         return $this->module;
+    }
+
+    public function getSection(){
+        return $this->section;
     }
 
     public function getPage(){

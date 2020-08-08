@@ -6,6 +6,7 @@
 <body class="gray-bg">
 
     <div class="loginColumns animated fadeInDown">
+
         <div class="row">
             <div class="col-md-6">
 
@@ -17,12 +18,6 @@
                 </p>
 
                 <p>Pour tous autre chose, veuillez contacter votre administrateur système.</p>
-
-                <br>
-                <a href="<?= $this->url("boutique", "access", "login") ?>" class="btn btn-default dim btn-block"><i class="fa fa-long-arrow-left"></i> Aller à ma boutique</a>
-                <br>
-                <a href="<?= $this->url("entrepot", "access", "login") ?>" class="btn btn-default dim btn-block"><i class="fa fa-long-arrow-left"></i> Aller à mon entrepot</a>
-
 
             </div>
             <div class="col-md-6">

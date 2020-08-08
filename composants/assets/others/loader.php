@@ -1,6 +1,17 @@
 <div class="leloader">
     <small>Veuillez patienter </small>
     <span class="loading rhomb"></span>
+    <div class="sk-spinner sk-spinner-cube-grid">
+        <div class="sk-cube"></div>
+        <div class="sk-cube"></div>
+        <div class="sk-cube"></div>
+        <div class="sk-cube"></div>
+        <div class="sk-cube"></div>
+        <div class="sk-cube"></div>
+        <div class="sk-cube"></div>
+        <div class="sk-cube"></div>
+        <div class="sk-cube"></div>
+    </div>
 </div>
 
 <style>
@@ -31,7 +42,7 @@
     <br><br>
     <h1 style="font-size: 50px">
         <small>Veuillez patienter </small>
-    <span class="loading rhomb"></span>
+        <span class="loading rhomb"></span>
     </h1>
 </div>
 

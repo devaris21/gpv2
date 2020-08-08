@@ -1,7 +1,6 @@
 
 $(function(){
 
-
 	// Initialisation des plugins
 	$("select.select2").select2();
 

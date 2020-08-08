@@ -12,6 +12,14 @@ if ($this->id != "") {
 
 
 $comptecourant = $boutique->comptebanque;
+if ($comptecourant == null) {
+	$datas = COMPTEBANQUE::findBy(["id ="=>COMPTEBANQUE::COURANT]);
+	if (count($datas) > 0) {
+		$comptecourant = $datas[0];
+	}else{
+		$comptecourant = new COMPTEBANQUE;
+	}
+}
 
 
 $operations = $boutique->fourni("operation", ["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2]);

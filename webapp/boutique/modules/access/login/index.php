@@ -6,6 +6,7 @@
 <body class="gray-bg">
 
     <div class="loginColumns animated fadeInDown" style="margin-top: -2%">
+        <h2 class="text-center gras text-uppercase">Boutique</h2>
         <div class="row">
             <div class="col-md-6">
 
@@ -18,11 +19,6 @@
 
                 <p>Pour tous autre chose, veuillez contacter votre administrateur système.</p>
 
-<<<<<<< HEAD
-                <br>
-=======
- <br>
->>>>>>> origin/test
                 <a href="<?= $this->url("gestion", "access", "login") ?>" class="btn btn-default dim btn-block"><i class="fa fa-long-arrow-left"></i> Revenir en arrière</a>
                 <br>
                 <a href="<?= $this->url("entrepot", "access", "login") ?>" class="btn btn-default dim btn-block"><i class="fa fa-long-arrow-left"></i> Aller à mon entrepot</a>

@@ -9,33 +9,29 @@
                 </form>
             </div>
             <ul class="nav navbar-top-links navbar-right">
-                 <li class="">
-                    <img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 60px; padding-right: 15%" alt="">
-                </li>
+             <li class="">
+                <img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 60px; padding-right: 15%" alt="">
+            </li>
 
-                <li class="border-right gras <?= (isJourFerie(dateAjoute(1)))?"text-red":"text-muted" ?>">
-                    <span class="m-r-sm welcome-message text-uppercase" id="date_actu"></span> 
-                    <span class="m-r-sm welcome-message gras" id="heure_actu"></span> 
-                </li>
+            <li class="border-right gras <?= (isJourFerie(dateAjoute(1)))?"text-red":"text-muted" ?>">
+                <span class="m-r-sm welcome-message text-uppercase" id="date_actu"></span> 
+                <span class="m-r-sm welcome-message gras" id="heure_actu"></span> 
+            </li>
                 <!-- <li class="border-right border-left">
                     <a  onclick="voirPrixParZone()">
                         <i class="fa fa-eye"></i> Prix par zone
                     </a>
                 </li> -->
+                
+                <div>
+                    <a id="onglet-boutique" href="<?= $this->url("boutique", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-bank"></i> Boutique</a>
+                    <a id="onglet-entrepot" href="<?= $this->url("entrepot", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-cubes"></i> Entrepôt</a>
+                    <a id="onglet-gestion" href="<?= $this->url("gestion", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-gears"></i> Manager</a>
+                </div>
+                
+                
+                <li class="" >
 
-                 <?php if ($employe->isAutoriser("production")) { ?>
-                    <li class="border-right">
-                        <a  data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->id; ?>) ">
-                            <i class="fa fa-file-text-o"></i> Nouvelle Production
-                        </a>
-                    </li>
-                <?php } ?>
-                
-                
-                <li class="" style="height: 30px">
-                    <a href="#" id="btn-deconnexion" style="display: inline-block; margin-top: -37%">
-                        <i class="fa fa-sign-out fa-2x text-red" ></i>
-                    </a>
                 </li>
             </ul>
 

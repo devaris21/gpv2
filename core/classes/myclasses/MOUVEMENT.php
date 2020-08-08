@@ -35,33 +35,30 @@ class MOUVEMENT extends TABLE
 				if (count($datas) == 1) {
 					$element = $datas[0];
 					$this->comptebanque_id = $element->comptebanque_id;
+				}
 
-					if ($this->comptebanque_id == null) {
-						$this->comptebanque_id = getSession("comptebanque_id");
-					}
-					$datas = COMPTEBANQUE::findBy(["id ="=>$this->comptebanque_id]);
-					if (count($datas) == 1) {
-						$banque = $datas[0];
-						if (intval($this->montant) > 0) {
-							$this->reference = "MVT/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
-							if ($this->typemouvement_id == TYPEMOUVEMENT::DEPOT || ($this->typemouvement_id == TYPEMOUVEMENT::RETRAIT && $this->montant <= $banque->solde(PARAMS::DATE_DEFAULT, dateAjoute()))) {
-								$data = $this->save();
-							}else{
-								$data->status = false;
-								$data->message = "Le montant que vous essayez de retirer est plus élévé que le solde du compte !";
-							}
+				if ($this->comptebanque_id == null) {
+					$this->comptebanque_id = getSession("comptebanque_id");
+				}
+				$datas = COMPTEBANQUE::findBy(["id ="=>$this->comptebanque_id]);
+				if (count($datas) == 1) {
+					$banque = $datas[0];
+					if (intval($this->montant) > 0) {
+						$this->reference = "MVT/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
+						if ($this->typemouvement_id == TYPEMOUVEMENT::DEPOT || ($this->typemouvement_id == TYPEMOUVEMENT::RETRAIT && $this->montant <= $banque->solde(PARAMS::DATE_DEFAULT, dateAjoute()))) {
+							$data = $this->save();
 						}else{
 							$data->status = false;
-							$data->message = "Le montant pour cette opération est incorrecte, verifiez-le !";
+							$data->message = "Le montant que vous essayez de retirer est plus élévé que le solde du compte !";
 						}
 					}else{
 						$data->status = false;
-						$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer 5!!";
-					}	
+						$data->message = "Le montant pour cette opération est incorrecte, verifiez-le !";
+					}
 				}else{
 					$data->status = false;
-					$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer 6!!";
-				}
+					$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer 5!!";
+				}	
 			}else{
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer 7!!";

@@ -72,7 +72,7 @@
                                                         <li class="list-group-item">
                                                             <i class="fa fa-cubes" ></i>&nbsp;&nbsp;&nbsp; <?= $ressource->name() ?>       
                                                             <span class="float-right">
-                                                                <span class="label label-<?= ($stock > 0)?"success":"danger" ?>"><?= money($stock) ?> <?= $ressource->abbr ?></span>
+                                                                <span class="label label-<?= ($stock > 0)?"success":"danger" ?>"><?= $stock ?> <?= $ressource->abbr ?></span>
                                                                 &nbsp;&nbsp;&nbsp;<span class="float-right"><?= money($prix) ?> <?= $params->devise ?></span>
                                                             </span>
                                                         </li>
