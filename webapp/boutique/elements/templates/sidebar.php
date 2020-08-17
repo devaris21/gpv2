@@ -27,10 +27,9 @@
 
             <?php 
             $groupes__ = Home\GROUPECOMMANDE::encours();
-            $prospections__ = Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::PROSPECTION]);
-            $ventecaves__ = Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::VENTECAVE]);
-            $livraisons__ = Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]);
-            $approvisionnements__ = Home\APPROVISIONNEMENT::encours();
+            $prospections__ = $boutique->fourni("prospection", ["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::PROSPECTION]);
+            $livraisons__ = $boutique->fourni("prospection", ["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]);
+            $mises__ = $boutique->fourni("miseenboutique", ["boutique_id ="=>$boutique->id, "etat_id ="=>Home\ETAT::ENCOURS], [], ["created"=>"DESC"]);;
 
             ?>
             <ul class="nav metismenu" id="side-menu">
@@ -40,8 +39,8 @@
                 <li class="" id="clients">
                     <a href="<?= $this->url($this->section, "master", "clients") ?>"><i class="fa fa-users"></i> <span class="nav-label">Liste des clients</span></a>
                 </li>
-                <li class="" id="rapportjour">
-                    <a href="<?= $this->url($this->section, "master", "stock") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Stock actuel</span></a>
+                <li class="" id="stock">
+                    <a href="<?= $this->url($this->section, "master", "stock") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Stock actuel</span></a>
                 </li>
                 <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
 
@@ -64,7 +63,7 @@
 
                 <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
                 <li class="" id="miseenboutique">
-                    <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span> <?php if (count($ventecaves__) > 0) { ?> <span class="label label-warning float-right"><?= count($ventecaves__) ?></span> <?php } ?></a>
+                    <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span> <?php if (count($mises__) > 0) { ?> <span class="label label-warning float-right"><?= count($mises__) ?></span> <?php } ?></a>
                 </li>
                 <li class="" id="rapportjour">
                     <a href="<?= $this->url($this->section, "rapports", "rapportjour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
@@ -92,6 +91,6 @@
 
 <style type="text/css">
     li.dropdown-divider{
-     !important;
- }
+       !important;
+   }
 </style>

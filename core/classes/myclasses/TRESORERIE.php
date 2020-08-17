@@ -11,14 +11,14 @@ abstract class TRESORERIE extends TABLE
 
 
 
-	public static function chiffreAffaire(string $date1, string $date2, int $agence_id = null){
+	public static function chiffreAffaire(string $date1, string $date2){
 		if ($date1 == null) {
 			$date1 = PARAMS::DATE_DEFAULT;
 		}
 		if ($date2 == null) {
 			$date2 = dateAjoute(1);
 		}
-		return  REGLEMENTCLIENT::total($date1, $date2, getSession("agence_connecte_id")) + CLIENT::dettes();
+		return  REGLEMENTCLIENT::total($date1, $date2, getSession("boutique_connecte_id")) + CLIENT::dettes(getSession("boutique_connecte_id"));
 	}
 
 

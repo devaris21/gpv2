@@ -103,7 +103,7 @@ class COMPTEBANQUE extends TABLE
 		if ($date2  == null) {
 			$date2 = dateAjoute();
 		}
-		$total = $this->depots($date1, $date2) - $this->retraits($date1, $date2);
+		$total = $this->getIn($date1, $date2) - $this->getOut($date1, $date2);
 		return $total + $this->initial;
 	}
 
@@ -132,19 +132,48 @@ class COMPTEBANQUE extends TABLE
 
 
 
-	public function evolution(string $date1, string $date2){
+	// public function evolution(string $date1, string $date2){
+	// 	$tableaux = [];
+	// 	$nb = ceil(dateDiffe($date1, $date2));
+	// 	$date = $date1;
+	// 	for ($i=$nb; $i > 0 ; $i--) { 
+	// 		$date = dateAjoute1($date, 1);
+	// 		$data = new \stdclass;
+	// 		$data->year = date("Y", strtotime($date));
+	// 		$data->month = date("m", strtotime($date));
+	// 		$data->day = date("d", strtotime($date));
+	// 		$data->montant = $this->solde(null, $date);
+
+	// 		$tableaux[] = $data;
+	// 	}
+	// 	return $tableaux;
+	// }
+
+
+
+	public function stats(string $date1 = "2020-04-01", string $date2){
 		$tableaux = [];
-		$nb = ceil(dateDiffe($date1, $date2));
-		$date = $date1;
-		for ($i=$nb; $i > 0 ; $i--) { 
-			$date = dateAjoute1($date, 1);
+		$nb = ceil(dateDiffe($date1, $date2) / 12);
+		$index = $date1;
+		while ( $index <= $date2 ) {
+			$debut = $index;
+			$fin = dateAjoute1($index, $nb);
+
 			$data = new \stdclass;
-			$data->year = date("Y", strtotime($date));
-			$data->month = date("m", strtotime($date));
-			$data->day = date("d", strtotime($date));
-			$data->montant = $this->solde(null, $date);
+			$data->year = date("Y", strtotime($index));
+			$data->month = date("m", strtotime($index));
+			$data->day = date("d", strtotime($index));
+			$data->nb = $nb;
+			////////////
+
+			$data->sortie = $this->getOut($debut, $fin);
+			$data->entree = $this->getIn($debut, $fin);
+			$data->solde = static::solde($date1, $fin);
 
 			$tableaux[] = $data;
+			///////////////////////
+
+			$index = $fin;
 		}
 		return $tableaux;
 	}

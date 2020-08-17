@@ -7,6 +7,10 @@ if (count($datas) == 1) {
 	$boutique->actualise();
 	$comptebanque = $boutique->comptebanque;
 
+	$mouvements = $comptebanque->fourni("mouvement", ["DATE(created) >= "=> $date1, "DATE(created) <= "=> $date2]);
+
+	$transferts = TRANSFERTFOND::findBy(["comptebanque_id_source="=>$comptebanque->id, "DATE(created) >= "=> $date1, "DATE(created) <= "=> $date2]);
+
 	$operations = OPERATION::findBy(["DATE(created) >= "=> dateAjoute(-7)]);
 	$entrees = $depenses = [];
 	foreach ($operations as $key => $value) {
@@ -17,7 +21,9 @@ if (count($datas) == 1) {
 			$depenses[] = $value;
 		}
 	}
-	$statistiques = OPERATION::statistiques();
+
+
+	$stats = $comptebanque->stats($date1, $date2);
 
 	$title = "BRIXS | Compte de caisse";
 }else{

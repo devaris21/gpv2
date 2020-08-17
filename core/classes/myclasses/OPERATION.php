@@ -19,8 +19,6 @@ class OPERATION extends TABLE
 	public $boutique_id = BOUTIQUE::PRINCIPAL;
 	public $etat_id = ETAT::VALIDEE;
 	public $comment;
-	public $structure;
-	public $numero;
 	public $date_approbation;
 	public $image;
 

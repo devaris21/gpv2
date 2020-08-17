@@ -10,12 +10,15 @@ class MOUVEMENT extends TABLE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
+	public $name;
 	public $reference;
 	public $montant;
 	public $typemouvement_id;
 	public $comptebanque_id;
 	public $etat_id = ETAT::VALIDEE;
 	public $comment;
+	public $structure;
+	public $numero;
 	public $employe_id;
 
 
@@ -27,38 +30,44 @@ class MOUVEMENT extends TABLE
 		if (count($datas) == 1) {
 			$datas = TYPEMOUVEMENT::findBy(["id ="=>$this->typemouvement_id]);
 			if (count($datas) == 1) {
+				$type = $datas[0];
+				if ($this->typemouvement_id == TYPEMOUVEMENT::DEPOT || ($this->typemouvement_id == TYPEMOUVEMENT::RETRAIT && $this->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE)) {
 
-				$datas = BOUTIQUE::findBy(["id ="=>getSession("boutique_connecte_id")]);
-				if (count($datas) == 0) {
-					$datas = ENTREPOT::findBy(["id ="=>getSession("entrepot_connecte_id")]);
-				}
-				if (count($datas) == 1) {
-					$element = $datas[0];
-					$this->comptebanque_id = $element->comptebanque_id;
-				}
+					$datas = BOUTIQUE::findBy(["id ="=>getSession("boutique_connecte_id")]);
+					if (count($datas) == 0) {
+						$datas = ENTREPOT::findBy(["id ="=>getSession("entrepot_connecte_id")]);
+					}
+					if (count($datas) == 1) {
+						$element = $datas[0];
+						$this->comptebanque_id = $element->comptebanque_id;
+					}
 
-				if ($this->comptebanque_id == null) {
-					$this->comptebanque_id = getSession("comptebanque_id");
-				}
-				$datas = COMPTEBANQUE::findBy(["id ="=>$this->comptebanque_id]);
-				if (count($datas) == 1) {
-					$banque = $datas[0];
-					if (intval($this->montant) > 0) {
-						$this->reference = "MVT/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
-						if ($this->typemouvement_id == TYPEMOUVEMENT::DEPOT || ($this->typemouvement_id == TYPEMOUVEMENT::RETRAIT && $this->montant <= $banque->solde(PARAMS::DATE_DEFAULT, dateAjoute()))) {
-							$data = $this->save();
+					if ($this->comptebanque_id == null) {
+						$this->comptebanque_id = getSession("comptebanque_id");
+					}
+					$datas = COMPTEBANQUE::findBy(["id ="=>$this->comptebanque_id]);
+					if (count($datas) == 1) {
+						$banque = $datas[0];
+						if (intval($this->montant) > 0) {
+							$this->reference = "MVT/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
+							if ($this->typemouvement_id == TYPEMOUVEMENT::DEPOT || ($this->typemouvement_id == TYPEMOUVEMENT::RETRAIT && $this->montant <= $banque->solde(PARAMS::DATE_DEFAULT, dateAjoute()))) {
+								$data = $this->save();
+							}else{
+								$data->status = false;
+								$data->message = "Le montant que vous essayez de retirer est plus élévé que le solde du compte !";
+							}
 						}else{
 							$data->status = false;
-							$data->message = "Le montant que vous essayez de retirer est plus élévé que le solde du compte !";
+							$data->message = "Le montant pour cette opération est incorrecte, verifiez-le !";
 						}
 					}else{
 						$data->status = false;
-						$data->message = "Le montant pour cette opération est incorrecte, verifiez-le !";
-					}
+						$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer 5!!";
+					}	
 				}else{
 					$data->status = false;
-					$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer 5!!";
-				}	
+					$data->message = "Vous ne pouvez pas utiliser ce mode de payement pour effectuer cette opération !!";
+				}
 			}else{
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer 7!!";
@@ -128,7 +137,7 @@ class MOUVEMENT extends TABLE
 		$index = $date1;
 		while ( $index <= $date2 ) {
 			$debut = $index;
-			$fin = dateAjoute1($index, 1);
+			$fin = dateAjoute1($index, $nb);
 
 			$data = new \stdclass;
 			$data->year = date("Y", strtotime($index));
@@ -137,9 +146,9 @@ class MOUVEMENT extends TABLE
 			$data->nb = $nb;
 			////////////
 
-			$data->sortie = OPERATION::sortie($debut, $fin);
-			$data->entree = OPERATION::entree($debut, $fin);
-			$data->resultat = OPERATION::resultat($debut, $fin);
+			$data->sortie = static::sortie($debut, $fin);
+			$data->entree = static::entree($debut, $fin);
+			$data->resultat = static::resultat($debut, $fin);
 
 			$tableaux[] = $data;
 			///////////////////////
