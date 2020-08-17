@@ -27,7 +27,7 @@ class ROOTER extends PATH
 
 
     const SECTION_SIMPLE = ["devaris21"];
-    const SECTION_ADMIN = ["gestion", "boutique", "entrepot"];
+    const SECTION_ADMIN = ["master", "manager", "boutique", "entrepot"];
     const SECTION_STOCKAGE = ["images", "documents"];
 
 
@@ -84,7 +84,7 @@ class ROOTER extends PATH
                     $dateb = dateAjoute(1);
 
 
-                    if ($this->section == "gestion") {
+                    if ($this->section == "master" || $this->section == "manager") {
                         $datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
                         if (count($datas) >0) {
                             $employe = $datas[0];
@@ -98,12 +98,13 @@ class ROOTER extends PATH
                                     if (count($datas) == 1) {
                                         $role = $datas[0];
                                         if (in_array($role->id, $tableauDeRoles)) {
-
-                                            $productionjour = PRODUCTIONJOUR::today();
-                                            $productionjour->actualise();
-                                            session("lastUrl", $this->url);
-
                                             $employe->actualise();
+                                            if ($employe->boutique_id != null) {
+                                                $maBoutique = $employe->boutique;
+                                            }
+                                            if ($employe->entrepot_id != null) {
+                                                $monEntrepot = $employe->entrepot;
+                                            }
 
                                         }else{
                                             $this->new_root("devaris21", "home", "erreur500");

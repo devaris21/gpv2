@@ -1,0 +1,123 @@
+<?php 
+namespace Home;
+require '../../../../core/root/includes.php';
+use Native\RESPONSE;
+extract($_POST);
+
+$data = new RESPONSE;
+
+
+
+
+if ($action === "productionjour") {
+//	if ($manoeuvres != "" || (isset($groupemanoeuvre_id) && $groupemanoeuvre_id != "")) {
+	$productionjour = PRODUCTIONJOUR::today();
+	$test = true;
+	foreach (RESSOURCE::getAll() as $key => $ressource) {
+		$datas = $productionjour->fourni("ligneconsommationjour", ["ressource_id ="=>$ressource->id]);
+		if (count($datas) == 1) {
+			$ligne = $datas[0];
+			if (intval($_POST["conso-".$ressource->id]) > ($ressource->stock(dateAjoute()) + $ligne->consommation) ) {
+				$test = false;
+				break;
+			}
+		}
+	}
+
+	if ($test) {
+		$montant = 0;
+		$productionjour->fourni("ligneproductionjour");
+		foreach ($productionjour->ligneproductionjours as $cle => $ligne) {
+			if (isset($_POST["prod-".$ligne->prixdevente_id])) {
+				$ligne->production = intval($_POST["prod-".$ligne->prixdevente_id]);
+
+				//on augmente les etiquettes sur la perte
+				if (isset($_POST["etiq-".$ligne->prixdevente_id])) {
+					$_POST["etiq-".$ligne->prixdevente_id] = intval($_POST["etiq-".$ligne->prixdevente_id]);
+					$_POST["etiq-".$ligne->prixdevente_id] += $ligne->production;
+				}
+				$ligne->save();
+			}
+				//$ligne->perte = intval($_POST["perte-".$ligne->produit_id]);
+
+				//$ligne->actualise();
+				//$montant += $ligne->prixdevente->coutProduction("production", $ligne->production);
+		}
+
+
+		$productionjour->fourni("ligneetiquettejour");
+		foreach ($productionjour->ligneetiquettejours as $cle => $ligne) {
+			$ligne->actualise();
+			if (isset($_POST["etiq-".$ligne->etiquette->prixdevente_id])) {
+				$ligne->consommation = intval($_POST["etiq-".$ligne->etiquette->prixdevente_id]);
+
+				$datas =  ETIQUETTE::findBy(["id ="=>$ligne->etiquette->prixdevente_id]);
+				if (count($datas) > 0) {
+					$etiq = $datas[0];
+					if ($etiq->stock(dateAjoute()) < $ligne->consommation) {
+						$ligne->consommation = $etiq->stock(dateAjoute());
+					}
+					$ligne->save();
+				}
+			}
+		}
+
+
+
+		$productionjour->fourni("ligneconsommationjour");
+		foreach ($productionjour->ligneconsommationjours as $cle => $ligne) {
+			$ligne->consommation = intval($_POST["conso-".$ligne->ressource_id]);
+			$ligne->save();
+		}
+
+
+			// $datas = $productionjour->fourni("manoeuvredujour");
+			// foreach ($datas as $cle => $ligne) {
+			// 	$ligne->delete();
+			// }
+
+			// if (isset($manoeuvres) && $manoeuvres != "") {
+			// 	$datas = explode(",", $manoeuvres);
+			// 	foreach ($datas as $key => $value) {
+			// 		$item = new MANOEUVREDUJOUR();
+			// 		$item->productionjour_id = $productionjour->id;
+			// 		$item->manoeuvre_id = $value;
+			// 		$item->price = $montant / count($datas);
+			// 		$item->enregistre();
+			// 	}
+			// }else{
+			// 	$datas = MANOEUVRE::findBy(["groupemanoeuvre_id ="=>$groupemanoeuvre_id]);
+			// 	foreach ($datas as $key => $value) {
+			// 		$item = new MANOEUVREDUJOUR();
+			// 		$item->productionjour_id = $productionjour->id;
+			// 		$item->manoeuvre_id = $value->id;
+			// 		$item->price = $montant / count($datas);
+			// 		$item->enregistre();
+			// 	}
+			// }
+
+		$productionjour->hydrater($_POST);
+		$productionjour->etat_id = ETAT::PARTIEL;
+		$productionjour->total_production = $montant;
+		$productionjour->employe_id = getSession("employe_connecte_id");
+		$data = $productionjour->save();
+	}else{
+		$data->status = false;
+		$data->message = "Vous ne pouvez pas consommé plus de quantité d'une ressource que ce que vous n'en possédez !";
+	}
+	// }else{
+	// 	$data->status = false;
+	// 	$data->message = "Veuillez définir les manoeuvres qui ont travaillé aujourd'hui !";
+	// }
+	echo json_encode($data);
+}
+
+
+if ($action == "voirPrixParZone") {
+	$params = PARAMS::findLastId();
+	include("../../../../composants/assets/modals/modal-prixparzone.php");
+}
+
+
+
+?>
