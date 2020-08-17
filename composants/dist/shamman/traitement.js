@@ -36,6 +36,7 @@
                 cancelLabel : "Non",
                 okLabel : "OUI, Changer",
             }, function(){
+                Loader.start()
                 $.post(url, {action:"enable", table:table, id:id}, (data)=>{
                     if (data.status) {
                         window.location.reload()
@@ -240,6 +241,7 @@
                 cancelLabel : "Non",
                 okLabel : "OUI, supprimer",
             }, function(){
+                Loader.start()
                 $.post(url, {action:"delete_suppression", table:table, id:id}, (data)=>{
                     if (data.status) {
                         window.location.reload()
@@ -263,6 +265,7 @@
                     cancelLabel : "Annuler",
                     okLabel : "Mot de passe"
                 }, function(password){
+                    Loader.start()
                     $.post(url, {action:"delete_with_password", table:table, id:id, cascade:cascade, password:password}, (data)=>{
                         if (data.status) {
                             window.location.reload()
@@ -272,5 +275,13 @@
                     },"json");
                 })
             })
+        }
+
+
+        filtrer = function(){
+            Loader.start()
+            session("date1", $("#formFiltrer input[name=date1]").val())
+            session("date2", $("#formFiltrer input[name=date2]").val())
+            window.location.reload();
         }
     })

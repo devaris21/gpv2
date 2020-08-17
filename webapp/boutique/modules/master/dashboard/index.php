@@ -36,9 +36,6 @@
                                 <li class="list-group-item"></li>
                             </ul>
                             
-                            <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim btn-block"> <i class="fa fa-long-arrow-right"></i> Nouvelle vente directe</button>
-
-                            <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim btn-block"><i class="fa fa-bicycle"></i> Nouvelle prospection</button>
                         </div>
                         <div class="col-md-6">
                             <div class="text-center">
@@ -74,152 +71,51 @@
 
                                     <div class="ibox-content">
                                         <h5>En rupture de Stock</h5>
-                                        <h2 class="no-margins"><?= start0(count(Home\PRIXDEVENTE::ruptureBoutique($boutique->id))) ?> produit(s)</h1>
-                                        </div>
+                                        <h2 class="no-margins"><?= start0(count(Home\PRIXDEVENTE::ruptureBoutique($boutique->id))) ?> produit(s)</h2>
                                     </div>
-
-                                    <button data-toggle="modal" data-target="#modal-ventecave" class="btn btn-success dim btn-block"><i class="fa fa-home"></i> Nouvelle vente en cave</button>
                                 </div>
+
                             </div>
                         </div>
-                        <hr><hr class="mp0"><br>
+                    </div><hr>
 
-                        <div class="row">
-                            <?php foreach ($produits as $key => $produit) { ?>
-                                <div class="col-md border-right">
-                                    <h6 class="text-uppercase text-center gras" style="color: <?= $produit->couleur; ?>">Stock de <?= $produit->name() ?></h6>
-                                    <ul class="list-group clear-list m-t">
-                                        <?php foreach ($tableau[$produit->id] as $key => $pdv) { ?>
-                                            <li class="list-group-item">
-                                                <i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <small><?= $pdv->quantite ?></small>          
-                                                <span class="float-right">
-                                                    <span title="en boutique" class="gras text-<?= ($pdv->boutique > 0)?"green":"danger" ?>"><?= money($pdv->boutique) ?></span>
-                                                </span>
-                                            </li>
-                                        <?php } ?>
-                                        <li class="list-group-item"></li>
-                                    </ul>
-                                </div>
-                            <?php } ?>
-                        </div>
+                    <div class="text-center">
+                        <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim"> <i class="fa fa-long-arrow-right"></i> Nouvelle vente directe</button>
+
+                        <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim"><i class="fa fa-bicycle"></i> Nouvelle prospection</button> 
+
+                        <button data-toggle="modal" data-target="#modal-ventecave" class="btn btn-success dim"><i class="fa fa-home"></i> Nouvelle vente en cave</button>
                     </div>
-
-
                     <br>
-                    <div class="row">
-                        <div class="col-lg-7">
-                            <div class="ibox ">
-                                <div class="ibox-title">
-                                    <h5 class="text-uppercase">Liste de prospection du jour</h5>
-                                    <div class="ibox-tools">
-
-                                    </div>
-                                </div>
-                                <div class="ibox-content table-responsive">
-                                    <table class="table table-hover no-margins">
-                                        <thead>
-                                            <tr>
-                                                <th>Commercial</th>
-                                                <th class="">Heure de sortie</th>
-                                                <th class="">Total</th>
-                                                <th class="">vendu</th>
-                                                <th class="">heure de retour</th>
-                                                <th class="">statut</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach (Home\PROSPECTION::programmee(dateAjoute(), $boutique->id) as $key => $prospection) {
-                                                $prospection->actualise(); ?>
-                                                <tr>
-                                                    <td><?= $prospection->commercial->name()  ?></td>
-                                                    <td><?= depuis($prospection->created)  ?></td>
-                                                    <td><?= money($prospection->montant) ?> <?= $params->devise ?></td>
-                                                    <td class="gras text-green"><?= money($prospection->vendu) ?> <?= $params->devise ?></td>
-                                                    <td><?= depuis($prospection->dateretour)  ?></td>
-                                                    <td class="text-center"><span class="label label-<?= $prospection->etat->class ?>"><?= $prospection->etat->name ?></span> </td>
-                                                </tr>
-                                            <?php } ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div> 
-
-
-                        <div class="col-sm-5">
-                            <div class="ibox ">
-                                <div class="ibox-title">
-                                    <h5 class="text-uppercase">Ventes directes du jour</h5>
-                                    <div class="ibox-tools">
-
-                                    </div>
-                                </div>
-                                <div class="ibox-content table-responsive">
-                                    <table class="table table-hover no-margins">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <?php foreach ($quantites as $key => $qte) { ?>
-                                                    <th class="text-center"><?= $qte->name()  ?></th>
-                                                <?php } ?>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($produits as $key => $produit) {
-                                                $datas = $produit->fourni("prixdevente", ["isActive ="=>Home\TABLE::OUI]); ?>
-                                                <tr>
-                                                    <td class="gras" style="color: <?= $produit->couleur ?>"><i class="fa fa-flask"></i> <?= $produit->name() ?></td>
-                                                    <?php $total =0; foreach ($datas as $key => $pdv) {
-                                                        $pdv->actualise();
-                                                        $nb = $pdv->vendeDirecte(dateAjoute(), dateAjoute(), $boutique->id);
-                                                        $total += $nb * $pdv->prix->price;  ?>
-                                                        <td class="text-center"><?= $nb ?></td>
-                                                    <?php } ?>
-                                                    <?php for ($i=0; $i < (count($quantites) - count($datas)) ; $i++) { ?>
-                                                        <td></td>
-                                                    <?php } ?>
-                                                    <td class="text-right gras"><?= money($total) ?> <?= $params->devise ?></td>
-                                                </tr>
-                                            <?php } ?>
-                                            <tr>
-                                                <td class="text-right" colspan="5">
-                                                    <h2><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute(), $boutique->id), "vendu", "somme"))  ?> <?= $params->devise ?></h2>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>              
-
-                    </div>
-
                 </div>
+
+
             </div>
-            <br>
-
-            <?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?>
-
-            <?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
-            <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?> 
-            <?php include($this->rootPath("composants/assets/modals/modal-vente.php")); ?> 
-            <?php include($this->rootPath("composants/assets/modals/modal-prospection.php")); ?> 
-            <?php include($this->rootPath("composants/assets/modals/modal-ventecave.php")); ?> 
-
         </div>
+        <br>
+
+        <?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?>
+
+        <?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
+        <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?> 
+        <?php include($this->rootPath("composants/assets/modals/modal-vente.php")); ?> 
+        <?php include($this->rootPath("composants/assets/modals/modal-prospection.php")); ?> 
+        <?php include($this->rootPath("composants/assets/modals/modal-ventecave.php")); ?> 
+
     </div>
+</div>
 
 
-    <?php include($this->rootPath("webapp/boutique/elements/templates/script.php")); ?>
+<?php include($this->rootPath("webapp/boutique/elements/templates/script.php")); ?>
 
-    <script type="text/javascript" src="<?= $this->relativePath("../../master/client/script.js") ?>"></script>
-    <script type="text/javascript" src="<?= $this->relativePath("../../production/miseenboutique/script.js") ?>"></script>
+<script type="text/javascript" src="<?= $this->relativePath("../../master/client/script.js") ?>"></script>
+<script type="text/javascript" src="<?= $this->relativePath("../../production/miseenboutique/script.js") ?>"></script>
 
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function() {
 
-            var id = "<?= $this->id;  ?>";
-            if (id == 1) {
+        var id = "<?= $this->id;  ?>";
+        if (id == 1) {
             setTimeout(function() {
                 toastr.options = {
                     closeButton: true,

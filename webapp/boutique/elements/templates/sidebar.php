@@ -40,21 +40,18 @@
                 <li class="" id="clients">
                     <a href="<?= $this->url($this->section, "master", "clients") ?>"><i class="fa fa-users"></i> <span class="nav-label">Liste des clients</span></a>
                 </li>
-                <li class="" id="rechercher">
-                    <a href="<?= $this->url($this->section, "master", "rechercher") ?>"><i class="fa fa-search"></i> <span class="nav-label">Rechercher</span></a>
+                <li class="" id="rapportjour">
+                    <a href="<?= $this->url($this->section, "master", "stock") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Stock actuel</span></a>
                 </li>
                 <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
 
 
                 <?php if ($employe->isAutoriser("ventes")) { ?>
                     <li class="" id="ventedirecte">
-                        <a href="<?= $this->url($this->section, "ventes", "ventedirecte") ?>"><i class="fa fa-arrow-right"></i> <span class="nav-label">Ventes directes</span> </a>
+                        <a href="<?= $this->url($this->section, "ventes", "ventedirecte") ?>"><i class="fa fa-arrow-right"></i> <span class="nav-label">Toutes les Ventes</span> </a>
                     </li>
                     <li class="" id="prospections">
                         <a href="<?= $this->url($this->section, "ventes", "prospections") ?>"><i class="fa fa-archive"></i> <span class="nav-label">Les Prospections</span> <?php if (count($prospections__) > 0) { ?> <span class="label label-warning float-right"><?= count($prospections__) ?></span> <?php } ?></a>
-                    </li>
-                    <li class="" id="ventecave">
-                        <a href="<?= $this->url($this->section, "ventes", "ventecave") ?>"><i class="fa fa-home"></i> <span class="nav-label">Ventes en cave</span> <?php if (count($ventecaves__) > 0) { ?> <span class="label label-warning float-right"><?= count($ventecaves__) ?></span> <?php } ?></a>
                     </li>
                     <li class="" id="commandes">
                         <a href="<?= $this->url($this->section, "ventes", "commandes") ?>"><i class="fa fa-handshake-o"></i> <span class="nav-label">Commandes de clients</span> <?php if (count($groupes__) > 0) { ?> <span class="label label-warning float-right"><?= count($groupes__) ?></span> <?php } ?></a>
@@ -62,16 +59,13 @@
                     <li class="" id="livraisons">
                         <a href="<?= $this->url($this->section, "ventes", "livraisons") ?>"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons en cours</span> <?php if (count($livraisons__) > 0) { ?> <span class="label label-warning float-right"><?= count($livraisons__) ?></span> <?php } ?></a>
                     </li>
-
-
-                    <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
-                    <li class="" id="miseenboutique">
-                        <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span></a>
-                    </li>
+                    
                 <?php } ?>
 
                 <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
-
+                <li class="" id="miseenboutique">
+                    <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span> <?php if (count($ventecaves__) > 0) { ?> <span class="label label-warning float-right"><?= count($ventecaves__) ?></span> <?php } ?></a>
+                </li>
                 <li class="" id="rapportjour">
                     <a href="<?= $this->url($this->section, "rapports", "rapportjour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
                 </li>
@@ -84,7 +78,7 @@
 
                 <?php if ($employe->isAutoriser("caisse")) { ?>
                     <li class="" id="caisse">
-                        <a href="<?= $this->url($this->section, "caisse", "caisse") ?>"><i class="fa fa-money"></i> <span class="nav-label">La caisse</span></a>
+                        <a href="<?= $this->url($this->section, "caisse", "caisse") ?>"><i class="fa fa-money"></i> <span class="nav-label">Caisse de la boutique</span></a>
                     </li>
                     <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
 
@@ -98,6 +92,6 @@
 
 <style type="text/css">
     li.dropdown-divider{
-       !important;
-   }
+     !important;
+ }
 </style>

@@ -1,21 +1,6 @@
 $(function(){
-
-
-    $("tr.fini").hide()
-
-    $("input[type=checkbox].onoffswitch-checkbox").change(function(event) {
-        if($(this).is(":checked")){
-            Loader.start()
-            setTimeout(function(){
-                Loader.stop()
-                $("tr.fini").fadeIn(400)
-                $(".aucun").hide()
-            }, 500);
-        }else{
-            $("tr.fini").fadeOut(400)
-            $(".aucun").show()
-        }
-    });
+    $('.footable').footable();
+    $('.footable2').footable();
 
     $("#top-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();

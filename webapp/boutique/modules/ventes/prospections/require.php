@@ -5,7 +5,9 @@ unset_session("commande-encours");
 
 $title = "GPV | Toutes les ventes en cours";
 
-$prospections = $boutique->fourni("prospection", ["typeprospection_id ="=>TYPEPROSPECTION::PROSPECTION, "DATE(created) >="=> dateAjoute(-15)], [], ["created"=>"DESC"]);
+$encours = $boutique->fourni("prospection", ["boutique_id ="=>$boutique->id, "typeprospection_id ="=>TYPEPROSPECTION::PROSPECTION, "etat_id ="=>ETAT::ENCOURS, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2], [], ["created"=>"DESC"]);
+
+$prospections = $boutique->fourni("prospection", ["boutique_id ="=>$boutique->id, "typeprospection_id ="=>TYPEPROSPECTION::PROSPECTION, "etat_id ="=>ETAT::VALIDEE, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2], [], ["created"=>"DESC"]);
 
 
 ?>

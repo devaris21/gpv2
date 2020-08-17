@@ -3,12 +3,10 @@ namespace Home;
 
 $title = "GPV | Toutes les livraisons en cours";
 
-$livraisons = PROSPECTION::findBy(["typeprospection_id ="=>TYPEPROSPECTION::LIVRAISON, "boutique_id ="=>$boutique->id], [], ["created"=>"DESC"]);
-$total = 0;
-foreach ($livraisons as $key => $liv) {
-	if ($liv->etat_id == ETAT::ENCOURS) {
-		$total++;
-	}
-}
+$encours = PROSPECTION::findBy(["typeprospection_id ="=>TYPEPROSPECTION::LIVRAISON, "boutique_id ="=>$boutique->id, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
+
+$livraisons = PROSPECTION::findBy(["typeprospection_id ="=>TYPEPROSPECTION::LIVRAISON, "boutique_id ="=>$boutique->id, "etat_id ="=>ETAT::VALIDEE, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2], [], ["created"=>"DESC"]);
+
+$total = count($encours);
 
 ?>

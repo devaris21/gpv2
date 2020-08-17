@@ -79,9 +79,15 @@ class ROOTER extends PATH
                 if ($mycompte->expired >= dateAjoute()) {
                     $exercicecomptable = EXERCICECOMPTABLE::encours();
 
-                       //pour les etats recaps
-                    $datea = dateAjoute(-7);
-                    $dateb = dateAjoute(1);
+                    $date1 = dateAjoute(-3);
+                    $date2 = dateAjoute(1);
+                    if (getSession("date1") != null) {
+                        $date1 = getSession("date1");
+                    }
+                    if (getSession("date2") != null) {
+                        $date2 = getSession("date2");
+                    }
+
 
 
                     if ($this->section == "master" || $this->section == "manager") {
