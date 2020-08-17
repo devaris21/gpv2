@@ -56,10 +56,12 @@ class COMPTEBANQUE extends TABLE
 
 
 	public function retrait(int $montant, string $comment){
+				$data = new RESPONSE;
 		$params = PARAMS::findLastId();
 		$montant = intval($montant);
 		if ($montant > 0) {
-			if ($this->solde(PARAMS::DATE_DEFAULT, dateAjoute()) >= $montant) {
+			$solde = $this->solde(PARAMS::DATE_DEFAULT, dateAjoute(1));
+			if ($this->solde(PARAMS::DATE_DEFAULT, dateAjoute(1)) >= $montant) {
 				$mouvement = new MOUVEMENT();
 				$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
 				$mouvement->comptebanque_id = $this->id;
@@ -68,7 +70,7 @@ class COMPTEBANQUE extends TABLE
 				$data = $mouvement->enregistre();
 			}else{
 				$data->status = false;
-				$data->message = "Le montant que vous essayez de retirer est plus élévé que le solde du compte !";
+				$data->message = "Le montant que vous essayez de retirer est plus élévé que le solde du compte !".$solde;
 			}
 		}else{
 			$data->status = false;
@@ -101,7 +103,7 @@ class COMPTEBANQUE extends TABLE
 			$date1 = PARAMS::DATE_DEFAULT;
 		}
 		if ($date2  == null) {
-			$date2 = dateAjoute();
+			$date2 = dateAjoute(1);
 		}
 		$total = $this->depots($date1, $date2) - $this->retraits($date1, $date2);
 		return $total + $this->initial;
