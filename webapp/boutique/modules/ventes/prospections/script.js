@@ -1,6 +1,4 @@
 $(function(){
-    $('.footable').footable();
-    $('.footable2').footable();
 
     $("#top-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();

@@ -56,12 +56,10 @@ class COMPTEBANQUE extends TABLE
 
 
 	public function retrait(int $montant, string $comment){
-				$data = new RESPONSE;
 		$params = PARAMS::findLastId();
 		$montant = intval($montant);
 		if ($montant > 0) {
-			$solde = $this->solde(PARAMS::DATE_DEFAULT, dateAjoute(1));
-			if ($this->solde(PARAMS::DATE_DEFAULT, dateAjoute(1)) >= $montant) {
+			if ($this->solde(PARAMS::DATE_DEFAULT, dateAjoute()) >= $montant) {
 				$mouvement = new MOUVEMENT();
 				$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
 				$mouvement->comptebanque_id = $this->id;
@@ -70,7 +68,7 @@ class COMPTEBANQUE extends TABLE
 				$data = $mouvement->enregistre();
 			}else{
 				$data->status = false;
-				$data->message = "Le montant que vous essayez de retirer est plus élévé que le solde du compte !".$solde;
+				$data->message = "Le montant que vous essayez de retirer est plus élévé que le solde du compte !";
 			}
 		}else{
 			$data->status = false;
@@ -82,7 +80,7 @@ class COMPTEBANQUE extends TABLE
 
 
 
-	public function depots(string $date1, string $date2){
+	public function getIn(string $date1, string $date2){
 		$requette = "SELECT SUM(montant) as montant FROM mouvement WHERE mouvement.typemouvement_id = ? AND mouvement.comptebanque_id = ? AND mouvement.valide = 1 AND DATE(mouvement.created) >= ? AND DATE(mouvement.created) <= ?";
 		$item = MOUVEMENT::execute($requette, [TYPEMOUVEMENT::DEPOT, $this->id, $date1, $date2]);
 		if (count($item) < 1) {$item = [new MOUVEMENT()]; }
@@ -90,7 +88,7 @@ class COMPTEBANQUE extends TABLE
 	}
 
 
-	public function retraits(string $date1, string $date2){
+	public function getOut(string $date1, string $date2){
 		$requette = "SELECT SUM(montant) as montant FROM mouvement WHERE mouvement.typemouvement_id = ? AND mouvement.comptebanque_id = ? AND mouvement.valide = 1 AND DATE(mouvement.created) >= ? AND DATE(mouvement.created) <= ?";
 		$item = MOUVEMENT::execute($requette, [TYPEMOUVEMENT::RETRAIT, $this->id, $date1, $date2]);
 		if (count($item) < 1) {$item = [new MOUVEMENT()]; }
@@ -103,7 +101,7 @@ class COMPTEBANQUE extends TABLE
 			$date1 = PARAMS::DATE_DEFAULT;
 		}
 		if ($date2  == null) {
-			$date2 = dateAjoute(1);
+			$date2 = dateAjoute();
 		}
 		$total = $this->depots($date1, $date2) - $this->retraits($date1, $date2);
 		return $total + $this->initial;

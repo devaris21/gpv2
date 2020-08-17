@@ -9,7 +9,7 @@ $title = "GPV | Toutes les ventes directes";
 
 $encours = $boutique->fourni("vente", ["boutique_id ="=>$boutique->id, "etat_id ="=>ETAT::ENCOURS]);
 
-$ventes = $boutique->fourni("vente", ["boutique_id ="=>$boutique->id, "etat_id ="=>ETAT::VALIDEE, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2]);
+$ventes = $boutique->fourni("vente", ["boutique_id ="=>$boutique->id, "etat_id !="=>ETAT::ENCOURS, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2]);
 
 
 ?>
