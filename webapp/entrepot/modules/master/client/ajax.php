@@ -179,7 +179,7 @@ if ($action == "newproduit") {
 
 										$lignedevente = new LIGNEDEVENTE;
 										$lignedevente->vente_id = $vente->id;
-										$lignedevente->prixdevente_id = $id;
+										$lignedevente->produit_id = $id;
 										$lignedevente->quantite = intval($qte);
 										$lignedevente->enregistre();	
 									}
@@ -252,7 +252,7 @@ if ($action == "newproduit") {
 
 										$ligneprospection = new LIGNEPROSPECTION;
 										$ligneprospection->prospection_id = $prospection->id;
-										$ligneprospection->prixdevente_id = $id;
+										$ligneprospection->produit_id = $id;
 										$ligneprospection->quantite = intval($qte);
 								//$ligneprospection->price =  $pdv->prix->price * $qte;
 										$ligneprospection->enregistre();										
@@ -341,7 +341,7 @@ if ($action == "newproduit") {
 
 										$lignecommande = new LIGNECOMMANDE;
 										$lignecommande->commande_id = $commande->id;
-										$lignecommande->prixdevente_id = $id;
+										$lignecommande->produit_id = $id;
 										$lignecommande->quantite = $qte;
 										$lignecommande->price =  $prix;
 										$lignecommande->enregistre();	
@@ -507,7 +507,7 @@ if ($action == "newproduit") {
 
 									$ligneprospection = new LIGNEPROSPECTION;
 									$ligneprospection->prospection_id = $prospection->id;
-									$ligneprospection->prixdevente_id = $id;
+									$ligneprospection->produit_id = $id;
 									$ligneprospection->quantite = $qte;
 									$ligneprospection->enregistre();
 								}

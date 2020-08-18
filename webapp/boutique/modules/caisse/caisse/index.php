@@ -373,7 +373,7 @@
         }
 
     },  {
-        label: "Payments",
+        label: "Chiffre d'Affaire",
         data: data3,
         yaxis: 2,
         color: "#1C84C6",

@@ -229,6 +229,15 @@ class VENTE extends TABLE
 	}
 
 
+public static function commande(string $date1, string $date2, int $boutique_id = null){
+		if ($boutique_id == null) {
+			return static::findBy(["typevente_id ="=>TYPEVENTE::COMMANDE, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE]);
+		}else{
+			return static::findBy(["typevente_id ="=>TYPEVENTE::COMMANDE, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE, "boutique_id ="=>$boutique_id]);
+
+		}
+	}
+
 
 	public static function entree(string $date1 = "2020-04-01", string $date2){
 		$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ?";
@@ -253,15 +262,16 @@ class VENTE extends TABLE
 				$data->nb = $nb;
 			////////////
 
-				$data->direct = comptage(VENTE::direct($index, $index), "vendu", "somme");
-				$data->prospection = comptage(VENTE::prospection($index, $index), "vendu", "somme");
-				$data->cave = comptage(VENTE::cave($index, $index), "vendu", "somme");
-				$data->marge = 0 ;
+				$data->total = comptage(VENTE::findBy(["created >= "=>$date1, "created <= "=>$index]), "vendu", "somme");
+				//$data->direct = comptage(VENTE::direct($index, $index), "vendu", "somme");
+				// $data->prospection = comptage(VENTE::prospection($index, $index), "vendu", "somme");
+				// $data->cave = comptage(VENTE::cave($index, $index), "vendu", "somme");
+				// $data->marge = 0 ;
 
 				$tableaux[] = $data;
 			///////////////////////
 
-				$index = dateAjoute1($index, ceil($nb/2));
+				$index = dateAjoute1($index, ceil($nb));
 			}
 		}else{
 			while ( $index <= $date2 ) {
@@ -273,15 +283,17 @@ class VENTE extends TABLE
 				$data->nb = $nb;
 			////////////
 
-				$data->direct = comptage(VENTE::direct($index, $index, $boutique_id), "vendu", "somme");
-				$data->prospection = comptage(VENTE::prospection($index, $index, $boutique_id), "vendu", "somme");
-				$data->cave = comptage(VENTE::cave($index, $index, $boutique_id), "vendu", "somme");
-				$data->marge = 0 ;
+				$data->total = comptage(VENTE::findBy(["created >= "=>$date1, "created <= "=>$index, "boutique_id ="=>$boutique_id]), "vendu", "somme");
+
+				// $data->direct = comptage(VENTE::direct($index, $index, $boutique_id), "vendu", "somme");
+				// $data->prospection = comptage(VENTE::prospection($index, $index, $boutique_id), "vendu", "somme");
+				// $data->cave = comptage(VENTE::cave($index, $index, $boutique_id), "vendu", "somme");
+				// $data->marge = 0 ;
 
 				$tableaux[] = $data;
 			///////////////////////
 
-				$index = dateAjoute1($index, ceil($nb/2));
+				$index = dateAjoute1($index, ceil($nb));
 			}
 		}
 		return $tableaux;

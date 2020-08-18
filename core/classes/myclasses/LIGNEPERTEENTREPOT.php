@@ -14,7 +14,7 @@ class LIGNEPERTEENTREPOT extends TABLE
 
 
 	public $perteentrepot_id;
-	public $prixdevente_id;
+	public $produit_id;
 	public $perte;
 
 
@@ -22,7 +22,7 @@ class LIGNEPERTEENTREPOT extends TABLE
 		$data = new RESPONSE;
 		$datas = PERTEENTREPOT::findBy(["id ="=>$this->perteentrepot_id]);
 		if (count($datas) == 1) {
-			$datas = PRIXDEVENTE::findBy(["id ="=>$this->prixdevente_id]);
+			$datas = PRIXDEVENTE::findBy(["id ="=>$this->produit_id]);
 			if (count($datas) == 1) {
 				if ($this->perte > 0) {
 					$data = $this->save();

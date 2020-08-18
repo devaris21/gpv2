@@ -161,7 +161,7 @@
                                                                     $production->fourni("ligneproductionjour");
                                                                     foreach ($lots as $key => $pdv) {
                                                                         foreach ($production->ligneproductionjours as $key => $ligne) {
-                                                                            if ($pdv->id == $ligne->prixdevente_id) { 
+                                                                            if ($pdv->id == $ligne->produit_id) { 
                                                                                 ?>
                                                                                 <td>
                                                                                     <h4 class="d-inline text-success gras"><?= start0($ligne->production) ?></h4>&nbsp;&nbsp;|&nbsp;&nbsp;

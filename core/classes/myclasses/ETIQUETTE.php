@@ -13,13 +13,13 @@ class ETIQUETTE extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 
-	public $prixdevente_id;
+	public $produit_id;
 	public $stock = 0;
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = PRIXDEVENTE::findBy(["id ="=>$this->prixdevente_id]);
+		$datas = PRIXDEVENTE::findBy(["id ="=>$this->produit_id]);
 		if (count($datas) == 1) {
 			if ($this->stock >= 0) {
 				$data = $this->save();
@@ -48,7 +48,7 @@ class ETIQUETTE extends TABLE
 
 
 	public function consommee(string $date1 = "2020-06-01", string $date2){
-		$requette = "SELECT SUM(production) as production  FROM productionjour, ligneproductionjour, prixdevente, etiquette WHERE ligneproductionjour.prixdevente_id = prixdevente.id AND ligneproductionjour.productionjour_id = productionjour.id AND etiquette.prixdevente_id = prixdevente.id AND  etiquette.id = ? AND productionjour.etat_id != ? AND DATE(ligneproductionjour.created) >= ? AND DATE(ligneproductionjour.created) <= ? GROUP BY etiquette.id";
+		$requette = "SELECT SUM(production) as production  FROM productionjour, ligneproductionjour, prixdevente, etiquette WHERE ligneproductionjour.produit_id = prixdevente.id AND ligneproductionjour.productionjour_id = productionjour.id AND etiquette.produit_id = prixdevente.id AND  etiquette.id = ? AND productionjour.etat_id != ? AND DATE(ligneproductionjour.created) >= ? AND DATE(ligneproductionjour.created) <= ? GROUP BY etiquette.id";
 		$item = LIGNEPRODUCTIONJOUR::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEPRODUCTIONJOUR()]; }
 		return $item[0]->production;
@@ -154,11 +154,11 @@ class ETIQUETTE extends TABLE
 		}else{
 			$this->isActive = TABLE::OUI;
 			$pro = PRODUCTIONJOUR::today();
-			$datas = LIGNEPRODUCTIONJOUR::findBy(["productionjour_id ="=>$pro->id, "prixdevente_id ="=>$pdv->id]);
+			$datas = LIGNEPRODUCTIONJOUR::findBy(["productionjour_id ="=>$pro->id, "produit_id ="=>$pdv->id]);
 			if (count($datas) == 0) {
 				$ligne = new LIGNEPRODUCTIONJOUR();
 				$ligne->productionjour_id = $pro->id;
-				$ligne->prixdevente_id = $pdv->id;
+				$ligne->produit_id = $pdv->id;
 				$ligne->enregistre();
 			}			
 		}

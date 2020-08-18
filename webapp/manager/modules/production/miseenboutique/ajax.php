@@ -35,7 +35,7 @@ if ($action === "miseenboutique") {
 			foreach ($tableau as $key => $pdv) {
 				$ligne = new LIGNEMISEENBOUTIQUE();
 				$ligne->miseenboutique_id = $meb->id;
-				$ligne->prixdevente_id = $pdv->id;
+				$ligne->produit_id = $pdv->id;
 				$ligne->quantite_depart = intval($_POST["mise-".$pdv->id]);
 				$data = $ligne->enregistre();
 			}

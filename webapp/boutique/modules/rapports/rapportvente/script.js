@@ -9,5 +9,4 @@ $(function(){
 		$("button[data-id="+id+"]").toggleClass('btn-success');
 	});
 
-
 })

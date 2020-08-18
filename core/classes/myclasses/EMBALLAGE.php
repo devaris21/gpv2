@@ -50,7 +50,7 @@ class EMBALLAGE extends TABLE
 
 
 	public function consommee(string $date1 = "2020-06-01", string $date2){
-		$requette = "SELECT SUM(production) as production  FROM productionjour, ligneproductionjour, prixdevente, quantite, emballage WHERE ligneproductionjour.prixdevente_id = prixdevente.id AND ligneproductionjour.productionjour_id = productionjour.id AND prixdevente.quantite_id = quantite.id AND emballage.quantite_id = quantite.id AND  emballage.id = ? AND productionjour.etat_id != ? AND DATE(ligneproductionjour.created) >= ? AND DATE(ligneproductionjour.created) <= ? GROUP BY emballage.id";
+		$requette = "SELECT SUM(production) as production  FROM productionjour, ligneproductionjour, prixdevente, quantite, emballage WHERE ligneproductionjour.produit_id = prixdevente.id AND ligneproductionjour.productionjour_id = productionjour.id AND prixdevente.quantite_id = quantite.id AND emballage.quantite_id = quantite.id AND  emballage.id = ? AND productionjour.etat_id != ? AND DATE(ligneproductionjour.created) >= ? AND DATE(ligneproductionjour.created) <= ? GROUP BY emballage.id";
 		$item = LIGNEPRODUCTIONJOUR::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEPRODUCTIONJOUR()]; }
 		return $item[0]->production;
@@ -156,11 +156,11 @@ class EMBALLAGE extends TABLE
 		}else{
 			$this->isActive = TABLE::OUI;
 			$pro = PRODUCTIONJOUR::today();
-			$datas = LIGNEPRODUCTIONJOUR::findBy(["productionjour_id ="=>$pro->id, "prixdevente_id ="=>$pdv->id]);
+			$datas = LIGNEPRODUCTIONJOUR::findBy(["productionjour_id ="=>$pro->id, "produit_id ="=>$pdv->id]);
 			if (count($datas) == 0) {
 				$ligne = new LIGNEPRODUCTIONJOUR();
 				$ligne->productionjour_id = $pro->id;
-				$ligne->prixdevente_id = $pdv->id;
+				$ligne->produit_id = $pdv->id;
 				$ligne->enregistre();
 			}			
 		}

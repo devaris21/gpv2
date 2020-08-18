@@ -168,6 +168,22 @@ foreach ($datas as $key => $value) {
 	$item->save();
 }
 
+$datas = ["Bissap", "Gingembre", "Passion", "Tamarin", "Citron", "Baobab"];
+foreach ($datas as $key => $value) {
+	$item = new PARFUM();
+	$item->name = $value;
+	$item->setProtected(1);
+	$item->save();
+}
+
+$datas = ["Jus", "Sans sucre", "Sirop", "Confiture"];
+foreach ($datas as $key => $value) {
+	$item = new TYPEPRODUIT();
+	$item->name = $value;
+	$item->setProtected(1);
+	$item->save();
+}
+
 
 $item = new VEHICULE();
 $item->immatriculation = "...";
@@ -445,68 +461,6 @@ foreach (ROLE::getAll() as $key => $value) {
 	$tr->enregistre();
 }
 
-
-$datas = [200, 250, 300, 500, 1000, 1500, 2000];
-foreach ($datas as $key => $value) {
-	$item = new PRIX();
-	$item->price = $value;
-	$item->setProtected(1);
-	$item->enregistre();
-}
-
-
-// $item = new PRODUIT();
-// $item->files = [];
-// $item->stock = 100;
-// $item->name = "Jus de passion";
-// $item->description = "Hourdis";
-// $item->enregistre();
-
-// $item = new PRODUIT();
-// $item->files = [];
-// $item->stock = 100;
-// $item->name = "Jus d'orange";
-// $item->description = "AC 15";
-// $item->enregistre();
-
-// $item = new PRODUIT();
-// $item->files = [];
-// $item->stock = 100;
-// $item->name = "Jus de bissap";
-// $item->description = "AP 15";
-// $item->enregistre();
-
-// $item = new RESSOURCE();
-// $item->files = [];
-// $item->stock = 100;
-// $item->name = "EAU";
-// $item->class = "Sac";
-// $item->abbr = "Sacs";
-// $item->enregistre();
-
-// $item = new RESSOURCE();
-// $item->files = [];
-// $item->stock = 100;
-// $item->name = "Orange";
-// $item->class = "unités";
-// $item->abbr = "Chgs";
-// $item->enregistre();
-
-// $item = new RESSOURCE();
-// $item->files = [];
-// $item->stock = 100;
-// $item->name = "Sucre";
-// $item->class = "Tonne";
-// $item->abbr = "T";
-// $item->enregistre();
-
-// $item = new RESSOURCE();
-// $item->files = [];
-// $item->stock = 100;
-// $item->name = "Bidons";
-// $item->class = "Tonne";
-// $item->abbr = "T";
-// $item->enregistre();
 
 
 $datas = ["standart"];

@@ -11,8 +11,9 @@ class LIGNEDEVENTE extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 	public $vente_id;
-	public $prixdevente_id;
+	public $produit_id;
 	public $quantite;
+	public $price;
 
 
 	public function enregistre(){

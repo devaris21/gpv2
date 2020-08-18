@@ -208,7 +208,7 @@ class PROSPECTION extends TABLE
 							$ligne->actualise();
 							$lgn = new LIGNEDEVENTE();
 							$lgn->vente_id = $vente->id;
-							$lgn->prixdevente_id = $ligne->prixdevente_id;
+							$lgn->produit_id = $ligne->produit_id;
 							$lgn->quantite = $ligne->quantite_vendu;
 							$lgn->save();
 							$montant += $ligne->prixdevente->prix->price * $ligne->quantite_vendu;

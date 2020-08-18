@@ -246,7 +246,7 @@
                                                 </ul>
                                                 <div class="tab-content">
                                                     <?php foreach ($produits as $key => $produit) {
-                                                        $requette = "SELECT * FROM etiquette, prixdevente WHERE etiquette.prixdevente_id = prixdevente.id AND prixdevente.isActive =? AND prixdevente.produit_id = ?";
+                                                        $requette = "SELECT * FROM etiquette, prixdevente WHERE etiquette.produit_id = prixdevente.id AND prixdevente.isActive =? AND prixdevente.produit_id = ?";
                                                         $etiquettes = Home\ETIQUETTE::execute($requette, [Home\TABLE::OUI, $produit->id]);
                                                         $total = 0; ?>
                                                         <div role="tabpanel" id="pan-<?= $produit->id ?>" class="tab-pane">

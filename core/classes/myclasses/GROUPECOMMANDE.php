@@ -35,21 +35,21 @@ class GROUPECOMMANDE extends TABLE
 	} 
 
 
-	public function reste(int $prixdevente_id){
+	public function reste(int $produit_id){
 		$total = 0;
 
-		$requette = "SELECT SUM(quantite) as quantite FROM lignecommande, prixdevente, commande, groupecommande WHERE lignecommande.prixdevente_id = prixdevente.id AND lignecommande.commande_id = commande.id AND commande.groupecommande_id = groupecommande.id AND groupecommande.id = ? AND commande.etat_id != ? AND prixdevente.id = ? GROUP BY prixdevente.id";
-		$item = LIGNECOMMANDE::execute($requette, [$this->id, ETAT::ANNULEE, $prixdevente_id]);
+		$requette = "SELECT SUM(quantite) as quantite FROM lignecommande, prixdevente, commande, groupecommande WHERE lignecommande.produit_id = prixdevente.id AND lignecommande.commande_id = commande.id AND commande.groupecommande_id = groupecommande.id AND groupecommande.id = ? AND commande.etat_id != ? AND prixdevente.id = ? GROUP BY prixdevente.id";
+		$item = LIGNECOMMANDE::execute($requette, [$this->id, ETAT::ANNULEE, $produit_id]);
 		if (count($item) < 1) {$item = [new LIGNECOMMANDE()]; }
 		$total += $item[0]->quantite;
 
-		// $requette = "SELECT SUM(quantite) as quantite FROM lignedevente, prixdevente, vente, groupecommande WHERE lignedevente.prixdevente_id = prixdevente.id AND lignedevente.vente_id = vente.id AND vente.groupecommande_id = groupecommande.id AND groupecommande.id = ? AND vente.etat_id != ? AND prixdevente.id = ? GROUP BY prixdevente.id";
-		// $item = LIGNEDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE, $prixdevente_id]);
+		// $requette = "SELECT SUM(quantite) as quantite FROM lignedevente, prixdevente, vente, groupecommande WHERE lignedevente.produit_id = prixdevente.id AND lignedevente.vente_id = vente.id AND vente.groupecommande_id = groupecommande.id AND groupecommande.id = ? AND vente.etat_id != ? AND prixdevente.id = ? GROUP BY prixdevente.id";
+		// $item = LIGNEDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE, $produit_id]);
 		// if (count($item) < 1) {$item = [new LIGNEDEVENTE()]; }
 		// $total -= $item[0]->quantite;
 
-		$requette = "SELECT SUM(quantite_vendu) as quantite FROM ligneprospection, prixdevente, prospection, groupecommande WHERE groupecommande.id = ? AND prospection.groupecommande_id = groupecommande.id AND ligneprospection.prixdevente_id = prixdevente.id AND ligneprospection.prospection_id = prospection.id AND prospection.etat_id != ? AND prixdevente.id = ? GROUP BY prixdevente.id";
-		$item = LIGNEPROSPECTION::execute($requette, [$this->id, ETAT::ANNULEE, $prixdevente_id]);
+		$requette = "SELECT SUM(quantite_vendu) as quantite FROM ligneprospection, prixdevente, prospection, groupecommande WHERE groupecommande.id = ? AND prospection.groupecommande_id = groupecommande.id AND ligneprospection.produit_id = prixdevente.id AND ligneprospection.prospection_id = prospection.id AND prospection.etat_id != ? AND prixdevente.id = ? GROUP BY prixdevente.id";
+		$item = LIGNEPROSPECTION::execute($requette, [$this->id, ETAT::ANNULEE, $produit_id]);
 		if (count($item) < 1) {$item = [new LIGNEPROSPECTION()]; }
 		$total -= $item[0]->quantite;
 
@@ -58,7 +58,7 @@ class GROUPECOMMANDE extends TABLE
 
 
 	public function lesRestes(){
-		$requette = "SELECT prixdevente.id, SUM(quantite) as quantite FROM lignecommande, prixdevente, commande, groupecommande WHERE lignecommande.prixdevente_id = prixdevente.id AND lignecommande.commande_id = commande.id AND commande.groupecommande_id = groupecommande.id AND groupecommande.id = ? AND commande.etat_id != ? GROUP BY prixdevente.id";
+		$requette = "SELECT prixdevente.id, SUM(quantite) as quantite FROM lignecommande, prixdevente, commande, groupecommande WHERE lignecommande.produit_id = prixdevente.id AND lignecommande.commande_id = commande.id AND commande.groupecommande_id = groupecommande.id AND groupecommande.id = ? AND commande.etat_id != ? GROUP BY prixdevente.id";
 		return PRIXDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE]);
 	}
 

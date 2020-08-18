@@ -11,8 +11,9 @@ class LIGNEPROSPECTION extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 	public $prospection_id;
-	public $prixdevente_id;
+	public $produit_id;
 	public $quantite;
+	public $price;
 
 	public $quantite_vendu;
 	public $perte = 0;

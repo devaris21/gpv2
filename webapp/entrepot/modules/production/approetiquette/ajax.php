@@ -187,7 +187,7 @@ if ($action == "validerApprovisionnement") {
 								$id = $lot[0];
 								$qte = $lot[1];
 								$prix = end($lot);
-								$datas = ETIQUETTE::findBy(["prixdevente_id ="=> $id]);
+								$datas = ETIQUETTE::findBy(["produit_id ="=> $id]);
 								if (count($datas) == 1) {
 									$ressource = $datas[0];
 									$ligne = new LIGNEAPPROETIQUETTE;

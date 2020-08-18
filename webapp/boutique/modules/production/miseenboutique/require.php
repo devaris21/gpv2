@@ -3,6 +3,7 @@ namespace Home;
 
 $title = "GPV | Mise en boutique de la production";
 
+$mises__ = $boutique->fourni("miseenboutique", ["boutique_id ="=>$boutique->id, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);;
 $encours2 = $boutique->fourni("miseenboutique", ["boutique_id ="=>$boutique->id, "etat_id ="=>ETAT::PARTIEL], [], ["created"=>"DESC"]);
 $encours = array_merge($mises__, $encours2);
 

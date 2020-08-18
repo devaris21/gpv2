@@ -40,7 +40,7 @@ class PRODUCTIONJOUR extends TABLE
 				foreach (PRIXDEVENTE::getAll() as $key => $pdv) {
 					$ligne = new LIGNEPRODUCTIONJOUR();
 					$ligne->productionjour_id = $pro->id;
-					$ligne->prixdevente_id = $pdv->id;
+					$ligne->produit_id = $pdv->id;
 					$ligne->enregistre();
 				}
 			}

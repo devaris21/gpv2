@@ -207,7 +207,7 @@
                                                     <td class="gras" style="color: <?= $produit->couleur ?>"><i class="fa fa-flask"></i> <?= $produit->name() ?></td>
                                                     <?php foreach ($datas as $key => $pdv) {
                                                         foreach ($productionjour->ligneproductionjours as $key => $ligne) {
-                                                            if ($ligne->prixdevente_id == $pdv->id) { ?>
+                                                            if ($ligne->produit_id == $pdv->id) { ?>
                                                                 <td data-toogle="tooltip" title="production" class="text-center gras"><?= money($ligne->production) ?></td>
                                                             <?php }
                                                         } 
