@@ -2,7 +2,7 @@ $(function(){
 
 
     filtrer = function(){
-        var url = "../../webapp/gestion/modules/production/ressources/ajax.php";
+        var url = "../../webapp/boutique/modules/production/ressources/ajax.php";
         var formdata = new FormData($("#formFiltrer")[0]);
         formdata.append('action', "filtrer");
         $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
@@ -16,7 +16,7 @@ $(function(){
     
     //nouvelle ressource
     $(".newressource").click(function(event) {
-        var url = "../../webapp/gestion/modules/approvisionnement/ressources/ajax.php";
+        var url = "../../webapp/boutique/modules/approvisionnement/ressources/ajax.php";
         var id = $(this).attr("data-id");
         $.post(url, {action:"newressource", id:id}, (data)=>{
             $("tbody.approvisionnement").append(data);
@@ -26,7 +26,7 @@ $(function(){
 
 
     supprimeRessource = function(id){
-        var url = "../../webapp/gestion/modules/approvisionnement/ressources/ajax.php";
+        var url = "../../webapp/boutique/modules/approvisionnement/ressources/ajax.php";
         $.post(url, {action:"supprimeRessource", id:id}, (data)=>{
             $("tbody.approvisionnement tr#ligne"+id).hide(400).remove();
             $("button[data-id ="+id+"]").show(200);
@@ -36,7 +36,7 @@ $(function(){
 
 
     enregistrerApprovisionnement = function(){
-        var url = "../../webapp/gestion/modules/approvisionnement/ressources/ajax.php";
+        var url = "../../webapp/boutique/modules/approvisionnement/ressources/ajax.php";
         var tableau = new Array();
         $("#modal-approvisionnement .approvisionnement tr").each(function(index, el) {
             var id = $(this).attr('data-id');
@@ -53,7 +53,7 @@ $(function(){
             okLabel : "OUI, valider",
         }, function(){
             Loader.start();
-            var url = "../../webapp/gestion/modules/approvisionnement/ressources/ajax.php";
+            var url = "../../webapp/boutique/modules/approvisionnement/ressources/ajax.php";
             // val = $("input[name=datelivraison]").data('datepicker');
             // console.log(val)
             // let debut =val.format('YYYY-MM-DD');

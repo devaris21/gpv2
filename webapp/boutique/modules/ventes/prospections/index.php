@@ -103,9 +103,8 @@
                                                 <thead>
                                                     <tr class="no">
                                                         <th></th>
-                                                        <?php foreach ($vente->ligneprospections as $key => $ligne) { 
-                                                            $ligne->actualise(); ?>
-                                                            <th class="text-center mp0"><?= $ligne->prixdevente->produit->name() ?><br><small><?= $ligne->prixdevente->prix->price() ?> <?= $params->devise  ?></small></th>
+                                                        <?php foreach ($vente->ligneprospections as $key => $ligne) { ?>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>
@@ -165,7 +164,7 @@
                                                         <th></th>
                                                         <?php foreach ($prospection->ligneprospections as $key => $ligne) { 
                                                             $ligne->actualise(); ?>
-                                                            <th class="text-center mp0"><?= $ligne->prixdevente->produit->name() ?><br><small><?= $ligne->prixdevente->prix->price() ?> <?= $params->devise  ?></small></th>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>

@@ -14,7 +14,7 @@ $(function(){
             cancelLabel : "Non",
             okLabel : "OUI, annuler",
         }, function(){
-            var url = "../../webapp/gestion/modules/ventes/livraisons/ajax.php";
+            var url = "../../webapp/boutique/modules/ventes/livraisons/ajax.php";
             alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
                 title: 'Récupération du mot de passe !',
                 inputType : "password",
@@ -49,7 +49,7 @@ $(function(){
 
     $(".formValiderLivraison").submit(function(event) {
         Loader.start();
-        var url = "../../webapp/gestion/modules/ventes/livraisons/ajax.php";
+        var url = "../../webapp/boutique/modules/ventes/livraisons/ajax.php";
         var formdata = new FormData($(this)[0]);
 
         var tableau = new Array();

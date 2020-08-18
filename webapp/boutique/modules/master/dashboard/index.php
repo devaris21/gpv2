@@ -18,6 +18,7 @@
             <div class="animated fadeInRightBig">
 
                 <div class=" border-bottom white-bg dashboard-header">
+                    <br>
                     <div class="row">
                         <div class="col-md-3">
                             <img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 60px;" alt=""><br>
@@ -36,42 +37,39 @@
                                 <li class="list-group-item"></li>
                             </ul>
                             
+
+                            <ul class="list-group clear-list">
+                                <li class="list-group-item fist-item">
+                                    Dettes de clients <span class=" float-right"><?= money(Home\CLIENT::Dettes()); ?> <?= $params->devise  ?></span> 
+                                </li>
+                                <li class="list-group-item">
+                                    En rupture de stock <span class="float-right"><?= start0(count(Home\PRODUIT::ruptureBoutique($boutique->id))) ?> produit(s)</span> 
+                                </li>
+                                <li class="list-group-item"></li>
+                            </ul>
                         </div>
                         <div class="col-md-6">
                             <div class="text-center">
-                                <div class="flot-chart">
+                                <div class="flot-chart" style="height: 240px">
                                     <div class="flot-chart-content" id="flot-dashboard-chart"></div>
                                 </div><hr>
                                 <span>Vente directe / vente par prospection</span>
-                            </div><hr>
-                            <div class="row text-center">
-                                <div class="col">
-                                    <div class="">
-                                        <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::todayDirect($boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-                                        <small class="text-muted block">Ventes directes du jour</small>
-                                    </div>
-                                </div>
-                                <div class="col border-right border-left">
-                                    <span class="h5 font-bold block"><?= money(comptage(Home\PROSPECTION::effectuee(dateAjoute(), $boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-                                    <small class="text-muted block">Ventes par prospection du jour</small>
-                                </div>
-                                <div class="col text-danger">
-                                    <span class="h5 font-bold block"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1), $boutique->id)) ?> <small><?= $params->devise ?></small></span>
-                                    <small class="text-muted block">Dépense du jour</small>
-                                </div>
                             </div>
                         </div>
                         <div class="col-md-3 border-left">
                             <div class="statistic-box" style="margin-top: 0%">
                                 <div class="ibox">
                                     <div class="ibox-content">
-                                        <h5>Dette chez les clients</h5>
-                                        <h2 class="no-margins"><?= money(Home\CLIENT::Dettes()); ?> <?= $params->devise  ?></h2>
+                                        <h5>Ventes directes du jour</h5>
+                                        <h3 class="no-margins"><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute(1), $boutique->id), "vendu", "somme")); ?> <?= $params->devise  ?></h3>
                                     </div>
-
-                                    <div class="ibox-content">
-                                        <h5>En rupture de Stock</h5>
-                                        <h2 class="no-margins"><?= start0(count(Home\PRIXDEVENTE::ruptureBoutique($boutique->id))) ?> produit(s)</h2>
+                                    <div class="ibox-content text-green">
+                                        <h5>Ventes par prospection du jour</h5>
+                                        <h3 class="no-margins"><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute(1), $boutique->id), "vendu", "somme")); ?> <?= $params->devise  ?></h3>
+                                    </div>
+                                    <div class="ibox-content text-blue">
+                                        <h5>Ventes en cave du jour</h5>
+                                        <h3 class="no-margins"><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute(1), $boutique->id), "vendu", "somme")); ?> <?= $params->devise  ?></h3>
                                     </div>
                                 </div>
 
@@ -157,6 +155,8 @@
 
      var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->prospection ?>], <?php } ?> ];
 
+     var data3 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->cave ?>], <?php } ?> ];
+
      var dataset = [
      {
         label: "Vente directe",
@@ -173,6 +173,17 @@
         label: "Vente par prospection",
         data: data2,
         color: "#cc0000",
+        bars: {
+            show: true,
+            align: "right",
+            barWidth: 12 * 60 * 60 * 600,
+            lineWidth:0
+        }
+
+    }, {
+        label: "Vente en cave",
+        data: data3,
+        color: "#0044cc",
         bars: {
             show: true,
             align: "right",

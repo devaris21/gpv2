@@ -1,0 +1,7 @@
+.clignote {
+  color:green;
+  animation: clignote 1s linear infinite;
+}
+@keyframes clignote {  
+  50% { opacity: 0; }
+}

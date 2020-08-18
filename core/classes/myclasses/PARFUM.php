@@ -12,6 +12,7 @@ class PARFUM extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 	public $name;
+	public $couleur;
 	public $isActive = TABLE::OUI;
 
 

@@ -1,6 +1,6 @@
 
 <div class="modal inmodal fade" id="modal-prospection" style="z-index: 9999999999">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xll">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -21,12 +21,17 @@
                                         <!-- rempli en Ajax -->
                                     </tbody>
                                 </table>
+                            </div>
 
-                                <div class="text-center">
-                                    <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
-                                        <button class="btn btn-white dim newproduit" data-id="<?= $produit->getId() ?>" data-toggle="tooltip" title="<?= $produit->description ?>"><?= $produit->name(); ?></button>
-                                    <?php }  ?>
-                                </div>
+                            <div class="row">
+                                <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
+                                    <div class="col text-center border-right">
+                                        <h5 class="text-uppercase gras text-center"><?= $type->name()  ?></h5>
+                                        <?php foreach (Home\PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $parfum) { ?>
+                                            <button class="btn-white btn-xs newproduit btn-block cursor" parfum-id="<?= $parfum->getId() ?>" type-id="<?= $type->getId() ?>"><?= $parfum->name(); ?></button>
+                                        <?php }  ?>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -74,7 +79,7 @@
 
                                 <input type="hidden" name="client_id" value="<?= Home\CLIENT::ANONYME ?>">
                                 <input type="hidden" name="typeprospection_id" value="<?= Home\TYPEPROSPECTION::PROSPECTION ?>">
-                                
+
                             </form><br>
                             <h2 class="font-bold total text-right total">0 Fcfa</h2>
                             <hr/>

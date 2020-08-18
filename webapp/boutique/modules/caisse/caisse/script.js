@@ -18,7 +18,7 @@ $(function(){
 
 
 	valider = function(id){
-		var url = "../../webapp/gestion/modules/caisse/caisse/ajax.php";
+		var url = "../../webapp/boutique/modules/caisse/caisse/ajax.php";
 		alerty.confirm("Confirmez-vous être maintenant en possession effective de ladite somme ?", {
 			title: "Validation de l'opération",
 			cancelLabel : "Non",

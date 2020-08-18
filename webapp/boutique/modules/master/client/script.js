@@ -33,7 +33,7 @@ $(function(){
 
 	fichecommande = function(id){	
 		Loader.start();	
-		var url = "../../webapp/gestion/modules/master/client/ajax.php";
+		var url = "../../webapp/boutique/modules/master/client/ajax.php";
 		$.post(url, {action:"fichecommande", id:id}, (data)=>{
 			$("body #modal-groupecommande").remove();
 			$("body").append(data);
@@ -45,7 +45,7 @@ $(function(){
 
 	newlivraison = function(id){	
 		Loader.start();	
-		var url = "../../webapp/gestion/modules/master/client/ajax.php";
+		var url = "../../webapp/boutique/modules/master/client/ajax.php";
 		$.post(url, {action:"newlivraison", id:id}, (data)=>{
 			$("body #modal-newlivraison").remove();
 			$("body").append(data);
@@ -66,7 +66,7 @@ $(function(){
 
 	newProgrammation = function(id){	
 		Loader.start();	
-		var url = "../../webapp/gestion/modules/master/client/ajax.php";
+		var url = "../../webapp/boutique/modules/master/client/ajax.php";
 		$.post(url, {action:"newProgrammation", id:id}, (data)=>{
 			$("body #modal-programmation").remove();
 			$("body").append(data);
@@ -79,7 +79,7 @@ $(function(){
 
 
 	fairenewcommande = function(id){	
-		var url = "../../webapp/gestion/modules/master/client/ajax.php";
+		var url = "../../webapp/boutique/modules/master/client/ajax.php";
 		$.post(url, {action:"modalcommande", id:id}, (data)=>{
 			$("body #modal-newcommande").remove();
 			$("body").append(data);
@@ -92,9 +92,10 @@ $(function(){
 
 	//nouvelle commande
 	$("body").on("click", ".newproduit2", function(event) {
-		var url = "../../webapp/gestion/modules/master/client/ajax.php";
-		var id = $(this).attr("data-id");
-		$.post(url, {action:"newproduit2", id:id}, (data)=>{
+		var url = "../../webapp/boutique/modules/master/client/ajax.php";
+		var parfum_id = $(this).attr("parfum-id");
+		var type_id = $(this).attr("type-id");
+		$.post(url, {action:"newproduit2", parfum_id:parfum_id, type_id:type_id}, (data)=>{
 			$("tbody.commande").append(data);
 			$("button[data-id ="+id+"]").hide(200);
 			calcul()
@@ -104,9 +105,10 @@ $(function(){
 
 	//nouvelle commande
 	$("body").on("click", ".newproduit", function(event) {
-		var url = "../../webapp/gestion/modules/master/client/ajax.php";
-		var id = $(this).attr("data-id");
-		$.post(url, {action:"newproduit", id:id}, (data)=>{
+		var url = "../../webapp/boutique/modules/master/client/ajax.php";
+		var parfum_id = $(this).attr("parfum-id");
+		var type_id = $(this).attr("type-id");
+		$.post(url, {action:"newproduit", parfum_id:parfum_id, type_id:type_id}, (data)=>{
 			$("tbody.commande").append(data);
 			$("button[data-id ="+id+"]").hide(200);
 			calcul()
@@ -120,7 +122,7 @@ $(function(){
 
 
 	supprimeProduit = function(id){
-		var url = "../../webapp/gestion/modules/master/client/ajax.php";
+		var url = "../../webapp/boutique/modules/master/client/ajax.php";
 		$.post(url, {action:"supprimeProduit", id:id}, (data)=>{
 			$("tbody.commande tr#ligne"+id).hide(400).remove();
 			$("button[data-id ="+id+"]").show(200);
@@ -135,7 +137,7 @@ $(function(){
 
 
 	calcul = function(){
-		var url = "../../webapp/gestion/modules/master/client/ajax.php";
+		var url = "../../webapp/boutique/modules/master/client/ajax.php";
 		var formdata = new FormData();
 		var tableau = new Array();
 		$(".modal .commande tr").each(function(index, el) {
@@ -189,7 +191,7 @@ $(function(){
 			okLabel : "OUI, Vendre",
 		}, function(){
 			Loader.start();
-			var url = "../../webapp/gestion/modules/master/client/ajax.php";
+			var url = "../../webapp/boutique/modules/master/client/ajax.php";
 			formdata.append('action', "venteDirecte");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				if (data.status) {
@@ -224,7 +226,7 @@ $(function(){
 			okLabel : "OUI, Confirmer",
 		}, function(){
 			Loader.start();
-			var url = "../../webapp/gestion/modules/master/client/ajax.php";
+			var url = "../../webapp/boutique/modules/master/client/ajax.php";
 			formdata.append('action', "validerPropection");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				if (data.status) {
@@ -258,7 +260,7 @@ $(function(){
 			okLabel : "OUI, Confirmer",
 		}, function(){
 			Loader.start();
-			var url = "../../webapp/gestion/modules/master/client/ajax.php";
+			var url = "../../webapp/boutique/modules/master/client/ajax.php";
 			formdata.append('action', "validerPropection");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				if (data.status) {
@@ -291,7 +293,7 @@ $(function(){
 			okLabel : "OUI, valider",
 		}, function(){
 			Loader.start();
-			var url = "../../webapp/gestion/modules/master/client/ajax.php";
+			var url = "../../webapp/boutique/modules/master/client/ajax.php";
 			formdata.append('action', "validerCommande");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				if (data.status) {
@@ -312,7 +314,7 @@ $(function(){
 			cancelLabel : "Non",
 			okLabel : "OUI, annuler",
 		}, function(){
-			var url = "../../webapp/gestion/modules/master/client/ajax.php";
+			var url = "../../webapp/boutique/modules/master/client/ajax.php";
 			alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
 				title: 'Récupération du mot de passe !',
 				inputType : "password",
@@ -353,7 +355,7 @@ $(function(){
 			okLabel : "OUI, livrer",
 		}, function(){
 			Loader.start();
-			var url = "../../webapp/gestion/modules/master/client/ajax.php";
+			var url = "../../webapp/boutique/modules/master/client/ajax.php";
 			formdata.append('action', "livraisonCommande");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				if (data.status) {
@@ -385,7 +387,7 @@ $(function(){
 			okLabel : "OUI, programmer",
 		}, function(){
 			Loader.start();
-			var url = "../../webapp/gestion/modules/master/client/ajax.php";
+			var url = "../../webapp/boutique/modules/master/client/ajax.php";
 			formdata.append('action', "validerProgrammation");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				if (data.status) {
@@ -399,7 +401,7 @@ $(function(){
 
 
 	$("#formAcompte").submit(function(event) {
-		var url = "../../webapp/gestion/modules/master/client/ajax.php";
+		var url = "../../webapp/boutique/modules/master/client/ajax.php";
 		alerty.confirm("Voulez-vous vraiment créditer ce montant sur ce compte ?", {
 			title: "Créditer l'acompte",
 			cancelLabel : "Non",
@@ -430,7 +432,7 @@ $(function(){
 
 
 	$("#formDette").submit(function(event) {
-		var url = "../../webapp/gestion/modules/master/client/ajax.php";
+		var url = "../../webapp/boutique/modules/master/client/ajax.php";
 		alerty.confirm("Voulez-vous vraiment faire le réglement de ce montant ?", {
 			title: "Reglement de dette",
 			cancelLabel : "Non",
@@ -463,7 +465,7 @@ $(function(){
 
 
 	$("#formRembourser").submit(function(event) {
-		var url = "../../webapp/gestion/modules/master/client/ajax.php";
+		var url = "../../webapp/boutique/modules/master/client/ajax.php";
 		alerty.confirm("Voulez-vous vraiment rembourser ce montant à ce client ?", {
 			title: "rembourser l'acompte",
 			cancelLabel : "Non",

@@ -49,12 +49,12 @@ class PRODUIT extends TABLE
 
 
 	public function name(){
-		$this->actualise();
-		return $this->produit->name()." / ".$this->quantite->name();
+		return $this->typeproduit->name()." ".$this->parfum->name()." ".$this->quantite->name();
 	}
 
 
 	public static function totalVendu($date1, $date2, int $boutique_id=null, int $parfum_id=null, int $typeproduit_id=null, $quantite_id=null){
+		$paras = "";
 		$paras = "";
 		if ($boutique_id != null) {
 			$paras.= "AND boutique_id = $boutique_id ";
@@ -79,6 +79,7 @@ class PRODUIT extends TABLE
 
 
 	public function production(string $date1, string $date2, int $entrepot_id = null){
+		$paras = "";
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
@@ -91,6 +92,7 @@ class PRODUIT extends TABLE
 
 
 	public function totalSortieEntrepot(string $date1, string $date2, int $entrepot_id = null){
+		$paras = "";
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
@@ -102,6 +104,7 @@ class PRODUIT extends TABLE
 
 
 	public function perteEntrepot(string $date1, string $date2, int $entrepot_id = null){
+		$paras = "";
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
@@ -126,6 +129,7 @@ class PRODUIT extends TABLE
 
 
 	public function totalMiseEnBoutique(string $date1, string $date2, int $boutique_id = null){
+		$paras = "";
 		if ($boutique_id != null) {
 			$paras.= "AND boutique_id = $boutique_id ";
 		}
@@ -137,6 +141,7 @@ class PRODUIT extends TABLE
 
 
 	public function enBoutique(string $date, int $boutique_id = null){
+		$paras = "";
 		if ($boutique_id != null) {
 			$paras.= "AND boutique_id = $boutique_id ";
 		}
@@ -151,6 +156,7 @@ class PRODUIT extends TABLE
 
 
 	public function enProspection(string $date, int $boutique_id = null){
+		$paras = "";
 		if ($boutique_id != null) {
 			$paras.= "AND boutique_id = $boutique_id ";
 		}
@@ -163,6 +169,7 @@ class PRODUIT extends TABLE
 
 
 	public function livree(string $date1, string $date2, int $boutique_id = null){
+		$paras = "";
 		if ($boutique_id != null) {
 			$paras.= "AND boutique_id = $boutique_id ";
 		}
@@ -175,31 +182,32 @@ class PRODUIT extends TABLE
 
 
 	public function perteProspection(string $date1, string $date2, int $boutique_id = null){
+		$paras = "";
 		if ($boutique_id != null) {
 			$paras.= "AND boutique_id = $boutique_id ";
 		}
 		$requette = "SELECT SUM(perte) as perte  FROM ligneprospection, produit, prospection WHERE ligneprospection.produit_id = produit.id AND produit.id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.etat_id != ? AND ligneprospection.created >= ? AND ligneprospection.created <= ? $paras GROUP BY produit.id";
 		$item = LIGNEPROSPECTION::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEPROSPECTION()]; }
-		$total += $item[0]->perte;
-		return $total;
+		return $item[0]->perte;
 	}
 
 
 	public function vendu(string $date1, string $date2, int $boutique_id = null){
+		$paras = "";
 		if ($boutique_id != null) {
 			$paras.= "AND boutique_id = $boutique_id ";
 		}
 		$requette = "SELECT SUM(quantite) as quantite  FROM lignedevente, produit, vente WHERE lignedevente.produit_id = produit.id AND lignedevente.vente_id = vente.id AND produit.id = ? AND vente.etat_id != ? AND lignedevente.created >= ? AND lignedevente.created <= ? $paras GROUP BY produit.id";
 		$item = LIGNEDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEDEVENTE()]; }
-		$total += $item[0]->quantite;
-		return $total;
+		return $item[0]->quantite;
 	}
 
 
 	// public function vendeDirecte(string $date1, string $date2, int $boutique_id = null){
-	// 	if ($boutique_id != null) {
+	// 	$paras = "";
+	//if ($boutique_id != null) {
 	// 		$paras.= "AND boutique_id = $boutique_id ";
 	// 	}
 	// 	$requette = "SELECT SUM(quantite) as quantite  FROM lignedevente, produit, vente WHERE lignedevente.produit_id = produit.id AND lignedevente.vente_id = vente.id AND produit.id = ? AND  vente.etat_id != ? AND vente.typevente_id = ? AND vente.boutique_id =? AND  DATE(lignedevente.created) >= ? AND DATE(lignedevente.created) <= ? GROUP BY produit.id";
@@ -212,7 +220,8 @@ class PRODUIT extends TABLE
 
 	// public function vendeProspection(string $date1, string $date2, int $boutique_id = null){
 	// 	$total = 0;
-	// 	if ($boutique_id != null) {
+	// 	$paras = "";
+	//	if ($boutique_id != null) {
 	// 		$requette = "SELECT SUM(quantite) as quantite  FROM lignedevente, produit, vente WHERE lignedevente.produit_id = produit.id AND lignedevente.vente_id = vente.id AND produit.id = ? AND  vente.etat_id != ? AND vente.boutique_id =?  AND vente.typevente_id = ? AND DATE(lignedevente.created) >= ? AND DATE(lignedevente.created) <= ? GROUP BY produit.id";
 
 	// 		$item = LIGNEDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE, $boutique_id, TYPEVENTE::PROSPECTION, $date1, $date2]);

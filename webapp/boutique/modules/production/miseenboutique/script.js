@@ -27,7 +27,7 @@ $(function(){
 
     $("#formMiseenboutique").submit(function(event) {
         Loader.start();
-        var url = "../../webapp/gestion/modules/production/miseenboutique/ajax.php";
+        var url = "../../webapp/boutique/modules/production/miseenboutique/ajax.php";
         var formdata = new FormData($(this)[0]);
         formdata.append('action', "miseenboutique");
         $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){

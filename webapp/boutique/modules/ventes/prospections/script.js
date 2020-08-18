@@ -14,7 +14,7 @@ $(function(){
             cancelLabel : "Non",
             okLabel : "OUI, annuler",
         }, function(){
-            var url = "../../webapp/gestion/modules/ventes/prospections/ajax.php";
+            var url = "../../webapp/boutique/modules/ventes/prospections/ajax.php";
             alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
                 title: 'Récupération du mot de passe !',
                 inputType : "password",
@@ -47,7 +47,7 @@ $(function(){
 
 
     $("input.vendus").change(function(){
-        var url = "../../webapp/gestion/modules/ventes/prospections/ajax.php";
+        var url = "../../webapp/boutique/modules/ventes/prospections/ajax.php";
         var formdata = new FormData();
         var tableau = new Array();
         $(this).parent("td").parent("tr").parent("tbody").parent("table").find("tr").each(function(index, el) {
@@ -68,7 +68,7 @@ $(function(){
     $(".formValiderProspection").submit(function(event) {
         Loader.start();
         $(this).find("input.vendus").last().change();
-        var url = "../../webapp/gestion/modules/ventes/prospections/ajax.php";
+        var url = "../../webapp/boutique/modules/ventes/prospections/ajax.php";
         var formdata = new FormData($(this)[0]);
         var tableau = new Array();
         var tableau1 = new Array();

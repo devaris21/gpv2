@@ -76,7 +76,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                               <?php foreach ($encours as $key => $vente) {
+                             <?php foreach ($encours as $key => $vente) {
                                 $vente->actualise(); 
                                 $vente->fourni("lignedevente");
                                 ?>
@@ -140,7 +140,7 @@
                                             <span class="label label-<?= $vente->etat->class ?>"><?= $vente->etat->name ?></span>
                                         </td>
                                         <td>
-                                            <span class="text-uppercase gras">Vente <?= $vente->typevente->name()  ?></span><br>
+                                            <span class="text-uppercase gras"><?= $vente->typevente->name()  ?></span><br>
                                             <span><?= $vente->reference ?></span>
                                         </td>
                                         <td>
@@ -160,13 +160,13 @@
                                                         <th></th>
                                                         <?php foreach ($vente->lignedeventes as $key => $ligne) { 
                                                             $ligne->actualise(); ?>
-                                                            <th class="text-center mp0"><?= $ligne->prixdevente->produit->name() ?><br><small><?= $ligne->prixdevente->prix->price() ?> <?= $params->devise  ?></small></th>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody>                                                    
                                                     <tr class="no">
-                                                        <td><h4 class="mp0">Qté : </h4></td>
+                                                        <td class="gras">Qté :</td>
                                                         <?php foreach ($vente->lignedeventes as $key => $ligne) { ?>
                                                             <td class="text-center"><?= start0($ligne->quantite) ?></td>
                                                         <?php   } ?>

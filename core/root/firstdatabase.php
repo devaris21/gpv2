@@ -23,7 +23,7 @@ $item->setProtected(1);
 $item->save();
 
 
-$datas = ["Directe", "Par Prospection/livraison"];
+$datas = ["Vente Directe", "Prospection", "Livraison Commande", "Vente en Cave"];
 foreach ($datas as $key => $value) {
 	$item = new TYPEVENTE();
 	$item->name = $value;

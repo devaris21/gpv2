@@ -16,14 +16,7 @@ $produits = PRODUIT::findBy(["isActive ="=>TABLE::OUI]);
 $quantites = QUANTITE::findBy(["isActive ="=>TABLE::OUI]);
 
 
-
-for ($i=0; $i < 30; $i++) { 
-	$date = dateAjoute(-30 + $i);
-	$stats[] = 2;
-}
-
-
-$stats = VENTE::stats(dateAjoute(-14), dateAjoute(), $boutique->id);
+$stats = VENTE::stats2(dateAjoute(-14), dateAjoute(), $boutique->id);
 
 
 ?>
