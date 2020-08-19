@@ -27,7 +27,7 @@ class ROOTER extends PATH
 
 
     const SECTION_SIMPLE = ["devaris21"];
-    const SECTION_ADMIN = ["master", "manager", "boutique", "entrepot"];
+    const SECTION_ADMIN = ["master", "manager", "boutique", "entrepot", "configuration"];
     const SECTION_STOCKAGE = ["images", "documents"];
 
 
@@ -90,7 +90,7 @@ class ROOTER extends PATH
 
 
 
-                    if ($this->section == "master" || $this->section == "manager") {
+                    if ($this->section == "master" || $this->section == "configuration") {
                         $datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
                         if (count($datas) >0) {
                             $employe = $datas[0];
