@@ -1,61 +1,73 @@
 
-<div class="modal inmodal fade" id="modal-miseenboutique" style="z-index: 1">
-    <div class="modal-dialog modal-xl">
+<div class="modal inmodal fade" id="modal-miseenboutique" style="z-index: 9999999999">
+    <div class="modal-dialog modal-xll">
         <div class="modal-content">
-            <div class="modal-body">
-                <div class="ibox-content">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <div class="text-center">
-                        <h2 class="title text-uppercase gras text-center">Nouvelle mise en boutique </h2>
-                        <small>Veuillez renseigner la quantité de chaque type de produit que vous voulez mettre en boutique !</small>
-                    </div><hr>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Nouvelle mise en boutique</h4>
+                <small class="font-bold">Renseigner ces champs pour enregistrer la sortie</small>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5 class="text-uppercase">Les produits pour la sortie</h5>
+                        </div>
+                        <div class="ibox-content"><br>
+                            <div class="table-responsive">
+                                <table class="table  table-striped">
+                                    <tbody class="commande">
+                                        <!-- rempli en Ajax -->
+                                    </tbody>
+                                </table>
+                            </div><hr>
 
-                    <form id="formMiseenboutique" classname="miseenboutique">
-                        <div class="row">
-                            <div class="col-sm-6 col-md-4">
-                                <label>Boutique de destination</label>
-                                <?php Native\BINDING::html("select", "boutique") ?>
-                            </div>
-                        </div><hr><br>
-                        <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
                             <div class="row">
-                                <div class="col-md-3 col-md">
-                                    <label>Quantité de <b><?= $produit->name() ?></b></label>
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="row">
-                                        <?php $produit->fourni("prixdevente", ["isActive ="=>Home\TABLE::OUI]);
-                                        foreach ($produit->prixdeventes as $key => $prixdv) {
-                                            $stock = $prixdv->enEntrepot(dateAjoute(), $entrepot->getId());
-                                            if ($stock > 0) {
-                                                $prixdv->actualise(); ?>
-                                                <div class="col-sm-3">
-                                                    <label class="text-muted"><?= $prixdv->quantite->name() ?> / <b><?= $stock ?></b></label>
-                                                    <input type="text" min=0 number class="gras form-control text-green text-center" name="mise-<?= $prixdv->getId() ?>">
-                                                </div>
-                                            <?php  } } ?>
-                                        </div>
+                                <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
+                                    <div class="col text-center border-right">
+                                        <h5 class="text-uppercase gras text-center"><?= $type->name()  ?></h5>
+                                        <?php foreach (Home\PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $parfum) { ?>
+                                            <button class="btn btn-white btn-xs newproduit3 btn-block cursor" parfum-id="<?= $parfum->getId() ?>" type-id="<?= $type->getId() ?>"><?= $parfum->name(); ?></button>
+                                        <?php }  ?>
                                     </div>
-                                </div><hr>
-                            <?php } ?>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ">
+                    <div class="ibox"  style="background-color: #eee">
+                        <div class="ibox-title" style="padding-right: 2%; padding-left: 3%; ">
+                            <h5 class="text-uppercase">Finaliser la sortie</h5>
+                        </div>
+                        <div class="ibox-content"  style="background-color: #fafafa">
+                            <form id="formMiseenboutique">
+                                <div>
+                                    <label>Boutique de destination <span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <?php Native\BINDING::html("select", "boutique"); ?>
+                                    </div>
+                                </div><br>
 
-                            <hr><br>
-
-                            <div class="row">
-                                <div class="col-sm-6 col-md-4">
+                                <div>
                                     <label>Ajouter une note</label>
                                     <textarea class="form-control" name="comment" rows="4"></textarea>
                                 </div>
-                            </div>
 
-                            <div class="">
                                 <input type="hidden" name="entrepot_id" value="<?= $entrepot->id ?>">
-                                <button class="btn pull-right dim btn-primary" ><i class="fa fa-check"></i> Valider la mise en boutique</button>
-                            </div><br>
-                        </form>
+
+                            </form>
+                            <hr/>
+                            <button onclick="miseenboutique()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la sortie</button>
+                        </div>
                     </div>
 
                 </div>
             </div>
+
         </div>
     </div>
+</div>
+
+

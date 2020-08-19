@@ -15,7 +15,7 @@ if ($action == "connexion") {
 		if (!$data->new) {
 			$user->se_connecter();
 			session("employe_connecte_id", $user->id);
-			$data->setUrl("gestion", "master", "dashboard", "1");
+			$data->setUrl("master", "master", "dashboard", "1");
 		}else{
 			session("temp_employe_id", $user->id);	
 		}
@@ -39,7 +39,7 @@ if ($action == "newUser") {
 				if ($data->status) {
 					$element->se_connecter();
 					session("employe_connecte_id", $element->id);
-					$data->setUrl("gestion", "master", "dashboard");
+					$data->setUrl("master", "master", "dashboard");
 				}
 			}else{
 				$data->status = false;

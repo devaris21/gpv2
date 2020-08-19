@@ -213,9 +213,9 @@
 <?php include($this->rootPath("composants/assets/modals/modal-miseenboutique-demande.php")); ?>
 
 <?php 
-foreach ($datas as $key => $mise) {
+foreach ($encours as $key => $mise) {
     if ($mise->etat_id == Home\ETAT::ENCOURS) { 
-        //include($this->rootPath("composants/assets/modals/modal-miseenboutique2.php"));
+        include($this->rootPath("composants/assets/modals/modal-miseenboutique2.php"));
     } 
 } 
 ?>

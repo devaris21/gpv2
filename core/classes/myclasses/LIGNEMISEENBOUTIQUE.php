@@ -15,6 +15,7 @@ class LIGNEMISEENBOUTIQUE extends TABLE
 
 	public $miseenboutique_id;
 	public $produit_id;
+	public $quantite_demande;
 	public $quantite_depart;
 	public $quantite;
 	public $perte = 0;

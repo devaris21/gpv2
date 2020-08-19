@@ -29,7 +29,7 @@ if ($action == "miseenboutique") {
 				$ligne = new LIGNEMISEENBOUTIQUE();
 				$ligne->miseenboutique_id = $meb->id;
 				$ligne->produit_id = $produit->id;
-				$ligne->quantite_depart = intval($qte);
+				$ligne->quantite_demande = intval($qte);
 				$data = $ligne->enregistre();	
 			}
 		}

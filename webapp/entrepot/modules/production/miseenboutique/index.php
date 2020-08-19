@@ -18,121 +18,207 @@
             <div class="col-sm-9">
                 <h2 class="text-uppercase text-green gras">Mise en boutique de la production</h2>
                 <div class="container">
-                    <div class="row">
-                        <div class="col-xs-7 gras ">Afficher même les rangements passées</div>
-                        <div class="offset-1"></div>
-                        <div class="col-xs-4">
-                            <div class="switch">
-                                <div class="onoffswitch">
-                                    <input type="checkbox" class="onoffswitch-checkbox" id="example1">
-                                    <label class="onoffswitch-label" for="example1">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
+                    <button style="margin-top: -3%;" type="button" data-toggle=modal data-target='#modal-miseenboutique' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle mise en boutique </button>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="widget style1 lazur-bg">
+                            <div class="row">
+                                <div class="col-3">
+                                    <i class="fa fa-th-large fa-3x"></i>
+                                </div>
+                                <div class="col-9 text-right">
+                                    <span> Mise en boutique </span>
+                                    <h2 class="font-bold"><?= start0(count(Home\MISEENBOUTIQUE::encours()))  ?></h2>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-3">
-             <div class="row">
-                <div class="col-md-12">
-                    <div class="widget style1 lazur-bg">
-                        <div class="row">
-                            <div class="col-3">
-                                <i class="fa fa-th-large fa-3x"></i>
+        </div>
+
+        <div class="wrapper wrapper-content">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>Toutes les mises en boutique de la production</h5>
+                    <div class="ibox-tools">
+                     <form id="formFiltrer" method="POST">
+                        <div class="row" style="margin-top: -1%">
+                            <div class="col-5">
+                                <input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
                             </div>
-                            <div class="col-9 text-right">
-                                <span> Mise en boutique </span>
-                                <h2 class="font-bold"><?= start0(count(Home\PRODUCTIONJOUR::ranges()))  ?></h2>
+                            <div class="col-5">
+                                <input type="date" value="<?= $date2 ?>" class="form-control input-sm" name="date2">
+                            </div>
+                            <div class="col-2">
+                                <button type="button" onclick="filtrer()" class="btn btn-sm btn-white"><i class="fa fa-search"></i> Filtrer</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="wrapper wrapper-content">
-        <div class="ibox">
-            <div class="ibox-title">
-                <h5>Toutes les mises en boutique de la production</h5>
-                <div class="ibox-tools">
-                    <button style="margin-top: -5%;" data-toggle="modal" data-target="#modal-miseenboutique" class="btn btn-primary dim btn-block"><i class="fa fa-plus"></i> Nouvelle mise en boutique</button>
+                    </form>
                 </div>
             </div>
             <div class="ibox-content">
-              <?php if (count($datas) > 0) { ?>
-                 <table class="table table-hover table-mise">
-                    <tbody>
-                        <?php foreach ($datas as $key => $mise) {
+                <?php if (count($datas + $encours) > 0) { ?>
+                    <table class="footable table table-stripped toggle-arrow-tiny">
+                        <thead>
+                            <tr>
+
+                                <th data-toggle="true">Status</th>
+                                <th>Reference</th>
+                                <th>Entrepôt</th>
+                                <th></th>
+                                <th>Boutique</th>
+                                <th data-hide="all">Produits</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                         <?php foreach ($encours as $key => $mise) {
                             $mise->actualise(); 
                             $lots = $mise->fourni("lignemiseenboutique");
                             ?>
-                            <tr class=" <?= ($mise->etat_id != Home\ETAT::ENCOURS)?'fini':'' ?> border-bottom">
+                            <tr style="border-bottom: 2px solid black">
                                 <td class="project-status">
                                     <span class="label label-<?= $mise->etat->class ?>"><?= $mise->etat->name ?></span>
                                 </td>
-                                <td class="project-title border-right" style="width: 35%;">
-                                    <h3 class="text-uppercase">Mise en boutique N°<?= $mise->reference ?></h3>
-                                    <h5 class="text-uppercase text-muted">du <?= datecourt($mise->created) ?></h5>
-                                    <h6 class="text-uppercase text-muted">Employé :<?= $mise->employe->name() ?></h6>
-                                    <h6 class="text-uppercase text-muted">Sortie d'entrepot <?= $mise->entrepot->name() ?></h6>
-                                    <h6 class="text-uppercase text-muted">Mise en boutique :<?= $mise->boutique->name() ?></h6>
+                                <td>
+                                    <span class="text-uppercase gras">Mise en boutique</span><br>
+                                    <span><?= $mise->reference ?></span>
+                                </td>
+                                <td>
+                                    <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $mise->entrepot->name() ?></h6>
+                                    <small>Emise <?= depuis($mise->created) ?></small>
+                                </td>
+                                <td><i class="fa fa-long-arrow-right fa-2x"></i></td>
+                                <td>
+                                    <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $mise->boutique->name() ?></h6>
+                                    <small>Emise <?= depuis($mise->created) ?></small>
                                 </td>
                                 <td class="border-right">
                                     <table class="table table-bordered">
                                         <thead>
-                                            <tr>
+                                            <tr class="no">
                                                 <th></th>
-                                                <?php foreach ($lots as $key => $ligne) { 
+                                                <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) {
                                                     $ligne->actualise(); ?>
-                                                    <th class="text-center">
-                                                        <h5 class="mp0"><?= $ligne->prixdevente->produit->name() ?></h5>
-                                                        <h6 class="mp0"><?= $ligne->prixdevente->prix->price() ?></h6>
-                                                    </th>
+                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
                                                 <?php } ?>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><h4 class="mp0">mis : </h4></td>
+                                                <td><h4 class="mp0">sorti : </h4></td>
                                                 <?php foreach ($lots as $key => $ligne) { ?>
-                                                    <td class="text-center"><?= start0($ligne->quantite) ?></td>
+                                                    <td class="text-center"><?= start0($ligne->quantite_depart) ?></td>
                                                 <?php } ?>
                                             </tr>
                                             <tr>
-                                                <td><h4 class="mp0">Reste : </h4></td>
+                                                <td><h4 class="mp0">Livré : </h4></td>
                                                 <?php foreach ($lots as $key => $ligne) { ?>
-                                                    <td class="text-center"><?= start0($ligne->restant) ?></td>
+                                                    <td class="text-center"><?= start0($ligne->quantite) ?></td>
                                                 <?php } ?>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </td>
                                 <td>
-                                    <br>
-                                    <a href="<?= $this->url("gestion", "fiches", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Voir le bon</a><br>
+                                    <a href="<?= $this->url("boutique", "fiches", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                    <?php if ($mise->etat_id == Home\ETAT::PARTIEL) { ?>
+                                        <button onclick="accepter(<?= $mise->id ?>)" class="btn btn-white btn-sm text-green"><i class="fa fa-check"></i> Accepter</button>
+                                    <?php } ?>
+                                    <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
+                                        <button onclick="annulerMiseenboutique(<?= $mise->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                    <?php } ?>
                                 </td>
+                            </tr>
+                        <?php  } ?>
+                        <tr />
+                        <?php foreach ($datas as $key => $mise) {
+                            $mise->actualise(); 
+                            $lots = $mise->fourni("lignemiseenboutique");
+                            ?>
+                            <tr style="border-bottom: 2px solid black">
+                                <td class="project-status">
+                                    <span class="label label-<?= $mise->etat->class ?>"><?= $mise->etat->name ?></span>
+                                </td>
+                                <td>
+                                    <span class="text-uppercase gras">Mise en boutique</span><br>
+                                    <span><?= $mise->reference ?></span>
+                                </td>
+                                <td>
+                                    <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $mise->entrepot->name() ?></h6>
+                                    <small>Emise <?= depuis($mise->created) ?></small>
+                                </td>
+                                <td><i class="fa fa-long-arrow-right fa-2x"></i></td>
+                                <td>
+                                    <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $mise->boutique->name() ?></h6>
+                                    <small>Emise <?= depuis($mise->created) ?></small>
+                                </td>
+                                <td class="border-right">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr class="no">
+                                                <th></th>
+                                                <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) {
+                                                    $ligne->actualise(); ?>
+                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
+                                                <?php } ?>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><h4 class="mp0">sorti : </h4></td>
+                                                <?php foreach ($lots as $key => $ligne) { ?>
+                                                    <td class="text-center"><?= start0($ligne->quantite_depart) ?></td>
+                                                <?php } ?>
+                                            </tr>
+                                            <tr>
+                                                <td><h4 class="mp0">Livré : </h4></td>
+                                                <?php foreach ($lots as $key => $ligne) { ?>
+                                                    <td class="text-center"><?= start0($ligne->quantite) ?></td>
+                                                <?php } ?>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td>
+                                    <a href="<?= $this->url("boutique", "fiches", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                </td>
+                            </tr>
+                        <?php  } ?>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                <ul class="pagination float-right"></ul>
                             </td>
                         </tr>
-                    <?php  } ?>
-                </tbody>
-            </table>
-        <?php }else{ ?>
-            <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune commande en cours pour le moment</h1>
-        <?php } ?>
+                    </tfoot>
+                </table>
 
+            <?php }else{ ?>
+                <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune mise en boutique pour le moment</h1>
+            <?php } ?>
+
+        </div>
     </div>
-</div>
 </div>
 
 
 <?php include($this->rootPath("webapp/entrepot/elements/templates/footer.php")); ?> 
+<?php include($this->rootPath("composants/assets/modals/modal-miseenboutique.php")); ?>
 
-<?php include($this->rootPath("composants/assets/modals/modal-miseenboutique.php")); ?> 
-
+<?php 
+foreach ($encours as $key => $mise) {
+    if ($mise->etat_id == Home\ETAT::PARTIEL) { 
+        include($this->rootPath("composants/assets/modals/modal-miseenboutique1.php"));
+    } 
+} 
+?>
 
 </div>
 </div>

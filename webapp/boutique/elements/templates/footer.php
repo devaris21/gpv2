@@ -21,6 +21,3 @@
 </div>
 
 <!-- Le loader est placé dans le fichier head.php -->
-
-
-<?php //include($this->rootPath("composants/assets/modals/modal-productionjour.php") );  ?>

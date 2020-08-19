@@ -17,7 +17,7 @@ class ROOTER extends PATH
 
     public $url;
     private $language = "fr";
-    public $section = "devaris21";
+    public $section = "master";
     public $module = "start";
     public $page = "select";
     public $id ;
@@ -26,8 +26,8 @@ class ROOTER extends PATH
     private $token;
 
 
-    const SECTION_SIMPLE = ["devaris21"];
-    const SECTION_ADMIN = ["master", "manager", "boutique", "entrepot", "configuration"];
+    const SECTION_SIMPLE = ["master"];
+    const SECTION_ADMIN = ["manager", "boutique", "entrepot", "configuration"];
     const SECTION_STOCKAGE = ["images", "documents"];
 
 
@@ -113,18 +113,18 @@ class ROOTER extends PATH
                                             }
 
                                         }else{
-                                            $this->new_root("devaris21", "home", "erreur500");
+                                            $this->new_root("master", "home", "erreur500");
                                             $this->render();
                                             return false;
                                         }
                                     }else{
-                                        $this->new_root("devaris21", "home", "erreur500");
+                                        $this->new_root("master", "home", "erreur500");
                                         $this->render();
                                         return false;
                                     }
                                 }
                             }else{
-                                $this->new_root("devaris21", "home", "erreur500");
+                                $this->new_root("master", "home", "erreur500");
                                 $this->render();
                                 return false;
                             }
@@ -149,12 +149,12 @@ class ROOTER extends PATH
                                     $boutique = $datas[0];
                                     session("boutique_connecte_id", $boutique->id);
                                 }else{
-                                    $this->new_root("devaris21", "home", "erreur500");
+                                    $this->new_root("master", "home", "erreur500");
                                     $this->render();
                                     return false;
                                 }
                             }else{
-                                $this->new_root("devaris21", "home", "erreur500");
+                                $this->new_root("master", "home", "erreur500");
                                 $this->render();
                                 return false;
                             }
@@ -177,13 +177,13 @@ class ROOTER extends PATH
                                     $entrepot = $datas[0];
                                     session("entrepot_connecte_id", $entrepot->id);
                                 }else{
-                                    $this->new_root("devaris21", "home", "erreur500");
+                                    $this->new_root("master", "home", "erreur500");
                                     $this->render();
                                     return false;
                                 }
 
                             }else{
-                                $this->new_root("devaris21", "home", "erreur500");
+                                $this->new_root("master", "home", "erreur500");
                                 $this->render();
                                 return false;
                             }
@@ -195,7 +195,7 @@ class ROOTER extends PATH
                     }
 
                 }else{
-                    $this->new_root("devaris21", "home", "expired");
+                    $this->new_root("master", "home", "expired");
                     $this->render();
                     return false; 
                 }
@@ -222,8 +222,8 @@ class ROOTER extends PATH
             session("verif_token", $token);
 
         }else{
-            $path = __DIR__."/../../../webapp/devaris21/modules/home/erreur404/index.php";
-            $require = __DIR__."/../../../webapp/devaris21/modules/home/erreur404/require.php";
+            $path = __DIR__."/../../../webapp/master/modules/home/erreur404/index.php";
+            $require = __DIR__."/../../../webapp/master/modules/home/erreur404/require.php";
             require realpath($require);
             require realpath($path);
         }
