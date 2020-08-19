@@ -10,7 +10,7 @@ if ($this->id != "") {
 	$date2 = dateAjoute(1);
 }
 
-$pdvs = PRIXDEVENTE::getAll();
+$pdvs = PRODUIT::getAll();
 foreach ($pdvs as $key => $pdv) {
 	$pdv->actualise();
 	$pdv->production = $pdv->production($date1, $date2);

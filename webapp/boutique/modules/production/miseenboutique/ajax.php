@@ -10,38 +10,29 @@ extract($_POST);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-if ($action === "miseenboutique") {
-	$tableau = [];
-	$test = true;
 
-	$datas = PRIXDEVENTE::getAll();
-	foreach (PRIXDEVENTE::getAll() as $key => $pdv) {
-		if (isset($_POST["mise-".$pdv->id]) && intval($_POST["mise-".$pdv->id]) > 0) {
-			if($pdv->enEntrepot(dateAjoute()) < intval($_POST["mise-".$pdv->id])){
-				$test = false;
-				break;
-			}else{
-				$tableau[] = $pdv;
-			}
-		}
-	}
-	if ($test) {
-		$meb = new MISEENBOUTIQUE();
-		$meb->hydrater($_POST);
-		$data = $meb->enregistre();
-		if ($data->status) {
-			foreach ($tableau as $key => $pdv) {
+if ($action == "miseenboutique") {
+	$meb = new MISEENBOUTIQUE();
+	$meb->hydrater($_POST);
+	$meb->etat_id = ETAT::PARTIEL;
+	$data = $meb->enregistre();
+	if ($data->status) {
+		$listeproduits = explode(",", $listeproduits);
+		foreach ($listeproduits as $key => $value) {
+			$lot = explode("-", $value);
+			$id = $lot[0];
+			$qte = end($lot);
+			$datas = PRODUIT::findBy(["id ="=> $id]);
+			if (count($datas) == 1) {
+				$produit = $datas[0];
+
 				$ligne = new LIGNEMISEENBOUTIQUE();
 				$ligne->miseenboutique_id = $meb->id;
-				$ligne->produit_id = $pdv->id;
-				$ligne->quantite = intval($_POST["mise-".$pdv->id]);
-				$ligne->restant = $pdv->enEntrepot(dateAjoute()) - intval($_POST["mise-".$pdv->id]);
-				$data = $ligne->enregistre();
+				$ligne->produit_id = $produit->id;
+				$ligne->quantite_depart = intval($qte);
+				$data = $ligne->enregistre();	
 			}
 		}
-	}else{
-		$data->status = false;
-		$data->message = "Vous ne pouvez pas mettre en boutique plus de quantité d'un produit que ce que vous n'en possédez !";
 	}
 	echo json_encode($data);
 }
@@ -113,7 +104,6 @@ if ($action == "validerMiseenboutique") {
 				}
 				$mise->hydrater($_POST);
 				$data = $mise->valider();
-				
 			}else{
 				$data->status = false;
 				$data->message = "Veuillez à bien vérifier les quantités des différents produits, certaines sont incorrectes !";

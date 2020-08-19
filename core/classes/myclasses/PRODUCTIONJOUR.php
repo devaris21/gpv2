@@ -37,7 +37,7 @@ class PRODUCTIONJOUR extends TABLE
 			$pro = $datas[0];
 
 			if (count($pro->fourni("ligneproductionjour")) == 0) {
-				foreach (PRIXDEVENTE::getAll() as $key => $pdv) {
+				foreach (PRODUIT::getAll() as $key => $pdv) {
 					$ligne = new LIGNEPRODUCTIONJOUR();
 					$ligne->productionjour_id = $pro->id;
 					$ligne->produit_id = $pdv->id;

@@ -4,7 +4,8 @@ use Native\ROOTER;
 require '../../../../../core/root/includes.php';
 
 use Native\RESPONSE;
-
+$params = PARAMS::findLastId();
+$rooter = new ROOTER;
 $data = new RESPONSE;
 extract($_POST);
 
@@ -16,8 +17,6 @@ if ($action == "changer") {
 
 
 if ($action == "newproduit") {
-	$params = PARAMS::findLastId();
-	$rooter = new ROOTER;
 	$id = $parfum_id."-".$type_id;
 	$produits = [];
 	if (getSession("produits") != null) {
@@ -26,21 +25,28 @@ if ($action == "newproduit") {
 	if (!in_array($id, $produits)) {
 		$produits[] = $id;
 		$datas = PRODUIT::findBy(["parfum_id ="=> $parfum_id, "typeproduit_id ="=> $type_id, "isActive = "=> TABLE::OUI]);
-		if (count($datas) > 0) { ?>
+		echo count($datas);
+		if (count($datas) > 0) {
+			$lots = PARFUM::findBy(["id ="=>$parfum_id]);
+			if (count($lots) > 0) {
+				$parfum = $lots[0];
+			}
+			$lots = TYPEPRODUIT::findBy(["id ="=>$type_id]);
+			if (count($lots) > 0) {
+				$type = $lots[0];
+			}
+			?>
 			<tr class="border-0 border-bottom " id="ligne<?= $id ?>" data-id="<?= $id ?>">
-				<td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $id ?>)" style="font-size: 18px;"></i></td>
-				<td >
-					<img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $produit->image) ?>">
-				</td>
+				<td><i class="fa fa-close text-red cursor" onclick="supprimeProduit('<?= $id ?>')" style="font-size: 18px;"></i></td>
 				<td class="text-left">
-					<h4 class="mp0 text-uppercase"><?= $produit->typeproduit->name() ?> <?= $produit->parfum->name() ?></h4>
+					<h5 class="mp0 text-uppercase"><?= $type->name() ?> de <?= $parfum->name() ?></h5>
 				</td>
 				<?php foreach ($datas as $key => $produit) {
 					$produit->actualise();
-					if ($produit->enBoutique(dateAjoute(), getSession("boutique_id_connecte")) > 0) { ?>
+					if ($produit->enBoutique(dateAjoute(1), getSession("boutique_id_connecte")) > 0) { ?>
 						<td width="80" class="text-center">
-							<label><?= $produit->quantite->name() ?></label>
-							<input type="text" data-pdv="<?= $pdv->id ?>" number class="form-control text-center gras" style="padding: 3px">
+							<small><?= $produit->quantite->name() ?></small>
+							<input type="text" data-id="<?= $produit->id ?>" number class="form-control text-center gras" style="padding: 3px">
 						</td>
 					<?php } 
 				} ?>				
@@ -54,34 +60,37 @@ if ($action == "newproduit") {
 
 
 if ($action == "newproduit2") {
-	$params = PARAMS::findLastId();
-	$rooter = new ROOTER;
+	$id = $parfum_id."-".$type_id;
 	$produits = [];
 	if (getSession("produits") != null) {
 		$produits = getSession("produits"); 
 	}
 	if (!in_array($id, $produits)) {
 		$produits[] = $id;
-		$datas = PRODUIT::findBy(["id ="=> $id]);
-		if (count($datas) == 1) {
-			$produit = $datas[0];
-			$produit->fourni("prixdevente", ["isActive = "=> TABLE::OUI]);
+		$datas = PRODUIT::findBy(["parfum_id ="=> $parfum_id, "typeproduit_id ="=> $type_id, "isActive = "=> TABLE::OUI]);
+		echo count($datas);
+		if (count($datas) > 0) {
+			$lots = PARFUM::findBy(["id ="=>$parfum_id]);
+			if (count($lots) > 0) {
+				$parfum = $lots[0];
+			}
+			$lots = TYPEPRODUIT::findBy(["id ="=>$type_id]);
+			if (count($lots) > 0) {
+				$type = $lots[0];
+			}
 			?>
 			<tr class="border-0 border-bottom " id="ligne<?= $id ?>" data-id="<?= $id ?>">
-				<td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $id ?>)" style="font-size: 18px;"></i></td>
-				<td >
-					<img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $produit->image) ?>">
-				</td>
+				<td><i class="fa fa-close text-red cursor" onclick="supprimeProduit('<?= $id ?>')" style="font-size: 18px;"></i></td>
 				<td class="text-left">
-					<h4 class="mp0 text-uppercase"><?= $produit->name() ?></h4>
+					<h5 class="mp0 text-uppercase"><?= $type->name() ?> de <?= $parfum->name() ?></h5>
 				</td>
-				<?php foreach ($produit->prixdeventes as $key => $pdv) {
-					$pdv->actualise(); ?>
+				<?php foreach ($datas as $key => $produit) {
+					$produit->actualise(); ?>
 					<td width="80" class="text-center">
-						<label><?= $pdv->quantite->name() ?></label>
-						<input type="text" data-pdv="<?= $pdv->id ?>" number class="form-control text-center gras" style="padding: 3px">
+						<small><?= $produit->quantite->name() ?></small>
+						<input type="text" data-id="<?= $produit->id ?>" number class="form-control text-center gras" style="padding: 3px">
 					</td>
-				<?php } ?>				
+				<?php }  ?>			
 			</tr>
 			<?php
 		}
@@ -108,20 +117,19 @@ if ($action == "supprimeProduit") {
 if ($action == "calcul") {
 	$params = PARAMS::findLastId();
 	$montant = 0;
-	$prixdeventes = explode(",", $prixdeventes);
-	foreach ($prixdeventes as $key => $value) {
+	$listeproduits = explode(",", $listeproduits);
+	foreach ($listeproduits as $key => $value) {
 		$data = explode("-", $value);
 		$id = $data[0];
 		$val = end($data);
 
-		$datas = PRIXDEVENTE::findBy(["id = "=>$id, "isActive ="=>TABLE::OUI]);
+		$datas = PRODUIT::findBy(["id = "=>$id, "isActive ="=>TABLE::OUI]);
 		if (count($datas) == 1) {
-			$pdv = $datas[0];
-			$pdv->actualise();
+			$produit = $datas[0];
 			if ($typebareme_id == TYPEBAREME::NORMAL) {
-				$montant += $pdv->prix->price * intval($val);
+				$montant += $produit->prix * intval($val);
 			}else{
-				$montant += $pdv->prix_gros->price * intval($val);
+				$montant += $produit->prix_gros * intval($val);
 			}
 		}
 	}
@@ -139,22 +147,21 @@ if ($action == "calcul") {
 
 
 if ($action == "venteDirecte") {
-	$montant = 0;
-	$params = PARAMS::findLastId();
+	$total = 0;
 	$datas = CLIENT::findBy(["id ="=> $client_id]);
 	if (count($datas) > 0) {
 		$client = $datas[0];
-		$prixdeventes = explode(",", $prixdeventes);
-		if (count($prixdeventes) > 0) {
+		$listeproduits = explode(",", $listeproduits);
+		if (count($listeproduits) > 0) {
 			$test = true;
-			foreach ($prixdeventes as $key => $value) {
+			foreach ($listeproduits as $key => $value) {
 				$lot = explode("-", $value);
 				$id = $lot[0];
 				$qte = end($lot);
-				$datas = PRIXDEVENTE::findBy(["id ="=> $id]);
+				$datas = PRODUIT::findBy(["id ="=> $id]);
 				if (count($datas) == 1) {
-					$pdv = $datas[0];
-					if ($pdv->enBoutique(dateAjoute()) < $qte) {
+					$produit = $datas[0];
+					if ($produit->enBoutique(dateAjoute(1), getSession("boutique_id_connecte")) < $qte) {
 						$test = false;
 						break;
 					}	
@@ -167,33 +174,32 @@ if ($action == "venteDirecte") {
 
 						$vente = new VENTE();
 						$vente->hydrater($_POST);
-						$vente->montant = $vente->vendu = getSession("total");
+						$vente->montant = getSession("total");
 						$vente->recu = getSession("recu");
-						$vente->rendu = getSession("rendu");
 						$data = $vente->enregistre();
 						if ($data->status) {
-							foreach ($prixdeventes as $key => $value) {
+							foreach ($listeproduits as $key => $value) {
 								$lot = explode("-", $value);
 								$id = $lot[0];
 								$qte = end($lot);
-								$datas = PRIXDEVENTE::findBy(["id ="=> $id]);
+								$datas = PRODUIT::findBy(["id ="=> $id]);
 								if (count($datas) == 1) {
 									$pdv = $datas[0];
-									$pdv->actualise();
 									if ($typebareme_id == TYPEBAREME::NORMAL) {
-										$montant += $pdv->prix->price * intval($qte);
+										$montant = $pdv->prix * intval($qte);
 									}else{
-										$montant += $pdv->prix_gros->price * intval($qte);
+										$montant = $pdv->prix_gros * intval($qte);
 									}
-
+									$total += $montant;
 									$lignedevente = new LIGNEDEVENTE;
 									$lignedevente->vente_id = $vente->id;
 									$lignedevente->produit_id = $id;
 									$lignedevente->quantite = intval($qte);
+									$lignedevente->price = intval($montant);
 									$lignedevente->enregistre();	
 								}
 							}
-							$data = $vente->payement($montant, $_POST);							
+							$data = $vente->payement($total, $_POST);							
 						}
 
 					}else{
@@ -222,24 +228,23 @@ if ($action == "venteDirecte") {
 
 
 if ($action == "validerPropection") {
-	$montant = 0;
-	$params = PARAMS::findLastId();
+	$total = 0;
 	$datas = CLIENT::findBy(["id ="=> $client_id]);
 	if (count($datas) > 0) {
 		$client = $datas[0];
-		$prixdeventes = explode(",", $prixdeventes);
-		if (count($prixdeventes) > 0) {
+		$listeproduits = explode(",", $listeproduits);
+		if (count($listeproduits) > 0) {
 			if ( $commercial_id != COMMERCIAL::MAGASIN && ( ($typeprospection_id == TYPEPROSPECTION::VENTECAVE) || ($typeprospection_id == TYPEPROSPECTION::PROSPECTION && $zonedevente_id != ZONEDEVENTE::MAGASIN)) ) {
 				if (getSession("total") > 0) {
 
-					$tests = $prixdeventes;
+					$tests = $listeproduits;
 					foreach ($tests as $key => $value) {
 						$lot = explode("-", $value);
 						$id = $lot[0];
 						$qte = end($lot);
-						$pdv = PRIXDEVENTE::findBy(["id ="=>$id])[0];
+						$pdv = PRODUIT::findBy(["id ="=>$id])[0];
 						$pdv->actualise();
-						if ($qte > 0 && $pdv->enBoutique(dateAjoute()) >= $qte ) {
+						if ($qte > 0 && $pdv->enBoutique(dateAjoute(1), getSession("boutique_id_connecte")) >= $qte ) {
 							unset($tests[$key]);
 						}
 					}
@@ -247,33 +252,31 @@ if ($action == "validerPropection") {
 
 						$prospection = new PROSPECTION();
 						$prospection->hydrater($_POST);
+						$prospection->montant = getSession("total");
 						$data = $prospection->enregistre();
 						if ($data->status) {
-							foreach ($prixdeventes as $key => $value) {
+							foreach ($listeproduits as $key => $value) {
 								$lot = explode("-", $value);
 								$id = $lot[0];
 								$qte = end($lot);
-								$datas = PRIXDEVENTE::findBy(["id ="=> $id]);
+								$datas = PRODUIT::findBy(["id ="=> $id]);
 								if (count($datas) == 1) {
-									$pdv = $datas[0];
-									$pdv->actualise();
+									$produit = $datas[0];
 									if ($typebareme_id == TYPEBAREME::NORMAL) {
-										$montant += $pdv->prix->price * intval($qte);
+										$montant = $produit->prix->price * intval($qte);
 									}else{
-										$montant += $pdv->prix_gros->price * intval($qte);
+										$montant = $produit->prix_gros->price * intval($qte);
 									}
+									$total += $montant;
 
 									$ligneprospection = new LIGNEPROSPECTION;
 									$ligneprospection->prospection_id = $prospection->id;
 									$ligneprospection->produit_id = $id;
 									$ligneprospection->quantite = intval($qte);
-								//$ligneprospection->price =  $pdv->prix->price * $qte;
+									$ligneprospection->price =  $montant;
 									$ligneprospection->enregistre();										
 								}
 							}
-
-							$prospection->montant = $montant;
-							$data = $prospection->save();
 							$data->setUrl("gestion", "fiches", "bonsortie", $data->lastid);
 							// $data->url2 = $data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
 						}
@@ -304,13 +307,12 @@ if ($action == "validerPropection") {
 
 
 if ($action == "validerCommande") {
-	$montant = 0;
-	$params = PARAMS::findLastId();
+	$total = 0;
 	$datas = CLIENT::findBy(["id ="=> $client_id]);
 	if (count($datas) > 0) {
 		$client = $datas[0];
-		$prixdeventes = explode(",", $prixdeventes);
-		if (count($prixdeventes) > 0) {
+		$listeproduits = explode(",", $listeproduits);
+		if (count($listeproduits) > 0) {
 
 			if (getSession("total") > 0) {
 				if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE || ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && intval($avance) <= getSession("total") && intval($avance) > 0)) {
@@ -337,32 +339,31 @@ if ($action == "validerCommande") {
 						$commande->groupecommande_id = $groupecommande->id;
 						$data = $commande->enregistre();
 						if ($data->status) {
-							foreach ($prixdeventes as $key => $value) {
+							foreach ($listeproduits as $key => $value) {
 								$lot = explode("-", $value);
 								$id = $lot[0];
 								$qte = end($lot);
-								$datas = PRIXDEVENTE::findBy(["id ="=> $id]);
+								$datas = PRODUIT::findBy(["id ="=> $id]);
 								if (count($datas) == 1) {
-									$pdv = $datas[0];
-									$pdv->actualise();
+									$produit = $datas[0];
 									if ($typebareme_id == TYPEBAREME::NORMAL) {
-										$prix = $pdv->prix->price * intval($qte);
+										$montant = $produit->prix * intval($qte);
 									}else{
-										$prix = $pdv->prix_gros->price * intval($qte);
+										$montant = $produit->prix_gros * intval($qte);
 									}
-									$montant += $prix;
+									$total += $prix;
 
 									$lignecommande = new LIGNECOMMANDE;
 									$lignecommande->commande_id = $commande->id;
 									$lignecommande->produit_id = $id;
 									$lignecommande->quantite = $qte;
-									$lignecommande->price =  $prix;
+									$lignecommande->price =  $montant;
 									$lignecommande->enregistre();	
 								}
 							}
 
-							$tva = ($montant * $params->tva) / 100;
-							$total = $montant + $tva;
+							$tva = ($total * $params->tva) / 100;
+							$total += $tva;
 
 							if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
 								if ($client->acompte >= $total) {
@@ -472,16 +473,16 @@ if ($action == "livraisonCommande") {
 
 			// if ((isset($isLouer) && $isLouer == 0) || (isset($montant_location) && ((intval($montant_location) - intval($avance) + $groupecommande->client->dette) <= $params->seuilCredit))) {
 
-			$prixdeventes = explode(",", $prixdeventes);
-			if (count($prixdeventes) > 0) {
-				$tests = $prixdeventes;
+			$listeproduits = explode(",", $listeproduits);
+			if (count($listeproduits) > 0) {
+				$tests = $listeproduits;
 				foreach ($tests as $key => $value) {
 					$lot = explode("-", $value);
 					$id = $lot[0];
 					$qte = end($lot);
-					$pdv = PRIXDEVENTE::findBy(["id ="=>$id])[0];
+					$pdv = PRODUIT::findBy(["id ="=>$id])[0];
 					$pdv->actualise();
-					if ($qte > 0 && $groupecommande->reste($pdv->id) >= $qte && $qte <= $pdv->enBoutique(dateAjoute())) {
+					if ($qte > 0 && $groupecommande->reste($pdv->id) >= $qte && $qte <= $pdv->enBoutique(dateAjoute(1), getSession("boutique_id_connecte"))) {
 						unset($tests[$key]);
 					}
 				}
@@ -499,12 +500,12 @@ if ($action == "livraisonCommande") {
 						$montant = 0;
 						$productionjour = PRODUCTIONJOUR::today();
 
-						foreach ($prixdeventes as $key => $value) {
+						foreach ($listeproduits as $key => $value) {
 							$lot = explode("-", $value);
 							$id = $lot[0];
 							$qte = end($lot);
 
-							$datas = PRIXDEVENTE::findBy(["id="=>$id]);
+							$datas = PRODUIT::findBy(["id="=>$id]);
 							if (count($datas) > 0) {
 								$pdv = $datas[0];
 								$pdv->actualise();

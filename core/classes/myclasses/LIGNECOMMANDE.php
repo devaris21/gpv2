@@ -21,7 +21,7 @@ class LIGNECOMMANDE extends TABLE
 		$data = new RESPONSE;
 		$datas = COMMANDE::findBy(["id ="=>$this->commande_id]);
 		if (count($datas) == 1) {
-			$datas = PRIXDEVENTE::findBy(["id ="=>$this->produit_id]);
+			$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
 			if (count($datas) == 1) {
 				$data = $this->save();
 			}else{

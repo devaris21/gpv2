@@ -100,14 +100,11 @@
                                 <td class="border-right">
                                     <table class="table table-bordered">
                                         <thead>
-                                            <tr>
+                                            <tr class="no">
                                                 <th></th>
-                                                <?php foreach ($lots as $key => $ligne) { 
+                                                <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) {
                                                     $ligne->actualise(); ?>
-                                                    <th class="text-center">
-                                                        <h5 class="mp0"><?= $ligne->prixdevente->produit->name() ?></h5>
-                                                        <h6 class="mp0"><?= $ligne->prixdevente->quantite->name() ?></h6>
-                                                    </th>
+                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
                                                 <?php } ?>
                                             </tr>
                                         </thead>
@@ -129,11 +126,11 @@
                                 </td>
                                 <td>
                                     <a href="<?= $this->url("boutique", "fiches", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
-                                    <button onclick="terminer(<?= $mise->id ?>)" class="btn btn-white btn-sm text-green"><i class="fa fa-check"></i> Valider</button>
+                                    <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
+                                        <button onclick="annulerMiseenboutique(<?= $mise->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                    <?php } ?>
                                     <?php if ($mise->etat_id == Home\ETAT::ENCOURS) { ?>
-                                        <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                            <button onclick="annulerMiseenboutique(<?= $mise->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
-                                        <?php } ?>
+                                        <button onclick="terminer(<?= $mise->id ?>)" class="btn btn-white btn-sm text-green"><i class="fa fa-check"></i> Valider</button>
                                     <?php } ?>
                                 </td>
                             </tr>
@@ -163,14 +160,11 @@
                                 <td class="border-right">
                                     <table class="table table-bordered">
                                         <thead>
-                                            <tr>
+                                            <tr class="no">
                                                 <th></th>
-                                                <?php foreach ($lots as $key => $ligne) { 
+                                                <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) {
                                                     $ligne->actualise(); ?>
-                                                    <th class="text-center">
-                                                        <h5 class="mp0"><?= $ligne->prixdevente->produit->name() ?></h5>
-                                                        <h6 class="mp0"><?= $ligne->prixdevente->quantite->name() ?></h6>
-                                                    </th>
+                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
                                                 <?php } ?>
                                             </tr>
                                         </thead>
@@ -206,74 +200,12 @@
                     </tfoot>
                 </table>
 
-                <table class="table table-hover table-mise">
-                    <tbody>
-                        <?php foreach ($datas as $key => $mise) {
-                            $mise->actualise(); 
-                            $lots = $mise->fourni("lignemiseenboutique");
-                            ?>
-                            <tr class="<?= ($mise->etat_id != Home\ETAT::ENCOURS)?'fini':'' ?> border-bottom">
-                                <td class="project-status">
-                                    <span class="label label-<?= $mise->etat->class ?>"><?= $mise->etat->name ?></span>
-                                </td>
-                                <td class="project-title border-right" style="width: 35%;">
-                                    <h3 class="text-uppercase">Mise en boutique N°<?= $mise->reference ?></h3>
-                                    <h5 class="text-uppercase text-muted">du <?= datecourt($mise->created) ?></h5>
-                                    <h6 class="text-uppercase text-muted">Employé :<?= $mise->employe->name() ?></h6>
-                                    <h6 class="text-uppercase text-muted">Sortie d'entrepot : <?= $mise->entrepot->name() ?></h6>
-                                    <h6 class="text-uppercase text-muted">Mise en boutique :<?= $mise->boutique->name() ?></h6>
-                                </td>
-                                <td class="border-right">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <?php foreach ($lots as $key => $ligne) { 
-                                                    $ligne->actualise(); ?>
-                                                    <th class="text-center">
-                                                        <h5 class="mp0"><?= $ligne->prixdevente->produit->name() ?></h5>
-                                                        <h6 class="mp0"><?= $ligne->prixdevente->quantite->name() ?></h6>
-                                                    </th>
-                                                <?php } ?>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><h4 class="mp0">sorti : </h4></td>
-                                                <?php foreach ($lots as $key => $ligne) { ?>
-                                                    <td class="text-center"><?= start0($ligne->quantite_depart) ?></td>
-                                                <?php } ?>
-                                            </tr>
-                                            <tr>
-                                                <td><h4 class="mp0">Livré : </h4></td>
-                                                <?php foreach ($lots as $key => $ligne) { ?>
-                                                    <td class="text-center"><?= start0($ligne->quantite) ?></td>
-                                                <?php } ?>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td>
-                                    <br>
-                                    <a href="<?= $this->url("boutique", "fiches", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a><br>
-                                    <?php if ($mise->etat_id == Home\ETAT::ENCOURS) { ?>
-                                        <button onclick="terminer(<?= $mise->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i></button>
-                                        <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                            <!-- <button onclick="annulerMiseenboutique(<?= $mise->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button> -->
-                                        <?php } ?>
-                                    <?php } ?>
-                                </td>
-                            </td>
-                        </tr>
-                    <?php  } ?>
-                </tbody>
-            </table>
-        <?php }else{ ?>
-            <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune commande en cours pour le moment</h1>
-        <?php } ?>
+            <?php }else{ ?>
+                <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune mise en boutique pour le moment</h1>
+            <?php } ?>
 
+        </div>
     </div>
-</div>
 </div>
 
 
@@ -283,7 +215,7 @@
 <?php 
 foreach ($datas as $key => $mise) {
     if ($mise->etat_id == Home\ETAT::ENCOURS) { 
-        include($this->rootPath("composants/assets/modals/modal-miseenboutique2.php"));
+        //include($this->rootPath("composants/assets/modals/modal-miseenboutique2.php"));
     } 
 } 
 ?>

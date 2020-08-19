@@ -1,6 +1,6 @@
 
 <div class="modal inmodal fade" id="modal-vente" style="z-index: 9999999999">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xll">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -22,13 +22,13 @@
                                     </tbody>
                                 </table>
                             </div>
-
+                            <hr>
                             <div class="row">
                                 <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
                                     <div class="col text-center border-right">
                                         <h5 class="text-uppercase gras text-center"><?= $type->name()  ?></h5>
                                         <?php foreach (Home\PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $parfum) { ?>
-                                            <button class="btn-white btn-xs newproduit btn-block cursor" data-id="<?= $parfum->getId() ?>"><?= $parfum->name(); ?></button>
+                                            <button class="btn btn-white btn-xs newproduit btn-block cursor" parfum-id="<?= $parfum->getId() ?>" type-id="<?= $type->getId() ?>"><?= $parfum->name(); ?></button>
                                         <?php }  ?>
                                     </div>
                                 <?php } ?>

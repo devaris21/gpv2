@@ -21,7 +21,7 @@ class GROUPECOMMANDE extends TABLE
 	public static function etat(){
 		foreach (static::findBy(["etat_id ="=>ETAT::ENCOURS]) as $key => $groupe) {
 			$test = false;
-			foreach (PRIXDEVENTE::getAll() as $key => $produit) {
+			foreach (PRODUIT::getAll() as $key => $produit) {
 				if ($groupe->reste($produit->id) > 0) {
 					$test = true;
 					break;
@@ -59,7 +59,7 @@ class GROUPECOMMANDE extends TABLE
 
 	public function lesRestes(){
 		$requette = "SELECT prixdevente.id, SUM(quantite) as quantite FROM lignecommande, prixdevente, commande, groupecommande WHERE lignecommande.produit_id = prixdevente.id AND lignecommande.commande_id = commande.id AND commande.groupecommande_id = groupecommande.id AND groupecommande.id = ? AND commande.etat_id != ? GROUP BY prixdevente.id";
-		return PRIXDEVENTE::execute($requette, [$this->id, ETAT::ANNULEE]);
+		return PRODUIT::execute($requette, [$this->id, ETAT::ANNULEE]);
 	}
 
 

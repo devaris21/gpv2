@@ -25,7 +25,7 @@ class LIGNEMISEENBOUTIQUE extends TABLE
 		$data = new RESPONSE;
 		$datas = MISEENBOUTIQUE::findBy(["id ="=>$this->miseenboutique_id]);
 		if (count($datas) == 1) {
-			$datas = PRIXDEVENTE::findBy(["id ="=>$this->produit_id]);
+			$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
 			if (count($datas) == 1) {
 				if ($this->quantite_depart > 0) {
 					$this->quantite = $this->quantite_depart;

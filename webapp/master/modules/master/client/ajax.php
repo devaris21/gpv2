@@ -115,7 +115,7 @@ if ($action == "newproduit") {
 			$id = $data[0];
 			$val = end($data);
 
-			$datas = PRIXDEVENTE::findBy(["id = "=>$id, "isActive ="=>TABLE::OUI]);
+			$datas = PRODUIT::findBy(["id = "=>$id, "isActive ="=>TABLE::OUI]);
 			if (count($datas) == 1) {
 				$pdv = $datas[0];
 				$pdv->actualise();
@@ -152,7 +152,7 @@ if ($action == "newproduit") {
 					$lot = explode("-", $value);
 					$id = $lot[0];
 					$qte = end($lot);
-					$datas = PRIXDEVENTE::findBy(["id ="=> $id]);
+					$datas = PRODUIT::findBy(["id ="=> $id]);
 					if (count($datas) == 1) {
 						$pdv = $datas[0];
 						if ($pdv->enBoutique(dateAjoute()) < $qte) {
@@ -177,7 +177,7 @@ if ($action == "newproduit") {
 									$lot = explode("-", $value);
 									$id = $lot[0];
 									$qte = end($lot);
-									$datas = PRIXDEVENTE::findBy(["id ="=> $id]);
+									$datas = PRODUIT::findBy(["id ="=> $id]);
 									if (count($datas) == 1) {
 										$pdv = $datas[0];
 										$pdv->actualise();
@@ -238,7 +238,7 @@ if ($action == "newproduit") {
 							$lot = explode("-", $value);
 							$id = $lot[0];
 							$qte = end($lot);
-							$pdv = PRIXDEVENTE::findBy(["id ="=>$id])[0];
+							$pdv = PRODUIT::findBy(["id ="=>$id])[0];
 							$pdv->actualise();
 							if ($qte > 0 && $pdv->enBoutique(dateAjoute()) >= $qte ) {
 								unset($tests[$key]);
@@ -254,7 +254,7 @@ if ($action == "newproduit") {
 									$lot = explode("-", $value);
 									$id = $lot[0];
 									$qte = end($lot);
-									$datas = PRIXDEVENTE::findBy(["id ="=> $id]);
+									$datas = PRODUIT::findBy(["id ="=> $id]);
 									if (count($datas) == 1) {
 										$pdv = $datas[0];
 										$pdv->actualise();
@@ -342,7 +342,7 @@ if ($action == "newproduit") {
 									$lot = explode("-", $value);
 									$id = $lot[0];
 									$qte = end($lot);
-									$datas = PRIXDEVENTE::findBy(["id ="=> $id]);
+									$datas = PRODUIT::findBy(["id ="=> $id]);
 									if (count($datas) == 1) {
 										$pdv = $datas[0];
 										$pdv->actualise();
@@ -480,7 +480,7 @@ if ($action == "newproduit") {
 						$lot = explode("-", $value);
 						$id = $lot[0];
 						$qte = end($lot);
-						$pdv = PRIXDEVENTE::findBy(["id ="=>$id])[0];
+						$pdv = PRODUIT::findBy(["id ="=>$id])[0];
 						$pdv->actualise();
 						if ($qte > 0 && $groupecommande->reste($pdv->id) >= $qte && $qte <= $pdv->enBoutique(dateAjoute())) {
 							unset($tests[$key]);
@@ -505,7 +505,7 @@ if ($action == "newproduit") {
 								$id = $lot[0];
 								$qte = end($lot);
 
-								$datas = PRIXDEVENTE::findBy(["id="=>$id]);
+								$datas = PRODUIT::findBy(["id="=>$id]);
 								if (count($datas) > 0) {
 									$pdv = $datas[0];
 									$pdv->actualise();

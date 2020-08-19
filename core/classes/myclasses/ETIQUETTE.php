@@ -19,7 +19,7 @@ class ETIQUETTE extends TABLE
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = PRIXDEVENTE::findBy(["id ="=>$this->produit_id]);
+		$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
 		if (count($datas) == 1) {
 			if ($this->stock >= 0) {
 				$data = $this->save();

@@ -1,7 +1,7 @@
 <?php 
 namespace Home;
 
-// foreach (PRIXDEVENTE::getAll() as $key => $value) {
+// foreach (PRODUIT::getAll() as $key => $value) {
 // 	$emb = new ETIQUETTE();
 // 	$emb->prixdevente_id = $value->getId();
 // 	$emb->enregistre();

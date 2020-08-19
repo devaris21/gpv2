@@ -25,21 +25,37 @@ $(function(){
 
 
 
-    $("#formMiseenboutique").submit(function(event) {
-        Loader.start();
-        var url = "../../webapp/boutique/modules/production/miseenboutique/ajax.php";
-        var formdata = new FormData($(this)[0]);
-        formdata.append('action', "miseenboutique");
-        $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-            if (data.status) {
-                window.location.reload();
-            }else{
-                Alerter.error('Erreur !', data.message);
-            }
-        }, 'json')
-        return false;
-    });
+    miseenboutique = function(){
+        var formdata = new FormData($("#formMiseenboutique")[0]);
+        
+        tableau = new Array();
+        $("#modal-miseenboutique-demande tr input").each(function(index, el) {
+            var id = $(this).attr('data-id');
+            var val = $(this).val();
+            if (val > 0) {
+                var item = id+"-"+val;
+                tableau.push(item);
+            }       
+        });
+        formdata.append('listeproduits', tableau);
 
+        alerty.confirm("Voulez-vous vraiment confirmer la demande de mise en boutique de ces produits ?", {
+            title: "Confirmation de la demande",
+            cancelLabel : "Non",
+            okLabel : "OUI, Valider",
+        }, function(){
+            Loader.start();
+            var url = "../../webapp/boutique/modules/production/miseenboutique/ajax.php";
+            formdata.append('action', "miseenboutique");
+            $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+                if (data.status) {
+                    window.location.reload();
+                }else{
+                    Alerter.error('Erreur !', data.message);
+                }
+            }, 'json')
+        })
+    }
 
 
     terminer = function(id){

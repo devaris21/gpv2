@@ -1,6 +1,8 @@
 <?php 
 namespace Home;
 
+unset_session("produits");
+
 $title = "GPV | Mise en boutique de la production";
 
 $mises__ = $boutique->fourni("miseenboutique", ["boutique_id ="=>$boutique->id, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);;

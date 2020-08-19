@@ -20,7 +20,7 @@ class LIGNEPRODUCTIONJOUR extends TABLE
 		$data = new RESPONSE;
 		$datas = PRODUCTIONJOUR::findBy(["id ="=>$this->productionjour_id]);
 		if (count($datas) == 1) {
-			$datas = PRIXDEVENTE::findBy(["id ="=>$this->produit_id]);
+			$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
 			if (count($datas) == 1) {
 				if ($this->production >= 0) {
 					$data = $this->save();

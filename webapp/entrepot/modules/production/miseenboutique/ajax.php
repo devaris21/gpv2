@@ -15,7 +15,7 @@ if ($action === "miseenboutique") {
 	$test = true;
 
 	if(!(isset($etat_id) && ($etat_id == ETAT::PARTIEL))){
-		foreach (PRIXDEVENTE::findBy(["isActive ="=>TABLE::OUI]) as $key => $pdv) {
+		foreach (PRODUIT::findBy(["isActive ="=>TABLE::OUI]) as $key => $pdv) {
 			if (isset($_POST["mise-".$pdv->id]) && intval($_POST["mise-".$pdv->id]) > 0) {
 				if($pdv->enEntrepot(dateAjoute(), $entrepot_id) < intval($_POST["mise-".$pdv->id])){
 					$test = false;

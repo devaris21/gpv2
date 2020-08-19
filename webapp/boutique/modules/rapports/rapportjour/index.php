@@ -37,7 +37,7 @@
                     <div class="ibox-content">
                         <div class="row">
                             <div class="col-sm-4">
-                                <img style="width: 20%" src="<?= $this->stockage("images", "societe", "logo.png") ?>">
+                                <img style="width: 20%" src="<?= $this->stockage("images", "societe", $params->image) ?>">
                             </div>
                             <div class="col-sm-8 text-right">
                                 <h2 class="title text-uppercase gras">Recapitulatif de la journée</h2>

@@ -97,7 +97,7 @@ $(function(){
 		var type_id = $(this).attr("type-id");
 		$.post(url, {action:"newproduit2", parfum_id:parfum_id, type_id:type_id}, (data)=>{
 			$("tbody.commande").append(data);
-			$("button[data-id ="+id+"]").hide(200);
+			$("button[parfum-id ="+parfum_id+"][type-id ="+type_id+"]").hide(200);
 			calcul()
 		},"html");
 	});
@@ -110,7 +110,7 @@ $(function(){
 		var type_id = $(this).attr("type-id");
 		$.post(url, {action:"newproduit", parfum_id:parfum_id, type_id:type_id}, (data)=>{
 			$("tbody.commande").append(data);
-			$("button[data-id ="+id+"]").hide(200);
+			$("button[parfum-id ="+parfum_id+"][type-id ="+type_id+"]").hide(200);
 			calcul()
 		},"html");
 	});
@@ -122,10 +122,11 @@ $(function(){
 
 
 	supprimeProduit = function(id){
+		var tab = id.split("-");
 		var url = "../../webapp/boutique/modules/master/client/ajax.php";
 		$.post(url, {action:"supprimeProduit", id:id}, (data)=>{
 			$("tbody.commande tr#ligne"+id).hide(400).remove();
-			$("button[data-id ="+id+"]").show(200);
+			$("button[parfum-id ="+tab[0]+"][type-id ="+tab[1]+"]").show(200);
 			calcul()
 		},"html");
 	}
@@ -148,14 +149,14 @@ $(function(){
 
 		tableau = new Array();
 		$(".modal .commande tr input").each(function(index, el) {
-			var pdv = $(this).attr('data-pdv');
+			var id = $(this).attr('data-id');
 			var val = $(this).val();
 			if (val > 0) {
-				var item = pdv+"-"+val;
+				var item = id+"-"+val;
 				tableau.push(item);
 			}			
 		});
-		formdata.append('prixdeventes', tableau);
+		formdata.append('listeproduits', tableau);
 		formdata.append('typebareme_id', $("select[name=typebareme_id]").val());
 		formdata.append('recu', $("input[name=recu]").val());
 
@@ -176,14 +177,14 @@ $(function(){
 		
 		tableau = new Array();
 		$("#modal-vente tr input").each(function(index, el) {
-			var pdv = $(this).attr('data-pdv');
+			var id = $(this).attr('data-id');
 			var val = $(this).val();
 			if (val > 0) {
-				var item = pdv+"-"+val;
+				var item = id+"-"+val;
 				tableau.push(item);
 			}		
 		});
-		formdata.append('prixdeventes', tableau);
+		formdata.append('listeproduits', tableau);
 
 		alerty.confirm("Voulez-vous vraiment confirmer la vente de ces produits ?", {
 			title: "Confirmation de la vente",
@@ -211,14 +212,14 @@ $(function(){
 		
 		tableau = new Array();
 		$("#modal-prospection tr input, #modal-prospection_ tr input").each(function(index, el) {
-			var pdv = $(this).attr('data-pdv');
+			var id = $(this).attr('data-id');
 			var val = $(this).val();
 			if (val > 0) {
-				var item = pdv+"-"+val;
+				var item = id+"-"+val;
 				tableau.push(item);
 			}		
 		});
-		formdata.append('prixdeventes', tableau);
+		formdata.append('listeproduits', tableau);
 
 		alerty.confirm("Voulez-vous vraiment confirmer l'opération' ?", {
 			title: "Confirmation de la prospection",
@@ -245,14 +246,14 @@ $(function(){
 		
 		tableau = new Array();
 		$("#modal-ventecave tr input, #modal-ventecave_ tr input").each(function(index, el) {
-			var pdv = $(this).attr('data-pdv');
+			var id = $(this).attr('data-id');
 			var val = $(this).val();
 			if (val > 0) {
-				var item = pdv+"-"+val;
+				var item = id+"-"+val;
 				tableau.push(item);
 			}		
 		});
-		formdata.append('prixdeventes', tableau);
+		formdata.append('listeproduits', tableau);
 
 		alerty.confirm("Voulez-vous vraiment confirmer l'opération' ?", {
 			title: "Confirmation de la vente en cave",
@@ -278,14 +279,14 @@ $(function(){
 		var formdata = new FormData($("#formCommande")[0]);
 		tableau = new Array();
 		$("#modal-newcommande tr input").each(function(index, el) {
-			var pdv = $(this).attr('data-pdv');
+			var id = $(this).attr('data-id');
 			var val = $(this).val();
 			if (val > 0) {
-				var item = pdv+"-"+val;
+				var item = id+"-"+val;
 				tableau.push(item);
 			}		
 		});
-		formdata.append('prixdeventes', tableau);
+		formdata.append('listeproduits', tableau);
 
 		alerty.confirm("Voulez-vous vraiment valider la commande ?", {
 			title: "Validation de la commande",
@@ -347,7 +348,7 @@ $(function(){
 			var item = id+"-"+val;
 			tableau.push(item);
 		});
-		formdata.append('prixdeventes', tableau);
+		formdata.append('listeproduits', tableau);
 
 		alerty.confirm("Voulez-vous vraiment confirmer la livraison de ces produits ?", {
 			title: "livraison de la commande",

@@ -21,14 +21,14 @@
                                         <!-- rempli en Ajax -->
                                     </tbody>
                                 </table>
-                            </div>
+                            </div><hr>
 
                             <div class="row">
                                 <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
                                     <div class="col text-center border-right">
                                         <h5 class="text-uppercase gras text-center"><?= $type->name()  ?></h5>
                                         <?php foreach (Home\PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $parfum) { ?>
-                                            <button class="btn-white btn-xs newproduit btn-block cursor" parfum-id="<?= $parfum->getId() ?>" type-id="<?= $type->getId() ?>"><?= $parfum->name(); ?></button>
+                                            <button class="btn btn-white btn-xs newproduit btn-block cursor" parfum-id="<?= $parfum->getId() ?>" type-id="<?= $type->getId() ?>"><?= $parfum->name(); ?></button>
                                         <?php }  ?>
                                     </div>
                                 <?php } ?>

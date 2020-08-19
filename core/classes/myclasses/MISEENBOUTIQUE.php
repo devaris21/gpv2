@@ -58,6 +58,20 @@ class MISEENBOUTIQUE extends TABLE
 	}
 
 
+	public function accepter(){
+		$data = new RESPONSE;
+		if ($this->etat_id == ETAT::PARTIEL) {
+			$this->etat_id = ETAT::ENCOURS;
+			$this->historique("La demande de mise en boutique en reference $this->reference vient d'être accepté !");
+			$data = $this->save();
+		}else{
+			$data->status = false;
+			$data->message = "Vous ne pouvez plus faire cette opération sur cette mise en boutique !";
+		}
+		return $data;
+	}
+
+
 	public function annuler(){
 		$data = new RESPONSE;
 		if ($this->etat_id != ETAT::ANNULEE) {			

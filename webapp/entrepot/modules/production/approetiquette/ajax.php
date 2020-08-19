@@ -20,7 +20,7 @@ if ($action == "newressource") {
 	}
 	if (!in_array($id, $ressources)) {
 		$ressources[] = $id;
-		$datas = PRIXDEVENTE::findBy(["id ="=> $id]);
+		$datas = PRODUIT::findBy(["id ="=> $id]);
 		if (count($datas) == 1) {
 			$item = $datas[0]; ?>
 			<tr class="border-0 border-bottom " id="ligne<?= $id ?>" data-id="<?= $id ?>">
@@ -73,7 +73,7 @@ if ($action == "calcul") {
 			$qte = $lot[1];
 		}
 		$prix = intval(end($lot));
-		$datas = PRIXDEVENTE::findBy(["id ="=> $id]);
+		$datas = PRODUIT::findBy(["id ="=> $id]);
 		if (count($datas) == 1) {
 			$item = $datas[0];
 			$total += $prix; ?>

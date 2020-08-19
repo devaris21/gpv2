@@ -176,7 +176,7 @@ if ($action === "changerMode") {
 		$employe = $datas[0];
 		$employe->actualise();
 		if ($employe->checkPassword($password)) {
-			$datas = PRIXDEVENTE::findBy(["id ="=>$id]);
+			$datas = PRODUIT::findBy(["id ="=>$id]);
 			if (count($datas) == 1) {
 				$pz = $datas[0];
 				$data = $pz->changerMode();
@@ -199,7 +199,7 @@ if ($action === "changerMode") {
 
 
 if ($action === "select-prix") {
-	$datas = PRIXDEVENTE::findBy(["id ="=>$id]);
+	$datas = PRODUIT::findBy(["id ="=>$id]);
 	if (count($datas) == 1) {
 		$pz = $datas[0];
 		$pz->prix_id_gros = $val;
@@ -212,7 +212,7 @@ if ($action === "select-prix") {
 }
 
 if ($action === "select-quantite") {
-	$datas = PRIXDEVENTE::findBy(["id ="=>$id]);
+	$datas = PRODUIT::findBy(["id ="=>$id]);
 	if (count($datas) == 1) {
 		$pz = $datas[0];
 		$pz->quantite_id = $val;
