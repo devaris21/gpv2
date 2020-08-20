@@ -9,12 +9,12 @@ $data = new RESPONSE;
 
 
 
-if ($action === "productionjour") {
+if ($action === "production") {
 //	if ($manoeuvres != "" || (isset($groupemanoeuvre_id) && $groupemanoeuvre_id != "")) {
-	$productionjour = PRODUCTIONJOUR::today();
+	$production = PRODUCTION::today();
 	$test = true;
 	foreach (RESSOURCE::getAll() as $key => $ressource) {
-		$datas = $productionjour->fourni("ligneconsommationjour", ["ressource_id ="=>$ressource->id]);
+		$datas = $production->fourni("ligneconsommationjour", ["ressource_id ="=>$ressource->id]);
 		if (count($datas) == 1) {
 			$ligne = $datas[0];
 			if (intval($_POST["conso-".$ressource->id]) > ($ressource->stock(dateAjoute()) + $ligne->consommation) ) {
@@ -26,8 +26,8 @@ if ($action === "productionjour") {
 
 	if ($test) {
 		$montant = 0;
-		$productionjour->fourni("ligneproductionjour");
-		foreach ($productionjour->ligneproductionjours as $cle => $ligne) {
+		$production->fourni("ligneproduction");
+		foreach ($production->ligneproductions as $cle => $ligne) {
 			if (isset($_POST["prod-".$ligne->produit_id])) {
 				$ligne->production = intval($_POST["prod-".$ligne->produit_id]);
 
@@ -45,8 +45,8 @@ if ($action === "productionjour") {
 		}
 
 
-		$productionjour->fourni("ligneetiquettejour");
-		foreach ($productionjour->ligneetiquettejours as $cle => $ligne) {
+		$production->fourni("ligneetiquettejour");
+		foreach ($production->ligneetiquettejours as $cle => $ligne) {
 			$ligne->actualise();
 			if (isset($_POST["etiq-".$ligne->etiquette->produit_id])) {
 				$ligne->consommation = intval($_POST["etiq-".$ligne->etiquette->produit_id]);
@@ -64,14 +64,14 @@ if ($action === "productionjour") {
 
 
 
-		$productionjour->fourni("ligneconsommationjour");
-		foreach ($productionjour->ligneconsommationjours as $cle => $ligne) {
+		$production->fourni("ligneconsommationjour");
+		foreach ($production->ligneconsommationjours as $cle => $ligne) {
 			$ligne->consommation = intval($_POST["conso-".$ligne->ressource_id]);
 			$ligne->save();
 		}
 
 
-			// $datas = $productionjour->fourni("manoeuvredujour");
+			// $datas = $production->fourni("manoeuvredujour");
 			// foreach ($datas as $cle => $ligne) {
 			// 	$ligne->delete();
 			// }
@@ -80,7 +80,7 @@ if ($action === "productionjour") {
 			// 	$datas = explode(",", $manoeuvres);
 			// 	foreach ($datas as $key => $value) {
 			// 		$item = new MANOEUVREDUJOUR();
-			// 		$item->productionjour_id = $productionjour->id;
+			// 		$item->production_id = $production->id;
 			// 		$item->manoeuvre_id = $value;
 			// 		$item->price = $montant / count($datas);
 			// 		$item->enregistre();
@@ -89,18 +89,18 @@ if ($action === "productionjour") {
 			// 	$datas = MANOEUVRE::findBy(["groupemanoeuvre_id ="=>$groupemanoeuvre_id]);
 			// 	foreach ($datas as $key => $value) {
 			// 		$item = new MANOEUVREDUJOUR();
-			// 		$item->productionjour_id = $productionjour->id;
+			// 		$item->production_id = $production->id;
 			// 		$item->manoeuvre_id = $value->id;
 			// 		$item->price = $montant / count($datas);
 			// 		$item->enregistre();
 			// 	}
 			// }
 
-		$productionjour->hydrater($_POST);
-		$productionjour->etat_id = ETAT::PARTIEL;
-		$productionjour->total_production = $montant;
-		$productionjour->employe_id = getSession("employe_connecte_id");
-		$data = $productionjour->save();
+		$production->hydrater($_POST);
+		$production->etat_id = ETAT::PARTIEL;
+		$production->total_production = $montant;
+		$production->employe_id = getSession("employe_connecte_id");
+		$data = $production->save();
 	}else{
 		$data->status = false;
 		$data->message = "Vous ne pouvez pas consommé plus de quantité d'une ressource que ce que vous n'en possédez !";

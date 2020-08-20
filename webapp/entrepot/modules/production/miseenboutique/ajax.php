@@ -20,6 +20,7 @@ if ($action == "miseenboutique") {
 		$listeproduits = explode(",", $listeproduits);
 		foreach ($listeproduits as $key => $value) {
 			$lot = explode("-", $value);
+			$format_id = $lot[1];
 			$id = $lot[0];
 			$qte = end($lot);
 			$datas = PRODUIT::findBy(["id ="=> $id]);
@@ -28,8 +29,9 @@ if ($action == "miseenboutique") {
 
 				$ligne = new LIGNEMISEENBOUTIQUE();
 				$ligne->miseenboutique_id = $meb->id;
+				$ligne->formatemballage_id = $format_id;
 				$ligne->produit_id = $produit->id;
-				$ligne->quantite_depart = intval($qte);
+				$ligne->quantite_demande = intval($qte);
 				$data = $ligne->enregistre();	
 			}
 		}

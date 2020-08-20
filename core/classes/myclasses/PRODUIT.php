@@ -49,7 +49,7 @@ class PRODUIT extends TABLE
 
 
 	public function name(){
-		return $this->typeproduit->name()." ".$this->parfum->name()." ".$this->quantite->name();
+		return $this->typeproduit->name()." de ".$this->parfum->name()." ".$this->quantite->name();
 	}
 
 
@@ -78,49 +78,48 @@ class PRODUIT extends TABLE
 
 
 
-	public function production(string $date1, string $date2, int $entrepot_id = null){
+	public function conditionnement(string $date1, string $date2, int $format_id, int $entrepot_id = null){
 		$paras = "";
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
-		$requette = "SELECT SUM(production) as production  FROM productionjour, ligneproductionjour, produit WHERE ligneproductionjour.produit_id = produit.id AND ligneproductionjour.productionjour_id = productionjour.id AND produit.id = ? AND productionjour.etat_id != ? AND productionjour.created >= ? AND productionjour.created <= ? $paras GROUP BY produit.id";
-		$item = LIGNEPRODUCTIONJOUR::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
-
-		if (count($item) < 1) {$item = [new LIGNEPRODUCTIONJOUR()]; }
-		return $item[0]->production;
+		$requette = "SELECT SUM(ligneconditionnement.quantite) as quantite  FROM conditionnement, ligneconditionnement WHERE ligneconditionnement.produit_id = ? AND ligneconditionnement.formatemballage_id = ? AND ligneconditionnement.conditionnement_id = conditionnement.id AND conditionnement.etat_id != ? AND conditionnement.created >= ? AND conditionnement.created <= ? $paras";
+		$item = LIGNECONDITIONNEMENT::execute($requette, [$this->id, $format_id, ETAT::ANNULEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new LIGNECONDITIONNEMENT()]; }
+		return $item[0]->quantite;
 	}
 
 
-	public function totalSortieEntrepot(string $date1, string $date2, int $entrepot_id = null){
+	public function totalSortieEntrepot(string $date1, string $date2, int $format_id, int $entrepot_id = null){
 		$paras = "";
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
-		$requette = "SELECT SUM(quantite) as quantite  FROM lignemiseenboutique, produit, miseenboutique WHERE lignemiseenboutique.produit_id = produit.id AND produit.id = ? AND lignemiseenboutique.miseenboutique_id = miseenboutique.id AND miseenboutique.etat_id != ?  AND lignemiseenboutique.created >= ? AND lignemiseenboutique.created <= ? $paras GROUP BY produit.id";
-		$item = LIGNEMISEENBOUTIQUE::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
+		$requette = "SELECT SUM(quantite) as quantite  FROM lignemiseenboutique, miseenboutique WHERE lignemiseenboutique.produit_id = ? AND lignemiseenboutique.formatemballage_id = ? AND lignemiseenboutique.miseenboutique_id = miseenboutique.id AND miseenboutique.etat_id != ?  AND lignemiseenboutique.created >= ? AND lignemiseenboutique.created <= ? $paras ";
+		$item = LIGNEMISEENBOUTIQUE::execute($requette, [$this->id, $format_id, ETAT::ANNULEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEMISEENBOUTIQUE()]; }
 		return $item[0]->quantite;
 	}
 
 
-	public function perteEntrepot(string $date1, string $date2, int $entrepot_id = null){
+	public function perteEntrepot(string $date1, string $date2, int $format_id, int $entrepot_id = null){
 		$paras = "";
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
-		$requette = "SELECT SUM(perte) as perte  FROM ligneperteentrepot, produit, perteentrepot WHERE ligneperteentrepot.produit_id = produit.id AND produit.id = ? AND ligneperteentrepot.perteentrepot_id = perteentrepot.id AND perteentrepot.etat_id != ? AND ligneperteentrepot.created >= ? AND ligneperteentrepot.created <= ? $paras GROUP BY produit.id";
-		$item = LIGNEPERTEENTREPOT::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
+		$requette = "SELECT SUM(perte) as perte  FROM ligneperteentrepot, perteentrepot WHERE ligneperteentrepot.produit_id = ? AND ligneperteentrepot.formatemballage_id = ? AND ligneperteentrepot.perteentrepot_id = perteentrepot.id AND perteentrepot.etat_id != ? AND ligneperteentrepot.created >= ? AND ligneperteentrepot.created <= ? $paras";
+		$item = LIGNEPERTEENTREPOT::execute($requette, [$this->id, $format_id, ETAT::ANNULEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEPERTEENTREPOT()]; }
 		return $item[0]->perte;
 	}
 
 
-	public function enEntrepot(string $date, int $entrepot_id = null){
+	public function enEntrepot(string $date1, string $date2, int $format_id, int $entrepot_id = null){
 		$stock = 0;
 		if ($entrepot_id == ENTREPOT::PRINCIPAL) {
 			$stock = intval($this->initial);
 		}
-		$total = $stock + $this->production(PARAMS::DATE_DEFAULT, $date, $entrepot_id) - $this->totalSortieEntrepot(PARAMS::DATE_DEFAULT, $date, $entrepot_id) - $this->perteEntrepot(PARAMS::DATE_DEFAULT, $date, $entrepot_id);
+		$total = $this->conditionnement($date1, $date2, $format_id, $entrepot_id) - $this->totalSortieEntrepot($date1, $date2, $format_id, $entrepot_id) - $this->perteEntrepot($date1, $date2, $format_id, $entrepot_id);
 		return $total;
 	}
 
@@ -133,7 +132,7 @@ class PRODUIT extends TABLE
 		if ($boutique_id != null) {
 			$paras.= "AND boutique_id = $boutique_id ";
 		}
-		$requette = "SELECT SUM(quantite) as quantite  FROM lignemiseenboutique, produit, miseenboutique WHERE lignemiseenboutique.produit_id = produit.id AND produit.id = ? AND lignemiseenboutique.miseenboutique_id = miseenboutique.id AND miseenboutique.etat_id = ? AND lignemiseenboutique.created >= ? AND lignemiseenboutique.created <= ? $paras GROUP BY produit.id";
+		$requette = "SELECT SUM(quantite) as quantite  FROM lignemiseenboutique, produit, miseenboutique WHERE lignemiseenboutique.produit_id = produit.id AND produit.id = ? AND lignemiseenboutique.miseenboutique_id = miseenboutique.id AND miseenboutique.etat_id = ? AND lignemiseenboutique.created >= ? AND lignemiseenboutique.created <= ? $paras ";
 		$item = LIGNEMISEENBOUTIQUE::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEMISEENBOUTIQUE()]; }
 		return $item[0]->quantite;
@@ -362,11 +361,11 @@ class PRODUIT extends TABLE
 			$this->isActive = TABLE::NON;
 		}else{
 			$this->isActive = TABLE::OUI;
-			$pro = PRODUCTIONJOUR::today();
-			$datas = LIGNEPRODUCTIONJOUR::findBy(["productionjour_id ="=>$pro->id, "produit_id ="=>$pdv->id]);
+			$pro = PRODUCTION::today();
+			$datas = LIGNEPRODUCTION::findBy(["production_id ="=>$pro->id, "produit_id ="=>$pdv->id]);
 			if (count($datas) == 0) {
-				$ligne = new LIGNEPRODUCTIONJOUR();
-				$ligne->productionjour_id = $pro->id;
+				$ligne = new LIGNEPRODUCTION();
+				$ligne->production_id = $pro->id;
 				$ligne->produit_id = $pdv->id;
 				$ligne->enregistre();
 			}			

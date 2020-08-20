@@ -225,7 +225,7 @@ foreach ($encours as $key => $mise) {
 
 
 <?php include($this->rootPath("webapp/entrepot/elements/templates/script.php")); ?>
-<script type="text/javascript" src="<?= $this->relativePath("../../master/client/script.js") ?>"></script>
+<script type="text/javascript" src="<?= $this->rootPath("webapp/boutique/modules/master/client/script.js") ?>"></script>
 
 
 </body>

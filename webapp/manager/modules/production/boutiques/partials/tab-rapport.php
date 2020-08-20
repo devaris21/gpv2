@@ -109,7 +109,7 @@
 											</thead>
 											<tbody>
 												<?php $i =0;
-												foreach ($productionjours as $key => $production) {
+												foreach ($productions as $key => $production) {
 													$i++; ?>
 													<tr>
 														<td><?= datecourt($production->ladate)  ?></td>

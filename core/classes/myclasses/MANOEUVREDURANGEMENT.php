@@ -10,14 +10,14 @@ class MANOEUVREDURANGEMENT extends TABLE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	public $productionjour_id;
+	public $production_id;
 	public $manoeuvre_id;
 	public $price;
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = PRODUCTIONJOUR::findBy(["id ="=>$this->productionjour_id]);
+		$datas = PRODUCTION::findBy(["id ="=>$this->production_id]);
 		if (count($datas) == 1) {
 			$datas = MANOEUVRE::findBy(["id ="=>$this->manoeuvre_id]);
 			if (count($datas) == 1) {

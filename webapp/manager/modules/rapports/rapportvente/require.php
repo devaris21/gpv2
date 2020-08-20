@@ -41,8 +41,8 @@ $id = dateDiffe($date1, $date2);
 
 $stats = VENTE::stats($date1, $date2);
 
-$productionjours = PRODUCTIONJOUR::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2],[],["ladate"=>"DESC"]);
-usort($productionjours, 'comparerLadate');
+$productions = PRODUCTION::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2],[],["ladate"=>"DESC"]);
+usort($productions, 'comparerLadate');
 
 $title = "GPV | Stock de la production ";
 

@@ -69,11 +69,11 @@ class PARFUM extends TABLE
 
 	public function quantiteProduite(string $date1 = "2020-06-01", string $date2, int $entrepot_id = null){
 		if ($entrepot_id == null) {
-			$requette = "SELECT SUM(quantite.name * ligneproductionjour.production) as name  FROM productionjour, ligneproductionjour, prixdevente, quantite, produit WHERE ligneproductionjour.produit_id = prixdevente.id AND ligneproductionjour.productionjour_id = productionjour.id AND prixdevente.produit_id = produit.id AND prixdevente.quantite_id = quantite.id AND produit.id = ? AND productionjour.etat_id != ? AND DATE(ligneproductionjour.created) >= ? AND DATE(ligneproductionjour.created) <= ? GROUP BY prixdevente.id";
+			$requette = "SELECT SUM(quantite.name * ligneproduction.production) as name  FROM production, ligneproduction, prixdevente, quantite, produit WHERE ligneproduction.produit_id = prixdevente.id AND ligneproduction.production_id = production.id AND prixdevente.produit_id = produit.id AND prixdevente.quantite_id = quantite.id AND produit.id = ? AND production.etat_id != ? AND DATE(ligneproduction.created) >= ? AND DATE(ligneproduction.created) <= ? GROUP BY prixdevente.id";
 			$item = QUANTITE::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
 			if (count($item) < 1) {$item = [new QUANTITE()]; }
 		}else{
-			$requette = "SELECT SUM(quantite.name * ligneproductionjour.production) as name  FROM productionjour, ligneproductionjour, prixdevente, quantite, produit WHERE ligneproductionjour.produit_id = prixdevente.id AND ligneproductionjour.productionjour_id = productionjour.id AND prixdevente.produit_id = produit.id AND prixdevente.quantite_id = quantite.id AND produit.id = ? AND productionjour.etat_id != ? AND productionjour.entrepot_id = ? AND DATE(ligneproductionjour.created) >= ? AND DATE(ligneproductionjour.created) <= ? GROUP BY prixdevente.id";
+			$requette = "SELECT SUM(quantite.name * ligneproduction.production) as name  FROM production, ligneproduction, prixdevente, quantite, produit WHERE ligneproduction.produit_id = prixdevente.id AND ligneproduction.production_id = production.id AND prixdevente.produit_id = produit.id AND prixdevente.quantite_id = quantite.id AND produit.id = ? AND production.etat_id != ? AND production.entrepot_id = ? AND DATE(ligneproduction.created) >= ? AND DATE(ligneproduction.created) <= ? GROUP BY prixdevente.id";
 			$item = QUANTITE::execute($requette, [$this->id, ETAT::ANNULEE, $entrepot_id, $date1, $date2]);
 			if (count($item) < 1) {$item = [new QUANTITE()]; }
 		}

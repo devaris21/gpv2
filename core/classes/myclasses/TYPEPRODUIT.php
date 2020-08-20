@@ -10,6 +10,8 @@ class TYPEPRODUIT extends TABLE
 	public static $namespace = __NAMESPACE__;
 	
 	public $name;
+	public $unite;
+	public $abbr;
 	public $isActive = TABLE::OUI;
 
 	public function enregistre(){

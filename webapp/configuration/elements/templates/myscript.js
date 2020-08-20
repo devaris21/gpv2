@@ -6,7 +6,7 @@
     		var formdata = new FormData($(this)[0]);
     		// var val = $(this).find("select[name=manoeuvre_id]").val();
     		// formdata.append('manoeuvres', val);
-    		formdata.append('action', "productionjour");
+    		formdata.append('action', "production");
     		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
     			if (data.status) {
     				window.location.reload();

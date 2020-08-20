@@ -25,15 +25,16 @@ $(function(){
 
 
 
-    miseenboutique = function(){
+    demandemiseenboutique = function(){
         var formdata = new FormData($("#formMiseenboutique")[0]);
         
         tableau = new Array();
         $("#modal-miseenboutique-demande tr input").each(function(index, el) {
             var id = $(this).attr('data-id');
+            var format = $(this).attr('data-format');
             var val = $(this).val();
             if (val > 0) {
-                var item = id+"-"+val;
+                var item = id+"-"+format+"-"+val;
                 tableau.push(item);
             }       
         });
@@ -46,7 +47,7 @@ $(function(){
         }, function(){
             Loader.start();
             var url = "../../webapp/boutique/modules/production/miseenboutique/ajax.php";
-            formdata.append('action', "miseenboutique");
+            formdata.append('action', "demandemiseenboutique");
             $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
                 if (data.status) {
                     window.location.reload();

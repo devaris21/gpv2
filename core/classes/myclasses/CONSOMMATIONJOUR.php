@@ -29,12 +29,12 @@ class CONSOMMATIONJOUR extends TABLE
 		if (count($datas) > 0) {
 			return $datas[0];
 		}else{
-			$ti = new PRODUCTIONJOUR();
+			$ti = new PRODUCTION();
 			$data = $ti->enregistre();
 			if ($data->status) {
 				foreach (PRODUIT::getAll() as $key => $produit) {
-					$ligne = new LIGNEPRODUCTIONJOUR();
-					$ligne->productionjour_id = $data->lastid;
+					$ligne = new LIGNEPRODUCTION();
+					$ligne->production_id = $data->lastid;
 					$ligne->produit_id = $produit->id;
 					$ligne->enregistre();
 				}

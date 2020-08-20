@@ -484,7 +484,7 @@ if ($action == "newproduit") {
 						$data = $prospection->enregistre();
 						if ($data->status) {
 							$montant = 0;
-							$productionjour = PRODUCTIONJOUR::today();
+							$production = PRODUCTION::today();
 
 							foreach ($prixdeventes as $key => $value) {
 								$lot = explode("-", $value);
@@ -513,8 +513,8 @@ if ($action == "newproduit") {
 								}
 							}
 
-							// $productionjour->total_livraison += $montant;
-							// $productionjour->save();
+							// $production->total_livraison += $montant;
+							// $production->save();
 
 							// if ($vehicule_id != VEHICULE::AUTO && $vehicule_id != VEHICULE::TRICYCLE) {
 							// 	$datas = VEHICULE::findBy(["id="=>$vehicule_id]);

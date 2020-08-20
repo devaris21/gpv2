@@ -31,11 +31,12 @@ $(function(){
         tableau = new Array();
         $("#modal-miseenboutique-demande tr input").each(function(index, el) {
             var id = $(this).attr('data-id');
+            var format = $(this).attr('data-format');
             var val = $(this).val();
             if (val > 0) {
-                var item = id+"-"+val;
+                var item = id+"-"+format+"-"+val;
                 tableau.push(item);
-            }       
+            }      
         });
         formdata.append('listeproduits', tableau);
 

@@ -111,9 +111,9 @@ if ($action == "get_data") {
 		if (count($datas) == 1) {
 			$data = $datas[0];
 			$data->status = true;
-			if ($table == "productionjour") {
-				$data->fourni("ligneproductionjour");
-				foreach ($data->ligneproductionjours as $key => $value) {
+			if ($table == "production") {
+				$data->fourni("ligneproduction");
+				foreach ($data->ligneproductions as $key => $value) {
 					$prod = "prod-".$value->prixdevente_id;
 					$data->$prod = ($value->production == 0)?"":$value->production;
 

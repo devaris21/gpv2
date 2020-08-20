@@ -47,7 +47,7 @@ class RESSOURCE extends TABLE
 				// $ligne->save();
 
 				// $ligne = new LIGNECONSOMMATIONJOUR();
-				// $ligne->productionjour_id = 1;
+				// $ligne->production_id = 1;
 				// $ligne->ressource_id = $data->lastid;
 				// $ligne->consommation = 0;
 				// $ligne->save();
@@ -93,7 +93,7 @@ class RESSOURCE extends TABLE
 		$total += $item[0]->quantite;
 
 
-		$requette = "SELECT SUM(consommation) as consommation  FROM ligneconsommationjour, ressource, productionjour WHERE ligneconsommationjour.ressource_id = ressource.id AND ressource.id = ? AND ligneconsommationjour.productionjour_id = productionjour.id AND DATE(productionjour.ladate) <= ? GROUP BY ressource.id";
+		$requette = "SELECT SUM(consommation) as consommation  FROM ligneconsommationjour, ressource, production WHERE ligneconsommationjour.ressource_id = ressource.id AND ressource.id = ? AND ligneconsommationjour.production_id = production.id AND DATE(production.ladate) <= ? GROUP BY ressource.id";
 		$item = LIGNECONSOMMATIONJOUR::execute($requette, [$this->id, $date]);
 		if (count($item) < 1) {$item = [new LIGNECONSOMMATIONJOUR()]; }
 		$total -= $item[0]->consommation;

@@ -13,7 +13,7 @@
             <div class="ibox">
                 <div class="ibox-content"><br>
                     <div class="row">
-                        <?php foreach ($production->ligneproductionjours as $key => $ligne) {
+                        <?php foreach ($production->ligneproductions as $key => $ligne) {
                             $ligne->actualise(); ?>
                             <div class="col-sm col-md">
                                 <label><b><?= $ligne->produit->name() ?></b> eff. rangée <span class="text-muted gras"> / <?= $ligne->production ?></span></label>
@@ -26,14 +26,14 @@
                         <div class="col-md-6">
                             <h4 class="text-uppercase"><u>Personnel pour le rangement</u></h4>
                             <ul>
-                                <?php foreach ($productionjour->fourni("manoeuvredujour") as $key => $man) {
+                                <?php foreach ($production->fourni("manoeuvredujour") as $key => $man) {
                                     $man->actualise(); ?>
                                     <li><?= $man->manoeuvre->name() ?></li>
                                 <?php } ?>
                             </ul><hr class="mp3">
 
                             <b>Le groupe de manoeuvres qui a rangé</b><br>
-                            <?php Native\BINDING::html("radio", "groupemanoeuvre", [$productionjour->groupemanoeuvre_id_rangement], "groupemanoeuvre_id_rangement") ?><br><br>
+                            <?php Native\BINDING::html("radio", "groupemanoeuvre", [$production->groupemanoeuvre_id_rangement], "groupemanoeuvre_id_rangement") ?><br><br>
 
                             <b>Ou definir manuellement les manoeuvres qui ont rangés</b>
                             <?php Native\BINDING::html("select-multiple", "manoeuvre") ?>

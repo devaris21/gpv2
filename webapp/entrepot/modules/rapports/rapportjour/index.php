@@ -206,7 +206,7 @@
                                                 <tr>
                                                     <td class="gras" style="color: <?= $produit->couleur ?>"><i class="fa fa-flask"></i> <?= $produit->name() ?></td>
                                                     <?php foreach ($datas as $key => $pdv) {
-                                                        foreach ($productionjour->ligneproductionjours as $key => $ligne) {
+                                                        foreach ($production->ligneproductions as $key => $ligne) {
                                                             if ($ligne->produit_id == $pdv->id) { ?>
                                                                 <td data-toogle="tooltip" title="production" class="text-center gras"><?= money($ligne->production) ?></td>
                                                             <?php }
@@ -356,9 +356,9 @@
                                 <hr>
 
                                   <!--   <h4 class="text-uppercase">Groupe de manoeuvres</h4>
-                                    <h6><?= $productionjour->groupemanoeuvre->name(); ?></h6>
+                                    <h6><?= $production->groupemanoeuvre->name(); ?></h6>
                                     <ul>
-                                        <?php foreach (/*$productionjour->fourni("manoeuvredujour")*/ [] as $key => $man) { 
+                                        <?php foreach (/*$production->fourni("manoeuvredujour")*/ [] as $key => $man) { 
                                             $man->actualise(); ?>
                                             <li><?= $man->manoeuvre->name(); ?></li>
                                         <?php } ?>
@@ -500,7 +500,7 @@
 
 
                                 <h4 class="text-uppercase">COMMENTAIRE</h4>
-                                <p class="text-justify"><?= $productionjour->comment ?></p>
+                                <p class="text-justify"><?= $production->comment ?></p>
                             </div>
                         </div>
                     </div>

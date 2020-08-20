@@ -50,9 +50,9 @@ class EMBALLAGE extends TABLE
 
 
 	public function consommee(string $date1 = "2020-06-01", string $date2){
-		$requette = "SELECT SUM(production) as production  FROM productionjour, ligneproductionjour, prixdevente, quantite, emballage WHERE ligneproductionjour.produit_id = prixdevente.id AND ligneproductionjour.productionjour_id = productionjour.id AND prixdevente.quantite_id = quantite.id AND emballage.quantite_id = quantite.id AND  emballage.id = ? AND productionjour.etat_id != ? AND DATE(ligneproductionjour.created) >= ? AND DATE(ligneproductionjour.created) <= ? GROUP BY emballage.id";
-		$item = LIGNEPRODUCTIONJOUR::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
-		if (count($item) < 1) {$item = [new LIGNEPRODUCTIONJOUR()]; }
+		$requette = "SELECT SUM(production) as production  FROM production, ligneproduction, prixdevente, quantite, emballage WHERE ligneproduction.produit_id = prixdevente.id AND ligneproduction.production_id = production.id AND prixdevente.quantite_id = quantite.id AND emballage.quantite_id = quantite.id AND  emballage.id = ? AND production.etat_id != ? AND DATE(ligneproduction.created) >= ? AND DATE(ligneproduction.created) <= ? GROUP BY emballage.id";
+		$item = LIGNEPRODUCTION::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new LIGNEPRODUCTION()]; }
 		return $item[0]->production;
 	}
 
@@ -155,11 +155,11 @@ class EMBALLAGE extends TABLE
 			$this->isActive = TABLE::NON;
 		}else{
 			$this->isActive = TABLE::OUI;
-			$pro = PRODUCTIONJOUR::today();
-			$datas = LIGNEPRODUCTIONJOUR::findBy(["productionjour_id ="=>$pro->id, "produit_id ="=>$pdv->id]);
+			$pro = PRODUCTION::today();
+			$datas = LIGNEPRODUCTION::findBy(["production_id ="=>$pro->id, "produit_id ="=>$pdv->id]);
 			if (count($datas) == 0) {
-				$ligne = new LIGNEPRODUCTIONJOUR();
-				$ligne->productionjour_id = $pro->id;
+				$ligne = new LIGNEPRODUCTION();
+				$ligne->production_id = $pro->id;
 				$ligne->produit_id = $pdv->id;
 				$ligne->enregistre();
 			}			

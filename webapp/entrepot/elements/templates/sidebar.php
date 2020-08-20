@@ -42,6 +42,12 @@
 
                 <?php if ($employe->isAutoriser("ventes")) { ?>
 
+                    <li class="" id="production">
+                        <a href="<?= $this->url($this->section, "production", "production") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Production</span></a>
+                    </li>
+                    <li class="" id="conditionnement">
+                        <a href="<?= $this->url($this->section, "production", "conditionnement") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Conditionnement</span></a>
+                    </li>
                     <li class="" id="miseenboutique">
                         <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span></a>
                     </li>

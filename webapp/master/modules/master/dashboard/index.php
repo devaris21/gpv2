@@ -119,7 +119,7 @@
                                                 <div class="row">
                                                     <div class="col-7">
                                                         <h5 class="text-uppercase">Aller à ma boutique</h5>
-                                                        <h3 class="no-margins text-orange"><?= $maBoutique->name() ?></h3>
+                                                        <h3 class="no-margins text-orange"><?= $boutique->name() ?></h3>
                                                     </div>
                                                     <div class="col-5 text-right">
                                                         <i class="fa fa-hospital-o fa-5x text-green"></i>
@@ -139,7 +139,7 @@
                                                 <div class="row">
                                                     <div class="col-7">
                                                         <h5 class="text-uppercase">Aller à mon entrepôt</h5>
-                                                        <h3 class="no-margins text-orange"><?= $monEntrepot->name() ?></h3>
+                                                        <h3 class="no-margins text-orange"><?= $boutique->name() ?></h3>
                                                     </div>
                                                     <div class="col-5 text-right">
                                                         <i class="fa fa-bank fa-5x text-green"></i>

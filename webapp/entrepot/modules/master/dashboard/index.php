@@ -61,8 +61,10 @@
                             </div>
                         </div>
                     </div><hr>
-                    <div>
-                        <button data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->id; ?>) " class="btn btn-warning dim btn-block"> <i class="fa fa-long-arrow-right"></i> Nouvelle production</button>
+                    <div class="text-center">
+                        <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
+                            <button data-toggle="modal" data-target="#modal-production" style="color: #efa" onclick=" modification('production', <?= $production->id; ?>) " class="btn btn-default btn-xs dim"> <i class="fa fa-long-arrow-right"></i> Nouvelle production de <?= $type->name()  ?></button>
+                        <?php } ?>
                     </div>
                 </div>
 

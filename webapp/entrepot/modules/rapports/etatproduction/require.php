@@ -32,7 +32,7 @@ if ($perte > 0) {
 	$pertelivraison = 0;
 }
 
-$productions = PRODUCTIONJOUR::findBy(["ladate >="=>$date1, "ladate <= "=>$date2]);
+$productions = PRODUCTION::findBy(["ladate >="=>$date1, "ladate <= "=>$date2]);
 
 $tricycles = [];
 //$tricycles = VENTE::findBy(["DATE(datelivraison) >="=>$date1, "DATE(datelivraison) <= "=>$date2, "etat_id ="=>ETAT::VALIDEE, "vehicule_id ="=>VEHICULE::TRICYCLE]);

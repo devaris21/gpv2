@@ -25,7 +25,6 @@ if ($action == "newproduit") {
 	if (!in_array($id, $produits)) {
 		$produits[] = $id;
 		$datas = PRODUIT::findBy(["parfum_id ="=> $parfum_id, "typeproduit_id ="=> $type_id, "isActive = "=> TABLE::OUI]);
-		echo count($datas);
 		if (count($datas) > 0) {
 			$lots = PARFUM::findBy(["id ="=>$parfum_id]);
 			if (count($lots) > 0) {
@@ -68,7 +67,6 @@ if ($action == "newproduit2") {
 	if (!in_array($id, $produits)) {
 		$produits[] = $id;
 		$datas = PRODUIT::findBy(["parfum_id ="=> $parfum_id, "typeproduit_id ="=> $type_id, "isActive = "=> TABLE::OUI]);
-		echo count($datas);
 		if (count($datas) > 0) {
 			$lots = PARFUM::findBy(["id ="=>$parfum_id]);
 			if (count($lots) > 0) {
@@ -108,7 +106,6 @@ if ($action == "newproduit3") {
 	if (!in_array($id, $produits)) {
 		$produits[] = $id;
 		$datas = PRODUIT::findBy(["parfum_id ="=> $parfum_id, "typeproduit_id ="=> $type_id, "isActive = "=> TABLE::OUI]);
-		echo count($datas);
 		if (count($datas) > 0) {
 			$lots = PARFUM::findBy(["id ="=>$parfum_id]);
 			if (count($lots) > 0) {
@@ -119,27 +116,62 @@ if ($action == "newproduit3") {
 				$type = $lots[0];
 			}
 			?>
-			<tr class="border-0 border-bottom " id="ligne<?= $id ?>" data-id="<?= $id ?>">
-				<td><i class="fa fa-close text-red cursor" onclick="supprimeProduit('<?= $id ?>')" style="font-size: 18px;"></i></td>
-				<td class="text-left">
-					<h5 class="mp0 text-uppercase"><?= $type->name() ?> de <?= $parfum->name() ?></h5>
-				</td>
-				<?php foreach ($datas as $key => $produit) {
-					$produit->actualise();
-					if ($produit->enEntrepot(dateAjoute(1), getSession("entrepot_id_connecte")) > 0) { ?>
-						<td width="80" class="text-center">
-							<small><?= $produit->quantite->name() ?></small>
-							<input type="text" data-id="<?= $produit->id ?>" number class="form-control text-center gras" style="padding: 3px">
-						</td>
-					<?php } 
-				} ?>				
-			</tr>
-			<?php
+			<?php foreach ($datas as $key => $produit) {
+				$produit->actualise(); ?>
+				<tr class="border-0 border-bottom " id="ligne<?= $id ?>" data-id="<?= $id ?>">
+					<td><i class="fa fa-close text-red cursor" onclick="supprimeProduit('<?= $id ?>')" style="font-size: 18px;"></i></td>
+					<td class="text-left">
+						<h5 class="mp0 text-uppercase"><?= $produit->name() ?></h5>
+					</td>
+					<?php foreach (FORMATEMBALLAGE::findBy(["isActive = "=> TABLE::OUI]) as $key => $format) { 
+						if ($produit->enEntrepot(PARAMS::DATE_DEFAULT, dateAjoute(1), $format->id, getSession("entrepot_id_connecte")) > 0) { ?>
+							<td width="110" class="text-center">
+								<img src="http://dummyimage.com/30x30/4d494d/686a82.gif&text=placeholder+image" alt="placeholder+image"><br>
+								<small><?= $format->name() ?></small><br>
+								<input type="text" data-id="<?= $produit->id ?>" data-format="<?= $format->id ?>" number class="form-control text-center gras" style="padding: 3px">
+							</td>
+						<?php } 
+					} ?>
+				</tr>
+			<?php } 
 		}
 	}
 	session("produits", $produits);
 }
 
+
+
+if ($action == "newproduit4") {
+	$id = $parfum_id."-".$type_id;
+	$produits = [];
+	if (getSession("produits") != null) {
+		$produits = getSession("produits"); 
+	}
+	if (!in_array($id, $produits)) {
+		$produits[] = $id;
+		$lots = PARFUM::findBy(["id ="=>$parfum_id]);
+		if (count($lots) > 0) {
+			$parfum = $lots[0];
+		}
+		$lots = TYPEPRODUIT::findBy(["id ="=>$type_id]);
+		if (count($lots) > 0) {
+			$type = $lots[0];
+		}
+		?>
+		<tr class="border-0 border-bottom " id="ligne<?= $id ?>" data-id="<?= $id ?>">
+			<td><i class="fa fa-close text-red cursor" onclick="supprimeProduit('<?= $id ?>')" style="font-size: 18px;"></i></td>
+			<td class="text-left">
+				<h5 class="mp0 text-uppercase">production de <?= $type->name() ?> de <?= $parfum->name() ?></h5>
+			</td>
+			<td width="120" class="text-center">
+				<small>Nb de <?= $type->unite ?>(s)</small>
+				<input type="text" data-id="<?= $id ?>" number class="form-control text-center gras" style="padding: 3px">
+			</td>				
+		</tr>
+		<?php
+	}
+	session("produits", $produits);
+}
 
 
 
@@ -541,7 +573,7 @@ if ($action == "livraisonCommande") {
 					$data = $prospection->enregistre();
 					if ($data->status) {
 						$montant = 0;
-						$productionjour = PRODUCTIONJOUR::today();
+						$production = PRODUCTION::today();
 
 						foreach ($listeproduits as $key => $value) {
 							$lot = explode("-", $value);
@@ -570,8 +602,8 @@ if ($action == "livraisonCommande") {
 							}
 						}
 
-							// $productionjour->total_livraison += $montant;
-							// $productionjour->save();
+							// $production->total_livraison += $montant;
+							// $production->save();
 
 							// if ($vehicule_id != VEHICULE::AUTO && $vehicule_id != VEHICULE::TRICYCLE) {
 							// 	$datas = VEHICULE::findBy(["id="=>$vehicule_id]);

@@ -11,7 +11,7 @@ extract($_POST);
 
 
 
-if ($action == "miseenboutique") {
+if ($action == "demandemiseenboutique") {
 	$meb = new MISEENBOUTIQUE();
 	$meb->hydrater($_POST);
 	$meb->etat_id = ETAT::PARTIEL;
@@ -21,6 +21,7 @@ if ($action == "miseenboutique") {
 		foreach ($listeproduits as $key => $value) {
 			$lot = explode("-", $value);
 			$id = $lot[0];
+			$format_id = $lot[1];
 			$qte = end($lot);
 			$datas = PRODUIT::findBy(["id ="=> $id]);
 			if (count($datas) == 1) {
@@ -28,6 +29,7 @@ if ($action == "miseenboutique") {
 
 				$ligne = new LIGNEMISEENBOUTIQUE();
 				$ligne->miseenboutique_id = $meb->id;
+				$ligne->formatemballage_id = $format_id;
 				$ligne->produit_id = $produit->id;
 				$ligne->quantite_demande = intval($qte);
 				$data = $ligne->enregistre();	

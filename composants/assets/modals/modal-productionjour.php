@@ -1,5 +1,5 @@
 
-<div class="modal inmodal fade" id="modal-productionjour" style="z-index: 1">
+<div class="modal inmodal fade" id="modal-production" style="z-index: 1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-body">
@@ -10,7 +10,7 @@
                         <small>Veuillez renseigner la quantité de chaque type de produit que vous avez produit !</small>
                     </div><hr>
 
-                    <form id="formProductionJour" classname="productionjour">
+                    <form id="formProductionJour" classname="production">
 
                         <?php foreach (Home\PRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $produit) { ?>
                             <div class="row">

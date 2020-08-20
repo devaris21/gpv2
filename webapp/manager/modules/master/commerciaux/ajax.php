@@ -11,13 +11,13 @@ extract($_POST);
 
 if ($action === "rangement") {
 	if ($manoeuvres != "" || (isset($groupemanoeuvre_id_rangement) && $groupemanoeuvre_id_rangement != "")) {
-		$datas = PRODUCTIONJOUR::findBy(["id="=>$id]);
+		$datas = PRODUCTION::findBy(["id="=>$id]);
 		if (count($datas) == 1) {
-			$productionjour = $datas[0];
+			$production = $datas[0];
 
 			$test = true;
-			$productionjour->fourni("ligneproductionjour");
-			foreach ($productionjour->ligneproductionjours as $cle => $ligne) {
+			$production->fourni("ligneproduction");
+			foreach ($production->ligneproductions as $cle => $ligne) {
 				$range = intval($_POST["range-".$ligne->produit_id]);
 				if (!($ligne->production >= $range)) {
 					$test = false;
@@ -27,7 +27,7 @@ if ($action === "rangement") {
 
 			if ($test) {
 				$montant = 0;
-				foreach ($productionjour->ligneproductionjours as $cle => $ligne) {
+				foreach ($production->ligneproductions as $cle => $ligne) {
 					$range = intval($_POST["range-".$ligne->produit_id]);
 					$ligne->perte = $ligne->production - $range;
 					$ligne->save();
@@ -40,7 +40,7 @@ if ($action === "rangement") {
 				}
 
 
-				$datas = $productionjour->fourni("manoeuvredurangement");
+				$datas = $production->fourni("manoeuvredurangement");
 				foreach ($datas as $cle => $ligne) {
 					$ligne->delete();
 				}
@@ -49,7 +49,7 @@ if ($action === "rangement") {
 					$datas = explode(",", $manoeuvres);
 					foreach ($datas as $key => $value) {
 						$item = new MANOEUVREDURANGEMENT();
-						$item->productionjour_id = $productionjour->id;
+						$item->production_id = $production->id;
 						$item->manoeuvre_id = $value;
 						$item->price = $montant / count($datas);
 						$item->enregistre();
@@ -58,17 +58,17 @@ if ($action === "rangement") {
 					$datas = MANOEUVRE::findBy(["groupemanoeuvre_id ="=>$groupemanoeuvre_id_rangement]);
 					foreach ($datas as $key => $value) {
 						$item = new MANOEUVREDURANGEMENT();
-						$item->productionjour_id = $productionjour->id;
+						$item->production_id = $production->id;
 						$item->manoeuvre_id = $value->id;
 						$item->price = $montant / count($datas);
 						$item->enregistre();
 					}
 				}
 
-				$productionjour->hydrater($_POST);
-				$productionjour->dateRangement = dateAjoute();
-				$productionjour->etat_id = ETAT::VALIDEE;
-				$data = $productionjour->save();
+				$production->hydrater($_POST);
+				$production->dateRangement = dateAjoute();
+				$production->etat_id = ETAT::VALIDEE;
+				$data = $production->save();
 
 			}else{
 				$data->status = false;

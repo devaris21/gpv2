@@ -2327,7 +2327,7 @@ INSERT INTO `lignecommande` (`id`, `commande_id`, `prixdevente_id`, `quantite`, 
 
 CREATE TABLE `ligneconsommationjour` (
   `id` int(11) NOT NULL,
-  `productionjour_id` int(11) NOT NULL,
+  `production_id` int(11) NOT NULL,
   `ressource_id` int(11) NOT NULL,
   `consommation` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
@@ -2340,7 +2340,7 @@ CREATE TABLE `ligneconsommationjour` (
 -- Déchargement des données de la table `ligneconsommationjour`
 --
 
-INSERT INTO `ligneconsommationjour` (`id`, `productionjour_id`, `ressource_id`, `consommation`, `created`, `modified`, `protected`, `valide`) VALUES
+INSERT INTO `ligneconsommationjour` (`id`, `production_id`, `ressource_id`, `consommation`, `created`, `modified`, `protected`, `valide`) VALUES
 (1, 1, 1, 0, '2020-06-02 16:36:49', '2020-06-02 16:36:49', 0, 1),
 (2, 2, 1, 0, '2020-06-03 09:59:43', '2020-06-03 09:59:43', 0, 1),
 (3, 3, 1, 0, '2020-06-04 10:18:25', '2020-06-04 10:18:25', 0, 1),
@@ -3245,7 +3245,7 @@ INSERT INTO `lignedevente` (`id`, `vente_id`, `prixdevente_id`, `quantite`, `cre
 
 CREATE TABLE `ligneetiquettejour` (
   `id` int(11) NOT NULL,
-  `productionjour_id` int(11) NOT NULL,
+  `production_id` int(11) NOT NULL,
   `etiquette_id` int(11) NOT NULL,
   `consommation` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
@@ -3258,7 +3258,7 @@ CREATE TABLE `ligneetiquettejour` (
 -- Déchargement des données de la table `ligneetiquettejour`
 --
 
-INSERT INTO `ligneetiquettejour` (`id`, `productionjour_id`, `etiquette_id`, `consommation`, `created`, `modified`, `protected`, `valide`) VALUES
+INSERT INTO `ligneetiquettejour` (`id`, `production_id`, `etiquette_id`, `consommation`, `created`, `modified`, `protected`, `valide`) VALUES
 (1, 32, 1, 0, '2020-07-09 15:14:15', NULL, 0, 1),
 (2, 32, 2, 0, '2020-07-09 15:14:15', NULL, 0, 1),
 (3, 32, 3, 0, '2020-07-09 15:14:15', NULL, 0, 1),
@@ -3316,7 +3316,7 @@ INSERT INTO `ligneetiquettejour` (`id`, `productionjour_id`, `etiquette_id`, `co
 
 CREATE TABLE `ligneetiquettejour` (
   `id` int(11) NOT NULL,
-  `productionjour_id` int(11) NOT NULL,
+  `production_id` int(11) NOT NULL,
   `etiquette_id` int(11) NOT NULL,
   `consommation` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
@@ -3461,7 +3461,7 @@ CREATE TABLE `ligneperteentrepot` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ligneproductionjour`
+-- Structure de la table `ligneproduction`
 >>>>>>> origin/test
 --
 
@@ -3492,12 +3492,12 @@ CREATE TABLE `ligneperteentrepot` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ligneproductionjour`
+-- Structure de la table `ligneproduction`
 --
 
-CREATE TABLE `ligneproductionjour` (
+CREATE TABLE `ligneproduction` (
   `id` int(11) NOT NULL,
-  `productionjour_id` int(11) NOT NULL,
+  `production_id` int(11) NOT NULL,
   `prixdevente_id` int(11) NOT NULL,
   `production` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
@@ -3507,10 +3507,10 @@ CREATE TABLE `ligneproductionjour` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Déchargement des données de la table `ligneproductionjour`
+-- Déchargement des données de la table `ligneproduction`
 --
 
-INSERT INTO `ligneproductionjour` (`id`, `productionjour_id`, `prixdevente_id`, `production`, `created`, `modified`, `protected`, `valide`) VALUES
+INSERT INTO `ligneproduction` (`id`, `production_id`, `prixdevente_id`, `production`, `created`, `modified`, `protected`, `valide`) VALUES
 (1, 1, 1, 0, '2020-04-25 00:00:00', '2020-06-02 11:03:10', 0, 1),
 (2, 1, 2, 0, '2020-04-25 00:00:00', '2020-06-02 11:03:10', 0, 1),
 (3, 1, 3, 0, '2020-04-25 00:00:00', '2020-06-02 11:03:10', 0, 1),
@@ -4253,7 +4253,7 @@ INSERT INTO `ligneproductionjour` (`id`, `productionjour_id`, `prixdevente_id`, 
 (740, 16, 20, 0, '2020-06-18 14:22:12', '2020-06-18 14:22:12', 0, 1),
 (741, 16, 21, 0, '2020-06-18 14:22:12', '2020-06-18 14:22:12', 0, 1),
 (742, 16, 22, 0, '2020-06-18 14:22:12', '2020-06-18 14:22:12', 0, 1);
-INSERT INTO `ligneproductionjour` (`id`, `productionjour_id`, `prixdevente_id`, `production`, `created`, `modified`, `protected`, `valide`) VALUES
+INSERT INTO `ligneproduction` (`id`, `production_id`, `prixdevente_id`, `production`, `created`, `modified`, `protected`, `valide`) VALUES
 (743, 16, 23, 0, '2020-06-18 14:22:12', '2020-06-18 14:22:12', 0, 1),
 (744, 16, 24, 0, '2020-06-18 14:22:12', '2020-06-18 14:22:12', 0, 1),
 (745, 16, 25, 0, '2020-06-18 14:22:13', '2020-06-18 14:22:13', 0, 1),
@@ -4981,7 +4981,7 @@ INSERT INTO `ligneproductionjour` (`id`, `productionjour_id`, `prixdevente_id`, 
 (1467, 31, 27, 0, '2020-07-08 17:21:03', '2020-07-08 17:21:03', 0, 1),
 (1468, 31, 28, 0, '2020-07-08 17:21:03', '2020-07-08 17:21:03', 0, 1),
 (1469, 31, 29, 0, '2020-07-08 17:21:03', '2020-07-08 17:21:03', 0, 1);
-INSERT INTO `ligneproductionjour` (`id`, `productionjour_id`, `prixdevente_id`, `production`, `created`, `modified`, `protected`, `valide`) VALUES
+INSERT INTO `ligneproduction` (`id`, `production_id`, `prixdevente_id`, `production`, `created`, `modified`, `protected`, `valide`) VALUES
 (1470, 31, 30, 0, '2020-07-08 17:21:03', '2020-07-08 17:21:03', 0, 1),
 (1471, 31, 31, 0, '2020-07-08 17:21:03', '2020-07-08 17:21:03', 0, 1),
 (1472, 31, 32, 0, '2020-07-08 17:21:03', '2020-07-08 17:21:03', 0, 1),
@@ -6092,10 +6092,10 @@ INSERT INTO `prixdevente` (`id`, `produit_id`, `prix_id`, `prix_id_gros`, `quant
 -- --------------------------------------------------------
 
 --
--- Structure de la table `productionjour`
+-- Structure de la table `production`
 --
 
-CREATE TABLE `productionjour` (
+CREATE TABLE `production` (
   `id` int(11) NOT NULL,
   `ladate` date DEFAULT NULL,
   `comment` text COLLATE utf8_bin NOT NULL,
@@ -6114,10 +6114,10 @@ CREATE TABLE `productionjour` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Déchargement des données de la table `productionjour`
+-- Déchargement des données de la table `production`
 --
 
-INSERT INTO `productionjour` (`id`, `ladate`, `comment`, `groupemanoeuvre_id`, `entrepot_id`, `employe_id`, `etat_id`, `dateRangement`, `total_production`, `total_rangement`, `total_livraison`, `created`, `modified`, `protected`, `valide`) VALUES
+INSERT INTO `production` (`id`, `ladate`, `comment`, `groupemanoeuvre_id`, `entrepot_id`, `employe_id`, `etat_id`, `dateRangement`, `total_production`, `total_rangement`, `total_livraison`, `created`, `modified`, `protected`, `valide`) VALUES
 (1, '2020-06-02', '', 0, 1, 0, 2, NULL, 0, 0, 0, '2020-06-02 10:39:26', '2020-06-02 10:39:26', 0, 1),
 (2, '2020-06-03', '', 0, 1, 0, 2, NULL, 0, 0, 0, '2020-06-03 09:59:43', '2020-06-03 09:59:43', 0, 1),
 (3, '2020-06-04', '', 0, 1, 0, 2, NULL, 0, 0, 0, '2020-06-04 10:18:25', '2020-06-04 10:18:25', 0, 1),
@@ -7593,9 +7593,9 @@ ALTER TABLE `ligneperteentrepot`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `ligneproductionjour`
+-- Index pour la table `ligneproduction`
 --
-ALTER TABLE `ligneproductionjour`
+ALTER TABLE `ligneproduction`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -7699,9 +7699,9 @@ ALTER TABLE `prixdevente`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `productionjour`
+-- Index pour la table `production`
 --
-ALTER TABLE `productionjour`
+ALTER TABLE `production`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -8147,9 +8147,9 @@ ALTER TABLE `ligneperteentrepot`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `ligneproductionjour`
+-- AUTO_INCREMENT pour la table `ligneproduction`
 --
-ALTER TABLE `ligneproductionjour`
+ALTER TABLE `ligneproduction`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1537;
 
 --
@@ -8234,9 +8234,9 @@ ALTER TABLE `prixdevente`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
--- AUTO_INCREMENT pour la table `productionjour`
+-- AUTO_INCREMENT pour la table `production`
 --
-ALTER TABLE `productionjour`
+ALTER TABLE `production`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --

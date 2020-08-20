@@ -94,8 +94,8 @@ if ($this->id != null) {
 		$emballages = EMBALLAGE::getAll();
 
 
-		$productionjours = PRODUCTIONJOUR::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2], [],["ladate"=>"DESC"]);
-		usort($productionjours, 'comparerLadate');
+		$productions = PRODUCTION::findBy(["DATE(created) >= "=> $date1, "DATE(created) <= "=>$date2], [],["ladate"=>"DESC"]);
+		usort($productions, 'comparerLadate');
 
 	}else{
 		header("Location: ../master/dashboard");

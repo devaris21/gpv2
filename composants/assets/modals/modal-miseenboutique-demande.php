@@ -59,7 +59,7 @@
 
                             </form>
                             <hr/>
-                            <button onclick="miseenboutique()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la demande de produits</button>
+                            <button onclick="demandemiseenboutique()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la demande de produits</button>
                         </div>
                     </div>
 

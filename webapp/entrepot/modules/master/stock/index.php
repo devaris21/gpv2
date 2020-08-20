@@ -24,30 +24,35 @@
                                 <h5 class="text-uppercase">Stock de <?= $type->name() ?></h5>
                             </div>
                             <div class="ibox-content">
-                                <div class="row">
-                                    <?php foreach ($parfums as $key =>$parfum) { ?>
-                                        <div class="col-md border-right">
-                                            <h6 class="text-uppercase text-center gras" style="color: <?=$parfum->couleur; ?>">Stock de <?=$parfum->name() ?></h6>
-                                            <ul class="list-group clear-list m-t">
-                                                <?php foreach ($quantites as $key => $qua) {
-                                                    foreach ($produits as $key => $pro) {
-                                                        if ($pro->parfum_id == $parfum->id && $pro->typeproduit_id == $type->id && $pro->quantite_id == $qua->id) {
-                                                            $bout = $pro->enBoutique($date2);
-                                                            $entr = $pro->enEntrepot($date2); ?>
-                                                            <li class="list-group-item">
-                                                                <i class="fa fa-flask" style="color: <?=$parfum->couleur; ?>"></i> <small><?= $qua->name() ?></small>          
-                                                                <span class="float-right">
-                                                                    <span title="en entrepôt" class="<?= ($entr > $params->ruptureStock)?"text-green":"clignote text-danger" ?>"><?= start0($entr) ?></span>
-                                                                </span>
-                                                            </li>
-                                                        <?php }
-                                                    } ?>
+                                    <?php foreach ($parfums as $key =>$parfum) {
+                                        $datas = Home\PRODUIT::findBy(["parfum_id ="=> $parfum->id, "typeproduit_id ="=> $type->id, "isActive = "=> Home\TABLE::OUI]);
+                                        ?>
+                                        <table class="table table-stripped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <?php foreach ($formats as $key => $format) { ?>
+                                                        <th class="text-center">
+                                                            <img src="http://dummyimage.com/50x50/4d494d/686a82.gif&text=placeholder+image" alt="placeholder+image"><br>
+                                                            <small><?= $format->name() ?></small>
+                                                        </th>
+                                                    <?php } ?>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($datas as $key => $produit) {
+                                                    $produit->actualise(); ?>
+                                                    <tr>
+                                                        <td><h5 class="gras text-uppercase"><?= $produit->name() ?></h5></td>
+                                                        <?php foreach ($formats as $key => $format) { 
+                                                            $a = $produit->enEntrepot(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $format->id, $entrepot->id); ?>
+                                                            <td class="text-center <?= ($a * $format->nombre() > $params->ruptureStock)?"":"text-red clignote" ?>"><h4><?= ($a > 0)?start0($a):" "; ?></h4></td>
+                                                        <?php } ?>
+                                                    </tr>
                                                 <?php } ?>
-                                                <li class="list-group-item"></li>
-                                            </ul>
-                                        </div>
+                                            </tbody>
+                                        </table><hr style="border: 1px dotted orangered">
                                     <?php } ?>
-                                </div>
                             </div>
                         </div>
                     <?php } ?>

@@ -5,28 +5,35 @@ use Native\EMAIL;
 /**
  * 
  */
-class LIGNEPRODUCTIONJOUR extends TABLE
+class LIGNEPRODUCTION extends TABLE
 {
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	public $productionjour_id;
-	public $produit_id;
-	public $production = 0;
+	public $production_id;
+	public $parfum_id;
+	public $typeproduit_id;
+	public $quantite = 0;
 
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = PRODUCTIONJOUR::findBy(["id ="=>$this->productionjour_id]);
+		$datas = PRODUCTION::findBy(["id ="=>$this->production_id]);
 		if (count($datas) == 1) {
-			$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
+			$datas = PARFUM::findBy(["id ="=>$this->parfum_id]);
 			if (count($datas) == 1) {
-				if ($this->production >= 0) {
-					$data = $this->save();
+				$datas = TYPEPRODUIT::findBy(["id ="=>$this->typeproduit_id]);
+				if (count($datas) == 1) {
+					if ($this->quantite >= 0) {
+						$data = $this->save();
+					}else{
+						$data->status = false;
+						$data->message = "La quantité entrée n'est pas correcte !";
+					}
 				}else{
 					$data->status = false;
-					$data->message = "La quantité entrée n'est pas correcte !";
+					$data->message = "Une erreur s'est produite lors de l'ajout du produit !";
 				}
 			}else{
 				$data->status = false;
@@ -43,7 +50,7 @@ class LIGNEPRODUCTIONJOUR extends TABLE
 
 
 	public function sentenseCreate(){
-	
+		
 	}
 
 

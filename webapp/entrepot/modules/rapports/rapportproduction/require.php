@@ -40,8 +40,8 @@ foreach ($produits as $key => $produit) {
 }
 
 
-$productionjours = PRODUCTIONJOUR::findBy([],[],["ladate"=>"DESC"], $id);
-usort($productionjours, 'comparerLadate');
+$productions = PRODUCTION::findBy([],[],["ladate"=>"DESC"], $id);
+usort($productions, 'comparerLadate');
 
 $title = "GPV | Rapport de la production ";
 

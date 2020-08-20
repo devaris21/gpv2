@@ -18,8 +18,8 @@ $ressources = RESSOURCE::getAll();
 $etiquettes = ETIQUETTE::getAll();
 $emballages = EMBALLAGE::getAll();
 
-$productionjours = PRODUCTIONJOUR::findBy(["DATE(created) >= "=>$date1, "DATE(created) <= "=>$date2],[],["ladate"=>"DESC"]);
-usort($productionjours, 'comparerLadate');
+$productions = PRODUCTION::findBy(["DATE(created) >= "=>$date1, "DATE(created) <= "=>$date2],[],["ladate"=>"DESC"]);
+usort($productions, 'comparerLadate');
 
 $title = "GPV | Stock des ressources ";
 ?>

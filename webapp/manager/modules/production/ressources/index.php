@@ -114,7 +114,7 @@
                                                         </thead>
                                                         <tbody>
                                                             <?php $i =0;
-                                                            foreach ($productionjours as $key => $production) { ?>
+                                                            foreach ($productions as $key => $production) { ?>
                                                                 <tr>
                                                                     <td><?= datecourt($production->ladate)  ?></td>
                                                                     <?php
@@ -200,7 +200,7 @@
                                                         </thead>
                                                         <tbody>
                                                             <?php $i =0;
-                                                            foreach ($productionjours as $key => $production) { ?>
+                                                            foreach ($productions as $key => $production) { ?>
                                                                 <tr>
                                                                     <td><?= datecourt($production->ladate)  ?></td>
                                                                     <?php
@@ -304,7 +304,7 @@
                                                                                 </thead>
                                                                                 <tbody>
                                                                                     <?php $i =0;
-                                                                                    foreach ($productionjours as $key => $production) { ?>
+                                                                                    foreach ($productions as $key => $production) { ?>
                                                                                         <tr>
                                                                                             <td><?= datecourt($production->ladate)  ?></td>
                                                                                             <?php

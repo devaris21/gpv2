@@ -5,7 +5,7 @@ use Home\ROLE;
 use Home\EMPLOYE;
 use Home\ENTREPOT;
 use Home\BOUTIQUE;
-use Home\PRODUCTIONJOUR;
+use Home\PRODUCTION;
 use Home\EXERCICECOMPTABLE;
 use Home\PARAMS;
 use Home\MYCOMPTE;
@@ -26,8 +26,8 @@ class ROOTER extends PATH
     private $token;
 
 
-    const SECTION_SIMPLE = ["master"];
-    const SECTION_ADMIN = ["manager", "boutique", "entrepot", "configuration"];
+    const SECTION_SIMPLE = ["main"];
+    const SECTION_ADMIN = ["manager", "master", "boutique", "entrepot", "configuration"];
     const SECTION_STOCKAGE = ["images", "documents"];
 
 
@@ -45,7 +45,7 @@ class ROOTER extends PATH
             $tab = explode("/", strtolower($this->url));
             $this->section = $tab[0];
             if (in_array($this->section, static::SECTION_ADMIN)) {
-                $this->module = "access";
+                $this->module = "main";
                 $this->page = "login";
             }
             if (isset($tab[1]) && $tab[1] != "") {
@@ -68,8 +68,7 @@ class ROOTER extends PATH
     public function render(){
         $data = new RESPONSE;
         $data->status = true;
-        $this->is_admin = in_array($this->section, static::SECTION_ADMIN) ;
-        if ($this->is_admin && $this->module != "access") {
+        if (in_array($this->section, static::SECTION_ADMIN)) {
             $data = PARAMS::checkTimeout($this->section);
             if ($data->status == true) {
                 $params = PARAMS::findLastId();
@@ -89,8 +88,6 @@ class ROOTER extends PATH
                     }
 
 
-
-                    if ($this->section == "master" || $this->section == "configuration") {
                         $datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
                         if (count($datas) >0) {
                             $employe = $datas[0];
@@ -105,102 +102,62 @@ class ROOTER extends PATH
                                         $role = $datas[0];
                                         if (in_array($role->id, $tableauDeRoles)) {
                                             $employe->actualise();
+
+                                            $datas = BOUTIQUE::findBy(["id ="=>$employe->boutique_id]);
+                                            if (count($datas) == 1) {
+                                                $boutique = $datas[0];
+                                                session("boutique_connecte_id", $boutique->id);
+                                            }else{
+                                                $this->new_root("main", "home", "erreur500");
+                                                $this->render();
+                                                return false;
+                                            }
+                                            $datas = ENTREPOT::findBy(["id ="=>$employe->entrepot_id]);
+                                            if (count($datas) == 1) {
+                                                $entrepot = $datas[0];
+                                                session("entrepot_connecte_id", $entrepot->id);
+                                            }else{
+                                                $this->new_root("main", "home", "erreur500");
+                                                $this->render();
+                                                return false;
+                                            }
+
                                             if ($employe->boutique_id != null) {
-                                                $maBoutique = $employe->boutique;
+                                                $boutique = $employe->boutique;
                                             }
                                             if ($employe->entrepot_id != null) {
-                                                $monEntrepot = $employe->entrepot;
+                                                $entrepot = $employe->entrepot;
                                             }
 
                                         }else{
-                                            $this->new_root("master", "home", "erreur500");
+                                            $this->new_root("main", "home", "erreur500");
                                             $this->render();
                                             return false;
                                         }
                                     }else{
-                                        $this->new_root("master", "home", "erreur500");
+                                        $this->new_root("main", "home", "erreur500");
                                         $this->render();
                                         return false;
                                     }
                                 }
                             }else{
-                                $this->new_root("master", "home", "erreur500");
+                                $this->new_root("main", "home", "erreur500");
                                 $this->render();
                                 return false;
                             }
                         }else{
-                            $this->new_root($this->section, "access", "login");
+                            $this->new_root("main", "access", "login");
                             $this->render();
                             return false;
                         }
-                    }
-
-
-
-                    if ($this->section == "boutique") {
-                        $datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
-                        if (count($datas) >0) {
-                            $employe = $datas[0];
-                            if ($employe->is_allowed()) {
-                                $employe->actualise();
-
-                                $datas = BOUTIQUE::findBy(["id ="=>$employe->boutique_id]);
-                                if (count($datas) == 1) {
-                                    $boutique = $datas[0];
-                                    session("boutique_connecte_id", $boutique->id);
-                                }else{
-                                    $this->new_root("master", "home", "erreur500");
-                                    $this->render();
-                                    return false;
-                                }
-                            }else{
-                                $this->new_root("master", "home", "erreur500");
-                                $this->render();
-                                return false;
-                            }
-                        }else{
-                            $this->new_root($this->section, "access", "login");
-                            $this->render();
-                            return false;
-                        }
-                    }
-
-
-                    if ($this->section == "entrepot") {
-                        $datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
-                        if (count($datas) >0) {
-                            $employe = $datas[0];
-                            if ($employe->is_allowed()) {
-                                $employe->actualise();
-                                $datas = ENTREPOT::findBy(["id ="=>$employe->entrepot_id]);
-                                if (count($datas) == 1) {
-                                    $entrepot = $datas[0];
-                                    session("entrepot_connecte_id", $entrepot->id);
-                                }else{
-                                    $this->new_root("master", "home", "erreur500");
-                                    $this->render();
-                                    return false;
-                                }
-
-                            }else{
-                                $this->new_root("master", "home", "erreur500");
-                                $this->render();
-                                return false;
-                            }
-                        }else{
-                            $this->new_root($this->section, "access", "login");
-                            $this->render();
-                            return false;
-                        }
-                    }
 
                 }else{
-                    $this->new_root("master", "home", "expired");
+                    $this->new_root("main", "home", "expired");
                     $this->render();
                     return false; 
                 }
             }else{
-                $this->new_root($this->section, "access", "login");
+                $this->new_root("main", "access", "login");
                 $this->render();
                 return false;
             }
@@ -222,8 +179,8 @@ class ROOTER extends PATH
             session("verif_token", $token);
 
         }else{
-            $path = __DIR__."/../../../webapp/master/modules/home/erreur404/index.php";
-            $require = __DIR__."/../../../webapp/master/modules/home/erreur404/require.php";
+            $path = __DIR__."/../../../webapp/main/modules/home/erreur404/index.php";
+            $require = __DIR__."/../../../webapp/main/modules/home/erreur404/require.php";
             require realpath($require);
             require realpath($path);
         }

@@ -15,14 +15,14 @@
                             <div class="col-md-8">
                                 <table class="table  table-striped">
                                     <tbody class="">
-                                        <?php foreach ($mise->lignemiseenboutiques as $key => $produit) { ?>
+                                        <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) { ?>
                                             <tr class="border-0 border-bottom ">
                                                 <td class="text-left">
-                                                    <h4 class="mp0 text-uppercase"><?= $produit->name() ?></h4>
+                                                    <h4 class="mp0 text-uppercase"><?= $ligne->produit->name() ?></h4>
                                                 </td>
                                                 <td><?= $ligne->quantite_demande ?></td>
                                                 <td width="110" class="text-center">
-                                                    <label><?= $ligne->prixdevente->quantite->name() ?></label>
+                                                    <label><?= $ligne->produit->quantite->name() ?></label>
                                                     <input type="number" data-id="<?= $ligne->getId() ?>" number class="form-control text-center gras text-green recu" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>">
                                                 </td>
                                             </tr>

@@ -152,13 +152,13 @@
                                                         <tbody>
                                                             <?php
                                                             $i =0;
-                                                            foreach ($productionjours as $key => $production) { ?>
+                                                            foreach ($productions as $key => $production) { ?>
                                                                 <tr>
                                                                     <td><?= datecourt3($production->ladate)  ?></td>
                                                                     <?php
-                                                                    $production->fourni("ligneproductionjour");
+                                                                    $production->fourni("ligneproduction");
                                                                     foreach ($lots as $key => $pdv) {
-                                                                        foreach ($production->ligneproductionjours as $key => $ligne) {
+                                                                        foreach ($production->ligneproductions as $key => $ligne) {
                                                                             if ($pdv->id == $ligne->produit_id) { 
                                                                                 ?>
                                                                                 <td>

@@ -10,7 +10,7 @@ class LIGNEETIQUETTEJOUR extends TABLE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	public $productionjour_id;
+	public $production_id;
 	public $etiquette_id;
 	public $consommation = 0;
 
@@ -18,7 +18,7 @@ class LIGNEETIQUETTEJOUR extends TABLE
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = PRODUCTIONJOUR::findBy(["id ="=>$this->productionjour_id]);
+		$datas = PRODUCTION::findBy(["id ="=>$this->production_id]);
 		if (count($datas) == 1) {
 			$datas = ETIQUETTE::findBy(["id ="=>$this->etiquette_id]);
 			if (count($datas) == 1) {

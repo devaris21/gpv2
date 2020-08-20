@@ -23,11 +23,11 @@ foreach ($operations as $key => $value) {
 }
 
 
-$datas = PRODUCTIONJOUR::findBy(["ladate = " => $date]);
+$datas = PRODUCTION::findBy(["ladate = " => $date]);
 if (count($datas) == 1) {
-	$productionjour = $datas[0];
-	$productionjour->actualise();
-	$productionjour->fourni("ligneproductionjour");
+	$production = $datas[0];
+	$production->actualise();
+	$production->fourni("ligneproduction");
 }
 
 

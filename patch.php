@@ -113,7 +113,7 @@ foreach (REGLEMENTCLIENT::getAll() as $key => $value) {
 	$value->save();
 }
 
-foreach (PRODUCTIONJOUR::getAll() as $key => $value) {
+foreach (PRODUCTION::getAll() as $key => $value) {
 	$value->entrepot_id = ENTREPOT::PRINCIPAL;
 	$value->save();
 }
