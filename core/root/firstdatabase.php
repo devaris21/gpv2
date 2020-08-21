@@ -168,20 +168,23 @@ foreach ($datas as $key => $value) {
 	$item->save();
 }
 
+
 $datas = ["Bissap", "Gingembre", "Passion", "Tamarin", "Citron", "Baobab"];
 foreach ($datas as $key => $value) {
 	$item = new PARFUM();
 	$item->name = $value;
 	$item->setProtected(1);
-	$item->save();
+	$item->enregistre();
 }
 
-$datas = ["Jus", "Sans sucre", "Sirop", "Confiture"];
+$datas = ["Jus sucré", "Sans sucre", "Sirop", "Confiture"];
 foreach ($datas as $key => $value) {
 	$item = new TYPEPRODUIT();
 	$item->name = $value;
+	$item->unite = "Litre" ;
+	$item->abbr = "L" ;
 	$item->setProtected(1);
-	$item->save();
+	$item->enregistre();
 }
 
 

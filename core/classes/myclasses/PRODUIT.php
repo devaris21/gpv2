@@ -13,8 +13,7 @@ class PRODUIT extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 
-	public $parfum_id;
-	public $typeproduit_id;
+	public $typeproduit_parfum_id;
 	public $quantite_id;
 	public $prix;
 	public $prix_gros;
@@ -24,9 +23,7 @@ class PRODUIT extends TABLE
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = PARFUM::findBy(["id ="=>$this->parfum_id]);
-		if (count($datas) == 1) {
-			$datas = TYPEPRODUIT::findBy(["id ="=>$this->typeproduit_id]);
+			$datas = TYPEPRODUIT_PARFUM::findBy(["id ="=>$this->typeproduit_parfum_id]);
 			if (count($datas) == 1) {
 				$datas = QUANTITE::findBy(["id ="=>$this->quantite_id]);
 				if (count($datas) == 1) {
@@ -39,10 +36,6 @@ class PRODUIT extends TABLE
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors du prix !";
 			}
-		}else{
-			$data->status = false;
-			$data->message = "Une erreur s'est produite lors du prix !";
-		}
 		return $data;
 	}
 

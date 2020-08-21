@@ -20,28 +20,11 @@ class TYPEPRODUIT extends TABLE
 			$data = $this->save();
 			if ($data->status) {
 
-				foreach (PARFUM::findBy(["isActive ="=>TABLE::OUI]) as $key => $parfum) {
-					foreach (QUANTITE::findBy(["isActive ="=>TABLE::OUI]) as $key => $quantite) {
-						$ligne = new PRODUIT();
-						$ligne->typeproduit_id = $this->id;
-						$ligne->parfum_id = $parfum->id;
-						$ligne->quantite_id = $quantite->id;
-						$ligne->prix = 200;
-						$ligne->prix_gros = 200;
-						$ligne->enregistre();
-					}
-				}
-
-				foreach (RESSOURCE::getAll() as $key => $ressource) {
-					$datas = EXIGENCEPRODUCTION::findBy(["produit_id ="=>$data->lastid, "ressource_id ="=>$ressource->id]);
-					if (count($datas) == 0) {
-						$ligne = new EXIGENCEPRODUCTION();
-						$ligne->produit_id = $data->lastid;
-						$ligne->quantite_produit = 0;
-						$ligne->ressource_id = $ressource->id;
-						$ligne->quantite_ressource = 0;
-						$ligne->enregistre();
-					}					
+				foreach (PARFUM::getAll() as $key => $parfum) {
+					$ligne = new TYPEPRODUIT_PARFUM();
+					$ligne->parfum_id = $parfum->id;
+					$ligne->typeproduit_id = $this->id;
+					$ligne->enregistre();
 				}
 
 			}

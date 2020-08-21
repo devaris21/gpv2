@@ -11,7 +11,6 @@ class RESSOURCE extends TABLE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	public $produit_id;
 	public $name;
 	public $description;
 	public $unite;
@@ -28,29 +27,14 @@ class RESSOURCE extends TABLE
 			if ($data->status) {
 				$this->uploading($this->files);
 
-				foreach (PRODUIT::getAll() as $key => $produit) {
-					$datas = EXIGENCEPRODUCTION::findBy(["produit_id ="=>$produit->id, "ressource_id ="=>$data->lastid]);
-					if (count($datas) == 0) {
-						$ligne = new EXIGENCEPRODUCTION();
-						$ligne->ressource_id = $data->lastid;
-						$ligne->quantite_produit = 0;
-						$ligne->produit_id = $produit->id;
-						$ligne->quantite_ressource = 0;
-						$ligne->enregistre();
-					}
+				foreach (TYPEPRODUIT_PARFUM::getAll() as $key => $type) {
+					$ligne = new EXIGENCEPRODUCTION();
+					$ligne->typeproduit_parfum_id = $type->id;
+					$ligne->quantite_produit = 0;
+					$ligne->ressource_id = $this->id;
+					$ligne->quantite_ressource = 0;
+					$ligne->enregistre();
 				}
-
-				// $ligne = new LIGNEAPPROVISIONNEMENT();
-				// $ligne->approvisionnement_id = 1;
-				// $ligne->ressource_id = $data->lastid;
-				// $ligne->quantite = $ligne->quantite_recu = $this->stock;
-				// $ligne->save();
-
-				// $ligne = new LIGNECONSOMMATIONJOUR();
-				// $ligne->production_id = 1;
-				// $ligne->ressource_id = $data->lastid;
-				// $ligne->consommation = 0;
-				// $ligne->save();
 			}
 		}else{
 			$data->status = false;

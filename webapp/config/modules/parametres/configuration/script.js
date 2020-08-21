@@ -30,29 +30,7 @@ $(function(){
 
 
 
-	$(".formExigence").submit(function(event) {
-		Loader.start();
-		var url = "../../webapp/manager/modules/parametres/configuration/ajax.php";
-		var formdata = new FormData($(this)[0]);
-		var tableau = new Array();
-		$(this).find("div.input").each(function(configuration, el) {
-			var id = $(this).find("input[data-id]").attr('data-id');
-			var prod = $(this).find("input[data-id]").val();
-			var res = $(this).find("input[name=quantite_ressource]").val();
-			var item = id+"-"+prod+"-"+res;
-			tableau.push(item);
-		});
-		formdata.append('tableau', tableau);
-		formdata.append('action', "exigence");
-		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-			if (data.status) {
-				window.location.reload();
-			}else{
-				Alerter.error('Erreur !', data.message);
-			}
-		}, 'json')
-		return false;
-	});
+
 
 
 

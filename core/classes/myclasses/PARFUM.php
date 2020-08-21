@@ -21,18 +21,12 @@ class PARFUM extends TABLE
 		if ($this->name != "") {
 			$data = $this->save();
 			if ($data->status) {
-				foreach (TYPEPRODUIT::findBy(["isActive ="=>TABLE::OUI]) as $key => $type) {
-					foreach (QUANTITE::findBy(["isActive ="=>TABLE::OUI]) as $key => $quantite) {
-						$ligne = new PRODUIT();
-						$ligne->parfum_id = $this->id;
-						$ligne->typeproduit_id = $type->id;
-						$ligne->quantite_id = $quantite->id;
-						$ligne->prix = 200;
-						$ligne->prix_gros = 200;
-						$ligne->enregistre();
-					}
+				foreach (TYPEPRODUIT::getAll() as $key => $type) {
+					$ligne = new TYPEPRODUIT_PARFUM();
+					$ligne->parfum_id = $this->id;
+					$ligne->typeproduit_id = $type->id;
+					$ligne->enregistre();
 				}
-
 			}
 		}else{
 			$data->status = false;
