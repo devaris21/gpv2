@@ -19,10 +19,10 @@
                             <table class="table  table-striped">
                                 <tbody class="commande">
                                     <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
-                                        $reste = $groupecommande->reste($produit->getId());
+                                        $reste = $groupecommande->reste($produit->id);
                                         if ($reste > 0) { ?>
-                                         <tr class="border-0 border-bottom " id="ligne<?= $produit->getId() ?>" data-id="<?= $produit->getId() ?>">
-                                            <td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $produit->getId() ?>)" style="font-size: 18px;"></i></td>
+                                         <tr class="border-0 border-bottom " id="ligne<?= $produit->id ?>" data-id="<?= $produit->id ?>">
+                                            <td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $produit->id ?>)" style="font-size: 18px;"></i></td>
                                             <td >
                                                 <img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $produit->image) ?>">
                                             </td>

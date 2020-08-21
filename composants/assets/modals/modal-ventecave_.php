@@ -24,7 +24,7 @@
 
                                 <div class="text-center">
                                     <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
-                                        <button class="btn btn-white dim newproduit" data-id="<?= $produit->getId() ?>" data-toggle="tooltip" title="<?= $produit->description ?>"><?= $produit->name(); ?></button>
+                                        <button class="btn btn-white dim newproduit" data-id="<?= $produit->id ?>" data-toggle="tooltip" title="<?= $produit->description ?>"><?= $produit->name(); ?></button>
                                     <?php }  ?>
                                 </div>
                             </div>
@@ -38,7 +38,7 @@
                         </div>
                         <div class="ibox-content"  style="background-color: #fafafa">
                             <form id="formVenteCave">
-                                <input type="hidden" name="commercial_id" value="<?= $commercial->getId() ?>">
+                                <input type="hidden" name="commercial_id" value="<?= $commercial->id ?>">
 
                                 <div>
                                     <label>Monnaie pour la prospection </label>                           

@@ -21,8 +21,10 @@
                     <br>
                     <div class="row">
                         <div class="col-md-3">
-                            <img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 60px;" alt=""><br>
-                            <h2 class="text-uppercase"><?= $boutique->name() ?></h2>
+                            <div class="text-center">
+                                <img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 70px;" alt=""><br>
+                                <h2 class="text-uppercase"><?= $boutique->name() ?></h2><br>
+                            </div>
                             <small><?= $boutique->lieu  ?> </small>
                             <ul class="list-group clear-list m-t">
                                 <li class="list-group-item fist-item">
@@ -36,71 +38,75 @@
                                 </li>
                                 <li class="list-group-item"></li>
                             </ul>
-                            
-
-                            <ul class="list-group clear-list">
-                                <li class="list-group-item fist-item">
-                                    Dettes de clients <span class=" float-right"><?= money(Home\CLIENT::Dettes()); ?> <?= $params->devise  ?></span> 
-                                </li>
-                                <li class="list-group-item">
-                                    En rupture de stock <span class="float-right"><?= start0(count(Home\PRODUIT::ruptureBoutique($boutique->id))) ?> produit(s)</span> 
-                                </li>
-                                <li class="list-group-item"></li>
-                            </ul>
                         </div>
                         <div class="col-md-6">
                             <div class="text-center">
-                                <div class="flot-chart" style="height: 240px">
+                                <div class="flot-chart">
                                     <div class="flot-chart-content" id="flot-dashboard-chart"></div>
                                 </div><hr>
-                                <span>Vente directe / vente par prospection</span>
+                                <small>Graphe de comparaison des différents modes de ventes</small>
+                            </div><hr>
+                            <div class="row text-center">
+                                <div class="col">
+                                    <div class="">
+                                        <span class="h5 font-bold block text-primary"><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute(), $boutique->id), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                        <small class="text-muted block">Ventes directes</small>
+                                    </div>
+                                </div>
+                                <div class="col border-right border-left text-danger">
+                                    <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::prospection(dateAjoute(), dateAjoute(), $boutique->id), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                    <small class="text-muted block">Ventes par prospection</small>
+                                </div>
+                                <div class="col text-blue">
+                                    <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::cave(dateAjoute(), dateAjoute(), $boutique->id), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                    <small class="text-muted block">Ventes en cave</small>
+                                </div>
+                                <div class="col border-right border-left text-danger">
+                                    <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::commande(dateAjoute(), dateAjoute(), $boutique->id), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                    <small class="text-muted block">Commandes/Livraisons</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-3 border-left">
                             <div class="statistic-box" style="margin-top: 0%">
-                                <div class="ibox">
-                                    <div class="ibox-content">
-                                        <h5>Ventes directes du jour</h5>
-                                        <h3 class="no-margins"><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute(1), $boutique->id), "vendu", "somme")); ?> <?= $params->devise  ?></h3>
-                                    </div>
-                                    <div class="ibox-content text-green">
-                                        <h5>Ventes par prospection du jour</h5>
-                                        <h3 class="no-margins"><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute(1), $boutique->id), "vendu", "somme")); ?> <?= $params->devise  ?></h3>
-                                    </div>
-                                    <div class="ibox-content text-blue">
-                                        <h5>Ventes en cave du jour</h5>
-                                        <h3 class="no-margins"><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute(1), $boutique->id), "vendu", "somme")); ?> <?= $params->devise  ?></h3>
-                                    </div>
+                               <div class="ibox">
+                                <div class="ibox-content">
+                                    <h5>Courbe des ventes</h5>
+                                    <div id="sparkline2"></div>
                                 </div>
 
+                                <div class="ibox-content">
+                                    <h5>Dette chez les clients</h5>
+                                    <h2 class="no-margins"><?= money(Home\CLIENT::Dettes()); ?> <?= $params->devise  ?></h2>
+                                </div>
                             </div>
                         </div>
-                    </div><hr>
-
-                    <div class="text-center">
-                        <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim"> <i class="fa fa-long-arrow-right"></i> Nouvelle vente directe</button>
-
-                        <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim"><i class="fa fa-bicycle"></i> Nouvelle prospection</button> 
-
-                        <button data-toggle="modal" data-target="#modal-ventecave" class="btn btn-success dim"><i class="fa fa-home"></i> Nouvelle vente en cave</button>
                     </div>
-                    <br>
+                </div><hr>
+
+                <div class="text-center">
+                    <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim"> <i class="fa fa-long-arrow-right"></i> Nouvelle vente directe</button>
+
+                    <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim"><i class="fa fa-bicycle"></i> Nouvelle prospection</button> 
+
+                    <button data-toggle="modal" data-target="#modal-ventecave" class="btn btn-success dim"><i class="fa fa-home"></i> Nouvelle vente en cave</button>
                 </div>
-
-
             </div>
+
+
         </div>
-        <br>
-
-        <?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?>
-
-        <?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
-        <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?> 
-        <?php include($this->rootPath("composants/assets/modals/modal-vente.php")); ?> 
-        <?php include($this->rootPath("composants/assets/modals/modal-prospection.php")); ?> 
-        <?php include($this->rootPath("composants/assets/modals/modal-ventecave.php")); ?> 
-
     </div>
+    <br>
+
+    <?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?>
+
+    <?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
+    <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?> 
+    <?php include($this->rootPath("composants/assets/modals/modal-vente.php")); ?> 
+    <?php include($this->rootPath("composants/assets/modals/modal-prospection.php")); ?> 
+    <?php include($this->rootPath("composants/assets/modals/modal-ventecave.php")); ?> 
+
+</div>
 </div>
 
 
@@ -129,36 +135,36 @@
 
         var sparklineCharts = function(){
 
-         $("#sparkline2").sparkline([24, 43, 43, 55, 44, 62, 44, 72], {
-             type: 'line',
-             width: '100%',
-             height: '60',
-             lineColor: '#1ab394',
-             fillColor: "#ffffff"
-         });
+           $("#sparkline2").sparkline([24, 43, 43, 55, 44, 62, 44, 72], {
+               type: 'line',
+               width: '100%',
+               height: '60',
+               lineColor: '#1ab394',
+               fillColor: "#ffffff"
+           });
 
-     };
+       };
 
-     var sparkResize;
+       var sparkResize;
 
-     $(window).resize(function(e) {
+       $(window).resize(function(e) {
         clearTimeout(sparkResize);
         sparkResize = setTimeout(sparklineCharts, 500);
     });
 
-     sparklineCharts();
+       sparklineCharts();
 
 
 
 
-     var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->direct ?>], <?php } ?> ];
+       var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->direct ?>], <?php } ?> ];
 
-     var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->prospection ?>], <?php } ?> ];
+       var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->prospection ?>], <?php } ?> ];
 
-     var data3 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->cave ?>], <?php } ?> ];
+       var data3 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->cave ?>], <?php } ?> ];
 
-     var dataset = [
-     {
+       var dataset = [
+       {
         label: "Vente directe",
         data: data1,
         color: "#1ab394",

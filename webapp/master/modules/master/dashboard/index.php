@@ -45,18 +45,20 @@
                             <br>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 60px;" alt=""><br>
-                                    <h2 class="text-uppercase"><?= $params->societe ?></h2>
+                                    <div class="text-center">
+                                        <img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 70px;" alt=""><br>
+                                        <h2 class="text-uppercase"><?= $params->societe ?></h2><br>
+                                    </div>
                                     <small>Tableau de bord général </small>
                                     <ul class="list-group clear-list m-t">
                                         <li class="list-group-item fist-item">
-                                            Commandes en cours <span class="label label-success float-right"><?= start0(count($groupes__)); ?></span> 
+                                            Nombres de boutiques <span class="label label-success float-right"><?= start0(count(Home\BOUTIQUE::getAll())); ?></span> 
                                         </li>
                                         <li class="list-group-item">
-                                            Livraisons en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]))); ?></span> 
-                                        </li>
+                                            Nombre d'entrepôts <span class="label label-success float-right"><?= start0(count(Home\ENTREPOT::getAll())); ?></span> 
+                                        </li><br>
                                         <li class="list-group-item">
-                                            Prospections en cours <span class="label label-success float-right"><?= start0(count($prospections__)); ?></span> 
+                                            Tous les commerciaux <span class="label label-success float-right"><?= start0(count(Home\COMMERCIAL::getAll())); ?></span> 
                                         </li>
                                         <li class="list-group-item"></li>
                                     </ul>
@@ -66,22 +68,26 @@
                                         <div class="flot-chart">
                                             <div class="flot-chart-content" id="flot-dashboard-chart"></div>
                                         </div><hr>
-                                        <span>Vente directe / vente par prospection</span>
+                                        <span>Graphe de comparaison des différents modes de ventes</span>
                                     </div><hr>
                                     <div class="row text-center">
                                         <div class="col">
                                             <div class="">
-                                                <span class="h5 font-bold block text-primary"><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                                <span class="h5 font-bold block text-primary"><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute()), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
                                                 <small class="text-muted block">Ventes directes</small>
                                             </div>
                                         </div>
                                         <div class="col border-right border-left text-danger">
-                                            <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::prospection(dateAjoute(), dateAjoute()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                            <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::prospection(dateAjoute(), dateAjoute()), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
                                             <small class="text-muted block">Ventes par prospection</small>
                                         </div>
                                         <div class="col text-blue">
-                                            <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::cave(dateAjoute(), dateAjoute()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                            <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::cave(dateAjoute(), dateAjoute()), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
                                             <small class="text-muted block">Ventes en cave</small>
+                                        </div>
+                                        <div class="col border-right border-left text-danger">
+                                            <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::commande(dateAjoute(), dateAjoute()), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                            <small class="text-muted block">Commandes/Livraisons</small>
                                         </div>
                                     </div>
                                 </div>
@@ -97,17 +103,12 @@
                                                 <h5>Dette chez les clients</h5>
                                                 <h2 class="no-margins"><?= money(Home\CLIENT::Dettes()); ?> <?= $params->devise  ?></h2>
                                             </div>
-
-                                            <div class="ibox-content">
-                                                <h5>En rupture de Stock</h5>
-                                                <h2 class="no-margins"><?= start0($rupture) ?> produit(s)</h2>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <br>
-                        </div><br>
+                        </div><br><br>
 
 
                         <div class="row justify-content-center">
@@ -173,7 +174,7 @@
 
                             <?php if ($employe->isAdmin == Home\TABLE::OUI) { ?>
                                 <div class="col-lg-3">
-                                    <a href="<?= $this->url("admin", "master", "dashboard")  ?>">
+                                    <a href="<?= $this->url("config", "master", "dashboard")  ?>">
                                         <div class="ibox">
                                             <div class="ibox-content">
                                                 <div class="row">

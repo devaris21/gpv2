@@ -3,7 +3,7 @@ namespace Home;
 unset_session("produits");
 unset_session("commande-encours");
 
-$title = "GPV | Toutes les ventes en cours";
+$title = "GPV | Toutes les prospections";
 
 $encours = $boutique->fourni("prospection", ["boutique_id ="=>$boutique->id, "typeprospection_id ="=>TYPEPROSPECTION::PROSPECTION, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
 

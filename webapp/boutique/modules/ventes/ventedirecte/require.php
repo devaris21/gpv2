@@ -4,7 +4,7 @@ namespace Home;
 unset_session("produits");
 unset_session("commande-encours");
 
-$title = "GPV | Toutes les ventes directes";
+$title = "GPV | Toutes les ventes";
 
 
 $encours = $boutique->fourni("vente", ["boutique_id ="=>$boutique->id, "etat_id ="=>ETAT::ENCOURS]);

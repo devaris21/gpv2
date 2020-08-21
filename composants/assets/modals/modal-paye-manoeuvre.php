@@ -1,4 +1,4 @@
-<div class="modal inmodal fade" id="modal-paye-manoeuvre<?= $man->getId() ?>">
+<div class="modal inmodal fade" id="modal-paye-manoeuvre<?= $man->id ?>">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -21,7 +21,7 @@
                     </div>
                 </div><hr>
                 <div class="container">
-                    <input type="hidden" name="manoeuvre_id" value="<?= $man->getId() ?>">
+                    <input type="hidden" name="manoeuvre_id" value="<?= $man->id ?>">
                     <button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
                     <button class="btn btn-sm btn-danger dim pull-right"><i class="fa fa-money"></i> Faire la paye</button>
                 </div>

@@ -2,7 +2,7 @@
 $(function(){
 	$(document).idleTimer(13 * 60 * 1000);
 	$(document).on("idle.idleTimer", function(event, elem, obj){
-		window.location.href = "../../master/access/locked";
+		window.location.href = "../../main/access/locked";
 	});
 
 	$("a#btn-deconnexion").click(function(event) {
@@ -11,7 +11,7 @@ $(function(){
 			cancelLabel : "Non",
 			okLabel : "OUI, me deconnecter",
 		}, function(){
-			window.location.href = "../../master/access/logout";
+			window.location.href = "../../main/access/logout";
 		})
 	});
 

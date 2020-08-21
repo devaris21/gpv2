@@ -14,12 +14,10 @@
               <?php foreach (Home\CLIENT::findBy(["visibility ="=>1]) as $key => $client) { ?>
                 <div class="col-md-3 clients">
                     <div class="contact-box" style="padding: 1% 2%">
-                        <a href="<?= $this->url("gestion", "master", "client", $client->getId()) ?>">
+                        <a href="<?= $this->url("gestion", "master", "client", $client->id) ?>">
                             <h4><strong><?= $client->name() ?></strong></h4>
                             <address>
                                 <i class="fa fa-phone"></i>&nbsp; <?= $client->contact ?><br>
-                                <i class="fa fa-map-marker"></i>&nbsp; <?= $client->adresse ?><br>
-                                <i class="fa fa-envelope"></i>&nbsp; <?= $client->email ?>
                             </address>
                         </a>
                     </div>

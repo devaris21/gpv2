@@ -21,11 +21,11 @@
                                     <?php
                                     $datas = $groupecommande->lesRestes();
                                     foreach ($datas as $key => $value) {
-                                        $reste = $groupecommande->reste($value->getId());
+                                        $reste = $groupecommande->reste($value->id);
                                         if ($reste > 0) {
                                             $value->actualise(); ?>
-                                            <tr class="border-0 border-bottom " id="ligne<?= $value->getId() ?>" data-id="<?= $value->getId() ?>">
-                                                <td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $value->getId() ?>)" style="font-size: 18px;"></i></td>
+                                            <tr class="border-0 border-bottom " id="ligne<?= $value->id ?>" data-id="<?= $value->id ?>">
+                                                <td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $value->id ?>)" style="font-size: 18px;"></i></td>
                                                 <td >
                                                     <img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $value->produit->image) ?>">
                                                 </td>

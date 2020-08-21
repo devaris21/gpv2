@@ -21,12 +21,18 @@
                                         <!-- rempli en Ajax -->
                                     </tbody>
                                 </table>
+                            </div>
 
-                                <div class="text-center">
-                                    <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
-                                        <button class="btn btn-white dim newproduit" data-id="<?= $produit->getId() ?>" data-toggle="tooltip" title="<?= $produit->description ?>"><?= $produit->name(); ?></button>
-                                    <?php }  ?>
-                                </div>
+                            <div class="row">
+                                <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
+                                    <div class="col text-center border-right">
+                                        <h5 class="text-uppercase gras text-center"><?= $type->name()  ?></h5>
+                                        <?php foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
+                                            $pro->actualise(); ?>
+                                            <button class="btn btn-white btn-xs newproduit btn-block cursor" data-id="<?= $pro->id ?>"><?= $pro->name(); ?></button>
+                                        <?php }  ?>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -38,7 +44,7 @@
                         </div>
                         <div class="ibox-content"  style="background-color: #fafafa">
                             <form id="formProspection">
-                                <input type="hidden" name="commercial_id" value="<?= $commercial->getId() ?>">
+                                <input type="hidden" name="commercial_id" value="<?= $commercial->id ?>">
                                 <div>
                                     <label>Barème de prix <span style="color: red">*</span> </label>
                                     <div class="input-group">

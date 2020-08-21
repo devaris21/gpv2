@@ -27,7 +27,7 @@
                                 <td class="gras"><?= $prix->name(); ?></td>
                                 <?php $i =0; foreach (Home\PRODUIT::findBy([], [], ["name"=>"ASC"]) as $key => $prod) { 
                                     $pz = new Home\PRIXDEVENTE();
-                                    $datas = $prod->fourni("prixdevente", ["prix_id ="=>$prix->getId()]);
+                                    $datas = $prod->fourni("prixdevente", ["prix_id ="=>$prix->id]);
                                     if (count($datas) > 0) {
                                         $pz = $datas[0];
                                     }

@@ -1,5 +1,5 @@
 
-<div class="modal inmodal fade" id="modal-miseenboutique1-<?= $mise->getId() ?>" style="z-index: 1">
+<div class="modal inmodal fade" id="modal-miseenboutique1-<?= $mise->id ?>" style="z-index: 1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-body">
@@ -23,7 +23,7 @@
                                                 <td><?= $ligne->quantite_demande ?></td>
                                                 <td width="110" class="text-center">
                                                     <label><?= $ligne->produit->quantite->name() ?></label>
-                                                    <input type="number" data-id="<?= $ligne->getId() ?>" number class="form-control text-center gras text-green recu" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>">
+                                                    <input type="number" data-id="<?= $ligne->id ?>" number class="form-control text-center gras text-green recu" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>">
                                                 </td>
                                             </tr>
                                         <?php } ?>

@@ -1,5 +1,5 @@
 
-<div class="modal inmodal fade" id="modal-immobilisation-<?= $immobilisation->getId() ?>">
+<div class="modal inmodal fade" id="modal-immobilisation-<?= $immobilisation->id ?>">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<?php include($this->rootPath("webapp/master/elements/templates/head.php")); ?>
+<?php include($this->rootPath("webapp/main/elements/templates/head.php")); ?>
 
 
 <body class="gray-bg">
@@ -28,11 +28,11 @@
         </div>
     </div>
 
-    <?php include($this->rootPath("webapp/master/elements/templates/script.php")); ?>
+    <?php include($this->rootPath("webapp/main/elements/templates/script.php")); ?>
 
-    <div style="position: absolute; bottom: 0; height: 200px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
+   <div style="position: fixed; z-index: -251; bottom: 0; height: 350px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
 
-    </div>
+   </div>
 
 </body>
 

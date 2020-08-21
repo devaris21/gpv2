@@ -1,5 +1,5 @@
 
-<div class="modal inmodal fade" id="modal-approetiquette<?= $appro->getId() ?>" style="z-index: 99999999">
+<div class="modal inmodal fade" id="modal-approetiquette<?= $appro->id ?>" style="z-index: 99999999">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
@@ -21,7 +21,7 @@
                                     <tbody class="commande">
                                         <?php foreach ($appro->ligneapproetiquettes as $key => $ligne) {
                                             $ligne->actualise(); ?>
-                                            <tr class="border-0 border-bottom " id="ligne<?= $ligne->getId() ?>" data-id="<?= $ligne->etiquette->getId() ?>">
+                                            <tr class="border-0 border-bottom " id="ligne<?= $ligne->id ?>" data-id="<?= $ligne->etiquette->id ?>">
                                                 <td class="text-left">
                                                     <small>Emballage de </small>
                                                     <h5 class="mp0 text-uppercase"><?= $ligne->etiquette->name() ?></h5>

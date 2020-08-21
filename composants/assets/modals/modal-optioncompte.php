@@ -1,5 +1,5 @@
 
-<div class="modal inmodal fade" id="modal-optioncompte-<?= $banque->getId() ?>">
+<div class="modal inmodal fade" id="modal-optioncompte-<?= $banque->id ?>">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -11,7 +11,7 @@
 
                 <div class="row">
                     <div class="col-sm-7">
-                        <h1 class="" style="margin-top: 0"><?= $banque->name() ?> <i style="font-size: 15px" class="fa fa-pencil pull-right cursor" data-toggle="modal" data-target="#modal-comptebanque ?>" onclick="modification('comptebanque', <?= $banque->getId() ?>)"></i></h1>
+                        <h1 class="" style="margin-top: 0"><?= $banque->name() ?> <i style="font-size: 15px" class="fa fa-pencil pull-right cursor" data-toggle="modal" data-target="#modal-comptebanque ?>" onclick="modification('comptebanque', <?= $banque->id ?>)"></i></h1>
                         <span class="font-bold"><?= $banque->etablissement ?> // N°<?= $banque->numero ?></span>
                     </div>
                     <div class="col-sm-5 text-right">
@@ -51,8 +51,8 @@
 
                                         <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
                                             |
-                                            &nbsp;&nbsp;<i onclick="modifierOperation(<?= $mvt->getId() ?>)" class="cursor fa fa-pencil text-dark"></i> 
-                                            &nbsp;&nbsp;<i class="cursor fa fa-close text-red" onclick="suppressionWithPassword('mouvement', <?= $mvt->getId() ?>)"></i>
+                                            &nbsp;&nbsp;<i onclick="modifierOperation(<?= $mvt->id ?>)" class="cursor fa fa-pencil text-dark"></i> 
+                                            &nbsp;&nbsp;<i class="cursor fa fa-close text-red" onclick="suppressionWithPassword('mouvement', <?= $mvt->id ?>)"></i>
                                         <?php } ?>
                                         <span class="pull-right"><i class="fa fa-clock-o"></i> <?= datelong($mvt->created) ?></span>
                                     </h6>

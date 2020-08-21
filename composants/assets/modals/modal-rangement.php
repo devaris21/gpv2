@@ -1,5 +1,5 @@
 
-<div class="modal inmodal fade" id="modal-rangement<?= $production->getId() ?>" style="z-index: 99999999">
+<div class="modal inmodal fade" id="modal-rangement<?= $production->id ?>" style="z-index: 99999999">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -17,7 +17,7 @@
                             $ligne->actualise(); ?>
                             <div class="col-sm col-md">
                                 <label><b><?= $ligne->produit->name() ?></b> eff. rangée <span class="text-muted gras"> / <?= $ligne->production ?></span></label>
-                                <input type="number" value="<?= $ligne->production ?>" min=0 max="<?= $ligne->production ?>" number class="gras form-control text-center" name="range-<?= $ligne->produit->getId() ?>">
+                                <input type="number" value="<?= $ligne->production ?>" min=0 max="<?= $ligne->production ?>" number class="gras form-control text-center" name="range-<?= $ligne->produit->id ?>">
                             </div>
                         <?php }  ?>
                     </div><hr>
@@ -49,7 +49,7 @@
 
             <hr>
             <div class="container">
-                <input type="hidden" name="id" value="<?= $production->getId() ?>">
+                <input type="hidden" name="id" value="<?= $production->id ?>">
                 <button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
                 <button class="btn dim btn-primary pull-right"><i class="fa fa-check"></i> Valider le rangement</button>
             </div>

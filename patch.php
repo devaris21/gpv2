@@ -3,7 +3,7 @@ namespace Home;
 
 // foreach (PRODUIT::getAll() as $key => $value) {
 // 	$emb = new ETIQUETTE();
-// 	$emb->prixdevente_id = $value->getId();
+// 	$emb->prixdevente_id = $value->id;
 // 	$emb->enregistre();
 
 // 	$value->prix_id_gros = $value->prix_id;
@@ -12,7 +12,7 @@ namespace Home;
 
 // foreach (QUANTITE::getAll() as $key => $value) {
 // 	$emb = new EMBALLAGE();
-// 	$emb->quantite_id = $value->getId();
+// 	$emb->quantite_id = $value->id;
 // 	$emb->enregistre();
 // }
 // // //mise en place de compte courant
@@ -256,12 +256,12 @@ foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::VENTE
 	$data = $reglementclient->enregistre();
 	if ($data->status) {
 		foreach ($ope->fourni("vente") as $key => $vente) {
-			$vente->reglementclient_id = $reglementclient->getId();
+			$vente->reglementclient_id = $reglementclient->id;
 			$vente->save();
 			$ope->delete();
 		}
 		foreach ($ope->fourni("commande") as $key => $commande) {
-			$commande->reglementclient_id = $reglementclient->getId();
+			$commande->reglementclient_id = $reglementclient->id;
 			$commande->save();
 			$ope->delete();
 		}
@@ -304,7 +304,7 @@ foreach (OPERATION::findBy(["categorieoperation_id ="=>CATEGORIEOPERATION::APPRO
 	$data = $reglementfour->enregistre();
 	if ($data->status) {
 		foreach ($ope->fourni("approvisionnement") as $key => $vente) {
-			$vente->reglementfournisseur_id = $reglementfour->getId();
+			$vente->reglementfournisseur_id = $reglementfour->id;
 			$vente->save();
 			$ope->delete();
 		}

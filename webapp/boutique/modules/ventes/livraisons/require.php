@@ -1,7 +1,7 @@
 <?php 
 namespace Home;
 
-$title = "GPV | Toutes les livraisons en cours";
+$title = "GPV | Toutes les livraisons";
 
 $encours = PROSPECTION::findBy(["typeprospection_id ="=>TYPEPROSPECTION::LIVRAISON, "boutique_id ="=>$boutique->id, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
 

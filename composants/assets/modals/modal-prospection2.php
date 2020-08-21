@@ -1,5 +1,5 @@
 
-<div class="modal inmodal fade" id="modal-prospection<?= $prospection->getId() ?>" style="z-index: 99999999">
+<div class="modal inmodal fade" id="modal-prospection<?= $prospection->id ?>" style="z-index: 99999999">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
@@ -21,7 +21,7 @@
                                     <tbody class="">
                                         <?php foreach ($prospection->ligneprospections as $key => $ligne) {
                                             $ligne->actualise(); ?>
-                                            <tr class="border-0 border-bottom " data-id="<?= $ligne->getId() ?>">
+                                            <tr class="border-0 border-bottom " data-id="<?= $ligne->id ?>">
                                                 <td >
                                                     <img style="width: 40px" src="<?= $this->stockage("images", "produits", $ligne->prixdevente->produit->image) ?>">
                                                 </td>
@@ -31,7 +31,7 @@
                                                 </td>
                                                 <td width="140">
                                                     <label>Quantité vendue /<?= $ligne->quantite ?></label>
-                                                    <input type="number"  data-id="<?= $ligne->getId() ?>" number class="form-control text-center gras vendus" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>">
+                                                    <input type="number"  data-id="<?= $ligne->id ?>" number class="form-control text-center gras vendus" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>">
                                                 </td>
                                                 <td  width="30"></td>
                                                 <td width="130">

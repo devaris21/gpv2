@@ -1,4 +1,4 @@
-<div class="modal inmodal fade" id="modal-paye-tricycle<?= $livraison->getId() ?>">
+<div class="modal inmodal fade" id="modal-paye-tricycle<?= $livraison->id ?>">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -21,7 +21,7 @@
                     </div>
                 </div><hr>
                 <div class="container">
-                    <input type="hidden" name="livraison_id" value="<?= $livraison->getId() ?>">
+                    <input type="hidden" name="livraison_id" value="<?= $livraison->id ?>">
                     <button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
                     <button class="btn btn-sm btn-danger dim pull-right"><i class="fa fa-money"></i> Faire la paye</button>
                 </div>

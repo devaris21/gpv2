@@ -28,11 +28,11 @@
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <label class="text-muted">production</label>
-                                                        <input type="text" data-id="<?= $prixdv->getId() ?>" data-toggle="tooltip" min=0 number class="gras form-control text-green" name="prod-<?= $prixdv->getId() ?>">
+                                                        <input type="text" data-id="<?= $prixdv->id ?>" data-toggle="tooltip" min=0 number class="gras form-control text-green" name="prod-<?= $prixdv->id ?>">
                                                     </div>
                                                     <div class="col-6">
                                                         <label class="text-muted">etiq. perdu</label>
-                                                        <input type="text" data-id="<?= $prixdv->getId() ?>" data-toggle="tooltip" min=0 number class="gras form-control text-red" name="etiq-<?= $prixdv->getId() ?>">
+                                                        <input type="text" data-id="<?= $prixdv->id ?>" data-toggle="tooltip" min=0 number class="gras form-control text-red" name="etiq-<?= $prixdv->id ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -53,7 +53,7 @@
                                     <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) { ?>
                                         <div class="col-sm-3">
                                             <label class="text-muted gras"><?= $ressource->name() ?> (<?= $ressource->abbr ?>)</label>
-                                            <input type="text" data-id="<?= $ressource->getId() ?>" data-toggle="tooltip" min=0 number class="gras form-control text-red text-center" name="conso-<?= $ressource->getId() ?>">
+                                            <input type="text" data-id="<?= $ressource->id ?>" data-toggle="tooltip" min=0 number class="gras form-control text-red text-center" name="conso-<?= $ressource->id ?>">
                                         </div>
                                     <?php } ?>
                                 </div>

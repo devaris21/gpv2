@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 
-<?php include($this->rootPath("webapp/master/elements/templates/head.php")); ?>
+<?php include($this->rootPath("webapp/main/elements/templates/head.php")); ?>
 
-<body class="gray-bg">
+<body class="">
 
-    <div class="loginColumns animated fadeInDown">
+    <div class="loginColumns animated fadeInDown" style="z-index: 100000">
 
         <div class="row">
             <div class="col-md-6">
@@ -42,7 +42,7 @@
             </div>
         </div>
         <hr/>
-        <div class="row">
+        <div class="row text-white">
             <div class="col-md-6">
                 &copy; DEVARIS 21, tous droits reservés
             </div>
@@ -53,7 +53,7 @@
 
    </div>
 
-   <div style="position: absolute; bottom: 0; height: 200px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
+   <div style="position: fixed; z-index: -251; bottom: 0; height: 350px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
 
    </div>
 
@@ -95,7 +95,7 @@
 
 
 
-<?php include($this->rootPath("webapp/master/elements/templates/script.php")); ?>
+<?php include($this->rootPath("webapp/main/elements/templates/script.php")); ?>
 
 </body>
 

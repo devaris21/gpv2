@@ -93,11 +93,11 @@ $(function(){
 		//nouvelle commande
 		$("body").on("click", ".newproduit", function(event) {
 			var url = "../../webapp/boutique/modules/master/client/ajax.php";
-			var parfum_id = $(this).attr("parfum-id");
+			var id = $(this).attr("data-id");
 			var type_id = $(this).attr("type-id");
-			$.post(url, {action:"newproduit", parfum_id:parfum_id, type_id:type_id}, (data)=>{
+			$.post(url, {action:"newproduit", id:id}, (data)=>{
 				$("tbody.commande").append(data);
-				$("button[parfum-id ="+parfum_id+"][type-id ="+type_id+"]").hide(200);
+				$("button[data-id ="+id+"]").hide(200);
 				calcul()
 			},"html");
 		});
@@ -106,11 +106,10 @@ $(function(){
 	//nouvelle commande
 	$("body").on("click", ".newproduit2", function(event) {
 		var url = "../../webapp/boutique/modules/master/client/ajax.php";
-		var parfum_id = $(this).attr("parfum-id");
-		var type_id = $(this).attr("type-id");
-		$.post(url, {action:"newproduit2", parfum_id:parfum_id, type_id:type_id}, (data)=>{
+		var id = $(this).attr("data-id");
+		$.post(url, {action:"newproduit2", id:id}, (data)=>{
 			$("tbody.commande").append(data);
-			$("button[parfum-id ="+parfum_id+"][type-id ="+type_id+"]").hide(200);
+			$("button[data-id ="+id+"]").hide(200);
 			calcul()
 		},"html");
 	});

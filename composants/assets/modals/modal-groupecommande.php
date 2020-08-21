@@ -56,9 +56,9 @@
                                     <td data-toggle="tooltip" title="Annuler / Supprimer">
                                         <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
                                             <?php if ($ligne->type == "commande") { ?>
-                                                <i class="fa fa-close fa-3x d-block text-red cursor" onclick="annulerCommande(<?= $ligne->getId() ?>)"></i>
+                                                <i class="fa fa-close fa-3x d-block text-red cursor" onclick="annulerCommande(<?= $ligne->id ?>)"></i>
                                             <?php }else if($ligne->type == "prospection" && $ligne->etat_id == Home\ETAT::ENCOURS){ ?> 
-                                                <i class="fa fa-close fa-3x d-block text-red cursor" onclick="annulerLivraison(<?= $ligne->getId() ?>)"></i>
+                                                <i class="fa fa-close fa-3x d-block text-red cursor" onclick="annulerLivraison(<?= $ligne->id ?>)"></i>
                                             <?php } ?> 
                                         <?php } ?> 
                                     </td>
@@ -68,10 +68,10 @@
                                     </td>
                                     <td data-toggle="tooltip" title="imprimer le bon de <?= $ligne->type ?>">
                                         <?php if ($ligne->type == "prospection") { ?>
-                                            <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonlivraison", $ligne->getId()) ?>">
+                                            <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonlivraison", $ligne->id) ?>">
                                                 <i class="fa fa-file-text fa-2x d-block"></i></a>
                                             <?php }else{ ?>
-                                                <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncommande", $ligne->getId()) ?>">
+                                                <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncommande", $ligne->id) ?>">
                                                     <i class="d-block fa fa-file-text fa-2x"></i></a>
                                                 <?php } ?>                                
                                             </td>
@@ -80,7 +80,7 @@
                                                 $test = 0;
                                                 foreach ($ligne->items as $key => $item) {
                                                     $item->actualise();
-                                                    if ($item->prixdevente->getId() == $value->getId() ) { 
+                                                    if ($item->prixdevente->id == $value->id ) { 
                                                         $test = $item->quantite;
                                                         if ($ligne->type == "prospection") {
                                                             $test = $item->quantite;
@@ -118,7 +118,7 @@
                                         <tr>
                                             <td colspan="3"><h2 class="text-uppercase text-right">Reste à livrer : </h2></td>
                                             <?php foreach ($datas as $key => $value) { ?>
-                                                <td widtd="90" class="text-center"><h2 class="gras"><?= money($groupecommande->reste($value->getId())) ?></h2></td>
+                                                <td widtd="90" class="text-center"><h2 class="gras"><?= money($groupecommande->reste($value->id)) ?></h2></td>
                                             <?php } ?>
                                         </tr>
                                     </tbody>
@@ -126,15 +126,15 @@
 
                                 <div class="row text-center">
                                     <div class="col-md">
-                                        <button class="btn btn-primary dim" onclick="fairenewcommande(<?= $groupecommande->getId() ?>)"><i class="fa fa-cart-plus"></i> Faire nouvelle commande</button>
+                                        <button class="btn btn-primary dim" onclick="fairenewcommande(<?= $groupecommande->id ?>)"><i class="fa fa-cart-plus"></i> Faire nouvelle commande</button>
                                     </div>
 
                              <!--    <div class=" col-md">
-                                    <button class="btn btn-success dim" onclick="newProgrammation(<?= $groupecommande->getId() ?>)"><i class="fa fa-truck"></i> Programmer livraison </button>
+                                    <button class="btn btn-success dim" onclick="newProgrammation(<?= $groupecommande->id ?>)"><i class="fa fa-truck"></i> Programmer livraison </button>
                                 </div>
                             -->
                             <div class=" col-md">
-                                <button class="btn btn-warning dim" onclick="newlivraison(<?= $groupecommande->getId()  ?>)"><i class="fa fa-truck"></i> Faire livraison aujourd'hui</button>
+                                <button class="btn btn-warning dim" onclick="newlivraison(<?= $groupecommande->id  ?>)"><i class="fa fa-truck"></i> Faire livraison aujourd'hui</button>
                             </div>
                         </div>
                     </div>

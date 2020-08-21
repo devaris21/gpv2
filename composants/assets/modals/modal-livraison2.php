@@ -1,5 +1,5 @@
 
-<div class="modal inmodal fade" id="modal-livraison<?= $livraison->getId() ?>" style="z-index: 99999999">
+<div class="modal inmodal fade" id="modal-livraison<?= $livraison->id ?>" style="z-index: 99999999">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
@@ -21,7 +21,7 @@
                                     <tbody class="commande">
                                         <?php foreach ($livraison->ligneprospections as $key => $ligne) {
                                             $ligne->actualise(); ?>
-                                            <tr class="border-0 border-bottom" data-id="<?= $ligne->getId() ?>">
+                                            <tr class="border-0 border-bottom" data-id="<?= $ligne->id ?>">
                                                 <td >
                                                     <img style="width: 40px" src="<?= $this->stockage("images", "produits", $ligne->prixdevente->produit->image) ?>">
                                                 </td>

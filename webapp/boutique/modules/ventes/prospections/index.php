@@ -16,31 +16,14 @@
 
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-9">
-                    <h2 class="text-uppercase text-warning gras">Les prospections en cours</h2>
-                    <div class="container">
-                        <button style="margin-top: -5%;" type="button" data-toggle=modal data-target='#modal-prospection' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle prospection </button>
-                    </div>
+                    <h2 class="text-uppercase text-green gras">Les prospections en cours</h2>
                 </div>
                 <div class="col-sm-3">
-                   <div class="row">
-                    <div class="col-md-12">
-                        <div class="widget style1 bg-orange">
-                            <div class="row">
-                                <div class="col-4">
-                                    <i class="fa fa-truck fa-3x"></i>
-                                </div>
-                                <div class="col-8 text-right">
-                                    <span> prospections en cours </span>
-                                    <h2 class="font-bold"><?= start0(count($prospections__)) ?></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    <button style="margin-top: 5%;" type="button" data-toggle=modal data-target='#modal-prospection' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle prospection </button>
+             </div>
+         </div>
 
-        <div class="wrapper wrapper-content">
+         <div class="wrapper wrapper-content">
             <div class="ibox">
                 <div class="ibox-title">
                     <h5 class="text-capitalize">Du <?= datecourt($date1) ?> au <?= datecourt($date2) ?></h5>
@@ -104,7 +87,7 @@
                                                     <tr class="no">
                                                         <th></th>
                                                         <?php foreach ($vente->ligneprospections as $key => $ligne) { ?>
-                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>
@@ -164,7 +147,7 @@
                                                         <th></th>
                                                         <?php foreach ($prospection->ligneprospections as $key => $ligne) { 
                                                             $ligne->actualise(); ?>
-                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>

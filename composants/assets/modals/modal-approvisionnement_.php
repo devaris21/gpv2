@@ -24,7 +24,7 @@
 
                             <div class="text-center">
                                 <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) { ?>
-                                    <button class="btn btn-white dim newressource" data-id="<?= $ressource->getId() ?>" data-toggle="tooltip" title="<?= $ressource->unite ?>"><?= $ressource->name(); ?></button>
+                                    <button class="btn btn-white dim newressource" data-id="<?= $ressource->id ?>" data-toggle="tooltip" title="<?= $ressource->unite ?>"><?= $ressource->name(); ?></button>
                                 <?php }  ?>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
                             </div> 
-                            <input type="hidden" name="fournisseur_id" value="<?= $fournisseur->getId() ?>">
+                            <input type="hidden" name="fournisseur_id" value="<?= $fournisseur->id ?>">
                         </form><br>
                         <h2 class="font-bold total text-right total">0 Fcfa</h2>
                         <hr/>

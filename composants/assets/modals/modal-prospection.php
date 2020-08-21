@@ -27,8 +27,9 @@
                                 <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
                                     <div class="col text-center border-right">
                                         <h5 class="text-uppercase gras text-center"><?= $type->name()  ?></h5>
-                                        <?php foreach (Home\PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $parfum) { ?>
-                                            <button class="btn btn-white btn-xs newproduit btn-block cursor" parfum-id="<?= $parfum->getId() ?>" type-id="<?= $type->getId() ?>"><?= $parfum->name(); ?></button>
+                                        <?php foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
+                                            $pro->actualise(); ?>
+                                            <button class="btn btn-white btn-xs newproduit btn-block cursor" data-id="<?= $pro->id ?>"><?= $pro->name(); ?></button>
                                         <?php }  ?>
                                     </div>
                                 <?php } ?>
@@ -83,7 +84,7 @@
                             </form><br>
                             <h2 class="font-bold total text-right total">0 Fcfa</h2>
                             <hr/>
-                            <button onclick="validerPropection()" class="btn btn-warning btn-block dim"><i class="fa fa-check"></i> Valider la commande</button>
+                            <button onclick="validerPropection()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la commande</button>
                         </div>
                     </div>
 

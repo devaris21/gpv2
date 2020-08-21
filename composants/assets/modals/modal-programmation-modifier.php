@@ -20,10 +20,10 @@
                                 <tbody class="commande">
                                     <?php foreach ($livraison->lignelivraisons as $key => $ligne) {
                                         $ligne->actualise();
-                                        $reste = $livraison->groupecommande->reste($ligne->produit->getId()) + $ligne->quantite;
+                                        $reste = $livraison->groupecommande->reste($ligne->produit->id) + $ligne->quantite;
                                         if ($reste > 0) { ?>
-                                         <tr class="border-0 border-bottom " id="ligne<?= $ligne->produit->getId() ?>" data-id="<?= $ligne->produit->getId() ?>">
-                                            <td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $ligne->produit->getId() ?>)" style="font-size: 18px;"></i></td>
+                                         <tr class="border-0 border-bottom " id="ligne<?= $ligne->produit->id ?>" data-id="<?= $ligne->produit->id ?>">
+                                            <td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $ligne->produit->id ?>)" style="font-size: 18px;"></i></td>
                                             <td >
                                                 <img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $ligne->produit->image) ?>">
                                             </td>

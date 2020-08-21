@@ -25,7 +25,7 @@
                             <?php foreach (Home\PRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $item) { ?>
                                 <div class="">
                                     <?php  foreach ($item->fourni("prixdevente", ["isActive ="=>Home\TABLE::OUI]) as $key => $value) { ?>
-                                        <button style="color: <?= $item->couleur  ?>" class="btn btn-white dim newressource text-capitalize" data-id="<?= $value->getId() ?>"><i class="fa fa-flask"></i> <?= $value->name(); ?></button>
+                                        <button style="color: <?= $item->couleur  ?>" class="btn btn-white dim newressource text-capitalize" data-id="<?= $value->id ?>"><i class="fa fa-flask"></i> <?= $value->name(); ?></button>
                                     <?php  } ?>                               
                                 </div>
                             <?php  }  ?>

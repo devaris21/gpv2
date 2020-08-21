@@ -25,7 +25,7 @@
                                     if ($qua > 0) { ?>
                                         <tr>
                                             <td>
-                                                <button data-toggle="modal" data-target="#modal-conditionnement-<?= $type->getId() ?>-<?= $parfum->getId() ?>"  class="btn btn-white btn-xs pull-right"><?= start0($qua) ?> <?= $type->abbr  ?></button> <?= $parfum->name(); ?>
+                                                <button data-toggle="modal" data-target="#modal-conditionnement-<?= $type->id ?>-<?= $parfum->id ?>"  class="btn btn-white btn-xs pull-right"><?= start0($qua) ?> <?= $type->abbr  ?></button> <?= $parfum->name(); ?>
                                             </td>
                                         </tr>
                                     <?php } 

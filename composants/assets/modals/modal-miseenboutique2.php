@@ -1,5 +1,5 @@
 
-<div class="modal inmodal fade" id="modal-miseenboutique<?= $mise->getId() ?>" style="z-index: 1">
+<div class="modal inmodal fade" id="modal-miseenboutique<?= $mise->id ?>" style="z-index: 1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-body">
@@ -26,10 +26,10 @@
                                                 </td>
                                                 <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) {
                                                     foreach ($produit->prixdeventes as $key => $pdv) {
-                                                        if ($pdv->getId() == $ligne->prixdevente_id) { ?>
+                                                        if ($pdv->id == $ligne->prixdevente_id) { ?>
                                                             <td width="110" class="text-center">
                                                                 <label><?= $ligne->prixdevente->quantite->name() ?></label>
-                                                                <input type="number" data-id="<?= $ligne->getId() ?>" number class="form-control text-center gras text-green recu" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>">
+                                                                <input type="number" data-id="<?= $ligne->id ?>" number class="form-control text-center gras text-green recu" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>">
                                                             </td>
                                                         <?php } }
                                                     } ?>

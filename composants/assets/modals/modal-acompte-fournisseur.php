@@ -35,7 +35,7 @@
                     </div>                 
                 </div><hr>
                 <div class="container">
-                    <input type="hidden" name="fournisseur_id" value="<?= $fournisseur->getId() ?>">
+                    <input type="hidden" name="fournisseur_id" value="<?= $fournisseur->id ?>">
                     <button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
                     <button class="btn btn-sm dim btn-success pull-right"><i class="fa fa-check"></i> Valider</button>
                 </div>

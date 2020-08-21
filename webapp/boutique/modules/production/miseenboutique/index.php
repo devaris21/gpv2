@@ -17,26 +17,9 @@
           <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-9">
                 <h2 class="text-uppercase text-green gras">Mise en boutique de la production</h2>
-                <div class="container">
-                    <button style="margin-top: -3%;" type="button" data-toggle=modal data-target='#modal-miseenboutique-demande' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle demende de mise en boutique </button>
-                </div>
             </div>
             <div class="col-sm-3">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="widget style1 lazur-bg">
-                            <div class="row">
-                                <div class="col-3">
-                                    <i class="fa fa-th-large fa-3x"></i>
-                                </div>
-                                <div class="col-9 text-right">
-                                    <span> Mise en boutique </span>
-                                    <h2 class="font-bold"><?= start0(count(Home\MISEENBOUTIQUE::encours()))  ?></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <button style="margin-top: 5%;" type="button" data-toggle=modal data-target='#modal-miseenboutique-demande' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle demende de mise en boutique </button>
             </div>
         </div>
 
@@ -45,7 +28,7 @@
                 <div class="ibox-title">
                     <h5>Toutes les mises en boutique de la production</h5>
                     <div class="ibox-tools">
-                     <form id="formFiltrer" method="POST">
+                       <form id="formFiltrer" method="POST">
                         <div class="row" style="margin-top: -1%">
                             <div class="col-5">
                                 <input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
@@ -76,7 +59,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                         <?php foreach ($encours as $key => $mise) {
+                           <?php foreach ($encours as $key => $mise) {
                             $mise->actualise(); 
                             $lots = $mise->fourni("lignemiseenboutique");
                             ?>
@@ -104,7 +87,7 @@
                                                 <th></th>
                                                 <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) {
                                                     $ligne->actualise(); ?>
-                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
+                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
                                                 <?php } ?>
                                             </tr>
                                         </thead>
@@ -164,7 +147,7 @@
                                                 <th></th>
                                                 <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) {
                                                     $ligne->actualise(); ?>
-                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
+                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
                                                 <?php } ?>
                                             </tr>
                                         </thead>

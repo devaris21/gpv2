@@ -17,26 +17,9 @@
           <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-9">
                 <h2 class="text-uppercase text-warning gras">Toutes les ventes directes</h2>
-                <div class="container">
-                    <button style="margin-top: -5%;" data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim float-right"> <i class="fa fa-file-text-o"></i> Nouvelle vente directe</button>
-                </div>
             </div>
             <div class="col-sm-3">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="widget style1 bg-orange">
-                            <div class="row">
-                                <div class="col-4">
-                                    <i class="fa fa-truck fa-3x"></i>
-                                </div>
-                                <div class="col-8 text-right">
-                                    <span> Ventes directes recentes </span>
-                                    <h2 class="font-bold"><?= start0(count($ventes)) ?></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <button style="margin-top: 5%;" data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim float-right"> <i class="fa fa-file-text-o"></i> Nouvelle vente directe</button>
             </div>
         </div>
 
@@ -99,28 +82,28 @@
                                         <h3 class="gras text-orange"><?= money($vente->montant) ?> <?= $params->devise  ?></h3>
                                     </td>
                                     <td class="border-right">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr class="no">
-                                                    <th></th>
-                                                    <?php foreach ($vente->lignedeventes as $key => $ligne) { 
-                                                        $ligne->actualise(); ?>
-                                                        <th class="text-center mp0"><?= $ligne->prixdevente->produit->name() ?><br><small><?= $ligne->prixdevente->prix->price() ?> <?= $params->devise  ?></small></th>
-                                                    <?php } ?>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="no">
-                                                    <td><h4 class="mp0">Qté : </h4></td>
-                                                    <?php foreach ($vente->lignedeventes as $key => $ligne) { ?>
-                                                        <td class="text-center"><?= start0($ligne->quantite) ?></td>
-                                                    <?php   } ?>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <a href="<?= $this->url("boutique", "fiches", "bonvente", $vente->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> </a>
+                                      <table class="table table-bordered">
+                                        <thead>
+                                            <tr class="no">
+                                                <th></th>
+                                                <?php foreach ($vente->lignedeventes as $key => $ligne) { 
+                                                    $ligne->actualise(); ?>
+                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
+                                                <?php } ?>
+                                            </tr>
+                                        </thead>
+                                        <tbody>                                                    
+                                            <tr class="no">
+                                                <td class="gras">Qté :</td>
+                                                <?php foreach ($vente->lignedeventes as $key => $ligne) { ?>
+                                                    <td class="text-center"><?= start0($ligne->quantite) ?></td>
+                                                <?php   } ?>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td>
+                                    <a href="<?= $this->url("boutique", "fiches", "bonvente", $vente->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> </a>
                                         <!-- <?php if ($vente->etat_id == Home\ETAT::ENCOURS) { ?>
                                             <button onclick="terminer(<?= $vente->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
                                             <?php } ?> -->
@@ -160,7 +143,7 @@
                                                         <th></th>
                                                         <?php foreach ($vente->lignedeventes as $key => $ligne) { 
                                                             $ligne->actualise(); ?>
-                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>

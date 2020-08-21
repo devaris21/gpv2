@@ -24,7 +24,7 @@
 
                                 <div class="text-center">
                                     <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
-                                      <button class="btn btn-white dim newproduit2" data-id="<?= $produit->getId() ?>" data-toggle="tooltip" title="<?= $produit->description ?>"><?= $produit->name(); ?></button>
+                                      <button class="btn btn-white dim newproduit2" data-id="<?= $produit->id ?>" data-toggle="tooltip" title="<?= $produit->description ?>"><?= $produit->name(); ?></button>
                                   <?php }  ?>
                               </div>
                           </div>
