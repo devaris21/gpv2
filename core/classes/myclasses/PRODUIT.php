@@ -42,7 +42,7 @@ class PRODUIT extends TABLE
 
 
 	public function name(){
-		return $this->typeproduit->name()." de ".$this->parfum->name()." ".$this->quantite->name();
+		return $this->typeproduit_parfum->name()." : ".$this->quantite->name();
 	}
 
 

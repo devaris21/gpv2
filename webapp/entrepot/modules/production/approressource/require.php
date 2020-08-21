@@ -5,12 +5,8 @@ unset_session("ressources");
 
 $title = "GPV | Toutes les livraisons en cours";
 
-$approvisionnements = $entrepot->fourni("approvisionnement", [], [], ["created"=>"DESC"]);
-$total = 0;
-foreach ($approvisionnements as $key => $liv) {
-	if ($liv->etat_id == ETAT::ENCOURS) {
-		$total++;
-	}
-}
+$encours = $entrepot->fourni("approvisionnement", ["entrepot_id ="=>$entrepot->id, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
+
+$datas = $entrepot->fourni("approvisionnement", ["entrepot_id ="=>$entrepot->id, "etat_id !="=>ETAT::ENCOURS, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2], [], ["created"=>"DESC"]);
 
 ?>

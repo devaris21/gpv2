@@ -1,5 +1,5 @@
 
-<div class="modal inmodal fade" id="modal-conditionnement-<?= $type->id ?>-<?= $parfum->id ?>" style="z-index: 9999999999">
+<div class="modal inmodal fade" id="modal-conditionnement-<?= $pro->id ?>" style="z-index: 9999999999">
     <div class="modal-dialog modal-xll">
         <div class="modal-content">
             <div class="modal-header">
@@ -18,14 +18,14 @@
                                 <div class="table-responsive">
                                     <table class="table  table-striped">
                                         <tbody class="commande">
-                                            <?php $datas = Home\PRODUIT::findBy(["parfum_id ="=> $parfum->id, "typeproduit_id ="=> $type->id, "isActive = "=> Home\TABLE::OUI]);
+                                            <?php $datas = $pro->fourni(["isActive = "=> Home\TABLE::OUI]);
                                             if (count($datas) > 0) {
                                                 foreach ($datas as $key => $produit) {
                                                     $produit->actualise(); ?>
                                                     <tr class="border-0 border-bottom">
                                                         <td class="text-left" width="200">
                                                             <br>
-                                                            <h5 class="mp0 text-uppercase"><?= $produit->typeproduit->name() ?> de <?= $produit->parfum->name() ?></h5>
+                                                            <h5 class="mp0 text-uppercase"><?= $pro->name() ?></h5>
                                                             <h1><?= $produit->quantite->name() ?></h1>
                                                         </td>
                                                         <?php foreach (Home\FORMATEMBALLAGE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $format) {  ?>

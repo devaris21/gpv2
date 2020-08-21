@@ -11,8 +11,7 @@ class CONDITIONNEMENT extends TABLE
 
 	public $reference ;
 	public $entrepot_id = ENTREPOT::PRINCIPAL;
-	public $parfum_id;
-	public $typeproduit_id;
+	public $typeproduit_parfum_id;
 	public $quantite = 0;
 	public $comment = "";
 	public $employe_id = 0;
@@ -25,20 +24,14 @@ class CONDITIONNEMENT extends TABLE
 		$this->boutique_id = getSession("entrepot_connecte_id");
 		$datas = ENTREPOT::findBy(["id ="=>$this->entrepot_id]);
 		if (count($datas) == 1) {
-			$datas = PARFUM::findBy(["id ="=>$this->parfum_id]);
+			$datas = TYPEPRODUIT_PARFUM::findBy(["id ="=>$this->typeproduit_parfum_id]);
 			if (count($datas) == 1) {
-				$datas = TYPEPRODUIT::findBy(["id ="=>$this->typeproduit_id]);
-				if (count($datas) == 1) {
-					if ($this->quantite >= 0) {
-						$this->reference = "COND/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
-						$data = $this->save();
-					}else{
-						$data->status = false;
-						$data->message = "La quantité entrée n'est pas correcte !";
-					}
+				if ($this->quantite >= 0) {
+					$this->reference = "COND/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
+					$data = $this->save();
 				}else{
 					$data->status = false;
-					$data->message = "Une erreur s'est produite lors de l'ajout du produit !";
+					$data->message = "La quantité entrée n'est pas correcte !";
 				}
 			}else{
 				$data->status = false;

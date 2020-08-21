@@ -20,12 +20,13 @@
                         <h5 class="text-uppercase gras text-center">Quantité de <?= $type->name()  ?></h5>
                         <table class="table">
                             <tbody>
-                                <?php foreach (Home\PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $parfum) {
-                                    $qua = Home\PRODUCTION::enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $type->id, $parfum->id, $entrepot->id);
-                                    if ($qua > 0) { ?>
+                                <?php foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
+                                    $qua = Home\PRODUCTION::enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $pro->id, $entrepot->id);
+                                    if ($qua > 0) {
+                                        $pro->actualise(); ?>
                                         <tr>
                                             <td>
-                                                <button data-toggle="modal" data-target="#modal-conditionnement-<?= $type->id ?>-<?= $parfum->id ?>"  class="btn btn-primary btn-xs pull-right"><?= start0($qua) ?> <?= $type->abbr  ?></button> <?= $parfum->name(); ?>
+                                                <button data-toggle="modal" data-target="#modal-conditionnement-<?= $pro->id ?>"  class="btn btn-primary btn-xs pull-right"><?= start0($qua) ?> <?= $type->abbr  ?></button> <?= $pro->name(); ?>
                                             </td>
                                         </tr>
                                     <?php } 
@@ -90,7 +91,7 @@
                                             <span class="label label-<?= $conditionnement->etat->class ?>"><?= $conditionnement->etat->name ?></span>
                                         </td>
                                         <td>
-                                            <span class="text-uppercase gras">Conditionnement de <?= $conditionnement->typeproduit->name() ?> de <?= $conditionnement->parfum->name() ?></span><br>
+                                            <span class="text-uppercase gras">Conditionnement de <?= $conditionnement->typeproduit_parfum->name() ?></span><br>
                                             <small>du <?= depuis($conditionnement->created) ?></small>
                                         </td>
                                         <td>
@@ -103,14 +104,14 @@
                                                     <tr class="no">
                                                         <?php foreach ($conditionnement->ligneconditionnements as $key => $ligne) {
                                                             $ligne->actualise(); ?>
-                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->typeproduit->name() ?> de <?= $ligne->parfum->name() ?></span></th>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->typeproduit_parfum->name() ?></span></th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
                                                         <?php foreach ($lots as $key => $ligne) { ?>
-                                                            <td class="text-center"><?= start0($ligne->quantite) ?> <?= $ligne->typeproduit->abbr ?></td>
+                                                            <td class="text-center"><?= start0($ligne->quantite) ?> <?= $ligne->typeproduit_parfum->typeproduit->abbr ?></td>
                                                         <?php } ?>
                                                     </tr>
                                                 </tbody>  
@@ -137,7 +138,7 @@
                                             <span class="label label-<?= $conditionnement->etat->class ?>"><?= $conditionnement->etat->name ?></span>
                                         </td>
                                         <td>
-                                            <span class="text-uppercase gras">Conditionnement de <?= $conditionnement->typeproduit->name() ?> de <?= $conditionnement->parfum->name() ?></span><br>
+                                            <span class="text-uppercase gras">Conditionnement de <?= $conditionnement->typeproduit_parfum->name() ?></span><br>
                                             <small>du <?= depuis($conditionnement->created) ?></small>
                                         </td>
                                         <td>
@@ -151,14 +152,14 @@
                                                     <tr class="no">
                                                         <?php foreach ($conditionnement->ligneconditionnements as $key => $ligne) {
                                                             $ligne->actualise(); ?>
-                                                            <th class="text-center"><span class="small"><?= $ligne->produit->name() ?></span></th>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->typeproduit_parfum->name() ?></span></th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
                                                         <?php foreach ($lots as $key => $ligne) { ?>
-                                                            <td class="text-center"><?= start0($ligne->quantite) ?><br> <small><?= $ligne->formatemballage->name() ?></small></td>
+                                                            <td class="text-center"><?= start0($ligne->quantite) ?> <?= $ligne->typeproduit_parfum->typeproduit->abbr ?></td>
                                                         <?php } ?>
                                                     </tr>
                                                 </tbody>  
@@ -198,6 +199,11 @@
             } 
         } ?>
 
+
+        <?php foreach (Home\TYPEPRODUIT_PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
+            $qua = Home\PRODUCTION::enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $pro->id, $entrepot->id);
+            if ($qua > 0) { include($this->rootPath("composants/assets/modals/modal-conditionnement.php")); } 
+        }  ?>
     </div>
 </div>
 

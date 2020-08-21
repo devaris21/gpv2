@@ -11,8 +11,7 @@ class LIGNEPRODUCTION extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 	public $production_id;
-	public $parfum_id;
-	public $typeproduit_id;
+	public $typeproduit_parfum_id;
 	public $quantite = 0;
 
 
@@ -21,19 +20,13 @@ class LIGNEPRODUCTION extends TABLE
 		$data = new RESPONSE;
 		$datas = PRODUCTION::findBy(["id ="=>$this->production_id]);
 		if (count($datas) == 1) {
-			$datas = PARFUM::findBy(["id ="=>$this->parfum_id]);
+			$datas = TYPEPRODUIT_PARFUM::findBy(["id ="=>$this->typeproduit_parfum_id]);
 			if (count($datas) == 1) {
-				$datas = TYPEPRODUIT::findBy(["id ="=>$this->typeproduit_id]);
-				if (count($datas) == 1) {
-					if ($this->quantite >= 0) {
-						$data = $this->save();
-					}else{
-						$data->status = false;
-						$data->message = "La quantité entrée n'est pas correcte !";
-					}
+				if ($this->quantite >= 0) {
+					$data = $this->save();
 				}else{
 					$data->status = false;
-					$data->message = "Une erreur s'est produite lors de l'ajout du produit !";
+					$data->message = "La quantité entrée n'est pas correcte !";
 				}
 			}else{
 				$data->status = false;

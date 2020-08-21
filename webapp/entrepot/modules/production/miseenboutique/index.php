@@ -104,7 +104,7 @@
                                                 <th></th>
                                                 <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) {
                                                     $ligne->actualise(); ?>
-                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
+                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
                                                 <?php } ?>
                                             </tr>
                                         </thead>
@@ -164,7 +164,7 @@
                                                 <th></th>
                                                 <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) {
                                                     $ligne->actualise(); ?>
-                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
+                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
                                                 <?php } ?>
                                             </tr>
                                         </thead>
@@ -215,7 +215,7 @@
 <?php 
 foreach ($encours as $key => $mise) {
     if ($mise->etat_id == Home\ETAT::PARTIEL) { 
-        include($this->rootPath("composants/assets/modals/modal-miseenboutique1.php"));
+       // include($this->rootPath("composants/assets/modals/modal-miseenboutique1.php"));
     } 
 } 
 ?>

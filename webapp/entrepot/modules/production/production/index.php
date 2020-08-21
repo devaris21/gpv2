@@ -20,12 +20,13 @@
                         <h5 class="text-uppercase gras text-center">Quantité de <?= $type->name()  ?></h5>
                         <table class="table">
                             <tbody>
-                                <?php foreach (Home\PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $parfum) {
-                                    $qua = Home\PRODUCTION::enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $type->id, $parfum->id, $entrepot->id);
-                                    if ($qua > 0) { ?>
+                                <?php foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
+                                    $qua = Home\PRODUCTION::enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $pro->id, $entrepot->id);
+                                    if ($qua > 0) {
+                                        $pro->actualise(); ?>
                                         <tr>
                                             <td>
-                                                <button data-toggle="modal" data-target="#modal-conditionnement-<?= $type->id ?>-<?= $parfum->id ?>"  class="btn btn-white btn-xs pull-right"><?= start0($qua) ?> <?= $type->abbr  ?></button> <?= $parfum->name(); ?>
+                                                <button data-toggle="modal" data-target="#modal-conditionnement-<?= $type->id ?>-<?= $parfum->id ?>"  class="btn btn-white btn-xs pull-right"><?= start0($qua) ?> <?= $type->abbr  ?></button> <?= $pro->name(); ?>
                                             </td>
                                         </tr>
                                     <?php } 
@@ -68,7 +69,7 @@
                     <div class="ibox-title">
                         <h5>Toutes les mises en boutique de la production</h5>
                         <div class="ibox-tools">
-                         <form id="formFiltrer" method="POST">
+                           <form id="formFiltrer" method="POST">
                             <div class="row" style="margin-top: -1%">
                                 <div class="col-5">
                                     <input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
@@ -98,7 +99,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                             <?php foreach ($encours as $key => $production) {
+                               <?php foreach ($encours as $key => $production) {
                                 $production->actualise(); 
                                 $lots = $production->fourni("ligneproduction");
                                 ?>
@@ -120,14 +121,14 @@
                                                 <tr class="no">
                                                     <?php foreach ($production->ligneproductions as $key => $ligne) {
                                                         $ligne->actualise(); ?>
-                                                        <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->typeproduit->name() ?> de <?= $ligne->parfum->name() ?></span></th>
+                                                        <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->typeproduit_parfum->name() ?></span></th>
                                                     <?php } ?>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <?php foreach ($lots as $key => $ligne) { ?>
-                                                        <td class="text-center"><?= start0($ligne->quantite) ?> <?= $ligne->typeproduit->abbr ?></td>
+                                                        <td class="text-center"><?= start0($ligne->quantite) ?> <?= $ligne->typeproduit_parfum->typeproduit->abbr ?></td>
                                                     <?php } ?>
                                                 </tr>
                                             </tbody>  
@@ -168,14 +169,14 @@
                                                 <tr class="no">
                                                     <?php foreach ($production->ligneproductions as $key => $ligne) {
                                                         $ligne->actualise(); ?>
-                                                        <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->typeproduit->name() ?> de <?= $ligne->parfum->name() ?></span></th>
+                                                        <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->typeproduit_parfum->name() ?> ></span></th>
                                                     <?php } ?>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <?php foreach ($lots as $key => $ligne) { ?>
-                                                        <td class="text-center"><?= start0($ligne->quantite) ?></td>
+                                                        <td class="text-center"><?= start0($ligne->quantite) ?> <?= $ligne->typeproduit_parfum->typeproduit->abbr ?></td>
                                                     <?php } ?>
                                                 </tr>
                                             </tbody>
