@@ -5,7 +5,7 @@ $(function(){
 
     $("form#resetForm").submit(function(event) {
         Loader.start();
-        var url = "../../webapp/master/modules/access/reset/ajax.php";
+        var url = "../../webapp/main/modules/access/reset/ajax.php";
         var formData = new FormData($(this)[0]);
         formData.append('action', 'resetPassword');
         $.post({url:url, data:formData, processData:false, contentType:false}, function(data) {

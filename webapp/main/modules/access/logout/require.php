@@ -13,6 +13,6 @@ session_destroy();
 unset($_GET);
 unset($_POST);
 
-header("Location: ../../master/access/login");
+header("Location: ../../main/access/login");
 
 ?>

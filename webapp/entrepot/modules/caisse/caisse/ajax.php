@@ -8,10 +8,6 @@ use Native\RESPONSE;
 $data = new RESPONSE;
 extract($_POST);
 
-if ($action == "filtrer") {
-	$data->setUrl("gestion", "caisse", "caisse", "$date1@$date2");
-	echo json_encode($data);
-}
 
 
 if ($action == "valider") {

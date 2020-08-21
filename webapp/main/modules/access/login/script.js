@@ -3,7 +3,7 @@ $(function(){
 
     $("form#formConnexion").submit(function(event) {
         Loader.start();
-        var url = "../../webapp/master/modules/access/login/ajax.php";
+        var url = "../../webapp/main/modules/access/login/ajax.php";
         var formData = new FormData($(this)[0]);
         formData.append('action', 'connexion');
         $.post({url:url, data:formData, processData:false, contentType:false}, function(data) {
@@ -25,7 +25,7 @@ $(function(){
 
     $("form#formNewUser").submit(function(event) {
          Loader.start();
-        var url = "../../webapp/master/modules/access/login/ajax.php";
+        var url = "../../webapp/main/modules/access/login/ajax.php";
         var formData = new FormData($(this)[0]);
         formData.append('action', 'newUser');
         $.post({url:url, data:formData, processData:false, contentType:false}, function(data) {

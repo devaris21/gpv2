@@ -39,6 +39,9 @@
                 <li class="" id="clients">
                     <a href="<?= $this->url($this->section, "master", "clients") ?>"><i class="fa fa-users"></i> <span class="nav-label">Liste des clients</span></a>
                 </li>
+                <li class="" id="commerciaux">
+                    <a href="<?= $this->url($this->section, "master", "commerciaux") ?>"><i class="fa fa-bicycle"></i> <span class="nav-label">Liste des commerciaux</span></a>
+                </li>
                 <li class="" id="stock">
                     <a href="<?= $this->url($this->section, "master", "stock") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Stock actuel</span></a>
                 </li>
@@ -91,6 +94,6 @@
 
 <style type="text/css">
     li.dropdown-divider{
-       !important;
-   }
+     !important;
+ }
 </style>
