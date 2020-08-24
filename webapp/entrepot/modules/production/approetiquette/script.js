@@ -24,11 +24,11 @@ $(function(){
 
 
 
-    //nouvel approvisionnement
-    $(".newressource").click(function(event) {
+    //nouvelle commande
+    $("body").on("click", ".newetiquette", function(event) {
         var url = "../../webapp/entrepot/modules/production/approetiquette/ajax.php";
         var id = $(this).attr("data-id");
-        $.post(url, {action:"newressource", id:id}, (data)=>{
+        $.post(url, {action:"newetiquette", id:id}, (data)=>{
             $("tbody.approvisionnement").append(data);
             $("button[data-id ="+id+"]").hide(200);
             calcul()
@@ -60,7 +60,7 @@ $(function(){
         formdata.append('tableau', tableau);
         formdata.append('action', "calcul");
         $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-            $("#modal-approetiquette tbody.approvisionnement, #modal-approetiquette_ tbody.approvisionnement").html(data);
+            //$("#modal-approetiquette tbody.approvisionnement, #modal-approetiquette_ tbody.approvisionnement").html(data);
 
             formdata.append('action', "total");
             $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){

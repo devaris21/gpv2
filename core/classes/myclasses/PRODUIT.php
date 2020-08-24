@@ -23,19 +23,25 @@ class PRODUIT extends TABLE
 
 	public function enregistre(){
 		$data = new RESPONSE;
-			$datas = TYPEPRODUIT_PARFUM::findBy(["id ="=>$this->typeproduit_parfum_id]);
+		$datas = TYPEPRODUIT_PARFUM::findBy(["id ="=>$this->typeproduit_parfum_id]);
+		if (count($datas) == 1) {
+			$datas = QUANTITE::findBy(["id ="=>$this->quantite_id]);
 			if (count($datas) == 1) {
-				$datas = QUANTITE::findBy(["id ="=>$this->quantite_id]);
-				if (count($datas) == 1) {
-					$data = $this->save();
-				}else{
-					$data->status = false;
-					$data->message = "Une erreur s'est produite lors du prix !";
+				$data = $this->save();
+				if ($data->status) {
+					$item = new ETIQUETTE;
+					$item->produit_id = $this->id;
+					$item->initial = 0;
+					$item->enregistre();
 				}
 			}else{
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors du prix !";
 			}
+		}else{
+			$data->status = false;
+			$data->message = "Une erreur s'est produite lors du prix !";
+		}
 		return $data;
 	}
 
@@ -46,29 +52,65 @@ class PRODUIT extends TABLE
 	}
 
 
-	public static function totalVendu($date1, $date2, int $boutique_id=null, int $parfum_id=null, int $typeproduit_id=null, $quantite_id=null){
+	public static function totalVendu($date1, $date2, int $boutique_id=null, int $typeproduit_id=null, int $parfum_id=null, $quantite_id=null){
 		$paras = "";
 		$paras = "";
 		if ($boutique_id != null) {
 			$paras.= "AND boutique_id = $boutique_id ";
 		}
-		if ($parfum_id != null) {
-			$paras.= "AND parfum_id = $parfum_id ";
-		}
 		if ($typeproduit_id != null) {
-			$paras.= "AND typeproduit_id = $typeproduit_id ";
+			$paras.= "AND typeproduit_parfum.typeproduit_id = $typeproduit_id ";
+		}
+		if ($parfum_id != null) {
+			$paras.= "AND typeproduit_parfum.parfum_id = $parfum_id ";
 		}
 		if ($quantite_id != null) {
 			$paras.= "AND quantite_id = $quantite_id ";
 		}
 		$paras.= " AND vente.created BETWEEN '$date1' AND '$date2'";
-		$requette = "SELECT lignedevente.* FROM lignedevente, vente, produit WHERE lignedevente.vente_id = vente.id AND lignedevente.produit_id = produit.id $paras";
+		$requette = "SELECT lignedevente.* FROM lignedevente, vente, produit, typeproduit_parfum WHERE lignedevente.vente_id = vente.id AND lignedevente.produit_id = produit.id AND produit.typeproduit_parfum_id = typeproduit_parfum.id $paras";
 		$datas = LIGNEDEVENTE::execute($requette, []);
 		return comptage($datas, "price", "somme");
 	}
 
 
 
+	public static function totalProduit($date1, $date2, int $entrepot_id=null, int $typeproduit_id=null, int $parfum_id=null){
+		$paras = "";
+		$paras = "";
+		if ($entrepot_id != null) {
+			$paras.= "AND entrepot_id = $entrepot_id ";
+		}
+		if ($typeproduit_id != null) {
+			$paras.= "AND typeproduit_parfum.typeproduit_id = $typeproduit_id ";
+		}
+		if ($parfum_id != null) {
+			$paras.= "AND typeproduit_parfum.parfum_id = $parfum_id ";
+		}
+		$paras.= " AND production.created BETWEEN '$date1' AND '$date2'";
+		$requette = "SELECT ligneproduction.* FROM ligneproduction, production, typeproduit_parfum WHERE ligneproduction.production_id = production.id AND ligneproduction.typeproduit_parfum_id = typeproduit_parfum.id $paras";
+		$datas = LIGNEPRODUCTION::execute($requette, []);
+		return comptage($datas, "quantite", "somme");
+	}
+
+
+
+	public static function totalConditionnement(string $date1, string $date2, int $entrepot_id = null, int $quantite_id = null, int $formatemballage_id=null){
+		$paras = "";
+		if ($entrepot_id != null) {
+			$paras.= "AND entrepot_id = $entrepot_id ";
+		}
+		if ($quantite_id != null) {
+			$paras.= "AND quantite_id = $quantite_id ";
+		}
+		if ($formatemballage_id != null) {
+			$paras.= "AND formatemballage_id = $formatemballage_id ";
+		}
+		$requette = "SELECT SUM(ligneconditionnement.quantite) as quantite  FROM conditionnement, ligneconditionnement WHERE ligneconditionnement.produit_id = ? AND ligneconditionnement.conditionnement_id = conditionnement.id AND conditionnement.etat_id != ? AND conditionnement.created >= ? AND conditionnement.created <= ? $paras";
+		$item = LIGNECONDITIONNEMENT::execute($requette, [$this->id, $formatemballage_id, ETAT::ANNULEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new LIGNECONDITIONNEMENT()]; }
+		return $item[0]->quantite;
+	}
 
 
 	public function conditionnement(string $date1, string $date2, int $format_id, int $entrepot_id = null){

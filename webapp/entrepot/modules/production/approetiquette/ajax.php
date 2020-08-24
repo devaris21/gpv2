@@ -5,10 +5,54 @@ require '../../../../../core/root/includes.php';
 use Native\RESPONSE;
 use Native\ROOTER;
 
+	$params = PARAMS::findLastId();
+	$rooter = new ROOTER;
+
 $data = new RESPONSE;
 extract($_POST);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($action == "newetiquette") {
+	$ressources = [];
+	if (getSession("ressources") != null) {
+		$ressources = getSession("ressources"); 
+	}
+	if (!in_array($id, $ressources)) {
+		$ressources[] = $id;
+		$datas = TYPEPRODUIT_PARFUM::findBy(["id ="=>$id]);
+		if (count($datas) > 0) {
+			$type = $datas[0];
+			$requette = "SELECT etiquette.* FROM produit, typeproduit_parfum, etiquette WHERE produit.id = etiquette.produit_id AND produit.typeproduit_parfum_id = ? AND produit.isActive = ?";
+			$datas = ETIQUETTE::execute($requette, [$type->id, TABLE::OUI]);
+			if (count($datas) > 0) {
+				foreach ($datas as $key => $etiquette) {
+					$type->actualise();
+					$etiquette->actualise(); ?>
+					<tr class="border-0 border-bottom " id="ligne<?= $etiquette->id ?>" data-id="<?= $etiquette->id ?>">
+						<td><i class="fa fa-close text-red cursor" onclick="supprimeRessource('<?= $etiquette->id ?>')" style="font-size: 18px;"></i></td>
+						<td class="text-left">
+							<h5 class="mp0 text-uppercase"><?= $type->name() ?></h5>
+							<small>Emballage de <?= $etiquette->produit->quantite->name() ?></small>
+						</td>
+						<td style="width: 50px"></td>
+						<td width="90">
+							<label>Quantité</label>
+							<input type="text" number name="quantite" class="form-control text-center gras" value="1" style="padding: 3px">
+						</td>
+						<td width="120">
+							<label>Prix d'achat</label>
+							<input type="text" number name="prix" class="form-control text-center gras prix" value="1" style="padding: 3px">
+						</td>
+						<td class="gras"><br><br><?= $params->devise  ?></td>
+					</tr>
+					<?php 
+				} 
+			}
+		}
+	}
+	session("ressources", $ressources);
+}
 
 
 if ($action == "newressource") {
@@ -61,8 +105,6 @@ if ($action == "supprimeRessource") {
 
 
 if ($action == "calcul") {
-	$params = PARAMS::findLastId();
-	$rooter = new ROOTER;
 	$total = 0;
 	$ressources = explode(",", $tableau);
 	foreach ($ressources as $key => $value) {
@@ -73,7 +115,7 @@ if ($action == "calcul") {
 			$qte = $lot[1];
 		}
 		$prix = intval(end($lot));
-		$datas = PRODUIT::findBy(["id ="=> $id]);
+		$datas = ETIQUETTE::findBy(["id ="=> $id]);
 		if (count($datas) == 1) {
 			$item = $datas[0];
 			$total += $prix; ?>
@@ -163,12 +205,12 @@ if ($action == "validerApprovisionnement") {
 							$payement->fournisseur_id = $fournisseur_id;
 							$data = $payement->enregistre();
 							if ($data->status) {
-							$approvisionnement->reglementfournisseur_id = $data->lastid;
+								$approvisionnement->reglementfournisseur_id = $data->lastid;
 
-							$fournisseur->actualise();
-							$payement->acompteClient = $fournisseur->acompte;
-							$payement->detteClient = $fournisseur->dette;
-							$data = $payement->save();
+								$fournisseur->actualise();
+								$payement->acompteClient = $fournisseur->acompte;
+								$payement->detteClient = $fournisseur->dette;
+								$data = $payement->save();
 							}
 						}
 					}

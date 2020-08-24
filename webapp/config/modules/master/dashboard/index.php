@@ -30,7 +30,9 @@
                                 </ul>
                                 <ul class="nav navbar-top-links navbar-right">
                                     <li id="btn-deconnexion" class="text-red cursor">
-                                        <i class="fa fa-sign-out"></i> Déconnexion
+                                        <a href="<?= $this->url("config", "master", "dashboard"); ?>" class="btn_modal btn btn-xs btn-white" >
+<< Retour à la vue générale
+</a>
                                     </li>
                                 </ul>
                             </div>
@@ -51,7 +53,7 @@
                                                         <div class="row">
                                                             <div class="col-9">
                                                                 <h2 class="text-uppercase gras">Infos générales</h2>
-                                                                <h3 class="no-margins text-orange"><?= $boutique->name() ?></h3>
+                                                                <h5 class="no-margins text-orange">Nom, adresse, contact, logo de sté </h5>
                                                             </div>
                                                             <div class="col-3 text-right">
                                                                 <i class="fa fa-hospital-o fa-5x text-muted"></i>
@@ -71,7 +73,7 @@
                                                         <div class="row">
                                                             <div class="col-9">
                                                                 <h2 class="text-uppercase gras">Roles & accès</h2>
-                                                                <h3 class="no-margins text-orange"><?= $boutique->name() ?></h3>
+                                                                <h5 class="no-margins text-orange">Définir les droits et les accès</h5>
                                                             </div>
                                                             <div class="col-3 text-right">
                                                                 <i class="fa fa-lock fa-5x text-muted"></i>
@@ -91,7 +93,7 @@
                                                         <div class="row">
                                                             <div class="col-9">
                                                                 <h2 class="text-uppercase gras">Mon compte</h2>
-                                                                <h3 class="no-margins text-dark">Admin générale</h3>
+                                                                <h5 class="no-margins text-orange">Info compte, Abonnement, formule</h5>
                                                             </div>
                                                             <div class="col-3 text-right">
                                                                 <i class="fa fa-pied-piper-alt fa-5x text-muted"></i>
@@ -115,7 +117,7 @@
                                                 <div class="row">
                                                     <div class="col-9">
                                                         <h3 class="text-uppercase gras text-navy">Elements de production</h3>
-                                                        <h3 class="no-margins text-muted"><?= $boutique->name() ?></h3>
+                                                        <h5 class="no-margins text-muted">Produits, ressources, formats d'emballages</h5>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <i class="fa fa-bitbucket fa-5x text-muted"></i>
@@ -132,7 +134,7 @@
                                                 <div class="row">
                                                     <div class="col-9">
                                                         <h3 class="text-uppercase gras text-navy">Gestion de production</h3>
-                                                        <h3 class="no-margins text-muted"><?= $boutique->name() ?></h3>
+                                                        <h5 class="no-margins text-muted">Etablir les normes de production</h5>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <i class="fa fa-fire fa-5x text-muted"></i>
@@ -149,7 +151,7 @@
                                                 <div class="row">
                                                     <div class="col-9">
                                                         <h3 class="text-uppercase gras text-navy">Config de la caisse</h3>
-                                                        <h3 class="no-margins text-muted"><?= $boutique->name() ?></h3>
+                                                        <h5 class="no-margins text-muted">Compte en banque, caisse, gestion</h5>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <i class="fa fa-dollar fa-5x text-muted"></i>
@@ -166,7 +168,7 @@
                                                 <div class="row">
                                                     <div class="col-9">
                                                         <h3 class="text-uppercase gras text-navy">Config de la caisse</h3>
-                                                        <h3 class="no-margins text-muted"><?= $boutique->name() ?></h3>
+                                                        <h5 class="no-margins text-muted"><?= $boutique->name() ?></h5>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <i class="fa fa-lock fa-5x text-muted"></i>
@@ -176,7 +178,82 @@
                                         </div>
                                     </a>
                                 </div>
+                            </div><br>
+
+
+
+                            <div class="row justify-content-center">
+                                <div class="col-lg-3">
+                                    <a href="<?= $this->url("config", "master", "production")  ?>">
+                                        <div class="ibox">
+                                            <div class="ibox-content">
+                                                <div class="row">
+                                                    <div class="col-9">
+                                                        <h3 class="text-uppercase gras text-navy">Historiques des actions</h3>
+                                                        <h5 class="no-margins text-muted">Toutes les interactions de l'app</h5>
+                                                    </div>
+                                                    <div class="col-3 text-right">
+                                                        <i class="fa fa-history fa-5x text-muted"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-3">
+                                    <a href="<?= $this->url("config", "master", "production2")  ?>">
+                                        <div class="ibox">
+                                            <div class="ibox-content">
+                                                <div class="row">
+                                                    <div class="col-9">
+                                                        <h3 class="text-uppercase gras text-navy">Gestion de production</h3>
+                                                        <h5 class="no-margins text-muted"><?= $boutique->name() ?></h5>
+                                                    </div>
+                                                    <div class="col-3 text-right">
+                                                        <i class="fa fa-fire fa-5x text-muted"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-3">
+                                    <a href="<?= $this->url("config", "master", "caisse")  ?>">
+                                        <div class="ibox">
+                                            <div class="ibox-content">
+                                                <div class="row">
+                                                    <div class="col-9">
+                                                        <h3 class="text-uppercase gras text-navy">Config de la caisse</h3>
+                                                        <h5 class="no-margins text-muted"><?= $boutique->name() ?></h5>
+                                                    </div>
+                                                    <div class="col-3 text-right">
+                                                        <i class="fa fa-dollar fa-5x text-muted"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                  <div class="col-lg-3">
+                                    <a href="<?= $this->url("config", "master", "caisse")  ?>">
+                                        <div class="ibox">
+                                            <div class="ibox-content">
+                                                <div class="row">
+                                                    <div class="col-9">
+                                                        <h3 class="text-uppercase gras text-navy">à propos de nous</h3>
+                                                        <h5 class="no-margins text-muted">En savoir plus sur Devaris21</h5>
+                                                    </div>
+                                                    <div class="col-3 text-right">
+                                                        <i class="fa fa-info fa-5x text-muted"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
+
+
 
                         </div>
                     </div>

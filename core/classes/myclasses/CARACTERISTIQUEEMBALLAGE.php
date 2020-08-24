@@ -1,12 +1,11 @@
 <?php
 namespace Home;
-use Native\FICHIER;
 use Native\RESPONSE;
 
 /**
  * 
  */
-class EMBALLAGE extends TABLE
+class CARACTERISTIQUEEMBALLAGE extends TABLE
 {
 	
 	
@@ -14,56 +13,47 @@ class EMBALLAGE extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 
-	public $name ;
-	public $formatemballage_id ;
-	public $initial = 0;
-	public $image ;
+	public $emballage_id ;
+	public $typeproduit_id ;
+	public $parfum_id ;
+	public $quantite_id ;
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		if ($this->initial >= 0) {
-			if ($this->name != "") {
-				$data = $this->save();
-				if ($data->status) {
-						$this->uploading($this->files);
-					}
-			}else{
-				$data->status = false;
-				$data->message = "Veuillez à bien renseigner le nime de l'emballage !";
-			}
+		$datas = EMBALLAGE::findBy(["id ="=>$this->emballage_id]);
+		if (count($datas) == 1) {
+			$data = $this->save();
 		}else{
 			$data->status = false;
-			$data->message = "Veuillez à bien renseigner le stock initial !";
+			$data->message = "Une erreur s'est produite lors de l'enregistrement, veuillez recommencer !";
 		}
 		return $data;
 	}
 
 
 
-	public function uploading(Array $files){
-		//les proprites d'images;
-		$tab = ["image"];
-		if (is_array($files) && count($files) > 0) {
-			$i = 0;
-			foreach ($files as $key => $file) {
-				if ($file["tmp_name"] != "") {
-					$image = new FICHIER();
-					$image->hydrater($file);
-					if ($image->is_image()) {
-						$a = substr(uniqid(), 5);
-						$result = $image->upload("images", "emballages", $a);
-						$name = $tab[$i];
-						$this->$name = $result->filename;
-						$this->save();
-					}
-				}	
-				$i++;			
-			}			
+	public function typeproduit(){
+		if ($this->typeproduit_id != null) {
+			return "Seulement que les ".$this->typeproduit->name();
 		}
+		return "Tous les produits";
 	}
 
 
+	public function parfum(){
+		if ($this->parfum_id != null) {
+			return " de ".$this->parfum->name();
+		}
+		return " de tous les parfums ";
+	}
+
+	public function quantite(){
+		if ($this->quantite_id != null) {
+			return " de ".$this->quantite->name();
+		}
+		return " de toutes les quantite";
+	}
 
 
 	public function stock(String $date){

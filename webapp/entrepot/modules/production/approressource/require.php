@@ -3,7 +3,7 @@ namespace Home;
 
 unset_session("ressources");
 
-$title = "GPV | Toutes les livraisons en cours";
+$title = "GPV | Toutes les approvisionnements de ressources";
 
 $encours = $entrepot->fourni("approvisionnement", ["entrepot_id ="=>$entrepot->id, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
 

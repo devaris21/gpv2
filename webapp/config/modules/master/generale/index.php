@@ -30,7 +30,9 @@
                                 </ul>
                                 <ul class="nav navbar-top-links navbar-right">
                                     <li id="btn-deconnexion" class="text-red cursor">
-                                        <i class="fa fa-sign-out"></i> Déconnexion
+                                        <a href="<?= $this->url("config", "master", "dashboard"); ?>" class="btn_modal btn btn-xs btn-white" >
+<< Retour à la vue générale
+</a>
                                     </li>
                                 </ul>
                             </div>

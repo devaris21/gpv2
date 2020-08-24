@@ -14,302 +14,230 @@
 
           <?php include($this->rootPath("webapp/manager/elements/templates/header.php")); ?>  
 
-          <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-sm-7">
-                <h2 class="text-uppercase">Le Stock des ressources de production</h2>
-                <span>Du <?= datecourt($date1) ?> au <?= datecourt($date2) ?></span>
-            </div>
-            <div class="col-sm-5">
+          <div class="animated fadeInRightBig">
 
-            </div>
-        </div>
-
-        <div class="wrapper wrapper-content">
-            <div class="text-center animated fadeInRightBig">
-
-                <div class="ibox ">
-                    <div class="ibox-title">
-                        <h5 class="float-left">Du <?= datecourt($date1) ?> au <?= datecourt($date2) ?></h5>
-                        <div class="float-right">
-                            <form id="formFiltrer" method="POST">
-                                <div class="row" style="margin-top: -1%">
-                                    <div class="col-5">
-                                        <input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
-                                    </div>
-                                    <div class="col-5">
-                                        <input type="date" value="<?= $date2 ?>" class="form-control input-sm" name="date2">
-                                    </div>
-                                    <div class="col-2">
-                                        <button type="button" onclick="filtrer()" class="btn btn-sm btn-white"><i class="fa fa-search"></i> Filtrer</button>
-                                    </div>
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5 class="float-left">Du <?= datecourt($date1) ?> au <?= datecourt($date2) ?></h5>
+                    <div class="ibox-tools">
+                        <form id="formFiltrer" method="POST">
+                            <div class="row" style="margin-top: -1%">
+                                <div class="col-5">
+                                    <input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
                                 </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <div class="tabs-container produits">
-
-                          <ul class="nav nav-tabs text-uppercase" role="tablist">
-                            <li ><a class="nav-link" data-toggle="tab" href="#pan-0"><i class="fa fa-flask" ></i> Global</a></li>
-                            <?php foreach ($produits as $key => $produit) { ?>
-                                <li style=" border-bottom: 3px solid <?= $produit->couleur; ?>,"><a class="nav-link" data-toggle="tab" href="#pan-<?= $produit->id ?>"><i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <?= $produit->name() ?></a></li>
-                            <?php } ?>
-                        </ul>
-
-                        <div class="tab-content loading-data">
-                            <div role="tabpanel" id="pan-0" class="tab-pane">
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-md-12 border-right border-left text-center">
-                                            <div class="row">
-                                                <div class="col-sm-3 border-right">
-                                                    <h5 class="text-uppercase">Parfum le plus produit</h5><br>
-                                                    <canvas id="myChart1"></canvas>
-                                                </div>
-
-                                                <div class="col-sm-6 text-center">
-                                                    <div class="flot-chart">
-                                                        <div class="flot-chart-content" id="flot-dashboard-chart"></div>
-                                                    </div><hr>
-                                                    <span>Vente directe / vente par prospection</span>
-                                                </div>
-
-                                                <div class="col-sm-3 border-left">
-                                                    <h5 class="text-uppercase">Emballage le plus produit</h5><br>
-                                                    <canvas id="myChart2"></canvas>
-                                                </div>
-                                            </div><hr> 
-                                        </div>
-                                    </div>
-
+                                <div class="col-5">
+                                    <input type="date" value="<?= $date2 ?>" class="form-control input-sm" name="date2">
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" onclick="filtrer()" class="btn btn-sm btn-white"><i class="fa fa-search"></i> Filtrer</button>
                                 </div>
                             </div>
-
-                            <?php foreach ($produits as $key => $produit) {
-                                $qtetotale = $total = 0; ?>
-                                <div role="tabpanel" id="pan-<?= $produit->id ?>" class="tab-pane">
-                                    <div class="panel-body"><br>
-                                        <div class="row">
-                                            <div class="col-md-4 text-left">
-                                                <h3 class="text-uppercase">Stock de <?= $produit->name() ?></h3>
-                                                <ul class="list-group text-left clear-list m-t">
-                                                    <?php foreach ($tableau[$produit->id] as $key => $pdv) { 
-                                                        $qtetotale += $produit->quantiteProduite($date1, $date2);
-                                                        $total += $pdv->pdv->stock($date2) * $pdv->pdv->prix->price ; ?>
-                                                        <li class="list-group-item">
-                                                            <i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i>&nbsp;&nbsp;&nbsp; <?= $pdv->name ?>                                        
-                                                            <span class="float-right">
-                                                                <span class="label label-<?= ($pdv->boutique>0)?"success":"danger" ?>"><?= money($pdv->boutique) ?></span>&nbsp;&nbsp;
-                                                                <small class=""><?= money($pdv->stock) ?></small>
-                                                            </span>
-                                                        </li>
-                                                    <?php } ?>
-                                                    <li class="list-group-item"></li>
-                                                </ul>
-
-                                                <div class="ibox">
-                                                    <div class="ibox-content">
-                                                        <h5>Estimation du stock actuel</h5>
-                                                        <h1 class="no-margins"><?= money($total) ?> <?= $params->devise ?></h1>
-                                                    </div><br>
-
-                                                    <div class="ibox-content">
-                                                        <h5>Quantité produite sur la période</h5>
-                                                        <h3 class="no-margins gras" style="color: <?= $produit->couleur ?>"><?= ($qtetotale) ?> litres / <?= $id ?> jours</h3>
-                                                    </div><br>
-
-                                                    <div class="ibox-content">
-                                                        <h5>Comparaison du stock / commande / prix</h5>
-                                                        <div id="ct-chart-<?= $produit->id ?>" style="height: 150px; width:100%"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-8 border-right border-left">
-                                                <div class="" style="margin-top: 0%">
-
-                                                    <div class="row">
-                                                        <div class="col-sm">
-                                                            <div class="carre bg-success"></div><span>Quantité produite</span>
-                                                        </div>
-                                                        <div class="col-sm">
-                                                            <div class="carre bg-dark"></div><span>Stock de fin de journée</span>
-                                                        </div>
-                                                    </div><hr>
-
-                                                    <table class="table table-bordered table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th rowspan="2" class="border-none"></th>
-                                                                <?php 
-                                                                $lots = $produit->fourni("prixdevente", ["isActive ="=>Home\TABLE::OUI], [], ["quantite_id"=>"ASC"]) ;
-                                                                foreach ($lots as $key => $pdv) {
-                                                                    $pdv->actualise(); ?>
-                                                                    <th><small><?= $pdv->quantite->name() ?></small></th>
-                                                                <?php } ?>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php
-                                                            $i =0;
-                                                            foreach ($productions as $key => $production) { ?>
-                                                                <tr>
-                                                                    <td><?= datecourt3($production->ladate)  ?></td>
-                                                                    <?php
-                                                                    $production->fourni("ligneproduction");
-                                                                    foreach ($lots as $key => $pdv) {
-                                                                        foreach ($production->ligneproductions as $key => $ligne) {
-                                                                            if ($pdv->id == $ligne->produit_id) { 
-                                                                                ?>
-                                                                                <td>
-                                                                                    <h4 class="d-inline text-success gras"><?= start0($ligne->production) ?></h4>&nbsp;&nbsp;=>&nbsp;&nbsp;
-                                                                                    <h4 class="d-inline text-gray-dark gras"><?= start0($pdv->stock($production->ladate)) ?></h4>
-                                                                                </td>
-                                                                            <?php }
-                                                                        }
-                                                                    } ?>
-                                                                </tr>
-                                                            <?php } ?>
-                                                            <tr style="height: 18px;"></tr>
-                                                            <tr>
-                                                                <td ><h4 class="text-center gras text-muted text-uppercase">En boutiques</h4></td>
-                                                                <?php foreach ($lots as $key => $pdv) { ?>
-                                                                    <td><h4 class="gras" ><?= start0($pdv->enBoutique(dateAjoute())) ?></h4></td>
-                                                                <?php } ?>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="width: 30%"><h4 class="text-center gras text-uppercase mp0">En entrepots</h4></td>
-                                                                <?php foreach ($lots as $key => $pdv) { ?>
-                                                                    <td><h4 class="text-muted gras" ><?= start0($pdv->enEntrepot(dateAjoute())) ?></h4></td>
-                                                                <?php } ?>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><h3 class="text-center gras text-uppercase mp0">Stock global actuel</h3><small>Entrepot + boutique</small></td>
-                                                                <?php foreach ($lots as $key => $pdv) { ?>
-                                                                    <td><h3 class="text-green gras" ><?= start0($pdv->stock(dateAjoute())) ?></h3></td>
-                                                                <?php } ?>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table> 
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-md-12 border-right border-left">
+                            <div class="row">
+                                <div class="col-sm-3 border-right">
+                                    <h5 class="text-uppercase gras text-center">Production par parfum</h5>
+                                    <ul class="list-group clear-list m-t">
+                                        <?php foreach ($parfums as $key => $item) {  ?>
+                                            <li class="list-group-item">
+                                                <i class="fa fa-flask" style="color: "></i> <span><?= $item->name()  ?></span>          
+                                                <i class=" float-right"><?= money($item->vendu) ?> Uni</i>
+                                            </li>
+                                        <?php } ?>
+                                        <li class="list-group-item"></li>
+                                    </ul>
                                 </div>
-                                <?php 
-                                $tabproduit[$produit->id] = $qtetotale;
-                            } ?>
+                                <div class="col-sm-6 text-center">
+                                    <div class="flot-chart" style="height: 240px">
+                                        <div class="flot-chart-content" id="flot-dashboard-chart" ></div>
+                                    </div><hr class="mp3">
+                                    <h2 class="mp0 gras"><?= money(comptage($typeproduits, "vendu", "somme"));  ?></h2>
+                                    <span class="small">unités de mésure produites</span>
+                                    <hr class="mp3">
+                                </div>
+                                <div class="col-sm-3 border-left">
+                                    <h5 class="text-uppercase gras text-center">Production par type de produit</h5>
+                                    <ul class="list-group clear-list m-t">
+                                        <?php foreach ($typeproduits as $key => $item) {  ?>
+                                            <li class="list-group-item">
+                                                <i class="fa fa-flask" style="color: "></i> <span><?= $item->name()  ?></span>          
+                                                <i class=" float-right"><?= money($item->vendu) ?> <?= $item->abbr ?></i>
+                                            </li>
+                                        <?php } ?>
+                                        <li class="list-group-item"></li>
+                                    </ul>
 
+                                    <h5 class="text-uppercase gras text-center">Production par entrepot</h5>
+                                    <ul class="list-group clear-list m-t">
+                                        <?php foreach ($entrepots as $key => $item) {  ?>
+                                            <li class="list-group-item">
+                                                <i class="fa fa-bank" style="color: "></i> <span><?= $item->name()  ?></span>          
+                                                <i class=" float-right"><?= money($item->vendu) ?> Uni</i>
+                                            </li>
+                                        <?php } ?>
+                                        <li class="list-group-item"></li>
+                                    </ul>
+
+                                </div>
+                            </div><hr style="border: dashed 1px orangered"> 
                         </div>
+                    </div>
 
+
+                    <div class="row">
+                        <?php foreach ($parfums as $key => $parfum) { ?>
+                            <div class="col-md border-right">
+                                <h6 class="text-uppercase text-center gras" style="color: "><?= $parfum->name();  ?></h6>
+                                <ul class="list-group clear-list m-t">
+                                    <?php foreach ($typeproduits as $key => $type) { ?>
+                                        <li class="list-group-item" style="padding-bottom: 5px">
+                                            <small><?= $type->name();  ?></small>          
+                                            <small class="gras float-right"><?= money(Home\PRODUIT::totalVendu($date1, $date2, null, $parfum->id, $type->id)) ?></small>
+                                        </li>
+                                    <?php } ?>
+                                    <li class="list-group-item"></li>
+                                </ul>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5 class="float-left text-uppercase">Rapport de conditionnement sur la même période</h5>
+                    <div class="ibox-tools">
 
                     </div>
                 </div>
-
+                <div class="ibox-content">
+                    <div class="row">
+                        <?php foreach ($typeproduits as $key => $type) { ?>
+                            <div class="col-md border-right">
+                                <h6 class="text-uppercase text-center gras" style="color: "><?= $type->name();  ?></h6>
+                                <ul class="list-group clear-list m-t">
+                                    <?php foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
+                                        $pro->actualise(); ?>
+                                        <li class="list-group-item" style="padding-bottom: 5px">
+                                            <small><?= $pro->name();  ?></small>          
+                                            <small class="float-right">
+                                                <table class="table table-bordered">
+                                                    <tbody>
+                                                        <tr>
+                                                            <?php foreach ($quantites as $key => $qua) {
+                                                                $produit = new Home\PRODUIT();
+                                                                $datas = Home\PRODUIT::findBy(["isActive="=>Home\TABLE::OUI, "typeproduit_parfum_id="=>$pro->id,"quantite_id="=> $qua->id]);
+                                                                if (count($datas) > 0) { $produit = $datas[0]; } ?>
+                                                                <td style="padding: 4px; width: 50px;" class="text-center"><span class="gras"><?= $produit->conditionnement($date1, $date2, Home\FORMATEMBALLAGE::PRIMAIRE, null) ?></span><br><span><?= $qua->name() ?></span></td>
+                                                            <?php } ?>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </small>
+                                        </li>
+                                    <?php } ?>
+                                    <li class="list-group-item"></li>
+                                </ul>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
             </div>
 
-
         </div>
+
+        <br><br>
+        <?php include($this->rootPath("webapp/manager/elements/templates/footer.php")); ?>
+
+
     </div>
-
-
-    <?php include($this->rootPath("webapp/manager/elements/templates/footer.php")); ?>
-
-
-</div>
 </div>
 
 
 <?php include($this->rootPath("webapp/manager/elements/templates/script.php")); ?>
 
 
-<script type="text/javascript">
-    $(function(){
-        <?php foreach ($produits as $key => $produit) { ?>
-         new Chartist.Bar('#ct-chart-<?= $produit->id ?>', {
-            labels: [<?php foreach ($tableau[$produit->id] as $key => $data){ ?>"<?= $data->prix ?>", " ", " ",<?php } ?>],
-            series: [
-            [<?php foreach ($tableau[$produit->id] as $key => $data){ ?><?= $data->stock ?>, 0, 0,<?php } ?>],
-            [<?php foreach ($tableau[$produit->id] as $key => $data){ ?><?= $data->boutique ?> , 0, 0,<?php } ?>],
-            [<?php foreach ($tableau[$produit->id] as $key => $data){ ?>0, <?= $data->commande ?>, 0,<?php } ?>],
-            ]
-        }, {
-         stackBars: true,
-         axisX: {
-            labelInterpolationFnc: function(value) {
-                if (value >= 1000) {
-                    return (value / 1000) + 'k';            
+
+<script>
+    $(document).ready(function() {
+
+        var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->total ?>], <?php } ?> ];
+
+        var dataset = [
+        {
+            label: "Evolution de la production",
+            data: data1,
+            color: "#1ab394",
+            lines: {
+                lineWidth:1,
+                show: true,
+                fillColor: {
+                    colors: [{
+                        opacity: 0.2
+                    }, {
+                        opacity: 0.4
+                    }]
                 }
-                return value;
+            },
+            splines: {
+                show: false,
+                tension: 0.6,
+                lineWidth: 1,
+                fill: 0.1
+            },
+
+        }
+        ];
+
+
+        var options = {
+            xaxis: {
+                mode: "time",
+                tickSize: [<?= $lot->nb  ?>, "day"],
+                tickLength: 0,
+                axisLabel: "Date",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Arial',
+                axisLabelPadding: 10,
+                color: "#d5d5d5"
+            },
+            yaxes: [{
+                position: "left",
+                color: "#d5d5d5",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Arial',
+                axisLabelPadding: 3
             }
-        },
-        reverseData:true,
-        seriesBarDistance: 10,
-        horizontalBars: true,
-        axisY: {
-            offset: 50
+            ],
+            legend: {
+                noColumns: 1,
+                labelBoxBorderColor: "#000000",
+                position: "nw"
+            },
+            grid: {
+                hoverable: false,
+                borderWidth: 0
+            }
+        };
+
+        function gd(year, month, day) {
+            return new Date(year, month - 1, day).getTime();
         }
+
+        var previousPoint = null, previousLabel = null;
+
+        $.plot($("#flot-dashboard-chart"), dataset, options);
+
+
     });
-     <?php }  ?>
-
-
-
-
-     var ctx = document.getElementById('myChart1').getContext('2d');
-     var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'doughnut',
-
-    // The data for our dataset
-    data: {
-        labels: [<?php foreach ($produits as $key => $prod) { echo "'".$prod->name()."', "; } ?>],
-        datasets: [{
-            label: 'Parfum le plus vendu',
-            data: [<?php foreach ($produits as $key => $prod) { echo "'".ceil($tabproduit[$prod->id])."', "; } ?>],
-            backgroundColor: [<?php foreach ($produits as $key => $prod) { echo "'".$prod->couleur."', "; } ?>],
-        }]
-    },
-
-    // Configuration options go here
-    options: {
-        legend: {
-            display: false,
-            align: "left",
-            position: "bottom",
-            fullWidth: true,
-        }
-    }
-});
-
-
-
-     var ctx = document.getElementById('myChart2').getContext('2d');
-     var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'doughnut',
-
-    // The data for our dataset
-    data: {
-        labels: [<?php foreach ($quantites as $key => $prod) { echo "'".$prod->name()."', "; } ?>],
-        datasets: [{
-            label: 'Emballage le plus produit',
-            data: [<?php foreach ($quantites as $key => $prod) { echo "'".ceil($prod->production($date1, $date2))."', "; } ?>],
-            backgroundColor: [<?php foreach ($quantites as $key => $prod) { echo "'".$faker->hexColor()."', "; } ?>],
-        }]
-    },
-
-    // Configuration options go here
-    options: {
-        legend: false
-    }
-});
-
-     $(".loading-data").removeClass("loading-data");
-
- })
 </script>
+
 
 
 </body>

@@ -85,6 +85,9 @@
                 <li class="" id="rapportproduction">
                     <a href="<?= $this->url($this->section, "rapports", "rapportproduction") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de production</span></a>
                 </li>
+                <li class="" id="coutproduction">
+                    <a href="<?= $this->url($this->section, "rapports", "coutproduction") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Coût de production</span></a>
+                </li>
                 <li class="" id="rapportvente">
                     <a href="<?= $this->url($this->section, "rapports", "rapportvente") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de vente</span></a>
                 </li>
@@ -111,18 +114,6 @@
 
                 <?php } ?>
 
-
-                <?php if ($employe->isAutoriser("parametres")) { ?>
-                    <li class="" id="configuration">
-                        <a href="<?= $this->url($this->section, "parametres", "configuration") ?>"><i class="fa fa-gears"></i> <span class="nav-label">Configuration</span></a>
-                    </li>
-              <!--   <li class="" id="historiques">
-                    <a href="<?= $this->url($this->section, "parametres", "historiques") ?>"><i class="fa fa-clock-o"></i> <span class="nav-label">Historiques</span></a>
-                </li>
-                <li class="" id="abonnement">
-                    <a href="<?= $this->url($this->section, "parametres", "abonnement") ?>"><i class="fa fa-star"></i> <span class="nav-label">Abonnement</span> <span class="label label-danger float-right"></span></a>
-                </li> -->
-            <?php } ?>
 
         </ul>
 

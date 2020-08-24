@@ -4,7 +4,8 @@ use Native\ROOTER;
 require '../../../../../core/root/includes.php';
 
 use Native\RESPONSE;
-
+	$params = PARAMS::findLastId();
+	$rooter = new ROOTER;
 $data = new RESPONSE;
 extract($_POST);
 
@@ -16,8 +17,6 @@ if ($action == "changer") {
 
 
 if ($action == "newproduit") {
-	$params = PARAMS::findLastId();
-	$rooter = new ROOTER;
 	$produits = [];
 	if (getSession("produits") != null) {
 		$produits = getSession("produits"); 

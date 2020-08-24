@@ -4,10 +4,12 @@ namespace Home;
 unset_session("produits");
 unset_session("commande-encours");
 
-$title = "GPV | Toutes les ventes directes";
+$title = "GPV | Toutes les ventes";
 
-$ventes = VENTE::findBy(["typevente_id ="=>TYPEVENTE::DIRECT, "DATE(created) >= "=>dateAjoute(-8)], [], ["created"=>"DESC"]);
-$ventes__ = VENTE::findBy(["typevente_id ="=>TYPEVENTE::DIRECT, "DATE(created) ="=>dateAjoute()]);
+
+$encours = $boutique->fourni("vente", ["etat_id ="=>ETAT::ENCOURS]);
+
+$ventes = $boutique->fourni("vente", ["etat_id !="=>ETAT::ENCOURS, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2]);
 
 
 ?>

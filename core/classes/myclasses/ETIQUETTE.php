@@ -14,18 +14,18 @@ class ETIQUETTE extends TABLE
 
 
 	public $produit_id;
-	public $stock = 0;
+	public $initial = 0;
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
 		$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
 		if (count($datas) == 1) {
-			if ($this->stock >= 0) {
+			if ($this->initial >= 0) {
 				$data = $this->save();
 			}else{
 				$data->status = false;
-				$data->message = "Veuillez à bien renseigner le stock initial !";
+				$data->message = "Veuillez à bien renseigner le initial initial !";
 			}
 		}else{
 			$data->status = false;
@@ -39,11 +39,11 @@ class ETIQUETTE extends TABLE
 	public function name()
 	{
 		$this->actualise();
-		return $this->prixdevente->produit->name()." / ".$this->prixdevente->quantite->name();
+		return $this->produit->name();
 	}
 
 	public function stock(String $date){
-		return $this->achat("2020-06-01", $date) + intval($this->stock) - $this->consommee("2020-06-01", $date);
+		return $this->achat("2020-06-01", $date) + intval($this->initial) - $this->consommee("2020-06-01", $date);
 	}
 
 

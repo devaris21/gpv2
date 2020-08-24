@@ -3,9 +3,11 @@ namespace Home;
 unset_session("produits");
 unset_session("commande-encours");
 
-$title = "GPV | Toutes les ventes en cours";
+$title = "GPV | Toutes les prospections";
 
-$prospections = PROSPECTION::findBy(["typeprospection_id ="=>TYPEPROSPECTION::PROSPECTION, "DATE(created) >= "=>dateAjoute(-8)], [], ["created"=>"DESC"]);
+$encours = $boutique->fourni("prospection", ["typeprospection_id ="=>TYPEPROSPECTION::PROSPECTION, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
+
+$prospections = $boutique->fourni("prospection", ["typeprospection_id ="=>TYPEPROSPECTION::PROSPECTION, "etat_id !="=>ETAT::ENCOURS, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2], [], ["created"=>"DESC"]);
 
 
 ?>

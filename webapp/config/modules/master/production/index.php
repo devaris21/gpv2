@@ -30,7 +30,9 @@
                                 </ul>
                                 <ul class="nav navbar-top-links navbar-right">
                                     <li id="btn-deconnexion" class="text-red cursor">
-                                        <i class="fa fa-sign-out"></i> Déconnexion
+                                        <a href="<?= $this->url("config", "master", "dashboard"); ?>" class="btn_modal btn btn-xs btn-white" >
+<< Retour à la vue générale
+</a>
                                     </li>
                                 </ul>
                             </div>
@@ -58,6 +60,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Libéllé</th>
+                                                    <th>Unité</th>
+                                                    <th></th>
                                                     <th>Activé ?</th>
                                                     <th></th>
                                                     <th></th>
@@ -68,6 +72,8 @@
                                                     $i++; ?>
                                                     <tr>
                                                         <td class="gras"><?= $item->name(); ?></td>
+                                                        <td><?= $item->unite; ?></td>
+                                                        <td><?= $item->abbr; ?></td>
                                                         <td>
                                                             <div class="switch">
                                                                 <div class="onoffswitch">
@@ -113,7 +119,7 @@
                                                 <?php $i =0; foreach (Home\PARFUM::findBy([], [], ["isActive"=>"DESC", "name"=>"ASC"]) as $key => $item) {
                                                     $i++; ?>
                                                     <tr>
-                                                        <td ><img style="width: 40px" src="<?= $this->stockage("images", "produits", $item->image); ?>"></td>
+                                                        <td><div class="border" style="width: 20px; height: 20px; background-color: <?= $item->couleur ?>"></div></td>
                                                         <td class="gras"><?= $item->name(); ?></td>
                                                         <td>
                                                             <div class="switch">
@@ -180,14 +186,97 @@
                                     </div>
                                 </div>
                             </div>
+
+
+                            <div class="col-sm-4 bloc">
+                                <div class="ibox border">
+                                    <div class="ibox-title">
+                                        <h5 class="text-uppercase">Les types d'emballage</h5>
+                                        <div class="ibox-tools">
+                                            <button class="btn_modal btn btn-xs btn-white" data-toggle="modal" data-target="#modal-emballage">
+                                                <i class="fa fa-plus"></i> Ajouter
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Nom</th>
+                                                    <th>Qté initial</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $i =0; foreach (Home\EMBALLAGE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
+                                                    $item->actualise();  ?>
+                                                    <tr>
+                                                        <td ><img style="width: 40px" src="<?= $this->stockage("images", "emballages", $item->image); ?>"></td>
+                                                        <td class="gras"><?= $item->name(); ?></td>
+                                                        <td><?= $item->initial; ?> unités</td>
+                                                        <td data-toggle="modal" data-target="#modal-emballage" title="modifier l'élément" onclick="modification('emballage', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                        <td title="supprimer la format d'emballage" onclick="suppressionWithPassword('emballage', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                    </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-8 bloc">
+                                <div class="ibox border">
+                                    <div class="ibox-title">
+                                        <h5 class="text-uppercase">Les caractéristiques des emballage</h5>
+                                        <div class="ibox-tools">
+                                            <button class="btn_modal btn btn-xs btn-white" data-toggle="modal" data-target="#modal-caracteristiqueemballage">
+                                                <i class="fa fa-plus"></i> Ajouter
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th>type de produit</th>
+                                                    <th>Parfum</th>
+                                                    <th>Quantité</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $i =0; foreach (Home\CARACTERISTIQUEEMBALLAGE::findBy([], [], []) as $key => $item) {
+                                                    $item->actualise();  ?>
+                                                    <tr>
+                                                        <td class="gras"><?= $item->emballage->name(); ?></td>
+                                                        <td>peut contenir</td>
+                                                        <td class="gras"><?= $item->typeproduit(); ?></td>
+                                                        <td class="gras"><?= $item->parfum(); ?></td>
+                                                        <td class="gras"><?= $item->quantite(); ?></td>
+                                                        <td data-toggle="modal" data-target="#modal-caracteristiqueemballage" title="modifier l'élément" onclick="modification('caracteristiqueemballage', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                        <td title="supprimer l'element'" onclick="suppressionWithPassword('caracteristiqueemballage', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                    </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-sm-4 bloc">
                                 <div class="ibox border">
                                     <div class="ibox-title">
                                         <h5 class="text-uppercase">Les matières premières</h5>
                                         <div class="ibox-tools">
-                                            <a class="btn_modal btn btn-xs btn-white" data-toggle="modal" data-target="#modal-ressource">
+                                            <button class="btn_modal btn btn-xs btn-white" data-toggle="modal" data-target="#modal-ressource">
                                                 <i class="fa fa-plus"></i> Ajouter
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="ibox-content">
@@ -226,9 +315,9 @@
                                     <div class="ibox-title">
                                         <h5 class="text-uppercase">Les formats d'emballage</h5>
                                         <div class="ibox-tools">
-                                            <a class="btn_modal btn btn-xs btn-white" data-toggle="modal" data-target="#modal-formatemballage">
+                                            <button class="btn_modal btn btn-xs btn-white" data-toggle="modal" data-target="#modal-formatemballage">
                                                 <i class="fa fa-plus"></i> Ajouter
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="ibox-content">
@@ -276,9 +365,9 @@
                                     <div class="ibox-title">
                                         <h5 class="text-uppercase">Les zones de vente</h5>
                                         <div class="ibox-tools">
-                                            <a class="btn_modal btn btn-xs btn-white" data-toggle="modal" data-target="#modal-zonedevente">
+                                            <button class="btn_modal btn btn-xs btn-white" data-toggle="modal" data-target="#modal-zonedevente">
                                                 <i class="fa fa-plus"></i> Ajouter
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="ibox-content">
@@ -318,6 +407,7 @@
 
 
         <?php include($this->rootPath("webapp/master/elements/templates/script.php")); ?>
+        <?php include($this->relativePath("modals.php")); ?>
 
         <?php include($this->rootPath("composants/assets/modals/modal-params.php") );  ?>
 

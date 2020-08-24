@@ -4,6 +4,7 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 				<h4 class="modal-title">Formulaire de ressource</h4>
+				<small>Veuillez renseigner les champs pour enregistrer la ressource</small>
 			</div>
 			<form method="POST" class="formShamman" classname="ressource">
 				<div class="modal-body">
@@ -29,24 +30,10 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm-4">
-							<label>Produit fini lié </label>
-							<div class="form-group">
-								<?php Native\BINDING::html("select", "produit")  ?>
-							</div>
-						</div>
 						<div class="col-sm-4 unmodified">
 							<label>Stock actuel </label>
 							<div class="form-group">
 								<input type="number" number class="form-control" name="stock" value="0" min="0" required>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<label>Image ressource</label>
-							<div class="">
-								<img style="width: 80px;" src="" class="img-thumbnail logo">
-								<input class="hide" type="file" name="image">
-								<button type="button" class="btn btn-sm bg-purple pull-right btn_image"><i class="fa fa-image"></i> Ajouter une image</button>
 							</div>
 						</div>
 					</div>

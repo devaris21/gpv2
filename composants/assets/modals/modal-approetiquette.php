@@ -1,6 +1,6 @@
 
 <div class="modal inmodal fade" id="modal-approetiquette" style="z-index: 99999999">
-    <div class="modal-dialog modal-xl" style="width: 95%">
+    <div class="modal-dialog modal-xll">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -21,14 +21,18 @@
                                     <!-- rempli en Ajax -->
                                 </tbody>
                             </table>
+                        </div>
 
-                            <?php foreach (Home\PRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $item) { ?>
-                                <div class="">
-                                    <?php  foreach ($item->fourni("prixdevente", ["isActive ="=>Home\TABLE::OUI]) as $key => $value) { ?>
-                                        <button style="color: <?= $item->couleur  ?>" class="btn btn-white dim newressource text-capitalize" data-id="<?= $value->id ?>"><i class="fa fa-flask"></i> <?= $value->name(); ?></button>
-                                    <?php  } ?>                               
+                        <div class="row">
+                            <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
+                                <div class="col text-center border-right">
+                                    <h5 class="text-uppercase gras text-center"><?= $type->name()  ?></h5>
+                                    <?php foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
+                                        $pro->actualise(); ?>
+                                        <button class="btn btn-white btn-xs newetiquette btn-block cursor" data-id="<?= $pro->id ?>"><?= $pro->name(); ?></button>
+                                    <?php }  ?>
                                 </div>
-                            <?php  }  ?>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

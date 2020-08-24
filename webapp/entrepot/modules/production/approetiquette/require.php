@@ -3,15 +3,10 @@ namespace Home;
 
 unset_session("ressources");
 
-$title = "GPV | Toutes les livraisons en cours";
+$title = "GPV | Toutes les approvisionnements d'etiquette";
 
-$approvisionnements = $entrepot->fourni("approetiquette", [], [], ["created"=>"DESC"]);
-$total = 0;
-foreach ($approvisionnements as $key => $liv) {
-	if ($liv->etat_id == ETAT::ENCOURS) {
-		$total++;
-	}
-}
+$encours = $entrepot->fourni("approetiquette", ["entrepot_id ="=>$entrepot->id, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
 
+$datas = $entrepot->fourni("approetiquette", ["entrepot_id ="=>$entrepot->id, "etat_id !="=>ETAT::ENCOURS, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2], [], ["created"=>"DESC"]);
 
 ?>
