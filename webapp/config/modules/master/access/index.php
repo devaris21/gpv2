@@ -31,8 +31,8 @@
                                 <ul class="nav navbar-top-links navbar-right">
                                     <li id="btn-deconnexion" class="text-red cursor">
                                         <a href="<?= $this->url("config", "master", "dashboard"); ?>" class="btn_modal btn btn-xs btn-white" >
-<< Retour à la vue générale
-</a>
+                                            << Retour à la vue générale
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -43,7 +43,7 @@
                     <div class="wrapper-content">
                         <div class="animated fadeInRightBig container-fluid">
 
-                           <div class="ibox border">
+                         <div class="ibox border">
                             <div class="ibox-title">
                                 <h5 class="text-uppercase">Personnes ayant accès et leur roles</h5>
                                 <div class="ibox-tools">
@@ -77,21 +77,21 @@
                                                         <span class="">Pass: <?= $item->pass ?></span>
                                                     <?php } ?>
                                                 </td>
-                                                <td class="" width="400px">
+                                                <td class="" style="width: 60%">
                                                     <?php $datas = $item->fourni("role_employe");
                                                     $lots = [];
                                                     foreach ($datas as $key => $rem) {
                                                         $rem->actualise();
                                                         $lots[] = $rem->role->id; ?>
-                                                        <button style="margin-top: 1%" employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-primary btn-xs refuser"><?= $rem->role->name() ?></button>
+                                                        <button style="margin-top: 1%" employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn bg-green btn-xs refuser"><?= $rem->role->name() ?></button>
                                                         <?php } ?><hr class="mp3">
 
                                                         <?php foreach (Home\ROLE::getAll() as $key => $role) {
                                                             if (!in_array($role->id, $lots)) { ?>
-                                                             <button style="margin-top: 1%" employe="<?= $rem->employe_id ?>" role="<?= $role->id ?>" class="btn btn-white btn-xs autoriser"><?= $role->name() ?></button>
-                                                         <?php } } ?>                
-                                                     </td>
-                                                     <td class="text-right">          
+                                                               <button style="margin-top: 1%" employe="<?= $rem->employe_id ?>" role="<?= $role->id ?>" class="btn btn-white btn-xs autoriser"><?= $role->name() ?></button>
+                                                           <?php } } ?>                
+                                                       </td>
+                                                       <td class="text-right">          
                                                         <button onclick="resetPassword('employe', <?= $item->id ?>)" class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Init. mot de passe</button><br>
 
                                                         <?php if ($item->is_allowed == 1) { ?>

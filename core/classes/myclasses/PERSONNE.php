@@ -140,11 +140,7 @@ abstract class PERSONNE extends TABLE
 
 
 	public function is_allowed(){
-		if ($this->is_allowed == 0) {
-			return false;
-		}else{
-			return true;
-		}
+		return ($this->is_allowed == TABLE::OUI);
 	}
 
 

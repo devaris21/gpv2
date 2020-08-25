@@ -152,22 +152,6 @@ foreach ($datas as $key => $value) {
 }
 
 
-$datas = ["Accrochage", "Crevaison", "Autre"];
-foreach ($datas as $key => $value) {
-	$item = new TYPEENTRETIENVEHICULE();
-	$item->name = $value;
-	$item->setProtected(1);
-	$item->save();
-}
-
-$datas = ["Camion de livraison", "Véhicule de mission"];
-foreach ($datas as $key => $value) {
-	$item = new GROUPEVEHICULE();
-	$item->name = $value;
-	$item->setProtected(1);
-	$item->save();
-}
-
 
 $datas = ["Bissap", "Gingembre", "Passion", "Tamarin", "Citron", "Baobab"];
 foreach ($datas as $key => $value) {
@@ -187,28 +171,6 @@ foreach ($datas as $key => $value) {
 	$item->enregistre();
 }
 
-
-$item = new VEHICULE();
-$item->immatriculation = "...";
-$item->modele = "PAR NOS COMMERCIAUX";
-$item->marque_id = 0;
-$item->typevehicule_id = 1;
-$item->groupevehicule_id = 1;
-$item->prestataire_id = 1;
-$item->visibility = 0;
-$item->setProtected(1);
-$item->save();
-
-$item = new VEHICULE();
-$item->immatriculation = "...";
-$item->modele = "LE VEHICULE DU CLIENT";
-$item->marque_id = 0;
-$item->typevehicule_id = 1;
-$item->groupevehicule_id = 1;
-$item->prestataire_id = 1;
-$item->visibility = 0;
-$item->setProtected(1);
-$item->save();
 
 
 $datas = ["Entreprise", "Particulier"];
@@ -233,7 +195,7 @@ $item->save();
 
 
 
-$datas = ["master", "production", "ventes", "approvisionnement", "caisse", "parametres", "paye des manoeuvre", "modifier-supprimer", "archives"];
+$datas = ["master", "manager", "boutique", "entrepot", "approvisionnemnt", "caisse", "parametres", "paye des manoeuvre", "modifier-supprimer", "archives"];
 foreach ($datas as $key => $value) {
 	$item = new ROLE();
 	$item->name = $value;
@@ -261,15 +223,6 @@ $item->setProtected(1);
 $item->enregistre();
 
 
-$item = new PRESTATAIRE();
-$item->name = "Devaris PRESTATAIRE";
-$item->email = "info@devaris21.com";
-$item->login = "...";
-$item->password = "...";
-$item->adresse = "...";
-$item->contact = "...";
-$item->setProtected(1);
-$item->save();
 
 $item = new FOURNISSEUR();
 $item->name = "Devaris FOURNISSEUR";
@@ -280,25 +233,6 @@ $item->fax = "...";
 $item->visibility = 0;
 $item->setProtected(1);
 $item->save();
-
-
-$item = new CLIENT();
-$item->name = "Monsieur Tout le Monde";
-$item->adresse = "...";
-$item->contact = "...";
-$item->visibility = 0;
-$item->setProtected(1);
-$item->save();
-
-
-$item = new COMMERCIAL();
-$item->name = "La boutique";
-$item->adresse = "Magazin à bassam";
-$item->contact = "...";
-$item->visibility = 0;
-$item->setProtected(1);
-$item->save();
-
 
 
 $item = new MODEPAYEMENT();

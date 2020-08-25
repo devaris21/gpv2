@@ -14,10 +14,10 @@ class EMPLOYE extends AUTH
 	public static $namespace = __NAMESPACE__;
 
 	public $name;
-	public $is_allowed = 1;
+	public $is_allowed = TABLE::OUI;
 	public $started;
 	public $email;
-	public $is_new = 1;
+	public $is_new = TABLE::OUI;
 	public $boutique_id ;
 	public $entrepot_id ;
 	public $isManager = TABLE::NON;

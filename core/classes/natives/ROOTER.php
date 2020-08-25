@@ -107,19 +107,12 @@ class ROOTER extends PATH
                                             if (count($datas) == 1) {
                                                 $boutique = $datas[0];
                                                 session("boutique_connecte_id", $boutique->id);
-                                            }else{
-                                                $this->new_root("main", "home", "erreur500");
-                                                $this->render();
-                                                return false;
                                             }
+
                                             $datas = ENTREPOT::findBy(["id ="=>$employe->entrepot_id]);
                                             if (count($datas) == 1) {
                                                 $entrepot = $datas[0];
                                                 session("entrepot_connecte_id", $entrepot->id);
-                                            }else{
-                                                $this->new_root("main", "home", "erreur500");
-                                                $this->render();
-                                                return false;
                                             }
 
                                             if ($employe->boutique_id != null) {

@@ -31,8 +31,8 @@
                                 <ul class="nav navbar-top-links navbar-right">
                                     <li id="btn-deconnexion" class="text-red cursor">
                                         <a href="<?= $this->url("config", "master", "dashboard"); ?>" class="btn_modal btn btn-xs btn-white" >
-<< Retour à la vue générale
-</a>
+                                            << Retour à la vue générale
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -119,7 +119,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Nom</th>
-                                                        <th>Type</th>
+                                                        <th>Lieu</th>
                                                         <th></th>
                                                         <th></th>
                                                     </tr>
@@ -155,7 +155,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Nom</th>
-                                                        <th>Type</th>
+                                                        <th>Lieu</th>
                                                         <th></th>
                                                         <th></th>
                                                     </tr>
