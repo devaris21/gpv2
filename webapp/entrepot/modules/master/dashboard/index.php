@@ -61,11 +61,7 @@
                             </div>
                         </div>
                     </div><hr>
-                    <div class="text-center">
-                        <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
-                            <button data-toggle="modal" data-target="#modal-production" style="color: #efa" onclick=" modification('production', <?= $production->id; ?>) " class="btn btn-default btn-xs dim"> <i class="fa fa-long-arrow-right"></i> Nouvelle production de <?= $type->name()  ?></button>
-                        <?php } ?>
-                    </div>
+               
                 </div>
 
             </div>

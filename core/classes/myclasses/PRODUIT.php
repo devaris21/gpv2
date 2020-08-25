@@ -336,7 +336,7 @@ class PRODUIT extends TABLE
 		$params = PARAMS::findLastId();
 		$datas = static::findBy(["isActive ="=>TABLE::OUI]);
 		foreach ($datas as $key => $item) {
-			if ($item->enBoutique(dateAjoute(), $boutique_id) > $params->ruptureStock) {
+			if ($item->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $boutique_id) > $params->ruptureStock) {
 				unset($datas[$key]);
 			}
 		}
@@ -348,7 +348,7 @@ class PRODUIT extends TABLE
 		$params = PARAMS::findLastId();
 		$datas = static::findBy(["isActive ="=>TABLE::OUI]);
 		foreach ($datas as $key => $item) {
-			if ($item->enEntrepot(dateAjoute(), $entrepot_id) > $params->ruptureStock) {
+			if ($item->enEntrepot(PARAMS::DATE_DEFAULT, dateAjoute(1), $entrepot_id) > $params->ruptureStock) {
 				unset($datas[$key]);
 			}
 		}
