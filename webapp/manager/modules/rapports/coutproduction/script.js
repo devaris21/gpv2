@@ -22,4 +22,5 @@ $(function(){
 	})
 
 
+	$("input").last().change();
 })

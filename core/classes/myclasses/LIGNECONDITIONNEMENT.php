@@ -12,7 +12,7 @@ class LIGNECONDITIONNEMENT extends TABLE
 
 	public $conditionnement_id;
 	public $produit_id;
-	public $formatemballage_id;
+	public $emballage_id;
 	public $quantite = 0;
 
 
@@ -23,7 +23,7 @@ class LIGNECONDITIONNEMENT extends TABLE
 		if (count($datas) == 1) {
 			$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
 			if (count($datas) == 1) {
-				$datas = FORMATEMBALLAGE::findBy(["id ="=>$this->formatemballage_id]);
+				$datas = EMBALLAGE::findBy(["id ="=>$this->emballage_id]);
 				if (count($datas) == 1) {
 					if ($this->quantite >= 0) {
 						$data = $this->save();

@@ -132,7 +132,7 @@
                                                                 $produit = new Home\PRODUIT();
                                                                 $datas = Home\PRODUIT::findBy(["isActive="=>Home\TABLE::OUI, "typeproduit_parfum_id="=>$pro->id,"quantite_id="=> $qua->id]);
                                                                 if (count($datas) > 0) { $produit = $datas[0]; } ?>
-                                                                <td style="padding: 4px; width: 50px;" class="text-center"><span class="gras"><?= $produit->conditionnement($date1, $date2, Home\FORMATEMBALLAGE::PRIMAIRE, null) ?></span><br><span><?= $qua->name() ?></span></td>
+                                                                <td style="padding: 4px; width: 50px;" class="text-center"><span class="gras"><?= $produit->conditionnement($date1, $date2, Home\EMBALLAGE::PRIMAIRE, null) ?></span><br><span><?= $qua->name() ?></span></td>
                                                             <?php } ?>
                                                         </tr>
                                                     </tbody>

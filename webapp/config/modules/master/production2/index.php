@@ -31,8 +31,8 @@
                                 <ul class="nav navbar-top-links navbar-right">
                                     <li id="btn-deconnexion" class="text-red cursor">
                                         <a href="<?= $this->url("config", "master", "dashboard"); ?>" class="btn_modal btn btn-xs btn-white" >
-<< Retour à la vue générale
-</a>
+                                            << Retour à la vue générale
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -76,8 +76,8 @@
                                                                     <span><?= $item->name();  ?></span><br>
                                                                     <div class="switch" style="display: inline-block;">
                                                                         <div class="onoffswitch">
-                                                                            <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("typeproduit_parfum", <?= $item->id ?>)' class="onoffswitch-checkbox" id="example<?= $item->id ?>">
-                                                                            <label class="onoffswitch-label" for="example<?= $item->id ?>">
+                                                                            <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("typeproduit_parfum", <?= $item->id ?>)' class="onoffswitch-checkbox" id="typeproduit_parfum<?= $item->id ?>">
+                                                                            <label class="onoffswitch-label" for="typeproduit_parfum<?= $item->id ?>">
                                                                                 <span class="onoffswitch-inner"></span>
                                                                                 <span class="onoffswitch-switch"></span>
                                                                             </label>
@@ -132,7 +132,7 @@
                                                                         $item->actualise(); ?>
                                                                         <td class="text-center"><?= money($item->quantite); ?> <?= $item->ressource->abbr ?></td>
                                                                     <?php  }else{ ?>
-<td></td>
+                                                                        <td></td>
                                                                     <?php }
                                                                 } ?>
                                                                 <td><i class="fa fa-pencil cursor" data-toggle="modal" data-target="#modal-exigence<?= $prod->id ?>"> </i></td>
@@ -157,9 +157,9 @@
                                             <table class="table table-striped table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th></th>
+                                                        <th style="width: 20%;"></th>
                                                         <?php $i =0; foreach ($quantites as $key => $qua) {  ?>
-                                                            <td class="gras text-center"><?= $qua->name(); ?></td>
+                                                            <th style="width: 20%;" class="gras text-center"><?= $qua->name(); ?></th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>
@@ -180,14 +180,21 @@
                                                                                 <span class="onoffswitch-switch"></span>
                                                                             </label>
                                                                         </div>
-                                                                    </div><br>
+                                                                    </div>
                                                                     <?php if ($produit->isActive()) { ?>
-                                                                        <div class="select-prix" id="<?= $produit->id ?>" style="display: inline-block; width: 100px; margin: 0%">
-                                                                            <input type="number" class="form-control input-sm text-center" value="<?= $produit->prix ?>" name="prix">
-                                                                        </div>
-
-                                                                        <div class="select-prix_gros" id="<?= $produit->id ?>" style="display: inline-block; width: 100px; margin: 0%; color: orangered">
-                                                                            <input type="number" class="form-control input-sm text-center" value="<?= $produit->prix_gros ?>" name="prix_gros">
+                                                                        <div class="row produits">
+                                                                            <div class="col-sm-4">
+                                                                                <small>Stk. initial</small>
+                                                                                <input type="text" number class="form-control input-sm text-center initial" value="<?= $produit->initial ?>" name="initial" id="<?= $produit->id ?>">
+                                                                            </div>
+                                                                            <div class="col-sm-4" style="color: blue">
+                                                                                <small>Prix normal</small>
+                                                                                <input type="text" number class="form-control input-sm text-center prix" value="<?= $produit->prix ?>" name="prix" id="<?= $produit->id ?>">
+                                                                            </div>
+                                                                            <div class="col-sm-4" style=" color: orangered">
+                                                                                <small>Prix de gros</small>
+                                                                                <input type="text" number class="form-control input-sm text-center prix_gros" value="<?= $produit->prix_gros ?>" name="prix_gros" id="<?= $produit->id ?>">
+                                                                            </div>
                                                                         </div>
                                                                     <?php } ?>
                                                                 </td>

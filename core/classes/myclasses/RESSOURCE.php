@@ -50,10 +50,10 @@ class RESSOURCE extends TABLE
 		$total += $item[0]->quantite;
 
 
-		$requette = "SELECT SUM(consommation) as consommation  FROM ligneconsommationjour, ressource, production WHERE ligneconsommationjour.ressource_id = ressource.id AND ressource.id = ? AND ligneconsommationjour.production_id = production.id AND DATE(production.ladate) <= ? GROUP BY ressource.id";
+		$requette = "SELECT SUM(quantite) as quantite  FROM ligneconsommationjour, ressource, production WHERE ligneconsommationjour.ressource_id = ressource.id AND ressource.id = ? AND ligneconsommationjour.production_id = production.id AND DATE(production.created) <= ? GROUP BY ressource.id";
 		$item = LIGNECONSOMMATIONJOUR::execute($requette, [$this->id, $date]);
 		if (count($item) < 1) {$item = [new LIGNECONSOMMATIONJOUR()]; }
-		$total -= $item[0]->consommation;
+		$total -= $item[0]->quantite;
 
 		return $total + intval($this->stock);
 	}

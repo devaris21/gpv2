@@ -31,8 +31,8 @@
                                 <ul class="nav navbar-top-links navbar-right">
                                     <li id="btn-deconnexion" class="text-red cursor">
                                         <a href="<?= $this->url("config", "master", "dashboard"); ?>" class="btn_modal btn btn-xs btn-white" >
-<< Retour à la vue générale
-</a>
+                                            << Retour à la vue générale
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -77,8 +77,8 @@
                                                         <td>
                                                             <div class="switch">
                                                                 <div class="onoffswitch">
-                                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("typeproduit", <?= $item->id ?>)' class="onoffswitch-checkbox" id="example<?= $item->id ?>">
-                                                                    <label class="onoffswitch-label" for="example<?= $item->id ?>">
+                                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("typeproduit", <?= $item->id ?>)' class="onoffswitch-checkbox" id="typeproduit<?= $item->id ?>">
+                                                                    <label class="onoffswitch-label" for="typeproduit<?= $item->id ?>">
                                                                         <span class="onoffswitch-inner"></span>
                                                                         <span class="onoffswitch-switch"></span>
                                                                     </label>
@@ -124,8 +124,8 @@
                                                         <td>
                                                             <div class="switch">
                                                                 <div class="onoffswitch">
-                                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("parfum", <?= $item->id ?>)' class="onoffswitch-checkbox" id="example<?= $item->id ?>">
-                                                                    <label class="onoffswitch-label" for="example<?= $item->id ?>">
+                                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("parfum", <?= $item->id ?>)' class="onoffswitch-checkbox" id="parfum<?= $item->id ?>">
+                                                                    <label class="onoffswitch-label" for="parfum<?= $item->id ?>">
                                                                         <span class="onoffswitch-inner"></span>
                                                                         <span class="onoffswitch-switch"></span>
                                                                     </label>
@@ -169,8 +169,8 @@
                                                         <td>
                                                             <div class="switch">
                                                                 <div class="onoffswitch">
-                                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("quantite", <?= $item->id ?>)' class="onoffswitch-checkbox" id="example<?= $item->id ?>">
-                                                                    <label class="onoffswitch-label" for="example<?= $item->id ?>">
+                                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("quantite", <?= $item->id ?>)' class="onoffswitch-checkbox" id="quantite<?= $item->id ?>">
+                                                                    <label class="onoffswitch-label" for="quantite<?= $item->id ?>">
                                                                         <span class="onoffswitch-inner"></span>
                                                                         <span class="onoffswitch-switch"></span>
                                                                     </label>
@@ -188,7 +188,7 @@
                             </div>
 
 
-                            <div class="col-sm-4 bloc">
+                            <div class="col-sm-5 bloc">
                                 <div class="ibox border">
                                     <div class="ibox-title">
                                         <h5 class="text-uppercase">Les types d'emballage</h5>
@@ -204,6 +204,7 @@
                                                 <tr>
                                                     <th></th>
                                                     <th>Nom</th>
+                                                    <th>Composé de </th>
                                                     <th>Qté initial</th>
                                                     <th></th>
                                                     <th></th>
@@ -215,6 +216,7 @@
                                                     <tr>
                                                         <td ><img style="width: 40px" src="<?= $this->stockage("images", "emballages", $item->image); ?>"></td>
                                                         <td class="gras"><?= $item->name(); ?></td>
+                                                        <td><?= $item->quantite; ?> <b><?= $item->emballage->name(); ?></b></td>
                                                         <td><?= $item->initial; ?> unités</td>
                                                         <td data-toggle="modal" data-target="#modal-emballage" title="modifier l'élément" onclick="modification('emballage', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
                                                         <td title="supprimer la format d'emballage" onclick="suppressionWithPassword('emballage', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
@@ -227,7 +229,7 @@
                             </div>
 
 
-                            <div class="col-sm-8 bloc">
+                            <div class="col-sm-7 bloc">
                                 <div class="ibox border">
                                     <div class="ibox-title">
                                         <h5 class="text-uppercase">Les caractéristiques des emballage</h5>
@@ -310,55 +312,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-4 bloc">
-                                <div class="ibox border">
-                                    <div class="ibox-title">
-                                        <h5 class="text-uppercase">Les formats d'emballage</h5>
-                                        <div class="ibox-tools">
-                                            <button class="btn_modal btn btn-xs btn-white" data-toggle="modal" data-target="#modal-formatemballage">
-                                                <i class="fa fa-plus"></i> Ajouter
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="ibox-content">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th>Libéllé</th>
-                                                    <th></th>
-                                                    <th>Activé ?</th>
-                                                    <th></th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php $i =0; foreach (Home\FORMATEMBALLAGE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
-                                                    $item->actualise();  ?>
-                                                    <tr>
-                                                        <td ><img style="width: 40px" src="<?= $this->stockage("images", "formatemballages", $item->image); ?>"></td>
-                                                        <td class="gras"><?= $item->name(); ?></td>
-                                                        <td><?= $item->quantite; ?> <b><?= $item->formatemballage->name(); ?></b></td>
-                                                        <td>
-                                                            <div class="switch">
-                                                                <div class="onoffswitch">
-                                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("produit", <?= $item->id ?>)' class="onoffswitch-checkbox" id="example<?= $item->id ?>">
-                                                                    <label class="onoffswitch-label" for="example<?= $item->id ?>">
-                                                                        <span class="onoffswitch-inner"></span>
-                                                                        <span class="onoffswitch-switch"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td data-toggle="modal" data-target="#modal-formatemballage" title="modifier l'élément" onclick="modification('formatemballage', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                        <td title="supprimer la format d'emballage" onclick="suppressionWithPassword('formatemballage', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
-                                                    </tr>
-                                                <?php } ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+
 
                             <div class="col-sm-4 bloc">
                                 <div class="ibox border">

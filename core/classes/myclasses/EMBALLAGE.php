@@ -9,13 +9,15 @@ use Native\RESPONSE;
 class EMBALLAGE extends TABLE
 {
 	
-	
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
+	const PRIMAIRE = 1;
 
 	public $name ;
-	public $formatemballage_id ;
+	public $quantite ;
+	public $emballage_id ;
+	public $isActive = TABLE::OUI;
 	public $initial = 0;
 	public $image ;
 
@@ -26,8 +28,8 @@ class EMBALLAGE extends TABLE
 			if ($this->name != "") {
 				$data = $this->save();
 				if ($data->status) {
-						$this->uploading($this->files);
-					}
+					$this->uploading($this->files);
+				}
 			}else{
 				$data->status = false;
 				$data->message = "Veuillez à bien renseigner le nime de l'emballage !";
@@ -64,18 +66,41 @@ class EMBALLAGE extends TABLE
 	}
 
 
+	public function isPrimaire(){
+		return ($this->emballage_id == null);
+	} 
+
+
+	public function nombre(){
+		if ($this->emballage_id == null) {
+			return $this->quantite;
+		}
+		$this->actualise();
+		return $this->quantite * $this->emballage->nombre();
+	}
+
+
+
+	public function totalEmballagePrice(){
+		$this->actualise();
+		$emballage = new EMBALLAGE();
+		if ($this->emballage_id == null) {
+			return $this->quantite * $this->price();
+		}
+		return $this->quantite * $this->emballage->totalEmballagePrice();
+	}
 
 
 	public function stock(String $date){
-		return $this->achat("2020-06-01", $date) + intval($this->stock) - $this->consommee("2020-06-01", $date);
+		return $this->achat("2020-06-01", $date) + intval($this->initial) - $this->consommee("2020-06-01", $date);
 	}
 
 
 	public function consommee(string $date1 = "2020-06-01", string $date2){
-		$requette = "SELECT SUM(production) as production  FROM production, ligneproduction, prixdevente, quantite, emballage WHERE ligneproduction.produit_id = prixdevente.id AND ligneproduction.production_id = production.id AND prixdevente.quantite_id = quantite.id AND emballage.quantite_id = quantite.id AND  emballage.id = ? AND production.etat_id != ? AND DATE(ligneproduction.created) >= ? AND DATE(ligneproduction.created) <= ? GROUP BY emballage.id";
+		$requette = "SELECT SUM(ligneproduction.quantite) as quantite  FROM production, ligneproduction, produit, quantite, emballage WHERE ligneproduction.produit_id = produit.id AND ligneproduction.production_id = production.id AND produit.quantite_id = quantite.id AND emballage.quantite_id = quantite.id AND  emballage.id = ? AND production.etat_id != ? AND DATE(ligneproduction.created) >= ? AND DATE(ligneproduction.created) <= ? GROUP BY emballage.id";
 		$item = LIGNEPRODUCTION::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEPRODUCTION()]; }
-		return $item[0]->production;
+		return $item[0]->quantite;
 	}
 
 

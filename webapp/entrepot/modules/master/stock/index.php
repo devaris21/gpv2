@@ -35,11 +35,11 @@
                                                 $bout = $produit->enBoutique($date2, $boutique->id); ?>
                                                 <li class="list-group-item">
                                                     <i class="fa fa-flask" style="color: <?= $pro->couleur; ?>"></i> <small><?= $produit->quantite->name() ?></small>  
-                                                    <?php foreach (Home\FORMATEMBALLAGE::getAll() as $key => $format) {
-                                                        $a = $produit->enEntrepot(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $format->id, $entrepot->id);
+                                                    <?php foreach (Home\EMBALLAGE::getAll() as $key => $emballage) {
+                                                        $a = $produit->enEntrepot(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, $entrepot->id);
                                                         if ($a > 0) { ?>
                                                             <span class="float-right">
-                                                                <small title="en boutique" class="gras <?= ($a * $format->nombre() > $params->ruptureStock)?"":"text-red clignote" ?>"><?= start0($a) ?></small> <img src="http://dummyimage.com/10x10/4d494d/686a82.gif&text=placeholder+image" alt="placeholder+image"> |
+                                                                <small title="en boutique" class="gras <?= ($a * $emballage->nombre() > $params->ruptureStock)?"":"text-red clignote" ?>"><?= start0($a) ?></small> <img src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> |
                                                             </span>
                                                         <?php }
                                                     } ?>                                                               

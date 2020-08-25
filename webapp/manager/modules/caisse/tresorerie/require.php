@@ -67,9 +67,9 @@ if ($this->id != null) {
 
 	$marges = $ca - ($charges + $appros + $payements);
 
-	$statistiques = OPERATION::statistiques();
+	// $statistiques = OPERATION::statistiques();
 
-	$stats = OPERATION::stats($exercice->created, $exercice->datefin());
+	// $stats = OPERATION::stats($exercice->created, $exercice->datefin());
 
 
 	$title = "GPV | Trésorerie générale";

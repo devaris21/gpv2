@@ -28,7 +28,7 @@
                                                             <h5 class="mp0 text-uppercase"><?= $pro->name() ?></h5>
                                                             <h1><?= $produit->quantite->name() ?></h1>
                                                         </td>
-                                                        <?php foreach (Home\FORMATEMBALLAGE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $format) {  ?>
+                                                        <?php foreach (Home\EMBALLAGE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $format) {  ?>
                                                             <td class="text-center">
                                                                 <img src="http://dummyimage.com/50x50/4d494d/686a82.gif&text=placeholder+image" alt="placeholder+image"><br>
                                                                 <small><?= $format->name() ?></small><br>

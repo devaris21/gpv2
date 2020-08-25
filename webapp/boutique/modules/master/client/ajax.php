@@ -105,7 +105,7 @@ if ($action == "newproduit3") {
 						<td class="text-left">
 							<h5 class="mp0 text-uppercase"><?= $produit->name() ?></h5>
 						</td>
-						<?php foreach (FORMATEMBALLAGE::findBy(["isActive = "=> TABLE::OUI]) as $key => $format) { 
+						<?php foreach (EMBALLAGE::findBy(["isActive = "=> TABLE::OUI]) as $key => $format) { 
 							if ($produit->enEntrepot(PARAMS::DATE_DEFAULT, dateAjoute(1), $format->id, getSession("entrepot_id_connecte")) > 0) { ?>
 								<td width="110" class="text-center">
 									<img src="http://dummyimage.com/30x30/4d494d/686a82.gif&text=placeholder+image" alt="placeholder+image"><br>

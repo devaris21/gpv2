@@ -116,7 +116,7 @@
                                                             <?php $i =0;
                                                             foreach ($productions as $key => $production) { ?>
                                                                 <tr>
-                                                                    <td><?= datecourt($production->ladate)  ?></td>
+                                                                    <td><?= datecourt($production->created)  ?></td>
                                                                     <?php
                                                                     $production->fourni("ligneconsommationjour");
                                                                     foreach ($ressources as $key => $ressource) {
@@ -125,7 +125,7 @@
                                                                                 ?>
                                                                                 <td>
                                                                                     <h5 class="d-inline text-success gras"><?= start0($ligne->consommation) ?></h5>&nbsp;&nbsp;|&nbsp;&nbsp;
-                                                                                    <h5 class="d-inline text-warning gras"><?= start0($ressource->achat($production->ladate, $production->ladate)) ?></h5> |&nbsp;&nbsp; <h5 class="d-inline text-green gras"><?= start0($ressource->stock($production->ladate)) ?></h5>
+                                                                                    <h5 class="d-inline text-warning gras"><?= start0($ressource->achat($production->created, $production->created)) ?></h5> |&nbsp;&nbsp; <h5 class="d-inline text-green gras"><?= start0($ressource->stock($production->created)) ?></h5>
                                                                                 </td>
                                                                             <?php }
                                                                         }

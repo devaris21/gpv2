@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 
-<?php include($this->rootPath("webapp/boutique/elements/templates/head.php")); ?>
+<?php include($this->rootPath("webapp/manager/elements/templates/head.php")); ?>
 
 
 <body class="fixed-sidebar">
 
     <div id="wrapper">
 
-        <?php include($this->rootPath("webapp/boutique/elements/templates/sidebar.php")); ?>  
+        <?php include($this->rootPath("webapp/manager/elements/templates/sidebar.php")); ?>  
 
         <div id="page-wrapper" class="gray-bg">
 
-          <?php include($this->rootPath("webapp/boutique/elements/templates/header.php")); ?>  
+          <?php include($this->rootPath("webapp/manager/elements/templates/header.php")); ?>  
 
           <div class="animated fadeInRightBig">
 
@@ -158,14 +158,14 @@
     </div>
 
     <br><br>
-    <?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?>
+    <?php include($this->rootPath("webapp/manager/elements/templates/footer.php")); ?>
 
 
 </div>
 </div>
 
 
-<?php include($this->rootPath("webapp/boutique/elements/templates/script.php")); ?>
+<?php include($this->rootPath("webapp/manager/elements/templates/script.php")); ?>
 
 
 

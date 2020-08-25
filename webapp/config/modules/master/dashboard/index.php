@@ -30,9 +30,9 @@
                                 </ul>
                                 <ul class="nav navbar-top-links navbar-right">
                                     <li id="btn-deconnexion" class="text-red cursor">
-                                        <a href="<?= $this->url("config", "master", "dashboard"); ?>" class="btn_modal btn btn-xs btn-white" >
-<< Retour à la vue générale
-</a>
+                                        <a href="<?= $this->url("master", "master", "dashboard"); ?>" class="btn_modal btn btn-xs btn-white" >
+                                            << Retour 
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -161,7 +161,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                  <div class="col-lg-3">
+                                <div class="col-lg-3">
                                     <a href="<?= $this->url("config", "master", "caisse")  ?>">
                                         <div class="ibox">
                                             <div class="ibox-content">
@@ -234,7 +234,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                  <div class="col-lg-3">
+                                <div class="col-lg-3">
                                     <a href="<?= $this->url("config", "master", "caisse")  ?>">
                                         <div class="ibox">
                                             <div class="ibox-content">
@@ -292,36 +292,36 @@
 
                     var sparklineCharts = function(){
 
-                     $("#sparkline2").sparkline([24, 43, 43, 55, 44, 62, 44, 72], {
-                         type: 'line',
-                         width: '100%',
-                         height: '60',
-                         lineColor: '#1ab394',
-                         fillColor: "#ffffff"
-                     });
+                       $("#sparkline2").sparkline([24, 43, 43, 55, 44, 62, 44, 72], {
+                           type: 'line',
+                           width: '100%',
+                           height: '60',
+                           lineColor: '#1ab394',
+                           fillColor: "#ffffff"
+                       });
 
-                 };
+                   };
 
-                 var sparkResize;
+                   var sparkResize;
 
-                 $(window).resize(function(e) {
+                   $(window).resize(function(e) {
                     clearTimeout(sparkResize);
                     sparkResize = setTimeout(sparklineCharts, 500);
                 });
 
-                 sparklineCharts();
+                   sparklineCharts();
 
 
 
 
-                 var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->direct ?>], <?php } ?> ];
+                   var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->direct ?>], <?php } ?> ];
 
-                 var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->prospection ?>], <?php } ?> ];
+                   var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->prospection ?>], <?php } ?> ];
 
-                 var data3 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->cave ?>], <?php } ?> ];
+                   var data3 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->cave ?>], <?php } ?> ];
 
-                 var dataset = [
-                 {
+                   var dataset = [
+                   {
                     label: "Vente directe",
                     data: data1,
                     color: "#1ab394",

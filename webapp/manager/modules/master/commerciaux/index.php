@@ -16,9 +16,9 @@
 
           <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-9">
-                <h2 class="text-uppercase text-green gras">Rangements de la production</h2>
+                <h2 class="text-uppercase text-green gras">Liste de vos commerciaux</h2>
                 <div class="container">
-                    <div class="row">
+                  <!--   <div class="row">
                         <div class="col-xs-7 gras ">Afficher même les rangements passées</div>
                         <div class="offset-1"></div>
                         <div class="col-xs-4">
@@ -32,11 +32,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="col-sm-3">
-               <div class="row">
+             <div class="row">
                 <div class="col-md-12">
                     <div class="widget style1 lazur-bg">
                         <div class="row">
@@ -44,8 +44,8 @@
                                 <i class="fa fa-th-large fa-3x"></i>
                             </div>
                             <div class="col-9 text-right">
-                                <span> Rangements de la production </span>
-                                <h2 class="font-bold"><?= start0(count($fournisseurs))  ?></h2>
+                                <span> Total des commerciaux </span>
+                                <h2 class="font-bold"><?= start0(count($commerciaux))  ?></h2>
                             </div>
                         </div>
                     </div>
@@ -57,39 +57,40 @@
     <div class="wrapper wrapper-content">
         <div class="ibox">
             <div class="ibox-title">
-                <h5>Toutes les productions non rangées</h5>
+                <h5>Liste de vos commerciaux</h5>
                 <div class="ibox-tools">
-<button data-toggle="modal" data-target="#modal-fournisseur" style="margin-top: -5%" class="btn btn-primary btn-xs dim"><i class="fa fa-plus"></i> Nouveau fournisseur</button>
+                    <button data-toggle="modal" data-target="#modal-commercial" style="margin-top: -5%" class="btn btn-primary btn-xs dim"><i class="fa fa-plus"></i> Nouveau commercial</button>
                 </div>
             </div>
             <div class="ibox-content">
-               <?php if (count($fournisseurs) > 0) { ?>
-                <table class="table table-hover issue-tracker">
+                <?php if (count($commerciaux) > 0) { ?>
+                <table class="table table-hover ">
                     <tbody>
                         <tr>
-                            <?php foreach ($fournisseurs as $key => $fournisseur) { ?>
-                                <td ><img style="width: 60px" src="<?= $this->stockage("images", "fournisseurs", $fournisseur->image); ?>"></td>
-                                <td class="issue-info">
-                                    <a><?= $fournisseur->name()  ?></a>
-                                    <small><?= $fournisseur->description ?></small>
+                            <?php foreach ($commerciaux as $key => $commercial) {
+                            $commercial->actualise() ?>
+                                <td ><img style="width: 50px" src="<?= $this->stockage("images", "commercials", $commercial->image); ?>"></td>
+                                <td class="">
+                                    <a class="gras"><?= $commercial->name()  ?></a><br>
+                                    <small><?= $commercial->adresse ?></small>
                                 </td>
                                 <td>
-                                    <?= $fournisseur->adresse ?><br>
-                                    <?= $fournisseur->email ?>
+                                    <?= $commercial->nationalite ?><br>
+                                    <?= $commercial->sexe->name() ?>
                                 </td>
                                 <td>
-                                    <?= $fournisseur->contact ?><br>
-                                    <?= $fournisseur->fax ?>
+                                    <?= $commercial->contact ?><br>
                                 </td>
+                                <td><label class="label label-<?= $commercial->disponibilite->class ?>"><?= $commercial->disponibilite->name() ?></label></td>
                                 <td class="text-right">
-                                    <a href="<?= $this->url("gestion", "production", "fournisseur", $fournisseur->id)  ?>" class="btn btn-white btn-xs"><i class="fa fa-eye"></i> Voir le compte</a>
+                                    <a href="<?= $this->url("gestion", "master", "commercial", $commercial->id)  ?>" class="btn btn-white btn-xs"><i class="fa fa-eye"></i> Voir le compte</a>
                                 </td>
                             </tr>
                         <?php } ?>
                     </tbody>
                 </table>
             <?php }else{ ?>
-                <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune production pour le moment</h1>
+                <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucun commercial pour le moment</h1>
             <?php } ?>
 
         </div>
@@ -99,7 +100,7 @@
 
 <?php include($this->rootPath("webapp/manager/elements/templates/footer.php")); ?> 
 
- <?php include($this->rootPath("composants/assets/modals/modal-fournisseur.php")); ?> 
+<?php include($this->rootPath("composants/assets/modals/modal-commercial.php")); ?> 
 
 </div>
 </div>

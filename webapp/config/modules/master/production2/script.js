@@ -27,6 +27,22 @@ $(function(){
     });
 
 
+
+    $(".produits input").change(function(){
+        var url = "../../webapp/config/modules/master/production2/ajax.php";
+        var id = $(this).attr("id")
+        var name = $(this).attr("name")
+        var val = $(this).val()
+        $.post(url, {action:"changement", id:id, name:name, val:val}, (data)=>{
+            if (data.status) {
+                Alerter.success('Reussite !', "Modification prise en compte avec succès !");
+            }else{
+                Alerter.error('Erreur !', data.message);
+            }
+        },"json");
+    })
+
+
  //    $(this).masonry({
 	// 	itemSelector: '.bloc',
 	// });

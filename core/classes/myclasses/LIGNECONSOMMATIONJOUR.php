@@ -12,7 +12,7 @@ class LIGNECONSOMMATIONJOUR extends TABLE
 
 	public $production_id;
 	public $ressource_id;
-	public $consommation = 0;
+	public $quantite = 0;
 
 
 
@@ -22,7 +22,7 @@ class LIGNECONSOMMATIONJOUR extends TABLE
 		if (count($datas) == 1) {
 			$datas = RESSOURCE::findBy(["id ="=>$this->ressource_id]);
 			if (count($datas) == 1) {
-				if ($this->consommation >= 0) {
+				if ($this->quantite >= 0) {
 					$data = $this->save();
 				}else{
 					$data->status = false;

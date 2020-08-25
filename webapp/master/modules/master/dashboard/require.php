@@ -18,7 +18,4 @@ $approvisionnements__ = APPROVISIONNEMENT::encours();
 
 $title = "GPV | Tableau de bord";
 
-$stats = VENTE::stats2(dateAjoute(-30), dateAjoute());
-
-
 ?>

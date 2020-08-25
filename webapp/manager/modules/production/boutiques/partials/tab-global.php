@@ -79,23 +79,5 @@
 		</div>
 		<hr><hr class="mp0"><br>
 
-		<div class="row">
-			<?php foreach ($produits as $key => $produit) { ?>
-				<div class="col-md border-right">
-					<h6 class="text-uppercase text-center gras" style="color: <?= $produit->couleur; ?>">Stock de <?= $produit->name() ?></h6>
-					<ul class="list-group clear-list m-t">
-						<?php foreach ($tableaux[$produit->id] as $key => $pdv) { ?>
-							<li class="list-group-item <?= ($pdv->rupture)?"rupture":""  ?>" >
-								<i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <small><?= $pdv->quantite ?></small>          
-								<span class="float-right">
-									<span title="en boutique" class="gras text-<?= ($pdv->boutique > 0)?"green":"danger" ?>"><?= money($pdv->boutique) ?></span>
-								</span>
-							</li>
-						<?php } ?>
-						<li class="list-group-item"></li>
-					</ul>
-				</div>
-			<?php } ?>
-		</div>
 	</div>
 </div>

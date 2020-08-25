@@ -48,22 +48,26 @@
                                 </div><hr>
                                 <span>Vente directe / vente par prospection</span>
                             </div><hr>
-                            <div class="row text-center">
-                                <div class="col">
-                                    <div class="">
-                                        <span class="h5 font-bold block text-primary"><?= money(comptage(Home\VENTE::direct(dateAjoute(), dateAjoute()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-                                        <small class="text-muted block">Ventes directes</small>
+                                <div class="row text-center">
+                                        <div class="col">
+                                            <div class="">
+                                                <span class="h5 font-bold block text-primary"><?= money(comptage(Home\VENTE::direct($date1, $date2), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                                <small class="text-muted block">Ventes directes</small>
+                                            </div>
+                                        </div>
+                                        <div class="col border-right border-left text-danger">
+                                            <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::prospection($date1, $date2), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                            <small class="text-muted block">Ventes par prospection</small>
+                                        </div>
+                                        <div class="col text-blue">
+                                            <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::cave($date1, $date2), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                            <small class="text-muted block">Ventes en cave</small>
+                                        </div>
+                                        <div class="col border-right border-left text-danger">
+                                            <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::commande($date1, $date2), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                            <small class="text-muted block">Commandes/Livraisons</small>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col border-right border-left text-danger">
-                                    <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::prospection(dateAjoute(), dateAjoute()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-                                    <small class="text-muted block">Ventes par prospection</small>
-                                </div>
-                                <div class="col text-blue">
-                                    <span class="h5 font-bold block"><?= money(comptage(Home\VENTE::cave(dateAjoute(), dateAjoute()), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-                                    <small class="text-muted block">Ventes en cave</small>
-                                </div>
-                            </div>
                         </div>
                         <div class="col-md-3 border-left">
                             <div class="statistic-box" style="margin-top: 0%">

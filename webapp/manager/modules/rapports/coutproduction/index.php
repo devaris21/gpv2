@@ -19,51 +19,45 @@
                 <div class="ibox ">
                     <form id="formFiltrer" method="POST">
                         <div class="ibox-title">
-                            <h5 class="float-left">Du <?= datecourt($date1) ?> au <?= datecourt($date2) ?></h5>
-                            <div class="ibox-tools">
-                                <div class="row" style="margin-top: -1%">
-                                    <div class="col-5">
-                                        <input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
-                                    </div>
-                                    <div class="col-5">
-                                        <input type="date" value="<?= $date2 ?>" class="form-control input-sm" name="date2">
-                                    </div>
-                                    <div class="col-2">
-                                        <button type="button" onclick="filtrer()" class="btn btn-sm btn-white"><i class="fa fa-search"></i> Filtrer</button>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h5 class="float-left">Du <?= datecourt($date1) ?> au <?= datecourt($date2) ?></h5>
                                 </div>
-                            </div>
-                        </div><br>
-                        <div class="ibox-title">
-                            <div class="">
-                                <div class="row">
-                                    <div class="col-2">
-                                        <br>
-                                        <h5 class="text-uppercase">Coût de production</h5>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <select class="form-control select2 input-sm" name="typeproduit_id" style="width: 100%">
-                                                <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $item) { ?>
-                                                    <option value="<?= $item->id ?>"><?= $item->name() ?></option>
-                                                <?php } ?>
-                                            </select>                                       
+                                <div class="col-md-9 ibox-tools">
+                                    <div class="row" style="margin-top: -1%">
+                                        <div class="col-sm-3 text-left">
+                                            <div class="form-group">
+                                                <select class="form-control select2 input-sm" name="typeproduit_id" style="width: 100%">
+                                                    <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $item) { ?>
+                                                        <option value="<?= $item->id ?>"><?= $item->name() ?></option>
+                                                    <?php } ?>
+                                                </select>                                       
+                                            </div>
+                                        </div>  
+                                        <div class="col-sm-3 text-left">
+                                            <div class="form-group">
+                                                <select class="form-control select2 input-sm" name="parfum_id" style="width: 100%">
+                                                    <?php foreach (Home\PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $item) { ?>
+                                                        <option value="<?= $item->id ?>">de <?= $item->name() ?></option>
+                                                    <?php } ?>
+                                                </select>                                       
+                                            </div>
                                         </div>
-                                    </div>  
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <select class="form-control select2 input-sm" name="parfum_id" style="width: 100%">
-                                                <?php foreach (Home\PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $item) { ?>
-                                                    <option value="<?= $item->id ?>">de <?= $item->name() ?></option>
-                                                <?php } ?>
-                                            </select>                                       
+                                        <div class="col-md-5">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="date" value="<?= $date2 ?>" class="form-control input-sm" name="date2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-1">
+                                            <button type="button" onclick="filtrer()" class="btn btn-sm btn-white"><i class="fa fa-search"></i> </button>
                                         </div>
                                     </div>
-                                    <div class="col-1">
-                                        <button type="button" onclick="filtrer()" class="btn btn-sm btn-white"><i class="fa fa-search"></i> Calculer les coûts</button>
-                                    </div>
                                 </div>
-
                             </div>
                         </div>
                     </form>

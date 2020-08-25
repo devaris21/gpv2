@@ -27,3 +27,16 @@ if ($action == "exigence") {
 	}
 	echo json_encode($data);
 }
+
+
+
+
+if ($action == "changement") {
+	$datas = PRODUIT::findBy(["id ="=>$id]);
+	if (count($datas) == 1) {
+		$produit = $datas[0];
+		$produit->$name = intval($val);
+		$data = $produit->save();
+	}
+	echo json_encode($data);
+}

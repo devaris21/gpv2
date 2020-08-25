@@ -9,9 +9,6 @@
                 </form>
             </div>
             <ul class="nav navbar-top-links navbar-right">
-               <li class="">
-                <img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 60px; padding-right: 15%" alt="">
-            </li>
 
             <li class="border-right gras <?= (isJourFerie(dateAjoute(1)))?"text-red":"text-muted" ?>">
                 <span class="m-r-sm welcome-message text-uppercase" id="date_actu"></span> 
@@ -24,7 +21,6 @@
                 <a id="onglet-gestion" href="<?= $this->url("gestion", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-gears"></i> Manager</a>
             </div>
             
-
             <li class="">
                 
             </li>

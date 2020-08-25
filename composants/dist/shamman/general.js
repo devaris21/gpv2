@@ -4,8 +4,11 @@ $(function(){
 	// Initialisation des plugins
 	$("select.select2").select2();
 
-    $('.footable').footable();
-    $('.footable2').footable();
+    $('.footable').footable({
+        "paging": {
+            "size": 20
+        }
+    });
 
     $("input[type=checkbox]").change(function(event) {
       if ($(this).is(":checked")) {

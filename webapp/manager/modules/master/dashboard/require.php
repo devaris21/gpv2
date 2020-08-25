@@ -42,7 +42,7 @@ for ($i=0; $i < 30; $i++) {
 
 $depenses = OPERATION::sortie(dateAjoute() , dateAjoute(+1));
 
-$stats = VENTE::stats(dateAjoute(-14), dateAjoute());
+$stats = VENTE::stats2($date1, $date2);
 
 
 ?>

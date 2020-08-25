@@ -1,7 +1,7 @@
 <?php 
 namespace Home;
 
-$formats = FORMATEMBALLAGE::findBy(["isActive ="=>TABLE::OUI]);
+$formats = EMBALLAGE::findBy(["isActive ="=>TABLE::OUI]);
 
 $parfums = PARFUM::findBy(["isActive ="=>TABLE::OUI]);
 $typeproduits = TYPEPRODUIT::findBy(["isActive ="=>TABLE::OUI]);

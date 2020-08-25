@@ -11,15 +11,13 @@ if ($this->id != "") {
 	$date2 = dateAjoute();
 }
 
-$produits = PRODUIT::findBy(["isActive ="=>TABLE::OUI]);
-
 
 $ressources = RESSOURCE::getAll();
 $etiquettes = ETIQUETTE::getAll();
 $emballages = EMBALLAGE::getAll();
 
-$productions = PRODUCTION::findBy(["DATE(created) >= "=>$date1, "DATE(created) <= "=>$date2],[],["ladate"=>"DESC"]);
-usort($productions, 'comparerLadate');
+$productions = PRODUCTION::findBy(["DATE(created) >= "=>$date1, "DATE(created) <= "=>$date2],[],["created"=>"DESC"]);
+usort($productions, 'comparerDateCreated');
 
 $title = "GPV | Stock des ressources ";
 ?>
