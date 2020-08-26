@@ -20,8 +20,6 @@ class EMPLOYE extends AUTH
 	public $is_new = TABLE::OUI;
 	public $boutique_id ;
 	public $entrepot_id ;
-	public $isManager = TABLE::NON;
-	public $isAdmin = TABLE::NON;
 	public $image = "default.png";
 	public $is_connecte = false;
 

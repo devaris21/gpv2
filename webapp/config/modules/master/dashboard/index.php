@@ -45,7 +45,6 @@
 
                             <div class="container">
                                 <div class="row justify-content-center">
-                                    <?php  if ($employe->boutique_id != null) { ?>
                                         <div class="col-lg-4">
                                             <a href="<?= $this->url("config", "master", "generale")  ?>">
                                                 <div class="ibox">
@@ -63,9 +62,8 @@
                                                 </div>
                                             </a>
                                         </div>
-                                    <?php } ?>
 
-                                    <?php if ($employe->entrepot_id != null) { ?>
+                                    <?php if ($employe->isAutoriser("roles")) { ?>
                                         <div class="col-lg-4">
                                             <a href="<?= $this->url("config", "master", "access")  ?>">
                                                 <div class="ibox">
@@ -85,7 +83,7 @@
                                         </div>
                                     <?php } ?>
 
-                                    <?php if ($employe->isManager == Home\TABLE::OUI) { ?>
+                                    <?php if ($employe->isAutoriser("mycompte")) { ?>
                                         <div class="col-lg-4">
                                             <a href="<?= $this->url("manager", "master", "dashboard")  ?>">
                                                 <div class="ibox">
@@ -168,7 +166,7 @@
                                                 <div class="row">
                                                     <div class="col-9">
                                                         <h3 class="text-uppercase gras text-navy">Config de la caisse</h3>
-                                                        <h5 class="no-margins text-muted"><?= $boutique->name() ?></h5>
+                                                        <h5 class="no-margins text-muted">Lorem ipsum dolor sit amet</h5>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <i class="fa fa-lock fa-5x text-muted"></i>
@@ -207,7 +205,7 @@
                                                 <div class="row">
                                                     <div class="col-9">
                                                         <h3 class="text-uppercase gras text-navy">Gestion de production</h3>
-                                                        <h5 class="no-margins text-muted"><?= $boutique->name() ?></h5>
+                                                        <h5 class="no-margins text-muted">Lorem ipsum dolor sit amet</h5>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <i class="fa fa-fire fa-5x text-muted"></i>
@@ -224,7 +222,7 @@
                                                 <div class="row">
                                                     <div class="col-9">
                                                         <h3 class="text-uppercase gras text-navy">Config de la caisse</h3>
-                                                        <h5 class="no-margins text-muted"><?= $boutique->name() ?></h5>
+                                                        <h5 class="no-margins text-muted">Lorem ipsum dolor sit amet</h5>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <i class="fa fa-dollar fa-5x text-muted"></i>

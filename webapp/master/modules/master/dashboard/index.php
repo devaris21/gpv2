@@ -144,7 +144,7 @@
                                 </div>
                             <?php } ?>
 
-                            <?php if ($employe->isManager == Home\TABLE::OUI && $employe->isAutoriser("manager")) { ?>
+                            <?php if ($employe->isAutoriser("manager")) { ?>
                                 <div class="col-lg-3">
                                     <a href="<?= $this->url("manager", "master", "dashboard")  ?>">
                                         <div class="ibox">
@@ -164,7 +164,7 @@
                                 </div>
                             <?php } ?>
 
-                            <?php if ($employe->isAdmin == Home\TABLE::OUI && $employe->isAutoriser("config")) { ?>
+                            <?php if ($employe->isAutoriser("config")) { ?>
                                 <div class="col-lg-3">
                                     <a href="<?= $this->url("config", "master", "dashboard")  ?>">
                                         <div class="ibox">

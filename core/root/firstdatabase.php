@@ -171,6 +171,14 @@ foreach ($datas as $key => $value) {
 	$item->enregistre();
 }
 
+$datas = [0.25, 0.33, 0.5, 1];
+foreach ($datas as $key => $value) {
+	$item = new QUANTITE();
+	$item->name = $value;
+	$item->setProtected(1);
+	$item->enregistre();
+}
+
 
 
 $datas = ["Entreprise", "Particulier"];
@@ -385,7 +393,7 @@ $item->save();
 
 $item = new EMPLOYE();
 $item->name = "Super Administrateur";
-$item->email = "info@devaris21.com";
+$item->email = "info@email.com";
 $item->adresse = "...";
 $item->contact = "...";
 $item->login = "root";

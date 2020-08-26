@@ -111,56 +111,8 @@
 
 
 
+
 <div class="modal inmodal fade" id="modal-emballage">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title">Les emballages</h4>
-				<small>Veuillez renseigner les champs pour enregistrer les informations</small>
-			</div>
-			<form method="POST" class="formShamman" classname="emballage">
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-sm-6">
-							<label>Nom de l'emballage </label>
-							<div class="form-group">
-								<input type="text" class="form-control" name="name" required>
-							</div>
-						</div>
-						<div class="col-sm-6 unmodified">
-							<label>Qté initial </label>
-							<div class="form-group">
-								<input type="number" class="form-control" name="initial" required>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-8">
-							<label>Image de l'emballage</label>
-							<div class="">
-								<img style="width: 80px;" src="" class="img-thumbnail logo">
-								<input class="hide" type="file" name="image">
-								<button type="button" class="btn btn-sm bg-orange pull-right btn_image"><i class="fa fa-image"></i> Ajouter une image</button>
-							</div>
-						</div>
-					</div>
-					
-				</div><hr>
-				<div class="container">
-					<input type="hidden" name="id">
-					<button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
-					<button class="btn btn-sm btn-primary pull-right dim"><i class="fa fa-check"></i> enregistrer</button>
-				</div>
-				<br>
-			</form>
-		</div>
-	</div>
-</div>
-
-
-
-<div class="modal inmodal fade" id="modal-formatemballage">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -168,7 +120,7 @@
 				<h4 class="modal-title">Les formats d'emballages</h4>
 				<small>Veuillez renseigner les champs pour enregistrer les informations</small>
 			</div>
-			<form method="POST" class="formShamman" classname="formatemballage">
+			<form method="POST" class="formShamman" classname="emballage">
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-sm-12">
@@ -187,7 +139,12 @@
 						</div>
 						<div class="col-sm-6">
 							<label>Format emballage</label>
-							<?php Native\BINDING::html("select", "formatemballage") ?>
+							<select class="form-control select2" name="quantite_id" style="width: 100%">
+								<option value="">Emballage primaire</option>
+								<?php foreach (Home\EMBALLAGE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $item) { ?>
+									<option value="<?= $item->id ?>">de <?= $item->name() ?></option>
+								<?php } ?>
+							</select>	
 						</div>
 					</div>
 					<div class="row">
@@ -233,7 +190,7 @@
 					<div class="text-center">
 						<div class="row justify-content-center">
 							<div class="col-sm-4">
-							<?php Native\BINDING::html("select", "emballage") ?>
+								<?php Native\BINDING::html("select", "emballage") ?>
 							</div>	
 						</div><br>
 						<h4>Peut contenir  <br><i class=" fa fa-2x fa-long-arrow-right"></i></h4>

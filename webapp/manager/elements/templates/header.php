@@ -26,7 +26,7 @@
                 <?php if ($employe->entrepot_id != null && $employe->isAutoriser("entrepot")) { ?>
                     <a id="onglet-entrepot" href="<?= $this->url("entrepot", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-cubes"></i> Entrepôt</a>
                 <?php } ?>
-                <?php if ($employe->isAdmin != null && $employe->isAutoriser("manager")) { ?>
+                <?php if ($employe->isAutoriser("manager")) { ?>
                     <a id="onglet-manager" href="<?= $this->url("manager", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-gears"></i> Manager</a>
                 <?php } ?>
             </div>
