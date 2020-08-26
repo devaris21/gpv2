@@ -44,23 +44,36 @@ class REGLEMENTCLIENT extends TABLE
 			}else{
 				$this->etat_id = ETAT::VALIDEE;
 			}
-
 			if (intval($this->montant) > 0) {
-				$mouvement = new MOUVEMENT();
-				$mouvement->montant = $this->montant;
-				$mouvement->comment = $this->comment;
-				$mouvement->typemouvement_id = TYPEMOUVEMENT::DEPOT;
-				$mouvement->comptebanque_id  = COMPTEBANQUE::COURANT;
-				$data = $mouvement->enregistre();
-				if ($data->status) {
-					$this->mouvement_id = $mouvement->id;
-					$data = $this->save();
-					if ($data->status) {
-						if (!(isset($this->files) && is_array($this->files))) {
-							$this->files = [];
+				$datas = ENTREPOT::findBy(["id ="=>getSession("boutique_connecte_id")]);
+				if (count($datas) == 1) {
+					$boutique = $datas[0];
+					$boutique->actualise();
+					if ($boutique->comptebanque->solde() >= $this->montant) {
+						$mouvement = new MOUVEMENT();
+																		$mouvement->name = "reglement de client";
+						$mouvement->montant = $this->montant;
+						$mouvement->comment = $this->comment;
+						$mouvement->typemouvement_id = TYPEMOUVEMENT::DEPOT;
+						$mouvement->comptebanque_id  = $boutique->comptebanque_id;
+						$data = $mouvement->enregistre();
+						if ($data->status) {
+							$this->mouvement_id = $mouvement->id;
+							$data = $this->save();
+							if ($data->status) {
+								if (!(isset($this->files) && is_array($this->files))) {
+									$this->files = [];
+								}
+								$this->uploading($this->files);
+							}
 						}
-						$this->uploading($this->files);
+					}else{
+						$data->status = false;
+						$data->message = "Le solde du compte est insuffisant pour effectuer cette opération !!";
 					}
+				}else{
+					$data->status = false;
+					$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !!";
 				}
 			}else{
 				$data->status = false;

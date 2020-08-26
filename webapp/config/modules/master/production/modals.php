@@ -140,11 +140,11 @@
 						<div class="col-sm-6">
 							<label>Format emballage</label>
 							<select class="form-control select2" name="quantite_id" style="width: 100%">
-								<option value="">Emballage primaire</option>
-								<?php foreach (Home\EMBALLAGE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $item) { ?>
-									<option value="<?= $item->id ?>">de <?= $item->name() ?></option>
-								<?php } ?>
-							</select>	
+									<option value="">Emballage primaire</option>
+									<?php foreach (Home\EMBALLAGE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $item) { ?>
+										<option value="<?= $item->id ?>">de <?= $item->name() ?></option>
+									<?php } ?>
+								</select>	
 						</div>
 					</div>
 					<div class="row">
@@ -190,7 +190,7 @@
 					<div class="text-center">
 						<div class="row justify-content-center">
 							<div class="col-sm-4">
-								<?php Native\BINDING::html("select", "emballage") ?>
+							<?php Native\BINDING::html("select", "emballage") ?>
 							</div>	
 						</div><br>
 						<h4>Peut contenir  <br><i class=" fa fa-2x fa-long-arrow-right"></i></h4>

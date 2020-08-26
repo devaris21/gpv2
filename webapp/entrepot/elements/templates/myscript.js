@@ -18,19 +18,6 @@
     	});
 
 
-        voirPrixParZone = function(){    
-            Loader.start();    
-            var  url = "../../webapp/gestion/elements/templates/traitement.php";
-            $.post(url, {action:"voirPrixParZone"}, (data)=>{
-                $("body #modal-prixparzone").remove();
-                $("body").append(data);
-                $("body #modal-prixparzone").modal("show");
-                $("select.select2").select2();
-                Loader.stop();    
-            },"html");
-        }
-
-
         $("body").on("keyup", "#search", function() {
             var value = $(this).val().toLowerCase();
             $("body").find(".clients").filter(function() {

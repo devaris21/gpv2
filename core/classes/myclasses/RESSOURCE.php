@@ -16,20 +16,17 @@ class RESSOURCE extends TABLE
 	public $unite;
 	public $abbr;
 
-	public $stock = 0;
-
 
 	public function enregistre(){
 		$data = new RESPONSE;
 		if ($this->name != "") {
 			$data = $this->save();
 			if ($data->status) {
-				foreach (TYPEPRODUIT_PARFUM::getAll() as $key => $type) {
-					$ligne = new EXIGENCEPRODUCTION();
-					$ligne->typeproduit_parfum_id = $type->id;
-					$ligne->quantite_produit = 0;
+				foreach (EXIGENCEPRODUCTION::getAll() as $key => $exi) {
+					$ligne = new LIGNEEXIGENCEPRODUCTION();
+					$ligne->exigenceproduction_id = $exi->id;
 					$ligne->ressource_id = $this->id;
-					$ligne->quantite_ressource = 0;
+					$ligne->quantite = 0;
 					$ligne->enregistre();
 				}
 			}
@@ -42,20 +39,24 @@ class RESSOURCE extends TABLE
 
 
 
-	public function stock(String $date){
+	public function stock(String $date, int $entrepot_id = null){
 		$total = 0;
-		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapprovisionnement, ressource, approvisionnement WHERE ligneapprovisionnement.ressource_id = ressource.id AND ressource.id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND DATE(approvisionnement.created) <= ? AND approvisionnement.etat_id = ? GROUP BY ressource.id";
+		$paras = "";
+		if ($entrepot_id != null) {
+			$paras.= "AND entrepot_id = $entrepot_id ";
+		}
+		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapprovisionnement, ressource, approvisionnement WHERE ligneapprovisionnement.ressource_id = ressource.id AND ressource.id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND DATE(approvisionnement.created) <= ? AND approvisionnement.etat_id = ? $paras GROUP BY ressource.id";
 		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, $date, ETAT::VALIDEE]);
 		if (count($item) < 1) {$item = [new LIGNEAPPROVISIONNEMENT()]; }
 		$total += $item[0]->quantite;
 
 
-		$requette = "SELECT SUM(quantite) as quantite  FROM ligneconsommationjour, ressource, production WHERE ligneconsommationjour.ressource_id = ressource.id AND ressource.id = ? AND ligneconsommationjour.production_id = production.id AND DATE(production.created) <= ? GROUP BY ressource.id";
-		$item = LIGNECONSOMMATIONJOUR::execute($requette, [$this->id, $date]);
-		if (count($item) < 1) {$item = [new LIGNECONSOMMATIONJOUR()]; }
+		$requette = "SELECT SUM(quantite) as quantite  FROM ligneconsommation, ressource, production WHERE ligneconsommation.ressource_id = ressource.id AND ressource.id = ? AND ligneconsommation.production_id = production.id AND DATE(production.created) <= ? $paras GROUP BY ressource.id";
+		$item = LIGNECONSOMMATION::execute($requette, [$this->id, $date]);
+		if (count($item) < 1) {$item = [new LIGNECONSOMMATION()]; }
 		$total -= $item[0]->quantite;
 
-		return $total + intval($this->stock);
+		return $total + intval($this->initial);
 	}
 
 
@@ -71,7 +72,7 @@ class RESSOURCE extends TABLE
 
 	public function consommee(string $date1 = "2020-04-01", string $date2){
 		$total = 0;
-		$datas = $this->fourni("ligneconsommationjour", ["DATE(created) >= " => $date1, "DATE(created) <= " => $date2]);
+		$datas = $this->fourni("ligneconsommation", ["DATE(created) >= " => $date1, "DATE(created) <= " => $date2]);
 		foreach ($datas as $key => $ligne) {
 			$total += $ligne->consommation;			
 		}

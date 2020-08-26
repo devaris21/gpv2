@@ -5,7 +5,7 @@ use Native\EMAIL;
 /**
  * 
  */
-class LIGNECONSOMMATIONJOUR extends TABLE
+class LIGNECONSOMMATION extends TABLE
 {
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
@@ -22,7 +22,7 @@ class LIGNECONSOMMATIONJOUR extends TABLE
 		if (count($datas) == 1) {
 			$datas = RESSOURCE::findBy(["id ="=>$this->ressource_id]);
 			if (count($datas) == 1) {
-				if ($this->quantite >= 0) {
+				if ($this->quantite > 0) {
 					$data = $this->save();
 				}else{
 					$data->status = false;
@@ -30,11 +30,11 @@ class LIGNECONSOMMATIONJOUR extends TABLE
 				}
 			}else{
 				$data->status = false;
-				$data->message = "Une erreur s'est produite lors de l'ajout du produit !";
+				$data->message = "Une erreur s'est produite lors de l'operation, veuillez recommencer !";
 			}
 		}else{
 			$data->status = false;
-			$data->message = "Une erreur s'est produite lors de l'ajout du produit !";
+			$data->message = "Une erreur s'est produite lors de l'operation, veuillez recommencer !";
 		}
 		return $data;
 	}

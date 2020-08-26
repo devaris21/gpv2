@@ -231,7 +231,7 @@
                                         <tbody>
                                             <tr>
                                                 <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) {
-                                                    $datas = $ressource->fourni("ligneconsommationjour", ["DATE(created) = " => $date]);  ?>
+                                                    $datas = $ressource->fourni("ligneconsommation", ["DATE(created) = " => $date]);  ?>
                                                     <td data-toogle="tooltip" title="production" class="text-center"><?= money(comptage($datas, "consommation", "somme")) ?> <?= $ressource->abbr  ?></td>
                                                 <?php   }  ?>
                                             </tr>

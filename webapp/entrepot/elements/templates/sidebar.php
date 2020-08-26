@@ -50,6 +50,7 @@
                     <li class="" id="miseenboutique">
                         <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span></a>
                     </li>
+                    <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
                     <li class="" id="fournisseurs">
                         <a href="<?= $this->url($this->section, "production", "fournisseurs") ?>"><i class="fa fa-address-book-o"></i> <span class="nav-label">Liste des Fournisseurs</span></a>
                     </li>
@@ -62,7 +63,7 @@
                         </ul>
                     </li>
                     <li class="" id="ressources">
-                        <a href="<?= $this->url($this->section, "production", "ressources") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Les stocks</span></a>
+                        <a href="<?= $this->url($this->section, "production", "ressources") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Stocks de ressources</span></a>
                     </li>
                     <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
                 <?php } ?>

@@ -1,3 +1,14 @@
+
+.clignote {
+  color: orangered;
+  animation: clignote 1s linear infinite;
+}
+@keyframes clignote {  
+  35% { opacity: 0.5; color: yellow }
+  75% { opacity: 0;  }
+}
+
+
 @media print{
   body, .page-wrapper, .wrapper{
     padding-top: 2%;

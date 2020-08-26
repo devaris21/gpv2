@@ -121,8 +121,8 @@ if ($action == "get_data") {
 					// $data->$perte = $value->perte;
 				}
 
-				$data->fourni("ligneconsommationjour");
-				foreach ($data->ligneconsommationjours as $key => $value) {
+				$data->fourni("ligneconsommation");
+				foreach ($data->ligneconsommations as $key => $value) {
 					$conso = "conso-".$value->ressource_id;
 					$data->$conso = ($value->consommation == 0)?"":$value->consommation;
 				}

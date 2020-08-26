@@ -54,6 +54,7 @@ class VENTE extends TABLE
 
 		$payement = new REGLEMENTCLIENT();
 		$payement->hydrater($post);
+		$mouvement->name = "Réglement de vente";
 		$payement->montant = $total;
 		$payement->comment = "Réglement de la vente ".$this->typevente->name()." N°".$this->reference;
 		$payement->files = [];
@@ -231,7 +232,7 @@ class VENTE extends TABLE
 	}
 
 
-public static function commande(string $date1, string $date2, int $boutique_id = null){
+	public static function commande(string $date1, string $date2, int $boutique_id = null){
 		if ($boutique_id == null) {
 			return static::findBy(["typevente_id ="=>TYPEVENTE::COMMANDE, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE]);
 		}else{

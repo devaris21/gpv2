@@ -49,7 +49,11 @@ class FICHIER extends TABLE // juste pour la fonction hydrater()
 
 	public function upload($type, $dossier, $filename){
 		$data = new RESPONSE;
-		$final_path = realpath(__DIR__."/../../../stockage/$type/$dossier/");
+		$final_path = __DIR__."/../../../stockage/$type/$dossier/";
+		if (!file_exists($final_path)) {
+			mkdir($final_path, 0777, true);
+		}
+		$final_path = realpath($final_path);
 		if ($this->tmp_name != "") {
 			if ($this->name != "") {
 				if ($this->size()) {
@@ -78,6 +82,7 @@ class FICHIER extends TABLE // juste pour la fonction hydrater()
 		}
 		return $data;
 	}
+
 
 
 	public function enregistre(){}

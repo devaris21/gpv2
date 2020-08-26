@@ -26,13 +26,14 @@ class TYPEPRODUIT_PARFUM extends TABLE
 			if (count($datas) == 1) {
 				$data = $this->save();
 				if ($data->status) {
+
 					foreach (QUANTITE::getAll() as $key => $quantite) {
-						$ligne = new PRODUIT();
-						$ligne->typeproduit_parfum_id = $this->id;
-						$ligne->quantite_id = $quantite->id;
-						$ligne->prix = 200;
-						$ligne->prix_gros = 200;
-						$ligne->enregistre();
+						$prod = new PRODUIT();
+						$prod->typeproduit_parfum_id = $this->id;
+						$prod->quantite_id = $quantite->id;
+						$prod->prix = 200;
+						$prod->prix_gros = 200;
+						$prod->enregistre();
 					}
 
 					$ligne = new EXIGENCEPRODUCTION();

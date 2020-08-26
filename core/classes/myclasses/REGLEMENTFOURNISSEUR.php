@@ -43,23 +43,35 @@ class REGLEMENTFOURNISSEUR extends TABLE
 			}
 
 			if (intval($this->montant) > 0) {
-				$mouvement = new MOUVEMENT();
-				$mouvement->montant = $this->montant;
-				$mouvement->comment = $this->comment;
-				$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
-				if ($this->comptebanque_id == null || $this->comptebanque_id == 0) {
-					$mouvement->comptebanque_id  = COMPTEBANQUE::COURANT;
-				}
-				$data = $mouvement->enregistre();
-				if ($data->status) {
-					$this->mouvement_id = $mouvement->id;
-					$data = $this->save();
-					if ($data->status) {
-						if (!(isset($this->files) && is_array($this->files))) {
-							$this->files = [];
-						}
-						$this->uploading($this->files);
+				$datas = ENTREPOT::findBy(["id ="=>getSession("entrepot_connecte_id")]);
+				if (count($datas) == 1) {
+					$entrepot = $datas[0];
+					$entrepot->actualise();
+					if ($entrepot->comptebanque->solde() >= $this->montant) {
+						$mouvement = new MOUVEMENT();
+						$mouvement->name = "reglement de fournisseur";
+						$mouvement->montant = $this->montant;
+						$mouvement->comment = $this->comment;
+						$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
+						$mouvement->comptebanque_id  = $entrepot->comptebanque_id;
+						$data = $mouvement->enregistre();
+						if ($data->status) {
+							$this->mouvement_id = $mouvement->id;
+							$data = $this->save();
+							if ($data->status) {
+								if (!(isset($this->files) && is_array($this->files))) {
+									$this->files = [];
+								}
+								$this->uploading($this->files);
+							}
+						}					
+					}else{
+						$data->status = false;
+						$data->message = "Le solde du compte est insuffisant pour effectuer cette opération !!";
 					}
+				}else{
+					$data->status = false;
+					$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !!";
 				}
 			}else{
 				$data->status = false;
@@ -187,7 +199,7 @@ class REGLEMENTFOURNISSEUR extends TABLE
 
 			$tableaux[] = $data;
 			///////////////////////
-			
+
 			$index = $fin;
 		}
 		return $tableaux;

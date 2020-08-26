@@ -30,11 +30,11 @@ class LIGNEPRODUCTION extends TABLE
 				}
 			}else{
 				$data->status = false;
-				$data->message = "Une erreur s'est produite lors de l'ajout du produit !";
+				$data->message = "Une erreur s'est produite lors de l'operation, veuillez recommencer !";
 			}
 		}else{
 			$data->status = false;
-			$data->message = "Une erreur s'est produite lors de l'ajout du produit !";
+			$data->message = "Une erreur s'est produite lors de l'operation, veuillez recommencer !";
 		}
 		return $data;
 	}

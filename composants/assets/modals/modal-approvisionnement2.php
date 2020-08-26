@@ -29,7 +29,7 @@
                                                     <h4 class="mp0 text-uppercase"><?= $ligne->ressource->name() ?></h4>
                                                     <small><?= $ligne->ressource->unite ?></small>
                                                 </td>
-                                                <td width="105">
+                                                <td width="125">
                                                     <label>Quantité livrée</label>
                                                     <input type="number" number class="form-control text-center gras" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>">
                                                 </td>

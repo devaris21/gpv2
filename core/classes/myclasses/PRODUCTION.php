@@ -14,7 +14,7 @@ class PRODUCTION extends TABLE
 	public $groupemanoeuvre_id = 0;
 	public $entrepot_id = ENTREPOT::PRINCIPAL;
 	public $employe_id = 0;
-	public $etat_id = ETAT::ENCOURS;
+	public $etat_id = ETAT::VALIDEE;
 
 
 	public function enregistre(){
@@ -27,7 +27,7 @@ class PRODUCTION extends TABLE
 			$data = $this->save();
 		}else{
 			$data->status = false;
-			$data->message = "Une erreur s'est produite lors de l'ajout du produit !";
+			$data->message = "Une erreur s'est produite lors de l'operation, veuillez recommencer !";
 		}
 		return $data;
 	}

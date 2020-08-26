@@ -101,7 +101,7 @@ class COMPTEBANQUE extends TABLE
 			$date1 = PARAMS::DATE_DEFAULT;
 		}
 		if ($date2  == null) {
-			$date2 = dateAjoute();
+			$date2 = dateAjoute(+1);
 		}
 		$total = $this->getIn($date1, $date2) - $this->getOut($date1, $date2);
 		return $total + $this->initial;

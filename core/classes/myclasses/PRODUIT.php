@@ -18,7 +18,7 @@ class PRODUIT extends TABLE
 	public $prix;
 	public $prix_gros;
 	public $initial = 0;
-	public $isActive = TABLE::NON;
+	public $isActive = TABLE::OUI;
 
 
 	public function enregistre(){

@@ -70,9 +70,9 @@
                                                 <tr>
                                                     <td><?= datecourt($production->ladate)  ?></td>
                                                     <?php
-                                                    $production->fourni("ligneconsommationjour");
+                                                    $production->fourni("ligneconsommation");
                                                     foreach ($ressources as $key => $ressource) {
-                                                        foreach ($production->ligneconsommationjours as $key => $ligne) {
+                                                        foreach ($production->ligneconsommations as $key => $ligne) {
                                                             if ($ressource->id == $ligne->ressource_id) { 
                                                                 ?>
                                                                 <td>
@@ -156,9 +156,9 @@
                                                 <tr>
                                                     <td><?= datecourt($production->ladate)  ?></td>
                                                     <?php
-                                                    $production->fourni("ligneconsommationjour");
+                                                    $production->fourni("ligneconsommation");
                                                     foreach ($emballages as $key => $ressource) {
-                                                        foreach ($production->ligneconsommationjours as $key => $ligne) {
+                                                        foreach ($production->ligneconsommations as $key => $ligne) {
                                                             if ($ressource->id == $ligne->ressource_id) { 
                                                                 $achat = $ressource->achat($production->ladate, $production->ladate);
                                                                 $stock = $ressource->stock($production->ladate); ?>

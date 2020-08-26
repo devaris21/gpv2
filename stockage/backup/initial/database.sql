@@ -981,10 +981,10 @@ CREATE TABLE `ligneconditionnement` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ligneconsommationjour`
+-- Structure de la table `ligneconsommation`
 --
 
-CREATE TABLE `ligneconsommationjour` (
+CREATE TABLE `ligneconsommation` (
   `id` int(11) NOT NULL,
   `productionjour_id` int(11) NOT NULL,
   `ressource_id` int(11) NOT NULL,
@@ -2217,9 +2217,9 @@ ALTER TABLE `ligneconditionnement`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `ligneconsommationjour`
+-- Index pour la table `ligneconsommation`
 --
-ALTER TABLE `ligneconsommationjour`
+ALTER TABLE `ligneconsommation`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2773,9 +2773,9 @@ ALTER TABLE `ligneconditionnement`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `ligneconsommationjour`
+-- AUTO_INCREMENT pour la table `ligneconsommation`
 --
-ALTER TABLE `ligneconsommationjour`
+ALTER TABLE `ligneconsommation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

@@ -113,7 +113,7 @@
                                                 <small>Entrées du jour</small>
                                             </div>
                                             <div class="col-4 border-left border-right">
-                                                <h2 class="no-margins gras"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute())) ?> <small><?= $params->devise ?></small></h2>
+                                                <h2 class="no-margins gras"><?= money($comptebanque->solde()) ?> <small><?= $params->devise ?></small></h2>
                                                 <small>En caisse actuellement</small>
                                             </div>
                                             <div class="col-4">

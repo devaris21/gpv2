@@ -103,23 +103,13 @@ class ROOTER extends PATH
                                         if (in_array($role->id, $tableauDeRoles)) {
                                             $employe->actualise();
 
-                                            $datas = BOUTIQUE::findBy(["id ="=>$employe->boutique_id]);
-                                            if (count($datas) == 1) {
-                                                $boutique = $datas[0];
-                                                session("boutique_connecte_id", $boutique->id);
-                                            }
-
-                                            $datas = ENTREPOT::findBy(["id ="=>$employe->entrepot_id]);
-                                            if (count($datas) == 1) {
-                                                $entrepot = $datas[0];
-                                                session("entrepot_connecte_id", $entrepot->id);
-                                            }
-
                                             if ($employe->boutique_id != null) {
                                                 $boutique = $employe->boutique;
+                                                session("boutique_connecte_id", $boutique->id);
                                             }
                                             if ($employe->entrepot_id != null) {
                                                 $entrepot = $employe->entrepot;
+                                                session("entrepot_connecte_id", $entrepot->id);
                                             }
 
                                         }else{

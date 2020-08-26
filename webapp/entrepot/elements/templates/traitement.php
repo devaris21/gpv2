@@ -14,7 +14,7 @@ if ($action === "production") {
 	$production = PRODUCTION::today();
 	$test = true;
 	foreach (RESSOURCE::getAll() as $key => $ressource) {
-		$datas = $production->fourni("ligneconsommationjour", ["ressource_id ="=>$ressource->id]);
+		$datas = $production->fourni("ligneconsommation", ["ressource_id ="=>$ressource->id]);
 		if (count($datas) == 1) {
 			$ligne = $datas[0];
 			if (intval($_POST["conso-".$ressource->id]) > ($ressource->stock(dateAjoute()) + $ligne->consommation) ) {
@@ -62,8 +62,8 @@ if ($action === "production") {
 
 
 
-		$production->fourni("ligneconsommationjour");
-		foreach ($production->ligneconsommationjours as $cle => $ligne) {
+		$production->fourni("ligneconsommation");
+		foreach ($production->ligneconsommations as $cle => $ligne) {
 			$ligne->consommation = intval($_POST["conso-".$ligne->ressource_id]);
 			$ligne->save();
 		}

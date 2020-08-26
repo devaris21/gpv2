@@ -27,8 +27,9 @@
                                 <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
                                     <div class="col text-center border-right">
                                         <h5 class="text-uppercase gras text-center"><?= $type->name()  ?></h5>
-                                        <?php foreach (Home\PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $parfum) { ?>
-                                            <button class="btn btn-white btn-xs newproduit4 btn-block cursor" parfum-id="<?= $parfum->id ?>" type-id="<?= $type->id ?>"><?= $parfum->name(); ?></button>
+                                        <?php foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
+                                            $pro->actualise(); ?>
+                                            <button class="btn btn-white btn-xs newproduit4 btn-block cursor" type-id="<?= $pro->id ?>"><?= $pro->name(); ?></button>
                                         <?php }  ?>
                                     </div>
                                 <?php } ?>

@@ -22,7 +22,7 @@
                                 <div class="form-group">
                                     <input type="email" name="email" class="form-control" placeholder="Adresse email" required>
                                 </div><br>
-                                <a href="<?= $this->url("gestion", "access", "login"); ?>" class="btn btn-xs btn-outline btn-rounded"><i class="fa fa-arrow-left"></i> Nouvelle connexion</a>
+                                <a href="<?= $this->url("main", "access", "login"); ?>" class="btn btn-xs btn-outline btn-rounded"><i class="fa fa-arrow-left"></i> Nouvelle connexion</a>
                                 <button style="margin-left: 7%;" type="submit" class="btn btn-primary m-b"><i class="fa fa-check"></i> Reiniatialiser le mot de passe</button>
                             </form>
                         </div>

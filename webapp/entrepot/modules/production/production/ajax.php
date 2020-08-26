@@ -12,38 +12,74 @@ extract($_POST);
 
 
 if ($action == "nouvelleProduction") {
-	$production = new PRODUCTION();
-	$production->hydrater($_POST);
-	$production->etat_id = ETAT::ENCOURS;
-	$data = $production->enregistre();
-	if ($data->status) {
-		$listeproduits = explode(",", $listeproduits);
-		foreach ($listeproduits as $key => $value) {
-			$lot = explode("-", $value);
-			$id1 = $lot[0];
-			$id2 = $lot[1];
-			$qte = end($lot);
-			if ($qte > 0) {
-				$datas = PARFUM::findBy(["id ="=> $id1]);
-				if (count($datas) == 1) {
-					$parfum = $datas[0];
-					$datas = TYPEPRODUIT::findBy(["id ="=> $id2]);
-					if (count($datas) == 1) {
-						$typeproduit = $datas[0];
-
-						$ligne = new LIGNEPRODUCTION();
-						$ligne->production_id = $production->id;
-						$ligne->parfum_id = $parfum->id;
-						$ligne->typeproduit_id = $typeproduit->id;
-						$ligne->quantite = intval($qte);
-						$data = $ligne->enregistre();	
-					}	
+	$tests = $listeproduits = explode(",", $listeproduits);
+	foreach ($tests as $key => $value) {
+		$lot = explode("-", $value);
+		$id = $lot[0];
+		$qte = end($lot);
+		if ($qte > 0) {
+			$datas = TYPEPRODUIT_PARFUM::findBy(["id ="=> $id]);
+			if (count($datas) == 1) {
+				$type = $datas[0];
+				foreach ($type->fourni("exigenceproduction") as $key1 => $exi) {
+					$datas = $exi->fourni("ligneexigenceproduction");
+					foreach ($datas as $key2 => $ligne) {
+						if ($ligne->quantite > 0) {
+							$ligne->actualise();
+							if (($qte*$ligne->quantite/$exi->quantite) <= $ligne->ressource->stock(dateAjoute(1), getSession("entrepot_id_connecte"))) {
+								unset($datas[$key2]);
+							}
+						}
+					}
 				}
 			}
 		}
 	}
+	if (count($tests) == 0) {
+		$production = new PRODUCTION();
+		$production->hydrater($_POST);
+		$production->etat_id = ETAT::ENCOURS;
+		$data = $production->enregistre();
+		if ($data->status) {
+			foreach ($listeproduits as $key => $value) {
+				$lot = explode("-", $value);
+				$id = $lot[0];
+				$qte = end($lot);
+
+				$datas = TYPEPRODUIT_PARFUM::findBy(["id ="=> $id]);
+				if (count($datas) == 1) {
+					$type = $datas[0];
+					$ligne = new LIGNEPRODUCTION();
+					$ligne->production_id = $production->id;
+					$ligne->typeproduit_parfum_id = $type->id;
+					$ligne->quantite = intval($qte);
+					$data = $ligne->enregistre();	
+
+					foreach ($type->fourni("exigenceproduction") as $key1 => $exi) {
+						foreach ($exi->fourni("ligneexigenceproduction") as $key2 => $lign) {
+							if ($lign->quantite > 0) {
+								$lign->actualise();
+								$ligne = new LIGNECONSOMMATION();
+								$ligne->production_id = $production->id;
+								$ligne->ressource_id = $lign->ressource->id;
+								$ligne->quantite = $qte*$lign->quantite/$exi->quantite;
+								$data = $ligne->enregistre();
+							}
+						}
+					}
+				}
+			}
+		}
+	}else{
+		$data->status = false;
+		$data->message = "Certaines productions neccessite plus de ressources que vous n'en possédez !";
+	}
 	echo json_encode($data);
 }
+
+
+
+
 
 
 

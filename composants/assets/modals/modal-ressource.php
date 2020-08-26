@@ -33,7 +33,7 @@
 						<div class="col-sm-4 unmodified">
 							<label>Stock actuel </label>
 							<div class="form-group">
-								<input type="number" number class="form-control" name="stock" value="0" min="0" required>
+								<input type="number" number class="form-control" name="initial" value="0" min="0" required>
 							</div>
 						</div>
 					</div>

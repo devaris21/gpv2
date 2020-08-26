@@ -113,7 +113,7 @@
                                                 <small>Entrées du jour</small>
                                             </div>
                                             <div class="col-4 border-left border-right">
-                                                <h2 class="no-margins gras"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute())) ?> <small><?= $params->devise ?></small></h2>
+                                                <h2 class="no-margins gras"><?= money($comptebanque->solde()) ?> <small><?= $params->devise ?></small></h2>
                                                 <small>En caisse actuellement</small>
                                             </div>
                                             <div class="col-4">
@@ -305,10 +305,10 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title">Liste des versements en attentes</h4>
                 <div class="offset-md-4 col-md-4">
-                 <input type="text" id="search" class="form-control text-center" placeholder="Rechercher un versements"> 
-             </div>
-         </div>
-         <div class="modal-body">
+                   <input type="text" id="search" class="form-control text-center" placeholder="Rechercher un versements"> 
+               </div>
+           </div>
+           <div class="modal-body">
             <table class="table table-bordered table-hover table-operation">
                 <tbody class="tableau-attente">
                     <?php foreach (Home\OPERATION::enAttente() as $key => $operation) {
@@ -345,12 +345,12 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-       var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->entree ?>], <?php } ?> ];
+     var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->entree ?>], <?php } ?> ];
 
-       var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->sortie ?>], <?php } ?> ];
-       var data3 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->solde ?>], <?php } ?> ];
-       var dataset = [
-       {
+     var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->sortie ?>], <?php } ?> ];
+     var data3 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->solde ?>], <?php } ?> ];
+     var dataset = [
+     {
         label: "Recettes",
         data: data1,
         color: "#1ab394",

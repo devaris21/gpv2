@@ -14,11 +14,13 @@ foreach ($datas as $key => $value) {
 
 $item = new BOUTIQUE();
 $item->name = "Boutique principal";
+$item->comptebanque_id = COMPTEBANQUE::COURANT;
 $item->setProtected(1);
 $item->save();
 
 $item = new ENTREPOT();
 $item->name = "Entrepôt principal";
+$item->comptebanque_id = COMPTEBANQUE::COURANT;
 $item->setProtected(1);
 $item->save();
 
@@ -234,17 +236,6 @@ $item->enregistre();
 
 
 
-$item = new FOURNISSEUR();
-$item->name = "Devaris FOURNISSEUR";
-$item->email = "info@devaris21.com";
-$item->adresse = "...";
-$item->contact = "...";
-$item->fax = "...";
-$item->visibility = 0;
-$item->setProtected(1);
-$item->save();
-
-
 $item = new MODEPAYEMENT();
 $item->name = "Espèces";
 $item->initial = "ES";
@@ -330,21 +321,10 @@ $item->save();
 
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::ENTREE;
-$item->name = "Réglement de commande";
+$item->name = "Retour de fonds par le fournisseur";
 $item->setProtected(1);
 $item->save();
 
-$item = new CATEGORIEOPERATION();
-$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::ENTREE;
-$item->name = "Remboursement par le fournisseur";
-$item->setProtected(1);
-$item->save();
-
-$item = new CATEGORIEOPERATION();
-$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::ENTREE;
-$item->name = "Location d'engins pour livraison";
-$item->setProtected(1);
-$item->save();
 
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::ENTREE;
@@ -353,17 +333,6 @@ $item->setProtected(1);
 $item->save();
 
 
-$item = new CATEGORIEOPERATION();
-$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
-$item->name = "Réglement de facture d'approvisionnemnt";
-$item->setProtected(1);
-$item->save();
-
-$item = new CATEGORIEOPERATION();
-$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
-$item->name = "Payement de salaire du personnel";
-$item->setProtected(1);
-$item->save();
 
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
@@ -377,11 +346,6 @@ $item->name = "Remboursement du client";
 $item->setProtected(1);
 $item->save();
 
-$item = new CATEGORIEOPERATION();
-$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
-$item->name = "Location de tricycle pour livraison";
-$item->setProtected(1);
-$item->save();
 
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;

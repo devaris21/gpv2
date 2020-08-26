@@ -65,7 +65,7 @@
 
                                     <?php if ($employe->isAutoriser("roles")) { ?>
                                         <div class="col-lg-4">
-                                            <a href="<?= $this->url("config", "master", "access")  ?>">
+                                            <a href="<?= $this->url("config", "master", "roles")  ?>">
                                                 <div class="ibox">
                                                     <div class="ibox-content">
                                                         <div class="row">

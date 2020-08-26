@@ -9,6 +9,7 @@ $(function(){
         radioClass: 'iradio_square-green',
     });
 
+    $('.myPopover').popover()
 
     $('.footable').footable({
         "paging": {
@@ -18,11 +19,11 @@ $(function(){
 
     $("input[type=checkbox]").change(function(event) {
       if ($(this).is(":checked")) {
-         $(this).parent("label").css("color", "orangered");
-     }else{
-         $(this).parent("label").css("color", "#888");
-     }
- });
+       $(this).parent("label").css("color", "orangered");
+   }else{
+       $(this).parent("label").css("color", "#888");
+   }
+});
     $("input[type=radio]").change(function(event) {
       name = $(this).attr("name")
       $("input[name="+name+"]").parent("label").css("color", "#888");

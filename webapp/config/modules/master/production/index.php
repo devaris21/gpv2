@@ -214,7 +214,7 @@
                                                 <?php $i =0; foreach (Home\EMBALLAGE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
                                                     $item->actualise();  ?>
                                                     <tr>
-                                                        <td ><img style="width: 40px" src="<?= $this->stockage("images", "emballages", $item->image); ?>"></td>
+                                                        <td ><img style="height: 25px" src="<?= $this->stockage("images", "emballages", $item->image); ?>"></td>
                                                         <td class="gras"><?= $item->name(); ?></td>
                                                         <td><?= $item->quantite; ?> <b><?= $item->emballage->name(); ?></b></td>
                                                         <td><?= $item->initial; ?> unités</td>
@@ -245,6 +245,7 @@
                                                 <tr>
                                                     <th></th>
                                                     <th></th>
+                                                    <th></th>
                                                     <th>type de produit</th>
                                                     <th>Parfum</th>
                                                     <th>Quantité</th>
@@ -256,6 +257,7 @@
                                                 <?php $i =0; foreach (Home\CARACTERISTIQUEEMBALLAGE::findBy([], [], []) as $key => $item) {
                                                     $item->actualise();  ?>
                                                     <tr>
+                                                        <td ><img style="height: 25px" src="<?= $this->stockage("images", "emballages", $item->emballage->image); ?>"></td>
                                                         <td class="gras"><?= $item->emballage->name(); ?></td>
                                                         <td>peut contenir</td>
                                                         <td class="gras"><?= $item->typeproduit(); ?></td>
