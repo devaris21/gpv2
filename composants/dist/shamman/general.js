@@ -4,6 +4,12 @@ $(function(){
 	// Initialisation des plugins
 	$("select.select2").select2();
 
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
+
+
     $('.footable').footable({
         "paging": {
             "size": 20

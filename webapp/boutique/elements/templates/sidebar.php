@@ -61,29 +61,28 @@
                     <li class="" id="livraisons">
                         <a href="<?= $this->url($this->section, "ventes", "livraisons") ?>"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons en cours</span> <?php if (count($livraisons__) > 0) { ?> <span class="label label-warning float-right"><?= count($livraisons__) ?></span> <?php } ?></a>
                     </li>
-                    
+                    <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
                 <?php } ?>
-
-                <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
-                <li class="" id="miseenboutique">
-                    <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span> <?php if (count($mises__) > 0) { ?> <span class="label label-warning float-right"><?= count($mises__) ?></span> <?php } ?></a>
-                </li>
-                <li class="" id="rapportjour">
-                    <a href="<?= $this->url($this->section, "rapports", "rapportjour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
-                </li>
-                <li class="" id="rapportvente">
-                    <a href="<?= $this->url($this->section, "rapports", "rapportvente") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de vente</span></a>
-                </li>
-
-                <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
                 
+
+                <?php if ($employe->isAutoriser("rapports")) { ?>
+                    <li class="" id="miseenboutique">
+                        <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span> <?php if (count($mises__) > 0) { ?> <span class="label label-warning float-right"><?= count($mises__) ?></span> <?php } ?></a>
+                    </li>
+                    <li class="" id="rapportjour">
+                        <a href="<?= $this->url($this->section, "rapports", "rapportjour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
+                    </li>
+                    <li class="" id="rapportvente">
+                        <a href="<?= $this->url($this->section, "rapports", "rapportvente") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de vente</span></a>
+                    </li>
+                    <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
+                <?php } ?>
 
                 <?php if ($employe->isAutoriser("caisse")) { ?>
                     <li class="" id="caisse">
                         <a href="<?= $this->url($this->section, "caisse", "caisse") ?>"><i class="fa fa-money"></i> <span class="nav-label">Caisse de la boutique</span></a>
                     </li>
                     <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
-
                 <?php } ?>
             </ul>
 

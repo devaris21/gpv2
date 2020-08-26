@@ -29,9 +29,7 @@
 
                                 </ul>
                                 <ul class="nav navbar-top-links navbar-right">
-                                    <li id="btn-deconnexion" class="text-red cursor">
-                                        <i class="fa fa-sign-out"></i> Déconnexion
-                                    </li>
+                                    <li class=""><a class="dropdown-item text-red" href="#" id="btn-deconnexion" ><i class="fa fa-sign-out"></i> Déconnexion</a></li>
                                 </ul>
                             </div>
                         </nav>
@@ -106,7 +104,7 @@
 
 
                         <div class="row justify-content-center">
-                            <?php  if ($employe->boutique_id != null) { ?>
+                            <?php  if ($employe->boutique_id != null && $employe->isAutoriser("boutique")) { ?>
                                 <div class="col-lg-3">
                                     <a href="<?= $this->url("boutique", "master", "dashboard")  ?>">
                                         <div class="ibox">
@@ -126,7 +124,7 @@
                                 </div>
                             <?php } ?>
 
-                            <?php if ($employe->entrepot_id != null) { ?>
+                            <?php if ($employe->entrepot_id != null && $employe->isAutoriser("entrepot")) { ?>
                                 <div class="col-lg-3">
                                     <a href="<?= $this->url("entrepot", "master", "dashboard")  ?>">
                                         <div class="ibox">
@@ -146,7 +144,7 @@
                                 </div>
                             <?php } ?>
 
-                            <?php if ($employe->isManager == Home\TABLE::OUI) { ?>
+                            <?php if ($employe->isManager == Home\TABLE::OUI && $employe->isAutoriser("manager")) { ?>
                                 <div class="col-lg-3">
                                     <a href="<?= $this->url("manager", "master", "dashboard")  ?>">
                                         <div class="ibox">
@@ -166,7 +164,7 @@
                                 </div>
                             <?php } ?>
 
-                            <?php if ($employe->isAdmin == Home\TABLE::OUI) { ?>
+                            <?php if ($employe->isAdmin == Home\TABLE::OUI && $employe->isAutoriser("config")) { ?>
                                 <div class="col-lg-3">
                                     <a href="<?= $this->url("config", "master", "dashboard")  ?>">
                                         <div class="ibox">
@@ -201,9 +199,6 @@
 
 
         <?php include($this->rootPath("webapp/master/elements/templates/script.php")); ?>
-
-        <script type="text/javascript" src="<?= $this->relativePath("../../master/client/script.js") ?>"></script>
-        <script type="text/javascript" src="<?= $this->relativePath("../../production/miseenboutique/script.js") ?>"></script>
 
     </body>
 

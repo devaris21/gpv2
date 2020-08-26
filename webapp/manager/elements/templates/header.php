@@ -9,7 +9,7 @@
                 </form>
             </div>
             <ul class="nav navbar-top-links navbar-right">
-               <li class="">
+             <li class="">
                 <img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 60px; padding-right: 15%" alt="">
             </li>
 
@@ -20,16 +20,18 @@
 
             <div>
                 <a id="onglet-master" href="<?= $this->url("master", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-bank"></i> Acceuil</a>
-                <?php if ($employe->boutique_id != null) { ?>
+                <?php if ($employe->boutique_id != null && $employe->isAutoriser("boutique")) { ?>
                     <a id="onglet-boutique" href="<?= $this->url("boutique", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-bank"></i> Boutique</a>
                 <?php } ?>
-                <?php if ($employe->entrepot_id != null) { ?>
+                <?php if ($employe->entrepot_id != null && $employe->isAutoriser("entrepot")) { ?>
                     <a id="onglet-entrepot" href="<?= $this->url("entrepot", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-cubes"></i> Entrepôt</a>
                 <?php } ?>
-                <?php if ($employe->isAdmin != null) { ?>
+                <?php if ($employe->isAdmin != null && $employe->isAutoriser("manager")) { ?>
                     <a id="onglet-manager" href="<?= $this->url("manager", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-gears"></i> Manager</a>
                 <?php } ?>
             </div>
+
+            <li></li>
             
         </ul>
 

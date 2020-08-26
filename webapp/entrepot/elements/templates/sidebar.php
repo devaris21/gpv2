@@ -40,8 +40,7 @@
                 <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
 
 
-                <?php if ($employe->isAutoriser("ventes")) { ?>
-
+                <?php if ($employe->isAutoriser("production")) { ?>
                     <li class="" id="production">
                         <a href="<?= $this->url($this->section, "production", "production") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Production</span></a>
                     </li>
@@ -65,17 +64,19 @@
                     <li class="" id="ressources">
                         <a href="<?= $this->url($this->section, "production", "ressources") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Les stocks</span></a>
                     </li>
+                    <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
                 <?php } ?>
 
-                <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
 
-                <li class="" id="rapportjour">
-                    <a href="<?= $this->url($this->section, "rapports", "rapportjour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
-                </li>
-                <li class="" id="rapportproduction">
-                    <a href="<?= $this->url($this->section, "rapports", "rapportproduction") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de production</span></a>
-                </li>
-                <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
+                <?php if ($employe->isAutoriser("rapports")) { ?>
+                    <li class="" id="rapportjour">
+                        <a href="<?= $this->url($this->section, "rapports", "rapportjour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
+                    </li>
+                    <li class="" id="rapportproduction">
+                        <a href="<?= $this->url($this->section, "rapports", "rapportproduction") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de production</span></a>
+                    </li>
+                    <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
+                <?php } ?>
                 
 
                 <?php if ($employe->isAutoriser("caisse")) { ?>
@@ -83,7 +84,6 @@
                         <a href="<?= $this->url($this->section, "caisse", "caisse") ?>"><i class="fa fa-money"></i> <span class="nav-label">La caisse</span></a>
                     </li>
                     <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
-
                 <?php } ?>
 
             </ul>
@@ -95,6 +95,6 @@
 
 <style type="text/css">
     li.dropdown-divider{
-     !important;
- }
+       !important;
+   }
 </style>

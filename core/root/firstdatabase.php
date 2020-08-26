@@ -195,7 +195,9 @@ $item->save();
 
 
 
-$datas = ["master", "manager", "boutique", "entrepot", "approvisionnemnt", "caisse", "parametres", "paye des manoeuvre", "modifier-supprimer", "archives"];
+$datas = ["master", "manager", "boutique", "entrepot", "config",
+ "production", "ventes", "caisse", "rapports",
+  "modifier-supprimer", "roles", "mycompte"];
 foreach ($datas as $key => $value) {
 	$item = new ROLE();
 	$item->name = $value;

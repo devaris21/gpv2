@@ -10,10 +10,10 @@
             </div>
             <ul class="nav navbar-top-links navbar-right">
 
-            <li class="border-right gras <?= (isJourFerie(dateAjoute(1)))?"text-red":"text-muted" ?>">
-                <span class="m-r-sm welcome-message text-uppercase" id="date_actu"></span> 
-                <span class="m-r-sm welcome-message gras" id="heure_actu"></span> 
-            </li>
+                <li class="border-right gras <?= (isJourFerie(dateAjoute(1)))?"text-red":"text-muted" ?>">
+                    <span class="m-r-sm welcome-message text-uppercase" id="date_actu"></span> 
+                    <span class="m-r-sm welcome-message gras" id="heure_actu"></span> 
+                </li>
                 <!-- <li class="border-right border-left">
                     <a  onclick="voirPrixParZone()">
                         <i class="fa fa-eye"></i> Prix par zone
@@ -22,18 +22,18 @@
                 
                 <div>
                     <a id="onglet-master" href="<?= $this->url("master", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-bank"></i> Acceuil</a>
-                    <?php if ($employe->boutique_id != null) { ?>
+                    <?php if ($employe->boutique_id != null && $employe->isAutoriser("boutique")) { ?>
                         <a id="onglet-boutique" href="<?= $this->url("boutique", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-bank"></i> Boutique</a>
                     <?php } ?>
-                    <?php if ($employe->entrepot_id != null) { ?>
+                    <?php if ($employe->entrepot_id != null && $employe->isAutoriser("entrepot")) { ?>
                         <a id="onglet-entrepot" href="<?= $this->url("entrepot", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-cubes"></i> Entrepôt</a>
                     <?php } ?>
-                    <?php if ($employe->isAdmin != null) { ?>
+                    <?php if ($employe->isAdmin != null && $employe->isAutoriser("manager")) { ?>
                         <a id="onglet-manager" href="<?= $this->url("manager", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px;"><i class="fa fa-gears"></i> Manager</a>
                     <?php } ?>
                 </div>
 
-<li></li>
+                <li></li>
             </ul>
 
         </nav>
