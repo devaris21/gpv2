@@ -9,7 +9,6 @@ $(function(){
         radioClass: 'iradio_square-green',
     });
 
-    $('.myPopover').popover()
 
     $('.footable').footable({
         "paging": {

@@ -2,7 +2,7 @@ $(function(){
 
 
 	$("#formAcompte").submit(function(event) {
-		var url = "../../webapp/gestion/modules/approvisionnement/fournisseur/ajax.php";
+		var url = "../../webapp/entrepot/modules/stock/fournisseur/ajax.php";
 		alerty.confirm("Voulez-vous vraiment créditer ce montant sur ce compte ?", {
 			title: "Créditer l'acompte",
 			cancelLabel : "Non",
@@ -33,7 +33,7 @@ $(function(){
 
 
 	$("#formDette").submit(function(event) {
-		var url = "../../webapp/gestion/modules/approvisionnement/fournisseur/ajax.php";
+		var url = "../../webapp/entrepot/modules/stock/fournisseur/ajax.php";
 		alerty.confirm("Voulez-vous vraiment faire le réglement de ce montant ?", {
 			title: "Reglement de dette",
 			cancelLabel : "Non",
@@ -66,7 +66,7 @@ $(function(){
 
 
 	$("#formRembourser").submit(function(event) {
-		var url = "../../webapp/gestion/modules/approvisionnement/fournisseur/ajax.php";
+		var url = "../../webapp/entrepot/modules/stock/fournisseur/ajax.php";
 		alerty.confirm("Voulez-vous vraiment rembourser ce montant à ce fournisseur ?", {
 			title: "rembourser l'acompte",
 			cancelLabel : "Non",

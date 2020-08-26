@@ -24,11 +24,11 @@ $(function(){
 
 
 
-    //nouvelle commande
-    $("body").on("click", ".newetiquette", function(event) {
-        var url = "../../webapp/entrepot/modules/production/approetiquette/ajax.php";
+    //nouvel approvisionnement
+    $(".newressource").click(function(event) {
+        var url = "../../webapp/entrepot/modules/stock/approressource/ajax.php";
         var id = $(this).attr("data-id");
-        $.post(url, {action:"newetiquette", id:id}, (data)=>{
+        $.post(url, {action:"newressource", id:id}, (data)=>{
             $("tbody.approvisionnement").append(data);
             $("button[data-id ="+id+"]").hide(200);
             calcul()
@@ -37,7 +37,7 @@ $(function(){
 
 
     supprimeRessource = function(id){
-        var url = "../../webapp/entrepot/modules/production/approetiquette/ajax.php";
+        var url = "../../webapp/entrepot/modules/stock/approressource/ajax.php";
         $.post(url, {action:"supprimeRessource", id:id}, (data)=>{
             $("tbody.approvisionnement tr#ligne"+id).hide(400).remove();
             $("button[data-id ="+id+"]").show(200);
@@ -47,10 +47,10 @@ $(function(){
 
 
     calcul = function(){
-        var url = "../../webapp/entrepot/modules/production/approetiquette/ajax.php";
+        var url = "../../webapp/entrepot/modules/stock/approressource/ajax.php";
         var formdata = new FormData($("#formApprovisionnement")[0]);
         var tableau = new Array();
-        $("#modal-approetiquette .approvisionnement tr, #modal-approetiquette_ .approvisionnement tr").each(function(index, el) {
+        $("#modal-approvisionnement .approvisionnement tr, #modal-approvisionnement_ .approvisionnement tr").each(function(index, el) {
             var id = $(this).attr('data-id');
             var qte = $(this).find('input[name=quantite]').val();
             var prix = $(this).find('input[name=prix]').val();
@@ -60,7 +60,7 @@ $(function(){
         formdata.append('tableau', tableau);
         formdata.append('action', "calcul");
         $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-            //$("#modal-approetiquette tbody.approvisionnement, #modal-approetiquette_ tbody.approvisionnement").html(data);
+            $("#modal-approvisionnement tbody.approvisionnement, #modal-approvisionnement_ tbody.approvisionnement").html(data);
 
             formdata.append('action', "total");
             $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
@@ -91,7 +91,7 @@ $(function(){
                     okLabel : "OUI, confirmer",
                 }, function(){
                     Loader.start();
-                    var url = "../../webapp/entrepot/modules/production/approetiquette/ajax.php";
+                    var url = "../../webapp/entrepot/modules/stock/approressource/ajax.php";
                     formdata.append('action', "validerApprovisionnement");
                     $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
                         if (data.status) {
@@ -104,7 +104,7 @@ $(function(){
                 })
             }else{
                 Loader.start();
-                var url = "../../webapp/entrepot/modules/production/approetiquette/ajax.php";
+                var url = "../../webapp/entrepot/modules/stock/approressource/ajax.php";
                 formdata.append('action', "validerApprovisionnement");
                 $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
                     if (data.status) {
@@ -126,7 +126,7 @@ $(function(){
             cancelLabel : "Non",
             okLabel : "OUI, annuler",
         }, function(){
-            var url = "../../webapp/entrepot/modules/production/approetiquette/ajax.php";
+            var url = "../../webapp/entrepot/modules/stock/approressource/ajax.php";
             alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
                 title: 'Récupération du mot de passe !',
                 inputType : "password",
@@ -152,14 +152,14 @@ $(function(){
             cancelLabel : "Non",
             okLabel : "OUI, terminer",
         }, function(){
-            session("approetiquette_id", id);
-            modal("#modal-approetiquette"+id);
+            session("approvisionnement_id", id);
+            modal("#modal-approvisionnement"+id);
         })
     }
 
 
     $(".formValiderApprovisionnement").submit(function(event) {
-        var url = "../../webapp/entrepot/modules/production/approetiquette/ajax.php";
+        var url = "../../webapp/entrepot/modules/stock/approressource/ajax.php";
         var formdata = new FormData($(this)[0]);
         var tableau = new Array();
         $(this).find("table tr").each(function(index, el) {

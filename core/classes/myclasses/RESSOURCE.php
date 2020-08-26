@@ -39,30 +39,17 @@ class RESSOURCE extends TABLE
 
 
 
-	public function stock(String $date, int $entrepot_id = null){
-		$total = 0;
+	public function stock(String $date1, String $date2, int $entrepot_id = null){
+		return $this->achat($date1, $date2, $entrepot_id) - $this->consommee($date1, $date2, $entrepot_id) - $this->perte($date1, $date2, $entrepot_id) + intval($this->initial);
+	}
+
+
+	public function achat(string $date1, string $date2, int $entrepot_id = null){
 		$paras = "";
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
-		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapprovisionnement, ressource, approvisionnement WHERE ligneapprovisionnement.ressource_id = ressource.id AND ressource.id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND DATE(approvisionnement.created) <= ? AND approvisionnement.etat_id = ? $paras GROUP BY ressource.id";
-		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, $date, ETAT::VALIDEE]);
-		if (count($item) < 1) {$item = [new LIGNEAPPROVISIONNEMENT()]; }
-		$total += $item[0]->quantite;
-
-
-		$requette = "SELECT SUM(quantite) as quantite  FROM ligneconsommation, ressource, production WHERE ligneconsommation.ressource_id = ressource.id AND ressource.id = ? AND ligneconsommation.production_id = production.id AND DATE(production.created) <= ? $paras GROUP BY ressource.id";
-		$item = LIGNECONSOMMATION::execute($requette, [$this->id, $date]);
-		if (count($item) < 1) {$item = [new LIGNECONSOMMATION()]; }
-		$total -= $item[0]->quantite;
-
-		return $total + intval($this->initial);
-	}
-
-
-	public function achat(string $date1 = "2020-04-01", string $date2){
-		$total = 0;
-		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapprovisionnement, ressource, approvisionnement WHERE ligneapprovisionnement.ressource_id = ressource.id AND ressource.id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND approvisionnement.etat_id = ? AND DATE(approvisionnement.created) >= ? AND DATE(approvisionnement.created) <= ? GROUP BY ressource.id";
+		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapprovisionnement, ressource, approvisionnement WHERE ligneapprovisionnement.ressource_id = ressource.id AND ressource.id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND approvisionnement.etat_id = ? AND DATE(approvisionnement.created) >= ? AND DATE(approvisionnement.created) <= ? $paras GROUP BY ressource.id";
 		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEAPPROVISIONNEMENT()]; }
 		return $item[0]->quantite;
@@ -70,13 +57,28 @@ class RESSOURCE extends TABLE
 
 
 
-	public function consommee(string $date1 = "2020-04-01", string $date2){
-		$total = 0;
-		$datas = $this->fourni("ligneconsommation", ["DATE(created) >= " => $date1, "DATE(created) <= " => $date2]);
-		foreach ($datas as $key => $ligne) {
-			$total += $ligne->consommation;			
+	public function consommee(string $date1, string $date2, int $entrepot_id = null){
+		$paras = "";
+		if ($entrepot_id != null) {
+			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
-		return $total;
+		$requette = "SELECT SUM(quantite) as quantite  FROM ligneconsommation, ressource, production WHERE ligneconsommation.ressource_id = ressource.id AND ressource.id = ? AND ligneconsommation.production_id = production.id AND production.etat_id = ? AND DATE(production.created) >= ? AND DATE(production.created) <= ? $paras GROUP BY ressource.id";
+		$item = LIGNECONSOMMATION::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new LIGNECONSOMMATION()]; }
+		return $item[0]->quantite;
+	}
+
+
+
+	public function perte(string $date1, string $date2, int $entrepot_id = null){
+		$paras = "";
+		if ($entrepot_id != null) {
+			$paras.= "AND entrepot_id = $entrepot_id ";
+		}
+		$requette = "SELECT SUM(quantite) as quantite  FROM perteentrepot, ressource WHERE perteentrepot.ressource_id = ressource.id = ? AND  perteentrepot.etat_id = ? AND DATE(perteentrepot.created) >= ? AND DATE(perteentrepot.created) <= ? $paras ";
+		$item = PERTEENTREPOT::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new PERTEENTREPOT()]; }
+		return $item[0]->quantite;
 	}
 
 
