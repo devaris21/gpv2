@@ -34,6 +34,14 @@ class APPROVISIONNEMENT extends TABLE
 				$this->employe_id = getSession("employe_connecte_id");
 				$this->entrepot_id = getSession("entrepot_connecte_id");
 				$data = $this->save();
+				if ($data->status && $this->transport > 0) {
+					$mouvement = new OPERATION();
+					$mouvement->montant = $this->transport;
+					$mouvement->categorieoperation_id = CATEGORIEOPERATION::FRAISTRANSPORT;
+					$mouvement->modepayement_id = MODEPAYEMENT::ESPECE;
+					$mouvement->comment = "Frais de transport pour l'approvisionnement d'emballage N° ".$this->reference;
+					$data = $mouvement->enregistre();
+				}
 			}else{
 				$data->status = false;
 				$data->message = "Le montant de la commande n'est pas correcte !";

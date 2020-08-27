@@ -21,7 +21,7 @@
                         <table class="table">
                             <tbody>
                                 <?php foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
-                                    $qua = Home\PRODUCTION::enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $pro->id, $entrepot->id);
+                                    $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $entrepot->id);
                                     if ($qua > 0) {
                                         $pro->actualise(); ?>
                                         <tr>
@@ -39,10 +39,11 @@
 
 
             <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-sm-9">
+                <div class="col-sm-7">
                     <h2 class="text-uppercase text-green gras">Les productions</h2>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-5">
+                    <button style="margin-top: 5%;" type="button" data-toggle=modal data-target='#modal-perteentrepot' class="btn btn-danger btn-xs dim float-right"><i class="fa fa-trash"></i> Enregistrer une perte </button>
                     <button style="margin-top: 5%;" type="button" data-toggle=modal data-target='#modal-production' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle production </button>
                 </div>
             </div>
@@ -52,7 +53,7 @@
                     <div class="ibox-title">
                         <h5>Toutes les mises en boutique de la production</h5>
                         <div class="ibox-tools">
-                         <form id="formFiltrer" method="POST">
+                           <form id="formFiltrer" method="POST">
                             <div class="row" style="margin-top: -1%">
                                 <div class="col-5">
                                     <input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
@@ -82,7 +83,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                             <?php foreach ($encours as $key => $production) {
+                               <?php foreach ($encours as $key => $production) {
                                 $production->actualise(); 
                                 $lots = $production->fourni("ligneproduction");
                                 ?>
@@ -201,6 +202,59 @@
 
 <?php include($this->rootPath("webapp/entrepot/elements/templates/script.php")); ?>
 <script type="text/javascript" src="<?= $this->rootPath("webapp/boutique/modules/master/client/script.js") ?>"></script>
+
+
+
+
+<div class="modal inmodal fade" id="modal-perteentrepot">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-red">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Enregistrer une perte</h4>
+                <small>Veuillez renseigner les informations pour enregistrer la perte</small>
+            </div>
+            <form method="POST" class="formShamman" classname="perteentrepot">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <label>Production perdue <span1>*</span1></label>
+                            <div class="form-group">
+                                <?php Native\BINDING::html("select", "typeproduit_parfum"); ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Quantité perdue<span1>*</span1></label>
+                            <div class="form-group">
+                                <input type="number" number class="form-control" name="quantite" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Cause de la perte<span1>*</span1></label>
+                            <div class="form-group">
+                                <?php Native\BINDING::html("select", "typeperte"); ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Plus de détails<span1>*</span1></label>
+                            <div class="form-group">
+                                <textarea class="form-control" name="comment" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div><hr>
+                <div class="container">
+                    <input type="hidden" name="id" >
+                    <button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
+                    <button class="btn btn-sm btn-danger dim pull-right"><i class="fa fa-money"></i> Enregistrer la perte</button>
+                </div>
+                <br>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 </body>

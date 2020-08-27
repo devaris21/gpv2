@@ -72,6 +72,7 @@
                                     </td>
                                     <td>
                                         <span class="text-uppercase gras">Appro N°<?= $appro->reference ?></span><br>
+                                        <small><?= depuis($appro->created) ?></small>
                                     </td>
                                     <td>
                                         <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $appro->entrepot->name() ?></h6>
@@ -79,7 +80,7 @@
                                     <td><i class="fa fa-user"></i> <?= $appro->employe->name() ?></td>
                                     <td>
                                         <h4>
-                                            <span class="gras text-orange"><?= money($appro->montant) ?> <?= $params->devise  ?></span>
+                                            <span class="gras text-blue"><?= money($appro->montant) ?> <?= $params->devise  ?></span>
                                         </h4>
                                     </td>
                                     <td><i class="fa fa-user"></i> <?= $appro->fournisseur->name() ?></td>
@@ -132,7 +133,7 @@
                                     <td><i class="fa fa-user"></i> <?= $appro->employe->name() ?></td>
                                     <td>
                                         <h4>
-                                            <span class="gras text-orange"><?= money($appro->montant) ?> <?= $params->devise  ?></span>
+                                            <span class="gras text-blue"><?= money($appro->montant) ?> <?= $params->devise  ?></span>
                                         </h4>
                                     </td>
                                     <td><i class="fa fa-user"></i> <?= $appro->fournisseur->name() ?></td>
@@ -172,7 +173,7 @@
                 </table>
 
             <?php }else{ ?>
-                <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucun conditionnement pour le moment</h1>
+                <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucun approvisionnement pour le moment</h1>
             <?php } ?>
 
         </div>
@@ -200,7 +201,6 @@ foreach ($encours as $key => $appro) {
 
 
 <?php include($this->rootPath("webapp/entrepot/elements/templates/script.php")); ?>
-<script type="text/javascript" src="<?= $this->relativePath("../client/script.js") ?>"></script>
 
 
 </body>

@@ -1,7 +1,7 @@
 <?php 
 namespace Home;
 
-$title = "GPV | Toutes les productions";
+$title = "GPV | Conditionnements de la production";
 
 unset_session("produits");
 

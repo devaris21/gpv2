@@ -12,29 +12,49 @@ extract($_POST);
 
 
 if ($action == "miseenboutique") {
-	$meb = new MISEENBOUTIQUE();
-	$meb->hydrater($_POST);
-	$meb->etat_id = ETAT::ENCOURS;
-	$data = $meb->enregistre();
-	if ($data->status) {
-		$listeproduits = explode(",", $listeproduits);
-		foreach ($listeproduits as $key => $value) {
-			$lot = explode("-", $value);
-			$format_id = $lot[1];
-			$id = $lot[0];
-			$qte = end($lot);
-			$datas = PRODUIT::findBy(["id ="=> $id]);
-			if (count($datas) == 1) {
-				$produit = $datas[0];
+	$tests = $listeproduits = explode(",", $listeproduits);
+	foreach ($tests as $key => $value) {
+		$lot = explode("-", $value);
+		$format_id = $lot[1];
+		$id = $lot[0];
+		$qte = end($lot);
+		$datas = PRODUIT::findBy(["id ="=> $id]);
+		if (count($datas) == 1) {
+			$produit = $datas[0];
+			if ($produit->enEntrepot(PARAMS::DATE_DEFAULT, dateAjoute(1), $format_id, getSession("entrepot_connecte_id")) >= $qte) {
+				unset($tests[$key]);
+			}	
+		}
+	}
+	if (count($tests) == 0) {
+		$meb = new MISEENBOUTIQUE();
+		$meb->hydrater($_POST);
+		$meb->etat_id = ETAT::ENCOURS;
+		$data = $meb->enregistre();
+		if ($data->status) {
+			foreach ($listeproduits as $key => $value) {
+				$lot = explode("-", $value);
+				$format_id = $lot[1];
+				$id = $lot[0];
+				$qte = end($lot);
+				$datas = PRODUIT::findBy(["id ="=> $id]);
+				if (count($datas) == 1) {
+					$produit = $datas[0];
+					if ($qte > 0) {
+						$ligne = new LIGNEMISEENBOUTIQUE();
+						$ligne->miseenboutique_id = $meb->id;
+						$ligne->emballage_id = $format_id;
+						$ligne->produit_id = $produit->id;
+						$ligne->quantite_depart = intval($qte);
+						$data = $ligne->enregistre();
+					}
 
-				$ligne = new LIGNEMISEENBOUTIQUE();
-				$ligne->miseenboutique_id = $meb->id;
-				$ligne->emballage_id = $format_id;
-				$ligne->produit_id = $produit->id;
-				$ligne->quantite_demande = intval($qte);
-				$data = $ligne->enregistre();	
+				}
 			}
 		}
+	}else{
+		$data->status = false;
+		$data->message = "Certains des produits sont en quantité insuffisantes pour faire cette sortie d'entrepôt !";
 	}
 	echo json_encode($data);
 }

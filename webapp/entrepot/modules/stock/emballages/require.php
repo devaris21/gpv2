@@ -1,6 +1,7 @@
 <?php 
 namespace Home;
 unset_session("emballages");
+unset_session("ressources");
 
 $emballages = EMBALLAGE::getAll();
 

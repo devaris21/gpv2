@@ -45,8 +45,8 @@ if ($action === "production") {
 		}
 
 
-		$production->fourni("ligneetiquettejour");
-		foreach ($production->ligneetiquettejours as $cle => $ligne) {
+		$production->fourni("ligneetiquette");
+		foreach ($production->ligneetiquettes as $cle => $ligne) {
 			$ligne->actualise();
 			if (isset($_POST["etiq-".$ligne->etiquette->produit_id])) {
 				$ligne->consommation = intval($_POST["etiq-".$ligne->etiquette->produit_id]);

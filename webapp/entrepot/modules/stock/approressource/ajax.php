@@ -183,16 +183,6 @@ if ($action == "validerApprovisionnement") {
 										$approvisionnement->montant = $total;
 										$data = $approvisionnement->enregistre();
 										if ($data->status) {
-											if ($transport > 0) {
-												$mouvement = new MOUVEMENT();
-												$mouvement->name = "Frais de transport";
-												$mouvement->montant = $transport;
-												$mouvement->comment = "Frais de transport pour l'approvisionnement N°".$approvisionnement->reference;
-												$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
-												$mouvement->comptebanque_id  = $entrepot->comptebanque_id;
-												$data = $mouvement->enregistre();
-											}
-
 											foreach ($ressources as $key => $value) {
 												$lot = explode("-", $value);
 												$id = $lot[0];

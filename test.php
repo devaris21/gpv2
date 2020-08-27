@@ -10,7 +10,7 @@ TRUNCATE `ligneapprovisionnement`;
 TRUNCATE `lignecommande`;
 TRUNCATE `ligneconsommation`;
 TRUNCATE `lignedevente`;
-TRUNCATE `ligneetiquettejour`;
+TRUNCATE `ligneetiquette`;
 TRUNCATE `lignemiseenboutique`;
 TRUNCATE `lignepayement`;
 TRUNCATE `ligneperteentrepot`;

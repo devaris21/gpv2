@@ -20,7 +20,6 @@ class LIGNEMISEENBOUTIQUE extends TABLE
 	public $quantite_depart;
 	public $quantite;
 	public $perte = 0;
-	public $restant = 0;
 
 
 	public function enregistre(){
@@ -29,7 +28,7 @@ class LIGNEMISEENBOUTIQUE extends TABLE
 		if (count($datas) == 1) {
 			$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
 			if (count($datas) == 1) {
-				if ($this->quantite_depart > 0) {
+				if ($this->quantite_depart >= 0) {
 					$this->quantite = $this->quantite_depart;
 					$data = $this->save();
 				}				

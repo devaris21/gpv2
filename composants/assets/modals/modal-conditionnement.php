@@ -18,7 +18,7 @@
                                 <div class="table-responsive">
                                     <table class="table  table-striped">
                                         <tbody class="commande">
-                                            <?php $datas = $pro->fourni(["isActive = "=> Home\TABLE::OUI]);
+                                            <?php $datas = $pro->fourni("produit", ["isActive = "=> Home\TABLE::OUI]);
                                             if (count($datas) > 0) {
                                                 foreach ($datas as $key => $produit) {
                                                     $produit->actualise(); ?>
@@ -28,10 +28,10 @@
                                                             <h5 class="mp0 text-uppercase"><?= $pro->name() ?></h5>
                                                             <h1><?= $produit->quantite->name() ?></h1>
                                                         </td>
-                                                        <?php foreach (Home\EMBALLAGE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $format) {  ?>
+                                                        <?php foreach ($produit->getListeEmballageProduit() as $key => $format) {  ?>
                                                             <td class="text-center">
-                                                                <img src="http://dummyimage.com/50x50/4d494d/686a82.gif&text=placeholder+image" alt="placeholder+image"><br>
-                                                                <small><?= $format->name() ?></small><br>
+                                                                <img style="height: 25px" src="<?= $this->stockage("images", "emballages", $format->image)  ?>"><br>
+                                                                <small class="gras"><?= $format->name() ?></small><br>
                                                                 <input type="text" name="<?= $produit->id ?>-<?= $format->id ?>" number class="form-control text-center gras quantite" style="padding: 3px">
                                                             </td>
                                                         <?php }  ?>                

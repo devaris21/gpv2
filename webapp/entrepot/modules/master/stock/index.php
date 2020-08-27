@@ -39,7 +39,7 @@
                                                         $a = $produit->enEntrepot(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, $entrepot->id);
                                                         if ($a > 0) { ?>
                                                             <span class="float-right">
-                                                                <small title="en boutique" class="gras <?= ($a * $emballage->nombre() > $params->ruptureStock)?"":"text-red clignote" ?>"><?= start0($a) ?></small> <img src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> |
+                                                                <small title="en boutique" class="gras <?= ($a * $emballage->nombre() > $params->ruptureStock)?"":"text-red clignote" ?>"><?= start0($a) ?></small> <img style="height: 15px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> |
                                                             </span>
                                                         <?php }
                                                     } ?>                                                               

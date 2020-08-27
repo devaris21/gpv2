@@ -5,24 +5,24 @@ use Native\EMAIL;
 /**
  * 
  */
-class LIGNEETIQUETTEJOUR extends TABLE
+class LIGNEETIQUETTE extends TABLE
 {
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	public $production_id;
+	public $conditionnement_id;
 	public $etiquette_id;
-	public $consommation = 0;
+	public $quantite = 0;
 
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = PRODUCTION::findBy(["id ="=>$this->production_id]);
+		$datas = CONDITIONNEMENT::findBy(["id ="=>$this->conditionnement_id]);
 		if (count($datas) == 1) {
 			$datas = ETIQUETTE::findBy(["id ="=>$this->etiquette_id]);
 			if (count($datas) == 1) {
-				if ($this->consommation >= 0) {
+				if ($this->quantite >= 0) {
 					$data = $this->save();
 				}else{
 					$data->status = false;

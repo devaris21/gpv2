@@ -83,7 +83,6 @@ class EMBALLAGE extends TABLE
 
 	public function totalEmballagePrice(){
 		$this->actualise();
-		$emballage = new EMBALLAGE();
 		if ($this->emballage_id == null) {
 			return $this->quantite * $this->price();
 		}
@@ -91,22 +90,38 @@ class EMBALLAGE extends TABLE
 	}
 
 
-	public function stock(String $date){
-		return $this->achat("2020-06-01", $date) + intval($this->initial) - $this->consommee("2020-06-01", $date);
+
+	public function isDisponible(int $a = 1){
+		$tab = [];
+		if (getSession("emballages-disponibles") != null) {
+			$tab = getSession("emballages-disponibles");
+		}
+		$this->actualise();
+		if ($this->emballage_id == null) {
+			$test = ($this->stock(PARAMS::DATE_DEFAULT, dateAjoute(1), getSession("entrepot_connecte_id")) >=  $a);
+			$tab[$this->id] = (isset($tab[$this->id]))? intval($tab[$this->id]) + intval($a) : intval($a);
+			session("emballages-disponibles", $tab);
+			return $test;
+		}
+		$test = (($this->stock(PARAMS::DATE_DEFAULT, dateAjoute(1), getSession("entrepot_connecte_id")) >=  $a) && $this->emballage->isDisponible($this->emballage->quantite * $a));
+			$tab[$this->id] = (isset($tab[$this->id]))? intval($tab[$this->id]) + intval($a) : intval($a);
+		session("emballages-disponibles", $tab);
+		return $test;
 	}
 
 
-	public function consommee(string $date1 = "2020-06-01", string $date2){
-		$requette = "SELECT SUM(ligneproduction.quantite) as quantite  FROM production, ligneproduction, produit, quantite, emballage WHERE ligneproduction.produit_id = produit.id AND ligneproduction.production_id = production.id AND produit.quantite_id = quantite.id AND emballage.quantite_id = quantite.id AND  emballage.id = ? AND production.etat_id != ? AND DATE(ligneproduction.created) >= ? AND DATE(ligneproduction.created) <= ? GROUP BY emballage.id";
-		$item = LIGNEPRODUCTION::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
-		if (count($item) < 1) {$item = [new LIGNEPRODUCTION()]; }
-		return $item[0]->quantite;
+
+	public function stock(String $date1, String $date2, int $entrepot_id = null){
+		return $this->achat($date1, $date2, $entrepot_id) - $this->consommee($date1, $date2, $entrepot_id) - $this->perte($date1, $date2, $entrepot_id) + intval($this->initial);
 	}
 
 
-	public function achat(string $date1 = "2020-04-01", string $date2){
-		$total = 0;
-		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapproemballage, emballage, approemballage WHERE ligneapproemballage.emballage_id = emballage.id AND emballage.id = ? AND ligneapproemballage.approemballage_id = approemballage.id AND approemballage.etat_id = ? AND DATE(approemballage.created) >= ? AND DATE(approemballage.created) <= ? GROUP BY emballage.id";
+	public function achat(string $date1, string $date2, int $entrepot_id = null){
+		$paras = "";
+		if ($entrepot_id != null) {
+			$paras.= "AND entrepot_id = $entrepot_id ";
+		}
+		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapproemballage, approemballage WHERE ligneapproemballage.emballage_id = ? AND ligneapproemballage.approemballage_id = approemballage.id AND approemballage.etat_id = ? AND DATE(approemballage.created) >= ? AND DATE(approemballage.created) <= ? $paras ";
 		$item = LIGNEAPPROEMBALLAGE::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEAPPROEMBALLAGE()]; }
 		return $item[0]->quantite;
@@ -114,27 +129,30 @@ class EMBALLAGE extends TABLE
 
 
 
-	public function en_cours(){
-		$total = 0;
-		$requette = "SELECT SUM(quantite) as quantite  FROM ligneapproemballage, emballage, approemballage WHERE ligneapproemballage.emballage_id = emballage.id AND emballage.id = ? AND ligneapproemballage.approemballage_id = approemballage.id AND approemballage.etat_id = ? GROUP BY emballage.id";
-		$item = LIGNEAPPROEMBALLAGE::execute($requette, [$this->id, ETAT::ENCOURS]);
-		if (count($item) < 1) {$item = [new LIGNEAPPROEMBALLAGE()]; }
+	public function consommee(string $date1, string $date2, int $entrepot_id = null){
+		$paras = "";
+		if ($entrepot_id != null) {
+			$paras.= "AND entrepot_id = $entrepot_id ";
+		}
+		$requette = "SELECT SUM(ligneconditionnement.quantite) as quantite  FROM ligneconditionnement, conditionnement WHERE ligneconditionnement.emballage_id =  ? AND ligneconditionnement.conditionnement_id = conditionnement.id AND conditionnement.etat_id != ? AND DATE(conditionnement.created) >= ? AND DATE(conditionnement.created) <= ? $paras ";
+		$item = LIGNECONDITIONNEMENT::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new LIGNECONDITIONNEMENT()]; }
 		return $item[0]->quantite;
 	}
 
 
 
-	public function exigence(int $quantite, int $produit_id){
-		$datas = EXIGENCEPRODUCTION::findBy(["emballage_id ="=>$this->id, "produit_id ="=>$produit_id]);
-		if (count($datas) == 1) {
-			$item = $datas[0];
-			if ($item->quantite_emballage == 0) {
-				return 0;
-			}
-			return ($quantite * $item->quantite_produit) / $item->quantite_emballage;
+	public function perte(string $date1, string $date2, int $entrepot_id = null){
+		$paras = "";
+		if ($entrepot_id != null) {
+			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
-		return 0;
+		$requette = "SELECT SUM(quantite) as quantite  FROM perteentrepot WHERE perteentrepot.emballage_id = ? AND  perteentrepot.etat_id = ? AND DATE(perteentrepot.created) >= ? AND DATE(perteentrepot.created) <= ? $paras ";
+		$item = PERTEENTREPOT::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new PERTEENTREPOT()]; }
+		return $item[0]->quantite;
 	}
+
 
 
 

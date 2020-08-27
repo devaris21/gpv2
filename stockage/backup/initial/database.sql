@@ -1016,10 +1016,10 @@ CREATE TABLE `lignedevente` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ligneetiquettejour`
+-- Structure de la table `ligneetiquette`
 --
 
-CREATE TABLE `ligneetiquettejour` (
+CREATE TABLE `ligneetiquette` (
   `id` int(11) NOT NULL,
   `productionjour_id` int(11) NOT NULL,
   `etiquette_id` int(11) NOT NULL,
@@ -2229,9 +2229,9 @@ ALTER TABLE `lignedevente`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `ligneetiquettejour`
+-- Index pour la table `ligneetiquette`
 --
-ALTER TABLE `ligneetiquettejour`
+ALTER TABLE `ligneetiquette`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2785,9 +2785,9 @@ ALTER TABLE `lignedevente`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `ligneetiquettejour`
+-- AUTO_INCREMENT pour la table `ligneetiquette`
 --
-ALTER TABLE `ligneetiquettejour`
+ALTER TABLE `ligneetiquette`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

@@ -39,7 +39,7 @@ class APPROEMBALLAGE extends TABLE
 					$mouvement->montant = $this->transport;
 					$mouvement->categorieoperation_id = CATEGORIEOPERATION::FRAISTRANSPORT;
 					$mouvement->modepayement_id = MODEPAYEMENT::ESPECE;
-					$mouvement->comment = "Frais de transport pour l'approvisionnement N° ".$this->reference;
+					$mouvement->comment = "Frais de transport pour l'approvisionnement d'emballage N° ".$this->reference;
 					$data = $mouvement->enregistre();
 				}
 			}else{
@@ -48,7 +48,7 @@ class APPROEMBALLAGE extends TABLE
 			}
 		}else{
 			$data->status = false;
-			$data->message = "Une erreur s'est produite lors de l'ajout du produit !";
+			$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
 		}
 		return $data;
 	}

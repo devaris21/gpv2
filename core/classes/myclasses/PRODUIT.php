@@ -57,7 +57,7 @@ class PRODUIT extends TABLE
 
 
 	public function getListeEmballageProduit(){
-		$requette = "SELECT emballage.* FROM caracteristiqueemballage, emballage WHERE caracteristiqueemballage.emballage_id = emballage.id AND typeproduit_id IN (null, ?) AND parfum_id IN (null, ?) AND quantite_id IN (null, ?)";
+		$requette = "SELECT emballage.* FROM caracteristiqueemballage, emballage WHERE caracteristiqueemballage.emballage_id = emballage.id AND typeproduit_id IN ('', ?) AND parfum_id IN ('', ?) AND quantite_id IN ('', ?)";
 		return EMBALLAGE::execute($requette, [$this->typeproduit_parfum->typeproduit->id, $this->typeproduit_parfum->parfum->id, $this->quantite->id]);
 	}
 
@@ -149,15 +149,16 @@ class PRODUIT extends TABLE
 	}
 
 
-	public function perteEntrepot(string $date1, string $date2, int $format_id, int $entrepot_id = null){
+
+	public function perteEntrepot(string $date1, string $date2, int $entrepot_id = null){
 		$paras = "";
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
-		$requette = "SELECT SUM(perte) as perte  FROM ligneperteentrepot, perteentrepot WHERE ligneperteentrepot.produit_id = ? AND ligneperteentrepot.emballage_id = ? AND ligneperteentrepot.perteentrepot_id = perteentrepot.id AND perteentrepot.etat_id != ? AND ligneperteentrepot.created >= ? AND ligneperteentrepot.created <= ? $paras";
-		$item = LIGNEPERTEENTREPOT::execute($requette, [$this->id, $format_id, ETAT::ANNULEE, $date1, $date2]);
-		if (count($item) < 1) {$item = [new LIGNEPERTEENTREPOT()]; }
-		return $item[0]->perte;
+		$requette = "SELECT SUM(quantite) as quantite  FROM perteentrepot WHERE perteentrepot.produit_id = ? AND  perteentrepot.etat_id = ? AND DATE(perteentrepot.created) >= ? AND DATE(perteentrepot.created) <= ? $paras ";
+		$item = PERTEENTREPOT::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new PERTEENTREPOT()]; }
+		return $item[0]->quantite;
 	}
 
 

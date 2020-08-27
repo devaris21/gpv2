@@ -42,13 +42,16 @@
 
                 <?php if ($employe->isAutoriser("production")) { ?>
                     <li class="" id="production">
-                        <a href="<?= $this->url($this->section, "production", "production") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Production</span></a>
+                        <a href="<?= $this->url($this->section, "production", "production") ?>"><i class="fa fa-free-code-camp"></i> <span class="nav-label">Production</span></a>
                     </li>
                     <li class="" id="conditionnement">
-                        <a href="<?= $this->url($this->section, "production", "conditionnement") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Conditionnement</span></a>
+                        <a href="<?= $this->url($this->section, "production", "conditionnement") ?>"><i class="fa fa-flask"></i> <span class="nav-label">Conditionnement</span></a>
                     </li>
                     <li class="" id="miseenboutique">
                         <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span></a>
+                    </li>
+                    <li class="" id="perteentrepot">
+                        <a href="<?= $this->url($this->section, "production", "perteentrepot") ?>"><i class="fa fa-trash"></i> <span class="nav-label">Perte en entrepot</span></a>
                     </li>
                     <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
                 <?php } ?>
@@ -63,7 +66,6 @@
                         <ul class="nav nav-second-level collapse">
                             <li id="approressource"><a href="<?= $this->url($this->section, "stock", "approressource") ?>">Appro de ressources</a></li>
                             <li id="approemballage"><a href="<?= $this->url($this->section, "stock", "approemballage") ?>">Appro d'emballage</a></li>
-                            <li id="approetiquette"><a href="<?= $this->url($this->section, "stock", "approetiquette") ?>">Appro d'etiquette</a></li>
                         </ul>
                     </li>
                     <li class="groupe">
@@ -71,7 +73,6 @@
                         <ul class="nav nav-second-level collapse">
                             <li id="ressources"><a href="<?= $this->url($this->section, "stock", "ressources") ?>">Stock de ressources</a></li>
                             <li id="emballages"><a href="<?= $this->url($this->section, "stock", "emballages") ?>">Stock d'emballage</a></li>
-                            <li id="etiquettes"><a href="<?= $this->url($this->section, "stock", "etiquettes") ?>">Stock d'etiquette</a></li>
                         </ul>
                     </li>
                     <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>

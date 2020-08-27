@@ -10,17 +10,13 @@ class CATEGORIEOPERATION extends TABLE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	const VENTE = 1;
-	const REMBOURSEMENT_FOURNISSEUR = 2;
-	const LOCATION_VENTE = 3;
-	const AUTRE_ENTREE = 4;
+	const RETOURFOND_FOURNISSEUR = 1;
+	const AUTRE_ENTREE = 2;
 
-	const APPROVISIONNEMENT = 5;
-	const PAYE = 6;
-	const ENTRETIENVEHICULE = 7;
-	const REMBOURSEMENT = 8;
-	const FRAISTRANSPORT = 18;
-	const AUTRE_DEPENSE = 10;
+	const FRAISTRANSPORT = 3;
+	const ENTRETIENVEHICULE = 4;
+	const RETOURFOND_CLIENT = 5;
+	const AUTRE_DEPENSE = 6;
 
 	
 	public $typeoperationcaisse_id;

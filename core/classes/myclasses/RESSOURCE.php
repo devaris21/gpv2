@@ -49,7 +49,7 @@ class RESSOURCE extends TABLE
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
-		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapprovisionnement, ressource, approvisionnement WHERE ligneapprovisionnement.ressource_id = ressource.id AND ressource.id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND approvisionnement.etat_id = ? AND DATE(approvisionnement.created) >= ? AND DATE(approvisionnement.created) <= ? $paras GROUP BY ressource.id";
+		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapprovisionnement, approvisionnement WHERE ligneapprovisionnement.ressource_id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND approvisionnement.etat_id = ? AND DATE(approvisionnement.created) >= ? AND DATE(approvisionnement.created) <= ? $paras ";
 		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEAPPROVISIONNEMENT()]; }
 		return $item[0]->quantite;
@@ -62,7 +62,7 @@ class RESSOURCE extends TABLE
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
-		$requette = "SELECT SUM(quantite) as quantite  FROM ligneconsommation, ressource, production WHERE ligneconsommation.ressource_id = ressource.id AND ressource.id = ? AND ligneconsommation.production_id = production.id AND production.etat_id = ? AND DATE(production.created) >= ? AND DATE(production.created) <= ? $paras GROUP BY ressource.id";
+		$requette = "SELECT SUM(quantite) as quantite  FROM ligneconsommation, production WHERE ligneconsommation.ressource_id =  ? AND ligneconsommation.production_id = production.id AND production.etat_id = ? AND DATE(production.created) >= ? AND DATE(production.created) <= ? $paras ";
 		$item = LIGNECONSOMMATION::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNECONSOMMATION()]; }
 		return $item[0]->quantite;
@@ -75,33 +75,25 @@ class RESSOURCE extends TABLE
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
-		$requette = "SELECT SUM(quantite) as quantite  FROM perteentrepot, ressource WHERE perteentrepot.ressource_id = ressource.id = ? AND  perteentrepot.etat_id = ? AND DATE(perteentrepot.created) >= ? AND DATE(perteentrepot.created) <= ? $paras ";
+		$requette = "SELECT SUM(quantite) as quantite  FROM perteentrepot WHERE perteentrepot.ressource_id = ? AND  perteentrepot.etat_id = ? AND DATE(perteentrepot.created) >= ? AND DATE(perteentrepot.created) <= ? $paras ";
 		$item = PERTEENTREPOT::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new PERTEENTREPOT()]; }
 		return $item[0]->quantite;
 	}
 
 
-	public function en_cours(){
-		$total = 0;
-		$requette = "SELECT SUM(quantite) as quantite  FROM ligneapprovisionnement, ressource, approvisionnement WHERE ligneapprovisionnement.ressource_id = ressource.id AND ressource.id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND approvisionnement.etat_id = ? GROUP BY ressource.id";
-		$item = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::ENCOURS]);
-		if (count($item) < 1) {$item = [new LIGNEAPPROVISIONNEMENT()]; }
-		return $item[0]->quantite;
-	}
 
 
-
-	public function exigence(int $quantite, int $produit_id){
-		$datas = EXIGENCEPRODUCTION::findBy(["ressource_id ="=>$this->id, "produit_id ="=>$produit_id]);
-		if (count($datas) == 1) {
-			$item = $datas[0];
-			if ($item->quantite_ressource == 0) {
-				return 0;
+	public function neccessite(int $quantite, int $typeproduit_parfum_id){
+		$datas = EXIGENCEPRODUCTION::findBy(["typeproduit_parfum_id ="=>$typeproduit_parfum_id]);
+		foreach ($datas as $key => $exi) {
+			foreach ($exi->fourni("ligneexigenceproduction", ["ressource_id ="=>$this->id]) as $key => $ligne) {
+				if ($ligne->quantite > 0) {
+					$total += ($quantite * $ligne->quantite) / $exi->quantite ;
+				}
 			}
-			return ($quantite * $item->quantite_produit) / $item->quantite_ressource;
 		}
-		return 0;
+		return $total;
 	}
 
 

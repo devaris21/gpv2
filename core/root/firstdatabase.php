@@ -204,12 +204,21 @@ $item->setProtected(1);
 $item->save();
 
 
-
 $datas = ["master", "manager", "boutique", "entrepot", "config",
  "production", "ventes", "stock", "caisse", "rapports",
   "modifier-supprimer", "roles", "mycompte"];
 foreach ($datas as $key => $value) {
 	$item = new ROLE();
+	$item->name = $value;
+	$item->setProtected(1);
+	$item->save();
+}
+
+
+
+$datas = ["Incendie", "Peremption", "Dégats-endommagement", "Vol"];
+foreach ($datas as $key => $value) {
+	$item = new TYPEPERTE();
 	$item->name = $value;
 	$item->setProtected(1);
 	$item->save();
@@ -336,13 +345,19 @@ $item->save();
 
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
+$item->name = "Frais de Transport";
+$item->setProtected(1);
+$item->save();
+
+$item = new CATEGORIEOPERATION();
+$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
 $item->name = "Réglement de facture de reparation / d'entretien";
 $item->setProtected(1);
 $item->save();
 
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
-$item->name = "Remboursement du client";
+$item->name = "Retour de fonds au client";
 $item->setProtected(1);
 $item->save();
 
@@ -386,10 +401,6 @@ foreach ($datas as $key => $value) {
 	$item->setProtected(1);
 	$item->save();
 
-	$item = new TYPEPRESTATAIRE();
-	$item->name = $value;
-	$item->setProtected(1);
-	$item->save();
 
 	$item = new ENERGIE();
 	$item->name = $value;

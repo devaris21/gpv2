@@ -25,7 +25,7 @@
                             <div class=" text-center">
                                 <?php foreach (Home\EMBALLAGE::getAll() as $key => $item) {
                                     $item->actualise();
-                                    if ($item->quantite->isActive == Home\TABLE::OUI) { ?>
+                                    if ($item->isActive == Home\TABLE::OUI) { ?>
                                         <button class="btn btn-white dim newressource text-capitalize" data-id="<?= $item->id ?>"><i class="fa fa-flask"></i> <?= $item->name(); ?></button>                   
                                     <?php  }
                                 }  ?>
@@ -94,7 +94,7 @@
                             <input type="hidden" name="typeapprovisionnement_id" value="<?= Home\TYPEAPPROVISIONNEMENT::EMBALLAGE ?>">
                         </form>
                         <hr/>
-                        <button onclick="validerApprovisionnement()" class="btn btn-warning btn-block dim"><i class="fa fa-check"></i> Valider l'approvisionnement</button>
+                        <button onclick="validerApprovisionnement()" class="btn btn-success btn-block dim"><i class="fa fa-check"></i> Valider l'approvisionnement</button>
                     </div>
                 </div>
 

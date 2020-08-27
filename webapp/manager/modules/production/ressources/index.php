@@ -308,9 +308,9 @@
                                                                                         <tr>
                                                                                             <td><?= datecourt($production->ladate)  ?></td>
                                                                                             <?php
-                                                                                            $production->fourni("ligneetiquettejour");
+                                                                                            $production->fourni("ligneetiquette");
                                                                                             foreach ($etiquettes as $key => $etiq) {
-                                                                                                foreach ($production->ligneetiquettejours as $key => $ligne) {
+                                                                                                foreach ($production->ligneetiquettes as $key => $ligne) {
                                                                                                     if ($etiq->id == $ligne->etiquette_id) { 
                                                                                                         ?>
                                                                                                         <td>

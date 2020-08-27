@@ -1,35 +1,10 @@
 $(function(){
 
 
-    $("tr.fini").hide()
-
-    $("input[type=checkbox].onoffswitch-checkbox").change(function(event) {
-        if($(this).is(":checked")){
-            Loader.start()
-            setTimeout(function(){
-                Loader.stop()
-                $("tr.fini").fadeIn(400)
-            }, 500);
-        }else{
-            $("tr.fini").fadeOut(400)
-        }
-    });
-
-    $("#top-search").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("table.table-mise tr:not(.no)").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    });
-
-
-
-
     miseenboutique = function(){
         var formdata = new FormData($("#formMiseenboutique")[0]);
-        
         tableau = new Array();
-        $("#modal-miseenboutique-demande tr input").each(function(index, el) {
+        $("#modal-miseenboutique tr input").each(function(index, el) {
             var id = $(this).attr('data-id');
             var format = $(this).attr('data-format');
             var val = $(this).val();
@@ -46,7 +21,7 @@ $(function(){
             okLabel : "OUI, Valider",
         }, function(){
             Loader.start();
-            var url = "../../webapp/boutique/modules/production/miseenboutique/ajax.php";
+            var url = "../../webapp/entrepot/modules/production/miseenboutique/ajax.php";
             formdata.append('action', "miseenboutique");
             $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
                 if (data.status) {
@@ -78,7 +53,7 @@ $(function(){
             cancelLabel : "Non",
             okLabel : "OUI, annuler",
         }, function(){
-            var url = "../../webapp/boutique/modules/production/miseenboutique/ajax.php";
+            var url = "../../webapp/entrepot/modules/production/miseenboutique/ajax.php";
             alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
                 title: 'Récupération du mot de passe !',
                 inputType : "password",
@@ -101,7 +76,7 @@ $(function(){
     $("#formValiderMiseenboutique").submit(function(event) {
         Loader.start();
         $(this).find("input.vendus").last().change();
-        var url = "../../webapp/boutique/modules/production/miseenboutique/ajax.php";
+        var url = "../../webapp/entrepot/modules/production/miseenboutique/ajax.php";
         var formdata = new FormData($(this)[0]);
         var tableau = new Array();
         $(this).find("table tr input.recu").each(function(index, el) {

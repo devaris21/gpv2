@@ -16,13 +16,22 @@ $(function(){
         }
     });
 
+    $("#top-search").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("table.table-mise tr:not(.no)").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+
+
+
     $("input[type=checkbox]").change(function(event) {
-      if ($(this).is(":checked")) {
-       $(this).parent("label").css("color", "orangered");
-   }else{
-       $(this).parent("label").css("color", "#888");
-   }
-});
+        if ($(this).is(":checked")) {
+            $(this).parent("label").css("color", "orangered");
+        }else{
+            $(this).parent("label").css("color", "#888");
+        }
+    });
     $("input[type=radio]").change(function(event) {
       name = $(this).attr("name")
       $("input[name="+name+"]").parent("label").css("color", "#888");
