@@ -148,6 +148,89 @@
 
 
 
+
+                                <div class="col-md-12 bloc">
+                                    <div class="ibox border">
+                                        <div class="ibox-title">
+                                            <h5 class="text-uppercase">Tranche des prix par produit et par emballage</h5>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="row">
+                                                <?php $i =0; foreach ($types_parfums as $key => $type) { ?>
+                                                    <div class="col-md-6">
+                                                        <table class="table table-striped table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th ></th>
+                                                                    <?php $i =0; foreach ($emballages as $key => $emballage) {  ?>
+                                                                        <th class="text-center">
+                                                                            <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"><br>
+                                                                            <?= $emballage->name(); ?>
+                                                                        </th>
+                                                                    <?php } ?>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $i =0; 
+                                                                foreach ($type->fourni("produit", ["isActive ="=>Home\TABLE::OUI]) as $key => $produit) {
+                                                                    $produit->actualise(); ?>
+                                                                    <tr>
+                                                                        <td class="">
+                                                                            <?= $produit->name(); ?> 
+                                                                            <div class="row produits">
+                                                                                <div class="col-sm-6">
+                                                                                    <div class="onoffswitch">
+                                                                                        <input type="checkbox" <?= ($produit->isActive())?"checked":""  ?> onchange='changeActive("produit", <?= $produit->id ?>)' class="onoffswitch-checkbox" id="produit<?= $produit->id ?>">
+                                                                                        <label class="onoffswitch-label" for="produit<?= $produit->id ?>">
+                                                                                            <span class="onoffswitch-inner"></span>
+                                                                                            <span class="onoffswitch-switch"></span>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <?php if ($produit->isActive()) { ?>
+                                                                                    <div class="col-sm-6">
+                                                                                        <small>Stk. initial</small>
+                                                                                        <input type="text" number class="form-control input-sm text-center initial" value="<?= $produit->initial ?>" name="initial" id="<?= $produit->id ?>">
+                                                                                    </div>
+                                                                                <?php } ?>
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <?php foreach ($emballages as $key => $qua) {
+                                                                            $produit = Home\PRODUIT::findBy(["typeproduit_parfum_id ="=>$type->id, "quantite_id ="=>$qua->id])[0]; $produit->actualise(); ?>
+                                                                            <td class="text-center">
+
+                                                                                <?php if ($produit->isActive()) { ?>
+                                                                                    <div class="row produits">
+                                                                                        <div class="col-sm-4" style="color: blue">
+                                                                                            <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"><br><small><?= $emballage->name(); ?></small>
+                                                                                        </div>
+                                                                                        <div class="col-sm-4" style="color: blue">
+                                                                                            <small>P.U normal</small>
+                                                                                            <input type="text" style="font-size: 10px" number class="form-control input-xs text-center prix" value="<?= $produit->prix ?>" name="prix" id="<?= $produit->id ?>">
+                                                                                        </div>
+                                                                                        <div class="col-sm-4" style=" color: orangered">
+                                                                                            <small>P.U gros</small>
+                                                                                            <input type="text" style="font-size: 10px" number class="form-control input-xs text-center prix_gros" value="<?= $produit->prix_gros ?>" name="prix_gros" id="<?= $produit->id ?>">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                <?php } ?>
+                                                                            </td>
+
+                                                                        <?php } ?>
+                                                                    </tr>
+                                                                <?php } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
                                 <div class="col-md-12 bloc">
                                     <div class="ibox border">
                                         <div class="ibox-title">

@@ -15,50 +15,42 @@
                             <div class="col-md-8">
                                 <table class="table  table-striped">
                                     <tbody class="">
-                                        <?php foreach (Home\PRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $produit) {
-                                            $produit->fourni("prixdevente"); ?>
+                                        <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) { ?>
                                             <tr class="border-0 border-bottom ">
-                                                <td >
-                                                    <img style="width: 40px" src="<?= $this->stockage("images", "produits", $ligne->prixdevente->produit->image) ?>">
-                                                </td>
                                                 <td class="text-left">
-                                                    <h4 class="mp0 text-uppercase"><?= $produit->name() ?></h4>
+                                                    <h4 class="mp0 text-uppercase"><?= $ligne->produit->name() ?></h4>
                                                 </td>
-                                                <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) {
-                                                    foreach ($produit->prixdeventes as $key => $pdv) {
-                                                        if ($pdv->id == $ligne->prixdevente_id) { ?>
-                                                            <td width="110" class="text-center">
-                                                                <label><?= $ligne->prixdevente->quantite->name() ?></label>
-                                                                <input type="number" data-id="<?= $ligne->id ?>" number class="form-control text-center gras text-green recu" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>">
-                                                            </td>
-                                                        <?php } }
-                                                    } ?>
-                                                </tr>
-                                            <?php } ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="col-md-4"  style="background-color: #eee">
-                                    <div class="ibox">
-                                        <br>
-                                        <div class="">
-                                            <label>Ajouter une note</label>
-                                            <textarea class="form-control" name="comment" value="<?= $mise->comment ?>" rows="4"></textarea>
-                                        </div><br><br>
-
-                                        <div class="text-center">
-                                            <button class="btn dim btn-primary btn-block" ><i class="fa fa-check"></i> Valider la mise en boutique</button>
-                                        </div><br>
-                                    </div>
-
-                                </div>
+                                                <td width="130" class="text-center">
+                                                    <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>"><br>
+                                                    <small><?= $ligne->emballage->name() ?></small>
+                                                    <input type="text" data-id="<?= $ligne->id ?>" number class="form-control text-center gras text-green recu" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>">
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
                             </div>
-                            <hr>
-                        </form>
-                    </div>
 
+                            <div class="col-md-4"  style="background-color: #eee">
+                                <div class="ibox">
+                                    <br>
+                                    <div class="">
+                                        <label>Ajouter une note</label>
+                                        <textarea class="form-control" name="comment" value="<?= $mise->comment ?>" rows="4"></textarea>
+                                    </div><br><br>
+
+                                    <div class="text-center">
+                                        <button class="btn dim btn-primary btn-block" ><i class="fa fa-check"></i> Valider la mise en boutique</button>
+                                    </div><br>
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr>
+                    </form>
                 </div>
+
             </div>
         </div>
     </div>
+</div>

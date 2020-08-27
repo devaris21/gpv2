@@ -182,6 +182,14 @@ foreach ($datas as $key => $value) {
 }
 
 
+$datas = ["Prix normal", "Prix de gros"];
+foreach ($datas as $key => $value) {
+	$item = new TYPEBAREME();
+	$item->name = $value;
+	$item->setProtected(1);
+	$item->save();
+}
+
 
 $datas = ["Entreprise", "Particulier"];
 foreach ($datas as $key => $value) {

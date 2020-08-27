@@ -12,6 +12,7 @@ class LIGNEDEVENTE extends TABLE
 
 	public $vente_id;
 	public $produit_id;
+	public $emballage_id;
 	public $quantite;
 	public $price;
 
@@ -21,11 +22,11 @@ class LIGNEDEVENTE extends TABLE
 		$datas = VENTE::findBy(["id ="=>$this->vente_id]);
 		if (count($datas) == 1) {
 			if ($this->quantite > 0) {
-					$data = $this->save();
-				}else{
-					$data->status = false;
-					$data->message = "La quantité n'est pas correcte !";
-				}
+				$data = $this->save();
+			}else{
+				$data->status = false;
+				$data->message = "La quantité n'est pas correcte !";
+			}
 		}else{
 			$data->status = false;
 			$data->message = "Une erreur s'est produite lors de l'ajout du produit !";
@@ -37,7 +38,7 @@ class LIGNEDEVENTE extends TABLE
 
 
 	public function sentenseCreate(){
-	
+		
 	}
 
 

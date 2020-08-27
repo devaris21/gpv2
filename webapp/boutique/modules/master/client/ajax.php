@@ -33,15 +33,29 @@ if ($action == "newproduit") {
 					<td class="text-left">
 						<h5 class="mp0 text-uppercase"><?= $type->name() ?></h5>
 					</td>
-					<?php foreach ($datas as $key => $produit) {
-						$produit->actualise();
-						if ($produit->enBoutique(dateAjoute(1), getSession("boutique_id_connecte")) > 0) { ?>
-							<td width="80" class="text-center">
-								<small><?= $produit->quantite->name() ?></small>
-								<input type="text" data-id="<?= $produit->id ?>" number class="form-control text-center gras" style="padding: 3px">
-							</td>
-						<?php } 
-					} ?>				
+					<td>
+						<div class="row">
+							<?php foreach ($datas as $key => $produit) {
+								$produit->actualise(); ?>
+								<div class="col-sm">
+									<div class="row">
+										<?php foreach (EMBALLAGE::getAll() as $key => $format) {
+											$a = $produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $format->id, getSession("boutique_id_connecte"));
+											if ($a > 0) { ?>
+												<div class="col-sm">
+													<td width="100" class="text-center">
+														<img style="height: 20px" src="<?= $rooter->stockage("images", "emballages", $format->image) ?>" ><br>
+														<small><?= $format->name() ?></small><br>
+														<input type="text" data-id="<?= $produit->id ?>" data-format="<?= $format->id ?>" number class="form-control text-center gras" style="padding: 3px">
+													</td>
+												</div>
+											<?php }
+										} ?>
+									</div>
+								</div>
+							<?php } ?>
+						</div>
+					</td>			
 				</tr>
 				<?php
 			}
@@ -69,13 +83,26 @@ if ($action == "newproduit2") {
 					<td class="text-left">
 						<h5 class="mp0 text-uppercase"><?= $type->name() ?></h5>
 					</td>
-					<?php foreach ($datas as $key => $produit) {
-						$produit->actualise(); ?>
-						<td width="80" class="text-center">
-							<small><?= $produit->quantite->name() ?></small>
-							<input type="text" data-id="<?= $produit->id ?>" number class="form-control text-center gras" style="padding: 3px">
-						</td>
-					<?php }  ?>			
+					<td>
+						<div class="row">
+							<?php foreach ($datas as $key => $produit) {
+								$produit->actualise(); ?>
+								<div class="col-sm">
+									<div class="row">
+										<?php foreach (EMBALLAGE::getAll() as $key => $format) { ?>
+											<div class="col-sm">
+												<td width="100" class="text-center">
+													<img style="height: 20px" src="<?= $rooter->stockage("images", "emballages", $format->image) ?>" ><br>
+													<small><?= $format->name() ?></small><br>
+													<input type="text" data-id="<?= $produit->id ?>" data-format="<?= $format->id ?>" number class="form-control text-center gras" style="padding: 3px">
+												</td>
+											</div>
+										<?php } ?>
+									</div>
+								</div>
+							<?php } ?>
+						</div>
+					</td>		
 				</tr>
 				<?php
 			}
@@ -211,11 +238,12 @@ if ($action == "venteDirecte") {
 			foreach ($listeproduits as $key => $value) {
 				$lot = explode("-", $value);
 				$id = $lot[0];
+				$format_id = $lot[1];
 				$qte = end($lot);
 				$datas = PRODUIT::findBy(["id ="=> $id]);
 				if (count($datas) == 1) {
 					$produit = $datas[0];
-					if ($produit->enBoutique(dateAjoute(1), getSession("boutique_id_connecte")) < $qte) {
+					if ($produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $format_id, getSession("boutique_id_connecte")) < $qte) {
 						$test = false;
 						break;
 					}	
@@ -235,19 +263,21 @@ if ($action == "venteDirecte") {
 							foreach ($listeproduits as $key => $value) {
 								$lot = explode("-", $value);
 								$id = $lot[0];
+								$format_id = $lot[1];
 								$qte = end($lot);
 								$datas = PRODUIT::findBy(["id ="=> $id]);
 								if (count($datas) == 1) {
-									$pdv = $datas[0];
+									$produit = $datas[0];
 									if ($typebareme_id == TYPEBAREME::NORMAL) {
-										$montant = $pdv->prix * intval($qte);
+										$montant = $produit->prix * intval($qte);
 									}else{
-										$montant = $pdv->prix_gros * intval($qte);
+										$montant = $produit->prix_gros * intval($qte);
 									}
 									$total += $montant;
 									$lignedevente = new LIGNEDEVENTE;
 									$lignedevente->vente_id = $vente->id;
 									$lignedevente->produit_id = $id;
+									$lignedevente->emballage_id = $format_id;
 									$lignedevente->quantite = intval($qte);
 									$lignedevente->price = intval($montant);
 									$lignedevente->enregistre();	
@@ -295,10 +325,11 @@ if ($action == "validerPropection") {
 					foreach ($tests as $key => $value) {
 						$lot = explode("-", $value);
 						$id = $lot[0];
+						$format_id = $lot[1];
 						$qte = end($lot);
-						$pdv = PRODUIT::findBy(["id ="=>$id])[0];
-						$pdv->actualise();
-						if ($qte > 0 && $pdv->enBoutique(dateAjoute(1), getSession("boutique_id_connecte")) >= $qte ) {
+						$produit = PRODUIT::findBy(["id ="=>$id])[0];
+						$produit->actualise();
+						if ($qte > 0 && $produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $format_id, getSession("boutique_id_connecte")) >= $qte ) {
 							unset($tests[$key]);
 						}
 					}
@@ -312,6 +343,7 @@ if ($action == "validerPropection") {
 							foreach ($listeproduits as $key => $value) {
 								$lot = explode("-", $value);
 								$id = $lot[0];
+								$format_id = $lot[1];
 								$qte = end($lot);
 								$datas = PRODUIT::findBy(["id ="=> $id]);
 								if (count($datas) == 1) {
@@ -326,6 +358,7 @@ if ($action == "validerPropection") {
 									$ligneprospection = new LIGNEPROSPECTION;
 									$ligneprospection->prospection_id = $prospection->id;
 									$ligneprospection->produit_id = $id;
+									$ligneprospection->emballage_id = $format_id;
 									$ligneprospection->quantite = intval($qte);
 									$ligneprospection->price =  $montant;
 									$ligneprospection->enregistre();										
@@ -396,6 +429,7 @@ if ($action == "validerCommande") {
 							foreach ($listeproduits as $key => $value) {
 								$lot = explode("-", $value);
 								$id = $lot[0];
+								$format_id = $lot[1];
 								$qte = end($lot);
 								$datas = PRODUIT::findBy(["id ="=> $id]);
 								if (count($datas) == 1) {
@@ -410,6 +444,7 @@ if ($action == "validerCommande") {
 									$lignecommande = new LIGNECOMMANDE;
 									$lignecommande->commande_id = $commande->id;
 									$lignecommande->produit_id = $id;
+									$lignecommande->emballage_id = $format_id;
 									$lignecommande->quantite = $qte;
 									$lignecommande->price =  $montant;
 									$lignecommande->enregistre();	
@@ -533,10 +568,11 @@ if ($action == "livraisonCommande") {
 				foreach ($tests as $key => $value) {
 					$lot = explode("-", $value);
 					$id = $lot[0];
+					$format_id = $lot[1];
 					$qte = end($lot);
-					$pdv = PRODUIT::findBy(["id ="=>$id])[0];
-					$pdv->actualise();
-					if ($qte > 0 && $groupecommande->reste($pdv->id) >= $qte && $qte <= $pdv->enBoutique(dateAjoute(1), getSession("boutique_id_connecte"))) {
+					$produit = PRODUIT::findBy(["id ="=>$id])[0];
+					$produit->actualise();
+					if ($qte > 0 && $groupecommande->reste($produit->id) >= $qte && $qte <= $produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $format_id, getSession("boutique_id_connecte"))) {
 						unset($tests[$key]);
 					}
 				}
@@ -561,8 +597,8 @@ if ($action == "livraisonCommande") {
 
 							$datas = PRODUIT::findBy(["id="=>$id]);
 							if (count($datas) > 0) {
-								$pdv = $datas[0];
-								$pdv->actualise();
+								$produit = $datas[0];
+								$produit->actualise();
 
 									// $paye = $produit->coutProduction("livraison", $qte);
 									// if (isset($chargement_manoeuvre) && $chargement_manoeuvre == "on") {

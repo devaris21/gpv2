@@ -12,6 +12,7 @@ class LIGNECOMMANDE extends TABLE
 
 	public $commande_id;
 	public $produit_id;
+	public $emballage_id;
 	public $quantite;
 	public $price;
 
@@ -39,7 +40,7 @@ class LIGNECOMMANDE extends TABLE
 
 
 	public function sentenseCreate(){
-	
+		
 	}
 
 

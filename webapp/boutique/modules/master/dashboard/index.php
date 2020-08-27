@@ -82,7 +82,7 @@
 
                                 <div class="ibox-content">
                                     <h5>En rupture de Stock</h5>
-                                    <h2 class="no-margins"><?= start0($rupture) ?> produit(s)</h2>
+                                    <h2 class="no-margins"><?= start0(Home\PRODUIT::ruptureBoutique()) ?> produit(s)</h2>
                                 </div>
                             </div>
                         </div>
@@ -91,9 +91,7 @@
 
                 <div class="text-center">
                     <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim"> <i class="fa fa-long-arrow-right"></i> Nouvelle vente directe</button>
-
                     <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim"><i class="fa fa-bicycle"></i> Nouvelle prospection</button> 
-
                     <button data-toggle="modal" data-target="#modal-ventecave" class="btn btn-success dim"><i class="fa fa-home"></i> Nouvelle vente en cave</button>
                 </div>
             </div>

@@ -3,30 +3,38 @@ namespace Home;
 use Native\RESPONSE;/**
  * 
  */
-class PRIX extends TABLE
+class PRICE extends TABLE
 {
 
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
+	public $produit_id;
+	public $emballage_id;
 	public $price;
+	public $price_gros;
 	public $isActive = TABLE::OUI;
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		if ($this->price > 0) {
-			$data = $this->save();
-			if ($data->status) {
-				foreach (PRODUIT::getAll() as $key => $produit) {
-					$ligne = new PRIXDEVENTE();
-					$ligne->prix_id = $data->lastid;
-					$ligne->produit_id = $produit->id;
-					$ligne->enregistre();
+		$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
+		if (count($datas) == 1) {
+			$datas = EMBALLAGE::findBy(["id ="=>$this->emballage_id]);
+			if (count($datas) == 1) {
+				$data = $this->save();
+				if ($this->price >= 0) {
+					$data = $this->save();
+				}else{
+					$data->status = false;
+					$data->message = "Le prix n'est pas correct, veuillez recommencer !";
 				}
+			}else{
+				$data->status = false;
+				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
 			}
 		}else{
 			$data->status = false;
-			$data->message = "Veuillez renseigner le nom de la zone de livraison !";
+			$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
 		}
 		return $data;
 	}
@@ -106,7 +114,7 @@ class PRIX extends TABLE
 	}
 
 
-	
+
 	public function sentenseCreate(){
 		return $this->sentense = "Ajout d'une nouvelle zone de livraison : $this->price dans les paramétrages";
 	}

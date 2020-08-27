@@ -91,17 +91,17 @@
                                                 <?php } ?>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                         <tbody>
                                             <tr>
                                                 <td><h4 class="mp0">sorti : </h4></td>
                                                 <?php foreach ($lots as $key => $ligne) { ?>
-                                                    <td class="text-center"><?= start0($ligne->quantite_depart) ?></td>
+                                                    <td class="text-center"><?= start0($ligne->quantite_depart) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
                                                 <?php } ?>
                                             </tr>
                                             <tr>
                                                 <td><h4 class="mp0">Livré : </h4></td>
                                                 <?php foreach ($lots as $key => $ligne) { ?>
-                                                    <td class="text-center"><?= start0($ligne->quantite) ?></td>
+                                                    <td class="text-center"><?= start0($ligne->quantite) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
                                                 <?php } ?>
                                             </tr>
                                         </tbody>
@@ -155,13 +155,13 @@
                                             <tr>
                                                 <td><h4 class="mp0">sorti : </h4></td>
                                                 <?php foreach ($lots as $key => $ligne) { ?>
-                                                    <td class="text-center"><?= start0($ligne->quantite_depart) ?></td>
+                                                    <td class="text-center"><?= start0($ligne->quantite_depart) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
                                                 <?php } ?>
                                             </tr>
                                             <tr>
                                                 <td><h4 class="mp0">Livré : </h4></td>
                                                 <?php foreach ($lots as $key => $ligne) { ?>
-                                                    <td class="text-center"><?= start0($ligne->quantite) ?></td>
+                                                    <td class="text-center"><?= start0($ligne->quantite) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
                                                 <?php } ?>
                                             </tr>
                                         </tbody>

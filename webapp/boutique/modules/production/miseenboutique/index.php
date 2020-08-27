@@ -28,7 +28,7 @@
                 <div class="ibox-title">
                     <h5>Toutes les mises en boutique de la production</h5>
                     <div class="ibox-tools">
-                       <form id="formFiltrer" method="POST">
+                     <form id="formFiltrer" method="POST">
                         <div class="row" style="margin-top: -1%">
                             <div class="col-5">
                                 <input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
@@ -59,7 +59,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                           <?php foreach ($encours as $key => $mise) {
+                         <?php foreach ($encours as $key => $mise) {
                             $mise->actualise(); 
                             $lots = $mise->fourni("lignemiseenboutique");
                             ?>
@@ -95,13 +95,7 @@
                                             <tr>
                                                 <td><h4 class="mp0">sorti : </h4></td>
                                                 <?php foreach ($lots as $key => $ligne) { ?>
-                                                    <td class="text-center"><?= start0($ligne->quantite_depart) ?></td>
-                                                <?php } ?>
-                                            </tr>
-                                            <tr>
-                                                <td><h4 class="mp0">Livré : </h4></td>
-                                                <?php foreach ($lots as $key => $ligne) { ?>
-                                                    <td class="text-center"><?= start0($ligne->quantite) ?></td>
+                                                    <td class="text-center"><?= start0($ligne->quantite_depart) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
                                                 <?php } ?>
                                             </tr>
                                         </tbody>
@@ -155,13 +149,13 @@
                                             <tr>
                                                 <td><h4 class="mp0">sorti : </h4></td>
                                                 <?php foreach ($lots as $key => $ligne) { ?>
-                                                    <td class="text-center"><?= start0($ligne->quantite_depart) ?></td>
+                                                    <td class="text-center"><?= start0($ligne->quantite_depart) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
                                                 <?php } ?>
                                             </tr>
                                             <tr>
                                                 <td><h4 class="mp0">Livré : </h4></td>
                                                 <?php foreach ($lots as $key => $ligne) { ?>
-                                                    <td class="text-center"><?= start0($ligne->quantite) ?></td>
+                                                    <td class="text-center"><?= start0($ligne->quantite) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
                                                 <?php } ?>
                                             </tr>
                                         </tbody>

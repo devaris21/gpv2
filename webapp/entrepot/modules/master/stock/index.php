@@ -32,7 +32,7 @@
                                         <ul class="list-group clear-list m-t">
                                             <?php foreach ($pro->fourni("produit", ["isActive ="=>Home\TABLE::OUI]) as $key => $produit) {
                                                 $produit->actualise();
-                                                $bout = $produit->enBoutique($date2, $boutique->id); ?>
+                                                $bout = $produit->enBoutique(dateAjoute(1), $boutique->id); ?>
                                                 <li class="list-group-item">
                                                     <i class="fa fa-flask" style="color: <?= $pro->couleur; ?>"></i> <small><?= $produit->quantite->name() ?></small>  
                                                     <?php foreach (Home\EMBALLAGE::getAll() as $key => $emballage) {

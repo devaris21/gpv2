@@ -84,7 +84,7 @@
                             </form><br>
                             <h2 class="font-bold total text-right total">0 Fcfa</h2>
                             <hr/>
-                            <button onclick="validerPropection()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la commande</button>
+                            <button onclick="validerPropection()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la prospection</button>
                         </div>
                     </div>
 

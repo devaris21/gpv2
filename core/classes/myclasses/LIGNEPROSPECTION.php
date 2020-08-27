@@ -12,6 +12,7 @@ class LIGNEPROSPECTION extends TABLE
 
 	public $prospection_id;
 	public $produit_id;
+	public $emballage_id;
 	public $quantite;
 	public $price;
 

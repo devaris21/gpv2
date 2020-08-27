@@ -43,11 +43,11 @@ class TYPEPRODUIT_PARFUM extends TABLE
 				}
 			}else{
 				$data->status = false;
-				$data->message = "Une erreur s'est produite lors du prix !";
+				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
 			}
 		}else{
 			$data->status = false;
-			$data->message = "Une erreur s'est produite lors du prix !";
+			$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
 		}
 		return $data;
 	}

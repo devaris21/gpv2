@@ -29,6 +29,14 @@ class EMBALLAGE extends TABLE
 				$data = $this->save();
 				if ($data->status) {
 					$this->uploading($this->files);
+					foreach (PRODUIT::getAll() as $key => $produit) {
+						$item = new PRICE;
+						$item->produit_id = $produit->id;
+						$item->emballage_id = $this->id;
+						$item->prix = 0;
+						$item->prix_gros = 0;
+						$item->enregistre();
+					}
 				}
 			}else{
 				$data->status = false;
@@ -104,7 +112,7 @@ class EMBALLAGE extends TABLE
 			return $test;
 		}
 		$test = (($this->stock(PARAMS::DATE_DEFAULT, dateAjoute(1), getSession("entrepot_connecte_id")) >=  $a) && $this->emballage->isDisponible($this->emballage->quantite * $a));
-			$tab[$this->id] = (isset($tab[$this->id]))? intval($tab[$this->id]) + intval($a) : intval($a);
+		$tab[$this->id] = (isset($tab[$this->id]))? intval($tab[$this->id]) + intval($a) : intval($a);
 		session("emballages-disponibles", $tab);
 		return $test;
 	}
@@ -170,11 +178,11 @@ class EMBALLAGE extends TABLE
 
 
 
-	public static function rupture(){
+	public static function ruptureEntrepot(int $entrepot_id = null){
 		$params = PARAMS::findLastId();
 		$datas = static::findBy(["isActive ="=>TABLE::OUI]);
 		foreach ($datas as $key => $item) {
-			if ($item->enEntrepot(dateAjoute()) > $params->ruptureStock) {
+			if ($item->stock(PARAMS::DATE_DEFAULT, dateAjoute(1), $entrepot_id) > $params->ruptureStock) {
 				unset($datas[$key]);
 			}
 		}

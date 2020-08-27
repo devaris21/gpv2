@@ -112,6 +112,18 @@ class RESSOURCE extends TABLE
 	}
 
 
+	public static function ruptureEntrepot(int $entrepot_id = null){
+		$params = PARAMS::findLastId();
+		$datas = static::getAll();
+		foreach ($datas as $key => $item) {
+			if ($item->stock(PARAMS::DATE_DEFAULT, dateAjoute(1), $entrepot_id) > $params->ruptureStock) {
+				unset($datas[$key]);
+			}
+		}
+		return $datas;
+	}
+
+
 
 
 	public function sentenseCreate(){

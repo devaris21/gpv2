@@ -202,9 +202,10 @@ $(function(){
 			tableau = new Array();
 			$("#modal-vente tr input").each(function(index, el) {
 				var id = $(this).attr('data-id');
+				var format = $(this).attr('data-format');
 				var val = $(this).val();
 				if (val > 0) {
-					var item = id+"-"+val;
+					var item = id+"-"+format+"-"+val;
 					tableau.push(item);
 				}		
 			});
@@ -237,9 +238,10 @@ $(function(){
 			tableau = new Array();
 			$("#modal-prospection tr input, #modal-prospection_ tr input").each(function(index, el) {
 				var id = $(this).attr('data-id');
+				var format = $(this).attr('data-format');
 				var val = $(this).val();
 				if (val > 0) {
-					var item = id+"-"+val;
+					var item = id+"-"+format+"-"+val;
 					tableau.push(item);
 				}		
 			});
@@ -271,11 +273,12 @@ $(function(){
 			tableau = new Array();
 			$("#modal-ventecave tr input, #modal-ventecave_ tr input").each(function(index, el) {
 				var id = $(this).attr('data-id');
+				var format = $(this).attr('data-format');
 				var val = $(this).val();
 				if (val > 0) {
-					var item = id+"-"+val;
+					var item = id+"-"+format+"-"+val;
 					tableau.push(item);
-				}		
+				}			
 			});
 			formdata.append('listeproduits', tableau);
 
@@ -304,11 +307,12 @@ $(function(){
 			tableau = new Array();
 			$("#modal-newcommande tr input").each(function(index, el) {
 				var id = $(this).attr('data-id');
+				var format = $(this).attr('data-format');
 				var val = $(this).val();
 				if (val > 0) {
-					var item = id+"-"+val;
+					var item = id+"-"+format+"-"+val;
 					tableau.push(item);
-				}		
+				}			
 			});
 			formdata.append('listeproduits', tableau);
 
