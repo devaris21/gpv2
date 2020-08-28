@@ -88,7 +88,10 @@
                                                 <th></th>
                                                 <?php foreach ($vente->lignedeventes as $key => $ligne) { 
                                                     $ligne->actualise(); ?>
-                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
+                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->name() ?></span><br>
+                                                        <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>" >
+                                                        <small><?= $ligne->emballage->name() ?></small>
+                                                    </th>
                                                 <?php } ?>
                                             </tr>
                                         </thead>
@@ -143,7 +146,10 @@
                                                         <th></th>
                                                         <?php foreach ($vente->lignedeventes as $key => $ligne) { 
                                                             $ligne->actualise(); ?>
-                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->name() ?></span><br>
+                                                                <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>" >
+                                                                <small><?= $ligne->emballage->name() ?></small>
+                                                            </th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>

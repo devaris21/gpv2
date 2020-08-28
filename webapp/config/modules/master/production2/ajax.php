@@ -32,11 +32,11 @@ if ($action == "exigence") {
 
 
 if ($action == "changement") {
-	$datas = PRODUIT::findBy(["id ="=>$id]);
+	$datas = PRICE::findBy(["id ="=>$id]);
 	if (count($datas) == 1) {
-		$produit = $datas[0];
-		$produit->$name = intval($val);
-		$data = $produit->save();
+		$prix = $datas[0];
+		$prix->$name = intval($val);
+		$data = $prix->save();
 	}
 	echo json_encode($data);
 }

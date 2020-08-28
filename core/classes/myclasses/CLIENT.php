@@ -30,7 +30,7 @@ class CLIENT extends TABLE
 		$data = new RESPONSE;
 		if ($this->name != "") {
 			$data = $this->save();
-			$data->setUrl("gestion", "master", "client", $data->lastid);
+			$data->setUrl("boutique", "master", "client", $data->lastid);
 		}else{
 			$data->status = false;
 			$data->message = "Veuillez renseigner le nom du niveau d'administration !";

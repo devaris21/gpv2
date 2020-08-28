@@ -26,7 +26,7 @@ if ($action == "nouvelleProduction") {
 					foreach ($datas as $key2 => $ligne) {
 						if ($ligne->quantite > 0) {
 							$ligne->actualise();
-							if (($qte*$ligne->quantite/$exi->quantite) <= $ligne->ressource->stock(dateAjoute(1), getSession("entrepot_id_connecte"))) {
+							if (($qte*$ligne->quantite/$exi->quantite) <= $ligne->ressource->stock(dateAjoute(1), getSession("entrepot_connecte_id"))) {
 								unset($datas[$key2]);
 							}
 						}

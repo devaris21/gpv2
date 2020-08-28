@@ -19,24 +19,25 @@
                             <div class="table-responsive">
                                 <table class="table  table-striped">
                                     <tbody class="">
-                                        <?php foreach ($prospection->ligneprospections as $key => $ligne) {
-                                            $ligne->actualise(); ?>
+                                        <?php foreach ($prospection->ligneprospections as $key => $ligne) { ?>
                                             <tr class="border-0 border-bottom " data-id="<?= $ligne->id ?>">
                                                 <td >
-                                                    <img style="width: 40px" src="<?= $this->stockage("images", "produits", $ligne->prixdevente->produit->image) ?>">
+                                                    <span class="small gras"><?= $ligne->produit->name() ?></span><br>
+                                                    <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>" >
+                                                    <small><?= $ligne->emballage->name() ?></small>
                                                 </td>
-                                                <td class="text-left">
-                                                    <h4 class="mp0 text-uppercase"><?= $ligne->prixdevente->produit->name() ?></h4>
-                                                    <small><?= $ligne->prixdevente->prix->price() ?> <?= $params->devise ?></small>
+                                                <td class="text-center">
+                                                    <h4 class="mp0 text-uppercase"><?= $ligne->quantite ?></h4>
+                                                    <small><?= money($ligne->price) ?> <?= $params->devise ?></small>
                                                 </td>
-                                                <td width="140">
-                                                    <label>Quantité vendue /<?= $ligne->quantite ?></label>
-                                                    <input type="number"  data-id="<?= $ligne->id ?>" number class="form-control text-center gras vendus" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>">
+                                                <td width="110" class="text-center">
+                                                    <small>Quantité vendue</small>
+                                                    <input type="text"  data-id="<?= $ligne->id ?>" number class="form-control text-center gras vendus input-sm" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>">
                                                 </td>
                                                 <td  width="30"></td>
-                                                <td width="130">
-                                                    <label>Perte</label>
-                                                    <input type="number" number class="form-control text-center gras perdus" value="0" max="<?= $ligne->quantite ?>">
+                                                <td width="100" class="text-center text-red">
+                                                    <small>Perte</small>
+                                                    <input type="text" number class="form-control text-center gras perdus input-xs" value="0" max="<?= $ligne->quantite ?>">
                                                 </td>
                                             </tr>
                                         <?php }  ?>

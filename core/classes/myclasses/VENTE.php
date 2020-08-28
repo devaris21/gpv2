@@ -54,7 +54,7 @@ class VENTE extends TABLE
 
 		$payement = new REGLEMENTCLIENT();
 		$payement->hydrater($post);
-		$mouvement->name = "Réglement de vente";
+		$payement->name = "Réglement de vente";
 		$payement->montant = $total;
 		$payement->comment = "Réglement de la vente ".$this->typevente->name()." N°".$this->reference;
 		$payement->files = [];

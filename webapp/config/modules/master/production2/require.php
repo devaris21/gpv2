@@ -3,7 +3,6 @@ namespace Home;
 unset_session("produits");
 unset_session("commande-encours");
 
-
 $params = PARAMS::findLastId();
 
 $emballages = EMBALLAGE::findBy(["isActive ="=>TABLE::OUI], [], ["name"=>"ASC"]);

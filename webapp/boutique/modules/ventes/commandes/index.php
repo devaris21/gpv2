@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <?php if (count($commandes + $encours) > 0) { ?>
+                    <?php if (count($groupes + $encours) > 0) { ?>
                         <table class="footable table table-stripped toggle-arrow-tiny">
                             <thead>
                                 <tr>
@@ -57,121 +57,70 @@
                                     <th>Boutique</th>
                                     <th>Reste</th>
                                     <th>Client</th>
-                                    <th data-hide="all">Reste à livrer</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($encours as $key => $commande) {
-                                    $commande->actualise(); 
-                                    $datas = $commande->fourni("commande", ["etat_id != "=>Home\ETAT::ANNULEE]);
-                                    $datas1 = $commande->fourni("prospection", ["etat_id > "=>Home\ETAT::ANNULEE, "etat_id < "=>Home\ETAT::VALIDEE]);
-                                    $lots = $commande->lesRestes();
+                                <?php foreach ($encours as $key => $groupe) {
+                                    $groupe->actualise(); 
+                                    $datas = $groupe->fourni("commande", ["etat_id != "=>Home\ETAT::ANNULEE]);
+                                    $datas1 = $groupe->fourni("prospection", ["etat_id > "=>Home\ETAT::ANNULEE, "etat_id < "=>Home\ETAT::VALIDEE]);
                                     ?>
                                     <tr style="border-bottom: 2px solid black">
                                         <td class="project-status">
-                                            <span class="label label-<?= $commande->etat->class ?>"><?= $commande->etat->name() ?></span>
+                                            <span class="label label-<?= $groupe->etat->class ?>"><?= $groupe->etat->name() ?></span>
                                         </td>
                                         <td>
-                                            <span class="text-uppercase gras">Commande (<?= count($commande->fourni("commande")) ?>)</span><br>
-                                            <span><?= depuis($commande->created) ?></span>
+                                            <span class="text-uppercase gras">Commande (<?= count($groupe->fourni("commande")) ?>)</span><br>
+                                            <span><?= depuis($groupe->created) ?></span>
                                             <?php if (count($datas1) > 0) { ?>
                                                 <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours/programmée pour cette commande</p>
                                             <?php } ?>
                                         </td>
                                         <td>
-                                            <h5 class="text-uppercase"><?= $commande->boutique->name() ?></h5>
+                                            <h5 class="text-uppercase"><?= $groupe->boutique->name() ?></h5>
                                         </td>
                                         <td>
-                                            <h3 class="gras text-orange"><?= money($commande->reste()) ?> <?= $params->devise  ?></h3>
+                                            <h3 class="gras text-orange"><?= money($groupe->resteAPayer()) ?> <?= $params->devise  ?></h3>
+                                        </td>
+                                         <td>
+                                            <h5 class="text-uppercase"><a href="<?= $this->url("boutique", "master", "client", $groupe->client_id)  ?>"><?= $groupe->client->name() ?></a></h5>
                                         </td>
                                         <td>
-                                            <h5 class="text-uppercase"><?= $commande->client->name() ?></h5>
-                                        </td>
-                                        <td class="border-right">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <?php foreach ($lots as $key => $produit) { 
-                                                            if ($commande->reste($produit->id) > 0) {
-                                                                $produit->actualise(); ?>
-                                                                <th class="text-center text-uppercase"><small class="gras"><?= $produit->name2() ?></small></th>
-                                                            <?php }
-                                                        } ?>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <?php foreach ($lots as $key => $value) {
-                                                            $reste = $commande->reste($value->id);
-                                                            if ($reste > 0) { ?>
-                                                                <td class="text-center"><?= start0($reste) ?></td>
-                                                            <?php } 
-                                                        } ?>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                        <td>
-                                            <button onclick="fichecommande(<?= $commande->id  ?>)" class="btn btn-white btn-sm "><i class="fa fa-plus"></i> de détails </button>
+                                            <button onclick="fichecommande(<?= $groupe->id  ?>)" class="btn btn-white btn-sm "><i class="fa fa-plus"></i> de détails </button>
                                         </td>
                                     </tr>
                                 <?php  } ?>
 
                                 <tr />
 
-                                <?php foreach ($commandes as $key => $commande) {
-                                    $commande->actualise(); 
-                                    $datas = $commande->fourni("commande", ["etat_id != "=>Home\ETAT::ANNULEE]);
-                                    $datas1 = $commande->fourni("prospection", ["etat_id > "=>Home\ETAT::ANNULEE, "etat_id < "=>Home\ETAT::VALIDEE]);
-                                    $lots = $commande->lesRestes();
+                                <?php foreach ($groupes as $key => $groupe) {
+                                    $groupe->actualise(); 
+                                    $datas = $groupe->fourni("commande", ["etat_id != "=>Home\ETAT::ANNULEE]);
+                                    $datas1 = $groupe->fourni("prospection", ["etat_id > "=>Home\ETAT::ANNULEE, "etat_id < "=>Home\ETAT::VALIDEE]);
                                     ?>
                                     <tr style="border-bottom: 2px solid black">
                                         <td class="project-status">
-                                            <span class="label label-<?= $commande->etat->class ?>"><?= $commande->etat->name() ?></span>
+                                            <span class="label label-<?= $groupe->etat->class ?>"><?= $groupe->etat->name() ?></span>
                                         </td>
                                         <td>
-                                            <span class="text-uppercase gras">Commande (<?= count($commande->fourni("commande")) ?>)</span><br>
-                                            <span><?= depuis($commande->created) ?></span>
+                                            <span class="text-uppercase gras">Commande (<?= count($groupe->fourni("commande")) ?>)</span><br>
+                                            <span><?= depuis($groupe->created) ?></span>
                                             <?php if (count($datas1) > 0) { ?>
                                                 <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours/programmée pour cette commande</p>
                                             <?php } ?>
                                         </td>
                                         <td>
-                                            <h5 class="text-uppercase"><?= $commande->boutique->name() ?></h5>
+                                            <h5 class="text-uppercase"><?= $groupe->boutique->name() ?></h5>
                                         </td>
                                         <td>
-                                            <h3 class="gras text-orange"><?= money($commande->resteAPayer()) ?> <?= $params->devise  ?></h3>
+                                            <h3 class="gras text-orange"><?= money($groupe->resteAPayer()) ?> <?= $params->devise  ?></h3>
                                         </td>
                                         <td>
-                                            <h5 class="text-uppercase"><a href="<?= $this->url("boutique", "master", "client", $commande->client_id)  ?>"><?= $commande->client->name() ?></a></h5>
-                                        </td>
-                                        <td class="border-right">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <?php foreach ($lots as $key => $produit) { 
-                                                            if ($commande->reste($produit->id) > 0) {
-                                                                $produit->actualise(); ?>
-                                                                <th class="text-center text-uppercase"><small class="gras"><?= $produit->name2() ?></small></th>
-                                                            <?php }
-                                                        } ?>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <?php foreach ($lots as $key => $value) {
-                                                            $reste = $commande->reste($value->id);
-                                                            if ($reste > 0) { ?>
-                                                                <td class="text-center"><?= start0($reste) ?></td>
-                                                            <?php } 
-                                                        } ?>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                            <h5 class="text-uppercase"><a href="<?= $this->url("boutique", "master", "client", $groupe->client_id)  ?>"><?= $groupe->client->name() ?></a></h5>
                                         </td>
                                         <td>
-                                            <button onclick="fichecommande(<?= $commande->id  ?>)" class="btn btn-white btn-sm "><i class="fa fa-plus"></i> de détails </button>
+                                            <button onclick="fichecommande(<?= $groupe->id  ?>)" class="btn btn-white btn-sm "><i class="fa fa-plus"></i> de détails </button>
                                         </td>
                                     </tr>
                                 <?php  } ?>
@@ -187,8 +136,6 @@
                     <?php }else{ ?>
                         <h1 style="margin-top: 30% auto;" class="text-center text-muted aucun"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune commande en cours pour le moment !</h1>
                     <?php } ?>
-
-
 
                 </div>
             </div>

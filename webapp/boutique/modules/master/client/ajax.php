@@ -39,14 +39,14 @@ if ($action == "newproduit") {
 								$produit->actualise(); ?>
 								<div class="col-sm">
 									<div class="row">
-										<?php foreach (EMBALLAGE::getAll() as $key => $format) {
-											$a = $produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $format->id, getSession("boutique_id_connecte"));
+										<?php foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
+											$a = $produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, getSession("boutique_connecte_id"));
 											if ($a > 0) { ?>
 												<div class="col-sm">
 													<td width="100" class="text-center">
-														<img style="height: 20px" src="<?= $rooter->stockage("images", "emballages", $format->image) ?>" ><br>
-														<small><?= $format->name() ?></small><br>
-														<input type="text" data-id="<?= $produit->id ?>" data-format="<?= $format->id ?>" number class="form-control text-center gras" style="padding: 3px">
+														<img style="height: 20px" src="<?= $rooter->stockage("images", "emballages", $emballage->image) ?>" ><br>
+														<small><?= $emballage->name() ?></small><br>
+														<input type="text" data-id="<?= $produit->id ?>" data-format="<?= $emballage->id ?>" number class="form-control text-center gras" style="padding: 3px">
 													</td>
 												</div>
 											<?php }
@@ -89,12 +89,13 @@ if ($action == "newproduit2") {
 								$produit->actualise(); ?>
 								<div class="col-sm">
 									<div class="row">
-										<?php foreach (EMBALLAGE::getAll() as $key => $format) { ?>
+										<?php foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
+											$a = $produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, getSession("boutique_connecte_id")); ?>
 											<div class="col-sm">
-												<td width="100" class="text-center">
-													<img style="height: 20px" src="<?= $rooter->stockage("images", "emballages", $format->image) ?>" ><br>
-													<small><?= $format->name() ?></small><br>
-													<input type="text" data-id="<?= $produit->id ?>" data-format="<?= $format->id ?>" number class="form-control text-center gras" style="padding: 3px">
+												<td width="110" class="text-center">
+													<img style="height: 20px" src="<?= $rooter->stockage("images", "emballages", $emballage->image) ?>" ><br>
+													<small><?= $emballage->name() ?></small><br>
+													<input type="text" data-id="<?= $produit->id ?>" data-format="<?= $emballage->id ?>" number class="form-control text-center gras" style="padding: 3px">
 												</td>
 											</div>
 										<?php } ?>
@@ -102,7 +103,7 @@ if ($action == "newproduit2") {
 								</div>
 							<?php } ?>
 						</div>
-					</td>		
+					</td>			
 				</tr>
 				<?php
 			}
@@ -132,12 +133,12 @@ if ($action == "newproduit3") {
 						<td class="text-left">
 							<h5 class="mp0 text-uppercase"><?= $produit->name() ?></h5>
 						</td>
-						<?php foreach (EMBALLAGE::findBy(["isActive = "=> TABLE::OUI]) as $key => $format) { 
-							if ($produit->enEntrepot(PARAMS::DATE_DEFAULT, dateAjoute(1), $format->id, getSession("entrepot_id_connecte")) > 0) { ?>
+						<?php foreach (EMBALLAGE::findBy(["isActive = "=> TABLE::OUI]) as $key => $emballage) { 
+							if ($produit->enEntrepot(PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, getSession("entrepot_connecte_id")) > 0) { ?>
 								<td width="110" class="text-center">
-									<img style="height: 20px" src="<?= $rooter->stockage("images", "emballages", $format->image) ?>" ><br>
-									<small><?= $format->name() ?></small><br>
-									<input type="text" data-id="<?= $produit->id ?>" data-format="<?= $format->id ?>" number class="form-control text-center gras" style="padding: 3px">
+									<img style="height: 20px" src="<?= $rooter->stockage("images", "emballages", $emballage->image) ?>" ><br>
+									<small><?= $emballage->name() ?></small><br>
+									<input type="text" data-id="<?= $produit->id ?>" data-format="<?= $emballage->id ?>" number class="form-control text-center gras" style="padding: 3px">
 								</td>
 							<?php } 
 						} ?>
@@ -202,15 +203,16 @@ if ($action == "calcul") {
 	foreach ($listeproduits as $key => $value) {
 		$data = explode("-", $value);
 		$id = $data[0];
-		$val = end($data);
+		$emballage_id = $data[1];
+		$qte = end($data);
 
-		$datas = PRODUIT::findBy(["id = "=>$id, "isActive ="=>TABLE::OUI]);
+		$datas = PRICE::findBy(["produit_id = "=>$id, "emballage_id = "=>$emballage_id]);
 		if (count($datas) == 1) {
-			$produit = $datas[0];
+			$price = $datas[0];
 			if ($typebareme_id == TYPEBAREME::NORMAL) {
-				$montant += $produit->prix * intval($val);
+				$montant += $price->prix * intval($qte);
 			}else{
-				$montant += $produit->prix_gros * intval($val);
+				$montant += $price->prix_gros * intval($qte);
 			}
 		}
 	}
@@ -229,82 +231,76 @@ if ($action == "calcul") {
 
 if ($action == "venteDirecte") {
 	$total = 0;
-	$datas = CLIENT::findBy(["id ="=> $client_id]);
-	if (count($datas) > 0) {
-		$client = $datas[0];
-		$listeproduits = explode(",", $listeproduits);
-		if (count($listeproduits) > 0) {
-			$test = true;
-			foreach ($listeproduits as $key => $value) {
-				$lot = explode("-", $value);
-				$id = $lot[0];
-				$format_id = $lot[1];
-				$qte = end($lot);
-				$datas = PRODUIT::findBy(["id ="=> $id]);
-				if (count($datas) == 1) {
-					$produit = $datas[0];
-					if ($produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $format_id, getSession("boutique_id_connecte")) < $qte) {
-						$test = false;
-						break;
-					}	
-				}
+	$listeproduits = explode(",", $listeproduits);
+	if (count($listeproduits) > 0) {
+		$test = true;
+		foreach ($listeproduits as $key => $value) {
+			$lot = explode("-", $value);
+			$id = $lot[0];
+			$emballage_id = $lot[1];
+			$qte = end($lot);
+			$datas = PRODUIT::findBy(["id ="=> $id]);
+			if (count($datas) == 1) {
+				$produit = $datas[0];
+				if ($produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage_id, getSession("boutique_connecte_id")) < $qte) {
+					$test = false;
+					break;
+				}	
 			}
+		}
 
-			if ($test) {
-				if (getSession("total") > 0 && getSession("rendu") >= 0) {
-					if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
+		if ($test) {
+			if (getSession("total") > 0 && getSession("rendu") >= 0) {
+				if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
 
-						$vente = new VENTE();
-						$vente->hydrater($_POST);
-						$vente->montant = getSession("total");
-						$vente->recu = getSession("recu");
-						$data = $vente->enregistre();
-						if ($data->status) {
-							foreach ($listeproduits as $key => $value) {
-								$lot = explode("-", $value);
-								$id = $lot[0];
-								$format_id = $lot[1];
-								$qte = end($lot);
-								$datas = PRODUIT::findBy(["id ="=> $id]);
-								if (count($datas) == 1) {
-									$produit = $datas[0];
-									if ($typebareme_id == TYPEBAREME::NORMAL) {
-										$montant = $produit->prix * intval($qte);
-									}else{
-										$montant = $produit->prix_gros * intval($qte);
-									}
-									$total += $montant;
-									$lignedevente = new LIGNEDEVENTE;
-									$lignedevente->vente_id = $vente->id;
-									$lignedevente->produit_id = $id;
-									$lignedevente->emballage_id = $format_id;
-									$lignedevente->quantite = intval($qte);
-									$lignedevente->price = intval($montant);
-									$lignedevente->enregistre();	
+					$vente = new VENTE();
+					$vente->hydrater($_POST);
+					$vente->montant = getSession("total");
+					$vente->recu = getSession("recu");
+					$data = $vente->enregistre();
+					if ($data->status) {
+						foreach ($listeproduits as $key => $value) {
+							$lot = explode("-", $value);
+							$id = $lot[0];
+							$emballage_id = $lot[1];
+							$qte = end($lot);
+							$datas = PRICE::findBy(["produit_id = "=>$id, "emballage_id = "=>$emballage_id]);
+							if (count($datas) == 1) {
+								$price = $datas[0];
+								if ($typebareme_id == TYPEBAREME::NORMAL) {
+									$prix = $price->prix * intval($qte);
+								}else{
+									$prix = $price->prix_gros * intval($qte);
 								}
-							}
-							$data = $vente->payement($total, $_POST);							
-						}
 
-					}else{
-						$data->status = false;
-						$data->message = "Vous ne pouvez pas utiliser ce mode de payement pour cette opération!";
+								$total += $prix;
+								$lignedevente = new LIGNEDEVENTE;
+								$lignedevente->vente_id = $vente->id;
+								$lignedevente->produit_id = $id;
+								$lignedevente->emballage_id = $emballage_id;
+								$lignedevente->quantite = intval($qte);
+								$lignedevente->price = intval($prix);
+								$lignedevente->enregistre();	
+							}
+						}
+						$data = $vente->payement($total, $_POST);							
 					}
+
 				}else{
 					$data->status = false;
-					$data->message = "Veuillez verifier le montant de la vente et/ou de la monnaie!";
+					$data->message = "Vous ne pouvez pas utiliser ce mode de payement pour cette opération!";
 				}
 			}else{
 				$data->status = false;
-				$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
-			}				
+				$data->message = "Veuillez verifier le montant de la vente et/ou de la monnaie!";
+			}
 		}else{
 			$data->status = false;
-			$data->message = "Veuillez selectionner des produits et leur quantité pour passer la vente !";
-		}
+			$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
+		}				
 	}else{
 		$data->status = false;
-		$data->message = "Erreur lors de la validation de la commande, veuillez recommencer !";
+		$data->message = "Veuillez selectionner des produits et leur quantité pour passer la vente !";
 	}
 	echo json_encode($data);
 }
@@ -313,80 +309,68 @@ if ($action == "venteDirecte") {
 
 if ($action == "validerPropection") {
 	$total = 0;
-	$datas = CLIENT::findBy(["id ="=> $client_id]);
-	if (count($datas) > 0) {
-		$client = $datas[0];
-		$listeproduits = explode(",", $listeproduits);
-		if (count($listeproduits) > 0) {
-			if ( $commercial_id != COMMERCIAL::MAGASIN && ( ($typeprospection_id == TYPEPROSPECTION::VENTECAVE) || ($typeprospection_id == TYPEPROSPECTION::PROSPECTION && $zonedevente_id != ZONEDEVENTE::MAGASIN)) ) {
-				if (getSession("total") > 0) {
+	$listeproduits = explode(",", $listeproduits);
+	if (count($listeproduits) > 0) {
+		if (getSession("total") > 0) {
 
-					$tests = $listeproduits;
-					foreach ($tests as $key => $value) {
+			$tests = $listeproduits;
+			foreach ($tests as $key => $value) {
+				$lot = explode("-", $value);
+				$id = $lot[0];
+				$emballage_id = $lot[1];
+				$qte = end($lot);
+				$produit = PRODUIT::findBy(["id ="=>$id])[0];
+				$produit->actualise();
+				if ($qte > 0 && $produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage_id, getSession("boutique_connecte_id")) >= $qte ) {
+					unset($tests[$key]);
+				}
+			}
+			if (count($tests) == 0) {
+
+				$prospection = new PROSPECTION();
+				$prospection->hydrater($_POST);
+				$prospection->montant = getSession("total");
+				$data = $prospection->enregistre();
+				if ($data->status) {
+					foreach ($listeproduits as $key => $value) {
 						$lot = explode("-", $value);
 						$id = $lot[0];
-						$format_id = $lot[1];
+						$emballage_id = $lot[1];
 						$qte = end($lot);
-						$produit = PRODUIT::findBy(["id ="=>$id])[0];
-						$produit->actualise();
-						if ($qte > 0 && $produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $format_id, getSession("boutique_id_connecte")) >= $qte ) {
-							unset($tests[$key]);
+						$datas = PRICE::findBy(["produit_id = "=>$id, "emballage_id = "=>$emballage_id]);
+						if (count($datas) == 1) {
+							$price = $datas[0];
+							if ($typebareme_id == TYPEBAREME::NORMAL) {
+								$prix = $price->prix * intval($qte);
+							}else{
+								$prix = $price->prix_gros * intval($qte);
+							}
+
+							$total += $prix;
+							$ligneprospection = new LIGNEPROSPECTION;
+							$ligneprospection->prospection_id = $prospection->id;
+							$ligneprospection->produit_id = $id;
+							$ligneprospection->emballage_id = $emballage_id;
+							$ligneprospection->quantite = intval($qte);
+							$ligneprospection->price =  $prix;
+							$ligneprospection->enregistre();										
 						}
 					}
-					if (count($tests) == 0) {
-
-						$prospection = new PROSPECTION();
-						$prospection->hydrater($_POST);
-						$prospection->montant = getSession("total");
-						$data = $prospection->enregistre();
-						if ($data->status) {
-							foreach ($listeproduits as $key => $value) {
-								$lot = explode("-", $value);
-								$id = $lot[0];
-								$format_id = $lot[1];
-								$qte = end($lot);
-								$datas = PRODUIT::findBy(["id ="=> $id]);
-								if (count($datas) == 1) {
-									$produit = $datas[0];
-									if ($typebareme_id == TYPEBAREME::NORMAL) {
-										$montant = $produit->prix->price * intval($qte);
-									}else{
-										$montant = $produit->prix_gros->price * intval($qte);
-									}
-									$total += $montant;
-
-									$ligneprospection = new LIGNEPROSPECTION;
-									$ligneprospection->prospection_id = $prospection->id;
-									$ligneprospection->produit_id = $id;
-									$ligneprospection->emballage_id = $format_id;
-									$ligneprospection->quantite = intval($qte);
-									$ligneprospection->price =  $montant;
-									$ligneprospection->enregistre();										
-								}
-							}
-							$data->setUrl("gestion", "fiches", "bonsortie", $data->lastid);
+					$data->setUrl("gestion", "fiches", "bonsortie", $data->lastid);
 							// $data->url2 = $data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
-						}
-
-					}else{
-						$data->status = false;
-						$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
-					}						
-				}else{
-					$data->status = false;
-					$data->message = "Veuillez verifier le montant total de la prospection !";
 				}
+
 			}else{
 				$data->status = false;
-				$data->message = "Veuillez definir le commercial et la zone pour cette prospection !";
-			}
+				$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
+			}						
 		}else{
 			$data->status = false;
-			$data->message = "Veuillez selectionner des produits et leur quantité pour valider la prospection !";
+			$data->message = "Veuillez verifier le montant total de la prospection !";
 		}
 	}else{
 		$data->status = false;
-		$data->message = "Erreur lors de la validation de la prospection, veuillez recommencer !";
+		$data->message = "Veuillez selectionner des produits et leur quantité pour valider la prospection !";
 	}
 	echo json_encode($data);
 }
@@ -429,24 +413,24 @@ if ($action == "validerCommande") {
 							foreach ($listeproduits as $key => $value) {
 								$lot = explode("-", $value);
 								$id = $lot[0];
-								$format_id = $lot[1];
+								$emballage_id = $lot[1];
 								$qte = end($lot);
-								$datas = PRODUIT::findBy(["id ="=> $id]);
+								$datas = PRICE::findBy(["produit_id = "=>$id, "emballage_id = "=>$emballage_id]);
 								if (count($datas) == 1) {
-									$produit = $datas[0];
+									$price = $datas[0];
 									if ($typebareme_id == TYPEBAREME::NORMAL) {
-										$montant = $produit->prix * intval($qte);
+										$prix = $price->prix * intval($qte);
 									}else{
-										$montant = $produit->prix_gros * intval($qte);
+										$prix = $price->prix_gros * intval($qte);
 									}
-									$total += $prix;
 
+									$total += $prix;
 									$lignecommande = new LIGNECOMMANDE;
 									$lignecommande->commande_id = $commande->id;
 									$lignecommande->produit_id = $id;
-									$lignecommande->emballage_id = $format_id;
+									$lignecommande->emballage_id = $emballage_id;
 									$lignecommande->quantite = $qte;
-									$lignecommande->price =  $montant;
+									$lignecommande->price =  $prix;
 									$lignecommande->enregistre();	
 								}
 							}
@@ -474,7 +458,7 @@ if ($action == "validerCommande") {
 								$payement->client_id = $client_id;
 								$payement->comment = "Réglement de la facture pour la commande N°".$commande->reference;
 								$lot = $payement->enregistre();
-
+								var_dump($lot);
 								$commande->reglementclient_id = $lot->lastid;
 
 								$client->actualise();
@@ -568,11 +552,10 @@ if ($action == "livraisonCommande") {
 				foreach ($tests as $key => $value) {
 					$lot = explode("-", $value);
 					$id = $lot[0];
-					$format_id = $lot[1];
+					$emballage_id = $lot[1];
 					$qte = end($lot);
 					$produit = PRODUIT::findBy(["id ="=>$id])[0];
-					$produit->actualise();
-					if ($qte > 0 && $groupecommande->reste($produit->id) >= $qte && $qte <= $produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $format_id, getSession("boutique_id_connecte"))) {
+					if ($qte >= 0 && $groupecommande->reste($produit->id, $emballage_id) >= $qte && $qte <= $produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage_id, getSession("boutique_connecte_id"))) {
 						unset($tests[$key]);
 					}
 				}
@@ -588,19 +571,14 @@ if ($action == "livraisonCommande") {
 					$data = $prospection->enregistre();
 					if ($data->status) {
 						$montant = 0;
-						$production = PRODUCTION::today();
 
 						foreach ($listeproduits as $key => $value) {
 							$lot = explode("-", $value);
 							$id = $lot[0];
+							$emballage_id = $lot[1];
 							$qte = end($lot);
 
-							$datas = PRODUIT::findBy(["id="=>$id]);
-							if (count($datas) > 0) {
-								$produit = $datas[0];
-								$produit->actualise();
-
-									// $paye = $produit->coutProduction("livraison", $qte);
+								// $paye = $produit->coutProduction("livraison", $qte);
 									// if (isset($chargement_manoeuvre) && $chargement_manoeuvre == "on") {
 									// 	$montant += $paye / 2;
 									// }
@@ -609,14 +587,16 @@ if ($action == "livraisonCommande") {
 									// 	$montant += $paye / 2;
 									// }
 
-								$ligneprospection = new LIGNEPROSPECTION;
-								$ligneprospection->prospection_id = $prospection->id;
-								$ligneprospection->produit_id = $id;
-								$ligneprospection->quantite = $qte;
-								$ligneprospection->enregistre();
-							}
+							$ligneprospection = new LIGNEPROSPECTION;
+							$ligneprospection->prospection_id = $prospection->id;
+							$ligneprospection->produit_id = $id;
+							$ligneprospection->emballage_id = $emballage_id;
+							$ligneprospection->quantite = $qte;
+							$ligneprospection->price = 0;
+							$ligneprospection->enregistre();
 						}
 
+						//$production = PRODUCTION::today();
 							// $production->total_livraison += $montant;
 							// $production->save();
 
@@ -765,7 +745,7 @@ if ($action == "fichecommande") {
 		$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 		$employe = $datas[0];
 
-		$datas = $groupecommande->lesRestes();
+		$datas = $groupecommande->toutesLesLignes();
 		include("../../../../../composants/assets/modals/modal-groupecommande.php");
 	}
 }

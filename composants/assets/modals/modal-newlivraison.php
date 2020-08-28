@@ -19,23 +19,34 @@
                             <table class="table  table-striped">
                                 <tbody class="commande">
                                     <?php
-                                    $datas = $groupecommande->lesRestes();
-                                    foreach ($datas as $key => $value) {
-                                        $reste = $groupecommande->reste($value->id);
+                                    $datas = $groupecommande->toutesLesLignes();
+                                    foreach ($datas as $key => $lig) {
+                                        $reste = $groupecommande->reste($lig->produit_id, $lig->emballage_id);
                                         if ($reste > 0) {
-                                            $value->actualise(); ?>
-                                            <tr class="border-0 border-bottom " id="ligne<?= $value->id ?>" data-id="<?= $value->id ?>">
-                                                <td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $value->id ?>)" style="font-size: 18px;"></i></td>
+                                            $produit = new Home\PRODUIT;
+                                            $produit->id = $lig->produit_id;
+                                            $produit->actualise();
+
+                                            $emballage = new Home\EMBALLAGE;
+                                            $emballage->id = $lig->emballage_id;
+                                            $emballage->actualise();
+                                            $a = time()  ?>
+                                            <tr class="border-0 border-bottom " id="ligne<?= $a ?>" data-id="<?= $produit->id ?>" data-format="<?= $emballage->id ?>">
+                                                <td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $a ?>)" style="font-size: 18px;"></i></td>
                                                 <td >
-                                                    <img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $value->produit->image) ?>">
+                                                    <span class="small gras"><?= $produit->name() ?></span><br>
+                                                    <img style="height: 20px" src="<?= $rooter->stockage("images", "emballages", $emballage->image) ?>" >
+                                                    <small><?= $emballage->name() ?></small>
                                                 </td>
-                                                <td class="text-left">
-                                                    <h4><?= $value->produit->name() ?></h4>
-                                                    <h5 class="mp0 text-uppercase"><?= $value->prix->price() ?> <?= $params->devise  ?></h5>
-                                                    <small><?= $value->produit->description ?></small>
+                                                <td class="text-center">
+                                                    <br>
+                                                    <h4 class="mp0 text-uppercase"><?= $reste ?></h4>
                                                 </td>
-                                                <td width="105"><input type="number" number class="form-control text-center gras" value="<?= $reste ?>" max="<?= $reste ?>"></td>
-                                                <td> / <?= $reste ?></td>
+                                                <td width="30"></td>
+                                                <td width="120" class="text-center">
+                                                    <small>Qté à livrer</small>
+                                                    <input type="text" number class="form-control text-center gras" value="<?= $reste ?>" max="<?= $reste ?>">
+                                                </td>
                                             </tr>
                                         <?php }   
                                     } ?>

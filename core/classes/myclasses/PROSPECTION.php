@@ -192,6 +192,7 @@ class PROSPECTION extends TABLE
 				if ($this->typeprospection_id == TYPEPROSPECTION::PROSPECTION) {
 					$vente = new VENTE();
 					$vente->cloner($this);
+					$vente->montant = $this->vendu;
 					$vente->created = null;
 					$vente->modified = null;
 					$vente->typevente_id = TYPEVENTE::PROSPECTION;
@@ -202,25 +203,22 @@ class PROSPECTION extends TABLE
 					$data = $vente->enregistre();
 					if ($data->status) {
 						$vente->actualise();
-						$montant = 0;
 						$datas = $this->fourni("ligneprospection");
 						foreach ($datas as $key => $ligne) {
 							$ligne->actualise();
 							$lgn = new LIGNEDEVENTE();
 							$lgn->vente_id = $vente->id;
 							$lgn->produit_id = $ligne->produit_id;
+							$lgn->emballage_id = $ligne->emballage_id;
 							$lgn->quantite = $ligne->quantite_vendu;
+							$lgn->price = ($ligne->price / $ligne->quantite) * $ligne->quantite_vendu;
 							$lgn->save();
-							$montant += $ligne->prixdevente->prix->price * $ligne->quantite_vendu;
 						}
-
-						$params = PARAMS::findLastId();
-						$tva = ($montant * $params->tva) / 100;
-						$total = $montant + $tva;
 
 						$reglement = new REGLEMENTCLIENT();
 						$reglement->hydrater($post);
-						$reglement->montant = $total;
+						$reglement->name = "Réglement de vente par prospection";
+						$reglement->montant = $vente->montant;
 						$reglement->comment = "Réglement de la vente ".$vente->typevente->name()." N°".$vente->reference;
 						$reglement->files = [];
 						$reglement->setId(null);

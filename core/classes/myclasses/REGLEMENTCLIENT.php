@@ -51,7 +51,7 @@ class REGLEMENTCLIENT extends TABLE
 					$boutique->actualise();
 					if ($boutique->comptebanque->solde() >= $this->montant) {
 						$mouvement = new MOUVEMENT();
-																		$mouvement->name = "reglement de client";
+						$mouvement->name = "reglement de client";
 						$mouvement->montant = $this->montant;
 						$mouvement->comment = $this->comment;
 						$mouvement->typemouvement_id = TYPEMOUVEMENT::DEPOT;

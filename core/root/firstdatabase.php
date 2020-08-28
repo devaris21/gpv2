@@ -336,6 +336,15 @@ $item->save();
 
 
 
+$datas = ["Prix normal", "Prix de gros"];
+foreach ($datas as $key => $value) {
+	$item = new TYPEBAREME();
+	$item->name = $value;
+	$item->setProtected(1);
+	$item->save();
+}
+
+
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::ENTREE;
 $item->name = "Retour de fonds par le fournisseur";

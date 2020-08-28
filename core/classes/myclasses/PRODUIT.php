@@ -31,8 +31,8 @@ class PRODUIT extends TABLE
 						$item = new PRICE;
 						$item->produit_id = $this->id;
 						$item->emballage_id = $emballage->id;
-						$item->prix = 0;
-						$item->prix_gros = 0;
+						$item->prix = 200;
+						$item->prix_gros = 200;
 						$item->enregistre();
 					}
 

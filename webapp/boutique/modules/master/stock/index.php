@@ -31,15 +31,14 @@
                                         <h6 class="text-uppercase text-center gras" style="color: <?= $pro->couleur; ?>"><?= $pro->name() ?></h6>
                                         <ul class="list-group clear-list m-t">
                                             <?php foreach ($pro->fourni("produit", ["isActive ="=>Home\TABLE::OUI]) as $key => $produit) {
-                                                $produit->actualise();
-                                                $bout = $produit->enBoutique(dateAjoute(1), $boutique->id); ?>
+                                                $produit->actualise();  ?>
                                                 <li class="list-group-item">
-                                                    <i class="fa fa-flask" style="color: <?= $pro->couleur; ?>"></i> <small><?= $produit->quantite->name() ?></small>  
+                                                    <i class="fa fa-flask"></i> <small><?= $produit->quantite->name() ?></small>  
                                                     <?php foreach (Home\EMBALLAGE::getAll() as $key => $emballage) {
-                                                        $a = $produit->enEntrepot(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, $entrepot->id);
+                                                        $a = $produit->enBoutique(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, $boutique->id);
                                                         if ($a > 0) { ?>
                                                             <span class="float-right">
-                                                                <small title="en boutique" class="gras <?= ($a * $emballage->nombre() > $params->ruptureStock)?"":"text-red clignote" ?>"><?= start0($a) ?></small> <img style="height: 15px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> |
+                                                                <small title="<?= $emballage->name() ?>" class="gras <?= ($a * $emballage->nombre() > $params->ruptureStock)?"":"text-red clignote" ?>"><?= start0($a) ?></small> <img style="height: 15px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> |
                                                             </span>
                                                         <?php }
                                                     } ?>                                                               

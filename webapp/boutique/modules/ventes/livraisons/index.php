@@ -86,8 +86,12 @@
                                                 <thead>
                                                     <tr class="no">
                                                         <th></th>
-                                                        <?php foreach ($livraison->ligneprospections as $key => $ligne) { ?>
-                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
+                                                        <?php foreach ($livraison->ligneprospections as $key => $ligne) {
+                                                            $ligne->actualise(); ?>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->name() ?></span><br>
+                                                                <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>" >
+                                                                <small><?= $ligne->emballage->name() ?></small>
+                                                            </th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>
@@ -144,7 +148,10 @@
                                                         <th></th>
                                                         <?php foreach ($livraison->ligneprospections as $key => $ligne) { 
                                                             $ligne->actualise(); ?>
-                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->name() ?></span><br>
+                                                                <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>" >
+                                                                <small><?= $ligne->emballage->name() ?></small>
+                                                            </th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>
@@ -189,12 +196,8 @@
         <?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
 
         <?php 
-        foreach ($livraisons as $key => $livraison) {
-            if ($livraison->etat_id == Home\ETAT::ENCOURS) { 
-                $livraison->actualise();
-                $livraison->fourni("ligneprospection");
-                include($this->rootPath("composants/assets/modals/modal-livraison2.php"));
-            } 
+        foreach ($encours as $key => $livraison) {
+            include($this->rootPath("composants/assets/modals/modal-livraison2.php"));
         } 
         ?>
 

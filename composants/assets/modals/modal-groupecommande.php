@@ -1,6 +1,6 @@
 
 <div class="modal inmodal fade" id="modal-groupecommande" style="z-index: -9">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xll">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="ibox-content">
@@ -30,9 +30,18 @@
                         <thead>
                             <tr>
                                 <th colspan="3"></th>
-                                <?php foreach ($datas as $key => $value) {
-                                    $value->actualise(); ?>
-                                    <th class="text-center text-uppercase"><small class="gras"><?= $value->produit->name() ?></small><br> <small><?= $value->quantite->name() ?></small></th>
+                                <?php foreach ($datas as $key => $ligne) {
+                                    $produit = new Home\PRODUIT;
+                                    $produit->id = $ligne->produit_id;
+                                    $produit->actualise();
+
+                                    $emballage = new Home\EMBALLAGE;
+                                    $emballage->id = $ligne->emballage_id;
+                                    $emballage->actualise(); ?>
+                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $produit->name() ?></span><br>
+                                        <img style="height: 20px" src="<?= $rooter->stockage("images", "emballages", $emballage->image) ?>" >
+                                        <small><?= $emballage->name() ?></small>
+                                    </th>
                                 <?php } ?>
                             </tr>
                         </thead>
@@ -76,58 +85,54 @@
                                                 <?php } ?>                                
                                             </td>
                                             <?php 
-                                            foreach ($datas as $key => $value) {
+                                            foreach ($datas as $key => $lig) {
                                                 $test = 0;
-                                                foreach ($ligne->items as $key => $item) {
-                                                    $item->actualise();
-                                                    if ($item->prixdevente->id == $value->id ) { 
+                                                foreach ($ligne->items as $key => $item) { 
+                                                    if ($item->produit_id == $lig->produit_id &&  $item->emballage_id == $lig->emballage_id) { 
                                                         $test = $item->quantite;
-                                                        if ($ligne->type == "prospection") {
-                                                            $test = $item->quantite;
-                                                        }
                                                         break;
                                                     }
                                                 }
                                                 ?>
                                                 <td><h3 class="text-<?= ($ligne->type == "prospection")? "orange":"green" ?> text-center"> <?= $test  ?> </h3></td>
-                                                    <?php
-                                                }
-                                                ?>
+                                                <?php
+                                            }
+                                            ?>
 
-                                                <?php if ($ligne->type == "commande" && $ligne->reglementclient_id != 0) { ?>
-                                                    <td>
-                                                        <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;">T = <?= money($ligne->montant) ?> <?= $params->devise  ?> </h4>
-                                                        <small>Avance <?= money($ligne->avance) ?> <?= $params->devise  ?> <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $ligne->reglementclient->modepayement->name();  ?>">(<?= $ligne->reglementclient->modepayement->initial;  ?>)</small></small>
-                                                    </td>
-                                                    <td data-toggle="tooltip" title="imprimer le facture">
-                                                        <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncaisse", $ligne->reglementclient_id) ?>"><i class="fa fa-file-text fa-2x d-block"></i></a>
-                                                    </td>
-                                                <?php }  ?>
+                                            <?php if ($ligne->type == "commande" && $ligne->reglementclient_id != 0) { ?>
+                                                <td>
+                                                    <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;">T = <?= money($ligne->montant) ?> <?= $params->devise  ?> </h4>
+                                                    <small>Avance <?= money($ligne->avance) ?> <?= $params->devise  ?> <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $ligne->reglementclient->modepayement->name();  ?>">(<?= $ligne->reglementclient->modepayement->initial;  ?>)</small></small>
+                                                </td>
+                                                <td data-toggle="tooltip" title="imprimer le facture">
+                                                    <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncaisse", $ligne->reglementclient_id) ?>"><i class="fa fa-file-text fa-2x d-block"></i></a>
+                                                </td>
+                                            <?php }  ?>
 
-                                                <?php if ($ligne->type == "vente" && $ligne->etat_id == Home\ETAT::VALIDEE) { ?>
-                                                    <td >
-                                                        <i class="fa fa-check fa-2x text-green"></i>
-                                                    </td>
-                                                <?php }  ?>
-                                            </tr>
-                                        <?php }
-                                        ?>
-
-                                        <tr style="height: 20px;"></tr>
-
-                                        <tr>
-                                            <td colspan="3"><h2 class="text-uppercase text-right">Reste à livrer : </h2></td>
-                                            <?php foreach ($datas as $key => $value) { ?>
-                                                <td widtd="90" class="text-center"><h2 class="gras"><?= money($groupecommande->reste($value->id)) ?></h2></td>
-                                            <?php } ?>
+                                            <?php if ($ligne->type == "vente" && $ligne->etat_id == Home\ETAT::VALIDEE) { ?>
+                                                <td >
+                                                    <i class="fa fa-check fa-2x text-green"></i>
+                                                </td>
+                                            <?php }  ?>
                                         </tr>
-                                    </tbody>
-                                </table><br><hr>
+                                    <?php }
+                                    ?>
 
-                                <div class="row text-center">
-                                    <div class="col-md">
-                                        <button class="btn btn-primary dim" onclick="fairenewcommande(<?= $groupecommande->id ?>)"><i class="fa fa-cart-plus"></i> Faire nouvelle commande</button>
-                                    </div>
+                                    <tr style="height: 20px;"></tr>
+
+                                    <tr>
+                                        <td colspan="3"><h2 class="text-uppercase text-right">Reste à livrer : </h2></td>
+                                        <?php foreach ($datas as $key => $lig) { ?>
+                                            <td widtd="90" class="text-center"><h2 class="gras"><?= money($groupecommande->reste($lig->produit_id, $lig->emballage_id)) ?></h2></td>
+                                        <?php } ?>
+                                    </tr>
+                                </tbody>
+                            </table><br><hr>
+
+                            <div class="row text-center">
+                                <div class="col-md">
+                                    <button class="btn btn-primary dim" onclick="fairenewcommande(<?= $groupecommande->id ?>)"><i class="fa fa-cart-plus"></i> Faire nouvelle commande</button>
+                                </div>
 
                              <!--    <div class=" col-md">
                                     <button class="btn btn-success dim" onclick="newProgrammation(<?= $groupecommande->id ?>)"><i class="fa fa-truck"></i> Programmer livraison </button>

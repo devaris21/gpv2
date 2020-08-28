@@ -134,7 +134,8 @@ $(function(){
 			var id = $(this).attr("type-id");
 			$.post(url, {action:"newproduit4", id:id}, (data)=>{
 				$("tbody.commande").append(data);
-				$("button[parfum-id ="+parfum_id+"][type-id ="+id+"]").hide(200);
+				$("button[data-id ="+id+"]").show(200);
+				//$("button[parfum-id ="+parfum_id+"][type-id ="+id+"]").hide(200);
 				calcul()
 			},"html");
 		});
@@ -150,7 +151,7 @@ $(function(){
 			var url = "../../webapp/boutique/modules/master/client/ajax.php";
 			$.post(url, {action:"supprimeProduit", id:id}, (data)=>{
 				$("tbody.commande tr#ligne"+id).hide(400).remove();
-				$("button[parfum-id ="+tab[0]+"][type-id ="+tab[1]+"]").show(200);
+				$("button[data-id ="+id+"]").show(200);
 				calcul()
 			},"html");
 		}
@@ -174,11 +175,12 @@ $(function(){
 			tableau = new Array();
 			$(".modal .commande tr input").each(function(index, el) {
 				var id = $(this).attr('data-id');
+				var format = $(this).attr('data-format');
 				var val = $(this).val();
 				if (val > 0) {
-					var item = id+"-"+val;
+					var item = id+"-"+format+"-"+val;
 					tableau.push(item);
-				}			
+				}		
 			});
 			formdata.append('listeproduits', tableau);
 			formdata.append('typebareme_id', $("select[name=typebareme_id]").val());
@@ -372,8 +374,9 @@ $(function(){
 		var tableau = new Array();
 		$("#modal-newlivraison .commande tr").each(function(index, el) {
 			var id = $(this).attr('data-id');
+			var format = $(this).attr('data-format');
 			var val = $(this).find('input').val();
-			var item = id+"-"+val;
+			var item = id+"-"+format+"-"+val;
 			tableau.push(item);
 		});
 		formdata.append('listeproduits', tableau);
@@ -403,8 +406,9 @@ $(function(){
 		var tableau = new Array();
 		$("#modal-programmation .commande tr").each(function(index, el) {
 			var id = $(this).attr('data-id');
+			var format = $(this).attr('data-format');
 			var val = $(this).find('input').val();
-			var item = id+"-"+val;
+			var item = id+"-"+format+"-"+val;
 			tableau.push(item);
 		});
 		formdata.append('tableau', tableau);

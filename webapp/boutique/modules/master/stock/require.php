@@ -8,5 +8,6 @@ $typeproduits = TYPEPRODUIT::findBy(["isActive ="=>TABLE::OUI]);
 $quantites = QUANTITE::findBy(["isActive ="=>TABLE::OUI]);
 $produits = PRODUIT::findBy(["isActive ="=>TABLE::OUI]);
 
-$title = "GPV | Espace d'Administration ";
+$title = "GPV | Votre stock en boutique ";
+
 ?>
