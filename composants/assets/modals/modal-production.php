@@ -44,6 +44,13 @@
                         </div>
                         <div class="ibox-content"  style="background-color: #fafafa">
                             <form id="formProduction">
+                                <div class="">
+                                    <label>Coût de la main d'oeuvre <span1>*</span1></label>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" number name="maindoeuvre">
+                                    </div>
+                                </div>
+
                                 <div>
                                     <label>Ajouter une note</label>
                                     <textarea class="form-control" name="comment" rows="4"></textarea>

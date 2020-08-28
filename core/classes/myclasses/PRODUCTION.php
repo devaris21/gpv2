@@ -11,7 +11,7 @@ class PRODUCTION extends TABLE
 
 	public $reference;
 	public $comment = "";
-	public $groupemanoeuvre_id = 0;
+	public $maindoeuvre = 0;
 	public $entrepot_id = ENTREPOT::PRINCIPAL;
 	public $employe_id = 0;
 	public $etat_id = ETAT::VALIDEE;
@@ -25,6 +25,15 @@ class PRODUCTION extends TABLE
 		if (count($datas) == 1) {
 			$this->reference = "PROD/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
 			$data = $this->save();
+			if ($data->status && $this->transport > 0) {
+				$this->actualise();
+				$mouvement = new OPERATION();
+				$mouvement->montant = $this->maindoeuvre;
+				$mouvement->categorieoperation_id = CATEGORIEOPERATION::MAINDOEUVRE;
+				$mouvement->modepayement_id = MODEPAYEMENT::ESPECE;
+				$mouvement->comment = "Frais de main d'oeuvre pour la production N°".$this->reference;
+				$data = $mouvement->enregistre();
+			}
 		}else{
 			$data->status = false;
 			$data->message = "Une erreur s'est produite lors de l'operation, veuillez recommencer !";

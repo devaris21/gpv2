@@ -14,9 +14,10 @@ class CATEGORIEOPERATION extends TABLE
 	const AUTRE_ENTREE = 2;
 
 	const FRAISTRANSPORT = 3;
-	const ENTRETIENVEHICULE = 4;
-	const RETOURFOND_CLIENT = 5;
-	const AUTRE_DEPENSE = 6;
+	const MAINDOEUVRE = 4;
+	const ENTRETIENVEHICULE = 5;
+	const RETOURFOND_CLIENT = 6;
+	const AUTRE_DEPENSE = 7;
 
 	
 	public $typeoperationcaisse_id;

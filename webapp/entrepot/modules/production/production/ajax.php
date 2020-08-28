@@ -36,39 +36,52 @@ if ($action == "nouvelleProduction") {
 		}
 	}
 	if (count($tests) == 0) {
-		$production = new PRODUCTION();
-		$production->hydrater($_POST);
-		$production->etat_id = ETAT::ENCOURS;
-		$data = $production->enregistre();
-		if ($data->status) {
-			foreach ($listeproduits as $key => $value) {
-				$lot = explode("-", $value);
-				$id = $lot[0];
-				$qte = end($lot);
+		$datas = ENTREPOT::findBy(["id ="=>getSession("entrepot_connecte_id")]);
+		if (count($datas) == 1) {
+			$entrepot = $datas[0];
+			$entrepot->actualise();
+			if ($entrepot->comptebanque->solde() >= $transport) {
+				$production = new PRODUCTION();
+				$production->hydrater($_POST);
+				$production->etat_id = ETAT::ENCOURS;
+				$data = $production->enregistre();
+				if ($data->status) {
+					foreach ($listeproduits as $key => $value) {
+						$lot = explode("-", $value);
+						$id = $lot[0];
+						$qte = end($lot);
 
-				$datas = TYPEPRODUIT_PARFUM::findBy(["id ="=> $id]);
-				if (count($datas) == 1) {
-					$type = $datas[0];
-					$ligne = new LIGNEPRODUCTION();
-					$ligne->production_id = $production->id;
-					$ligne->typeproduit_parfum_id = $type->id;
-					$ligne->quantite = intval($qte);
-					$data = $ligne->enregistre();	
+						$datas = TYPEPRODUIT_PARFUM::findBy(["id ="=> $id]);
+						if (count($datas) == 1) {
+							$type = $datas[0];
+							$ligne = new LIGNEPRODUCTION();
+							$ligne->production_id = $production->id;
+							$ligne->typeproduit_parfum_id = $type->id;
+							$ligne->quantite = intval($qte);
+							$data = $ligne->enregistre();	
 
-					foreach ($type->fourni("exigenceproduction") as $key1 => $exi) {
-						foreach ($exi->fourni("ligneexigenceproduction") as $key2 => $lign) {
-							if ($lign->quantite > 0) {
-								$lign->actualise();
-								$ligne = new LIGNECONSOMMATION();
-								$ligne->production_id = $production->id;
-								$ligne->ressource_id = $lign->ressource->id;
-								$ligne->quantite = $qte*$lign->quantite/$exi->quantite;
-								$data = $ligne->enregistre();
+							foreach ($type->fourni("exigenceproduction") as $key1 => $exi) {
+								foreach ($exi->fourni("ligneexigenceproduction") as $key2 => $lign) {
+									if ($lign->quantite > 0) {
+										$lign->actualise();
+										$ligne = new LIGNECONSOMMATION();
+										$ligne->production_id = $production->id;
+										$ligne->ressource_id = $lign->ressource->id;
+										$ligne->quantite = $qte*$lign->quantite/$exi->quantite;
+										$data = $ligne->enregistre();
+									}
+								}
 							}
 						}
 					}
 				}
+			}else{
+				$data->status = false;
+				$data->message = "Le solde du compte est insuffisant pour regler les frais de main d'oeuvre de la production !";
 			}
+		}else{
+			$data->status = false;
+			$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
 		}
 	}else{
 		$data->status = false;

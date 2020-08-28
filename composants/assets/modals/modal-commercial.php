@@ -45,7 +45,7 @@
                         <div class="col-md-4 col-sm-6 unmodified">
                             <label>Salaire mensuel <span1>*</span1></label>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="salaire">
+                                <input type="text" number class="form-control" name="salaire">
                             </div>
                         </div>
 

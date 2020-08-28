@@ -368,6 +368,12 @@ $item->save();
 
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
+$item->name = "Main d'oeuvre de production";
+$item->setProtected(1);
+$item->save();
+
+$item = new CATEGORIEOPERATION();
+$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
 $item->name = "Réglement de facture de reparation / d'entretien";
 $item->setProtected(1);
 $item->save();

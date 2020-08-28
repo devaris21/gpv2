@@ -325,48 +325,59 @@ if ($action == "validerPropection") {
 					unset($tests[$key]);
 				}
 			}
-			if (count($tests) == 0) {
+			$datas = BOUTIQUE::findBy(["id ="=>getSession("boutique_connecte_id")]);
+			if (count($datas) == 1) {
+				$boutique = $datas[0];
+				$boutique->actualise();
+				if ($boutique->comptebanque->solde() >= $transport) {
+					if (count($tests) == 0) {
+						$prospection = new PROSPECTION();
+						$prospection->hydrater($_POST);
+						$prospection->montant = getSession("total");
+						$data = $prospection->enregistre();
+						if ($data->status) {
+							foreach ($listeproduits as $key => $value) {
+								$lot = explode("-", $value);
+								$id = $lot[0];
+								$emballage_id = $lot[1];
+								$qte = end($lot);
+								$datas = PRICE::findBy(["produit_id = "=>$id, "emballage_id = "=>$emballage_id]);
+								if (count($datas) == 1) {
+									$price = $datas[0];
+									if ($typebareme_id == TYPEBAREME::NORMAL) {
+										$prix = $price->prix * intval($qte);
+									}else{
+										$prix = $price->prix_gros * intval($qte);
+									}
 
-				$prospection = new PROSPECTION();
-				$prospection->hydrater($_POST);
-				$prospection->montant = getSession("total");
-				$data = $prospection->enregistre();
-				if ($data->status) {
-					foreach ($listeproduits as $key => $value) {
-						$lot = explode("-", $value);
-						$id = $lot[0];
-						$emballage_id = $lot[1];
-						$qte = end($lot);
-						$datas = PRICE::findBy(["produit_id = "=>$id, "emballage_id = "=>$emballage_id]);
-						if (count($datas) == 1) {
-							$price = $datas[0];
-							if ($typebareme_id == TYPEBAREME::NORMAL) {
-								$prix = $price->prix * intval($qte);
-							}else{
-								$prix = $price->prix_gros * intval($qte);
+									$total += $prix;
+									$ligneprospection = new LIGNEPROSPECTION;
+									$ligneprospection->prospection_id = $prospection->id;
+									$ligneprospection->produit_id = $id;
+									$ligneprospection->emballage_id = $emballage_id;
+									$ligneprospection->quantite = intval($qte);
+									$ligneprospection->price =  $prix;
+									$ligneprospection->enregistre();										
+								}
 							}
-
-							$total += $prix;
-							$ligneprospection = new LIGNEPROSPECTION;
-							$ligneprospection->prospection_id = $prospection->id;
-							$ligneprospection->produit_id = $id;
-							$ligneprospection->emballage_id = $emballage_id;
-							$ligneprospection->quantite = intval($qte);
-							$ligneprospection->price =  $prix;
-							$ligneprospection->enregistre();										
-						}
-					}
-					$data->setUrl("fiches", "master", "bonsortie", $data->lastid);
+							$data->setUrl("fiches", "master", "bonsortie", $data->lastid);
 							// $data->url2 = $data->setUrl("fiches", "master", "boncommande", $data->lastid);
-				}
-
+						}
+					}else{
+						$data->status = false;
+						$data->message = "Le solde du compte est insuffisant pour regler les frais de transport de la production !";
+					}
+				}else{
+					$data->status = false;
+					$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
+				}						
 			}else{
 				$data->status = false;
-				$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
-			}						
+				$data->message = "Veuillez verifier le montant total de la prospection !";
+			}
 		}else{
 			$data->status = false;
-			$data->message = "Veuillez verifier le montant total de la prospection !";
+			$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
 		}
 	}else{
 		$data->status = false;
