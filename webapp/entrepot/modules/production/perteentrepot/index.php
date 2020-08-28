@@ -78,7 +78,7 @@
                                         </td>
                                         <td><i class="fa fa-user"></i> <?= $perte->employe->name() ?></td>
                                         <td>
-                                            <a href="<?= $this->url("boutique", "fiches", "bonmiseenboutique", $perte->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                            <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $perte->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                             <?php if ($perte->etat_id == Home\ETAT::PARTIEL) { ?>
                                                 <button onclick="accepter(<?= $perte->id ?>)" class="btn btn-white btn-sm text-green"><i class="fa fa-check"></i> Accepter</button>
                                             <?php } ?>
@@ -108,7 +108,7 @@
                                         </td>
                                         <td><i class="fa fa-user"></i> <?= $perte->employe->name() ?></td>
                                         <td>
-                                            <a href="<?= $this->url("boutique", "fiches", "bonmiseenboutique", $perte->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                            <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $perte->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                         </td>
                                     </tr>
                                 <?php  } ?>

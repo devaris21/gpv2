@@ -37,12 +37,12 @@ if ($action == "filtrer") {
 
 			foreach ($produit->fourni("ligneconditionnement") as $keye => $ligne) {
 				$ligne->actualise();
-				$emballage += $ligne->quantite * $$ligne->emballage->totalEmballagePrice();
+				$emballage += $ligne->quantite * $ligne->emballage->totalEmballagePrice();
 				$etiquette += $ligne->quantite * $ligne->emballage->nombre() * $eti->price();
 			}
 		}		
 
-		$production = PRODUCTION::production($date1, $date2, $pro->id);
+		$production = $pro->production($date1, $date2);
 
 		foreach ($pro->fourni("exigenceproduction") as $key => $exi) {
 			if ($exi->quantite > 0) {

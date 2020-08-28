@@ -244,7 +244,7 @@ if ($action == "validerApprovisionnement") {
 							if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && $total > 0) {
 								$payement->comment = "Réglement de la facture d'approvisionnement N°".$approvisionnement->reference;
 								$data = $payement->save();
-								$data->setUrl("gestion", "fiches", "boncaisse", $data->lastid);
+								$data->setUrl("fiches", "master", "boncaisse", $data->lastid);
 							}
 						}
 					}

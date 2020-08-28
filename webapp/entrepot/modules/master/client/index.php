@@ -103,9 +103,9 @@
                                                                     <?php } ?>
                                                                     <th class="text-center mp0" style="background-color: transparent; border: none">
                                                                         <?php if ($transaction->type == "commande") { ?>
-                                                                           <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncommande", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de commande</a>
+                                                                           <a target="_blank" href="<?= $this->url("fiches", "master", "boncommande", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de commande</a>
                                                                        <?php }else{ ?>
-                                                                        <a target="_blank" href="<?= $this->url("gestion", "fiches", "bonlivraison", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de livraison</a>
+                                                                        <a target="_blank" href="<?= $this->url("fiches", "master", "bonlivraison", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de livraison</a>
                                                                     <?php } ?>
                                                                 </th>
                                                             </tr>
@@ -129,7 +129,7 @@
                                                                 </td>
                                                                 <td class="text-center" data-toggle="tooltip" title="imprimer le facture">
                                                                     <?php if ($employe->isAutoriser("caisse")) { ?>
-                                                                        <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->id) ?>"><i class="fa fa-file-text fa-2x"></i></a>
+                                                                        <a target="_blank" href="<?= $this->url("fiches", "master", "boncaisse", $transaction->id) ?>"><i class="fa fa-file-text fa-2x"></i></a>
                                                                     <?php } ?>       
                                                                 </td>
                                                             <?php }  ?>
@@ -163,7 +163,7 @@
                                             <span class="pull-right text-right text-green">
                                                 <span class="gras" style="font-size: 16px"><?= money($transaction->mouvement->montant) ?> <?= $params->devise ?> <?= ($transaction->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <br>
                                                 <small>Par <?= $transaction->modepayement->name() ?></small><br>
-                                                <a href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de caisse</a>
+                                                <a href="<?= $this->url("fiches", "master", "boncaisse", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de caisse</a>
                                             </span>
                                         </p>
                                         <p class="m-b-xs"><?= $transaction->comment ?> </p>

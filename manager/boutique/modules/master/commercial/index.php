@@ -126,7 +126,7 @@
                                                             <td class="gras text-green"><?= money($prospection->vendu) ?> <?= $params->devise ?></td>
                                                             <td style="width: 12%">
                                                                 <div class="btn-group">
-                                                                    <a href="<?= $this->url("gestion", "fiches", "bonsortie", $prospection->id) ?>" target="_blank" class="btn btn-xs btn-white cursor"><i class="fa fa-file-text text-blue"></i></a>
+                                                                    <a href="<?= $this->url("fiches", "master", "bonsortie", $prospection->id) ?>" target="_blank" class="btn btn-xs btn-white cursor"><i class="fa fa-file-text text-blue"></i></a>
                                                                     <button type="button" onclick="terminer(<?= $prospection->id ?>)" class="btn btn-xs btn-white cursor"><i class="fa fa-check"></i></button>
 
                                                                     <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
@@ -207,7 +207,7 @@
                                                     <span class="pull-right text-right">
                                                         <span class="gras" style="font-size: 16px"><?= money($transaction->mouvement->montant) ?> <?= $params->devise ?></span><br>
                                                         <small>Par <?= $transaction->modepayement->name() ?></small><br>
-                                                        <a href="<?= $this->url("gestion", "fiches", "bulletin", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Voir bulletin</a>
+                                                        <a href="<?= $this->url("fiches", "master", "bulletin", $transaction->id)  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Voir bulletin</a>
                                                     </span>
                                                 </p>
                                                 <p class="m-b-xs"><?= $transaction->comment ?> </p>

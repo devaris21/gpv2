@@ -106,7 +106,7 @@
                                                 </table>
                                             </td>
                                             <td>
-                                                <a href="<?= $this->url("boutique", "fiches", "bonsortie", $prospection->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>                                        
+                                                <a href="<?= $this->url("fiches", "master", "bonsortie", $prospection->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>                                        
                                                 <?php if ($prospection->etat_id == Home\ETAT::ENCOURS) { ?>
                                                     <button onclick="terminer(<?= $prospection->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i></button>
                                                 <?php } ?>
@@ -169,7 +169,7 @@
                                             </table>
                                         </td>
                                         <td>
-                                            <a href="<?= $this->url("boutique", "fiches", "bonsortie", $prospection->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                            <a href="<?= $this->url("fiches", "master", "bonsortie", $prospection->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                             <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
                                                 <button onclick="annulerProspection(<?= $prospection->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                             <?php } ?>

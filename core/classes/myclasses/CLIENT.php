@@ -64,7 +64,7 @@ class CLIENT extends TABLE
 					$payement->detteClient = $this->dette;
 					$payement->save();
 
-					$data->setUrl("gestion", "fiches", "boncaisse", $id);
+					$data->setUrl("fiches", "master", "boncaisse", $id);
 				}
 			}else{
 				$data->status = false;
@@ -98,7 +98,7 @@ class CLIENT extends TABLE
 						$payement->detteClient = $this->dette;
 						$payement->save();
 
-						$data->setUrl("gestion", "fiches", "boncaisse", $id);
+						$data->setUrl("fiches", "master", "boncaisse", $id);
 					}
 				}else{
 					$data->status = false;
@@ -175,7 +175,7 @@ class CLIENT extends TABLE
 							$payement->detteClient = $this->dette;
 							$payement->save();
 							
-							$data->setUrl("gestion", "fiches", "boncaisse", $id);
+							$data->setUrl("fiches", "master", "boncaisse", $id);
 						}
 					}
 				}else{

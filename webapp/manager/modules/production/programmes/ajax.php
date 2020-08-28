@@ -221,7 +221,7 @@ if ($action == "ValiderLivraisonProgrammee") {
 							}
 
 							$data = $livraison->save();
-							$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);			
+							$data->setUrl("fiches", "master", "bonlivraison", $data->lastid);			
 						}	
 					}else{
 						$data->status = false;

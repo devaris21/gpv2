@@ -93,7 +93,7 @@ class FOURNISSEUR extends AUTH
 					$id = $data->lastid;
 					$this->acompte += intval($montant);
 					$data = $this->save();
-					$data->setUrl("gestion", "fiches", "boncaisse", $id);
+					$data->setUrl("fiches", "master", "boncaisse", $id);
 				}
 			}else{
 				$data->status = false;
@@ -123,7 +123,7 @@ class FOURNISSEUR extends AUTH
 						$id = $data->lastid;
 						$this->acompte -= intval($montant);
 						$data = $this->save();
-						$data->setUrl("gestion", "fiches", "boncaisse", $id);
+						$data->setUrl("fiches", "master", "boncaisse", $id);
 					}
 				}else{
 					$data->status = false;
@@ -195,7 +195,7 @@ class FOURNISSEUR extends AUTH
 						if ($data->status) {
 							$id = $data->lastid;
 							$data = $this->save();
-							$data->setUrl("gestion", "fiches", "boncaisse", $id);
+							$data->setUrl("fiches", "master", "boncaisse", $id);
 						}
 					}
 				}else{

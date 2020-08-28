@@ -55,7 +55,7 @@
                             $datas2 = $groupecommande->fourni("prospection", ["etat_id !="=>Home\ETAT::ANNULEE]);
                             foreach ($datas2 as $key => $ligne) {
                                 $ligne->fourni("ligneprospection");
-                                $ligne->type= "prospection";
+                                $ligne->type= "Livraison";
                             }
                             $lots = array_merge($datas1, $datas2);
                             usort($lots, "comparerDateCreated");
@@ -77,10 +77,10 @@
                                     </td>
                                     <td data-toggle="tooltip" title="imprimer le bon de <?= $ligne->type ?>">
                                         <?php if ($ligne->type == "prospection") { ?>
-                                            <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonlivraison", $ligne->id) ?>">
+                                            <a target="_blank" href="<?= $rooter->url("fiches", "master", "bonlivraison", $ligne->id) ?>">
                                                 <i class="fa fa-file-text fa-2x d-block"></i></a>
                                             <?php }else{ ?>
-                                                <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncommande", $ligne->id) ?>">
+                                                <a target="_blank" href="<?= $rooter->url("fiches", "master", "boncommande", $ligne->id) ?>">
                                                     <i class="d-block fa fa-file-text fa-2x"></i></a>
                                                 <?php } ?>                                
                                             </td>
@@ -105,7 +105,7 @@
                                                     <small>Avance <?= money($ligne->avance) ?> <?= $params->devise  ?> <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $ligne->reglementclient->modepayement->name();  ?>">(<?= $ligne->reglementclient->modepayement->initial;  ?>)</small></small>
                                                 </td>
                                                 <td data-toggle="tooltip" title="imprimer le facture">
-                                                    <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncaisse", $ligne->reglementclient_id) ?>"><i class="fa fa-file-text fa-2x d-block"></i></a>
+                                                    <a target="_blank" href="<?= $rooter->url("fiches", "master", "boncaisse", $ligne->reglementclient_id) ?>"><i class="fa fa-file-text fa-2x d-block"></i></a>
                                                 </td>
                                             <?php }  ?>
 

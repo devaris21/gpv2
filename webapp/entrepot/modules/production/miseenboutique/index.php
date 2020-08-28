@@ -108,7 +108,7 @@
                                     </table>
                                 </td>
                                 <td>
-                                    <a href="<?= $this->url("boutique", "fiches", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                    <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                     <?php if ($mise->etat_id == Home\ETAT::PARTIEL) { ?>
                                         <button onclick="accepter(<?= $mise->id ?>)" class="btn btn-white btn-sm text-green"><i class="fa fa-check"></i> Accepter</button>
                                     <?php } ?>
@@ -168,7 +168,7 @@
                                     </table>
                                 </td>
                                 <td>
-                                    <a href="<?= $this->url("boutique", "fiches", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                    <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                 </td>
                             </tr>
                         <?php  } ?>

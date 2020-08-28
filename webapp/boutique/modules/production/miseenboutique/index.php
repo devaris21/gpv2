@@ -102,7 +102,7 @@
                                     </table>
                                 </td>
                                 <td>
-                                    <a href="<?= $this->url("boutique", "fiches", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                    <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                     <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
                                         <button onclick="annulerMiseenboutique(<?= $mise->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                     <?php } ?>
@@ -162,7 +162,7 @@
                                     </table>
                                 </td>
                                 <td>
-                                    <a href="<?= $this->url("boutique", "fiches", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                    <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $mise->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                 </td>
                             </tr>
                         <?php  } ?>

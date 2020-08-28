@@ -103,7 +103,7 @@
                                     </table>
                                 </td>
                                 <td>
-                                    <a href="<?= $this->url("boutique", "fiches", "bonvente", $vente->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> </a>
+                                    <a href="<?= $this->url("fiches", "master", "bonvente", $vente->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> </a>
                                         <!-- <?php if ($vente->etat_id == Home\ETAT::ENCOURS) { ?>
                                             <button onclick="terminer(<?= $vente->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
                                             <?php } ?> -->
@@ -158,7 +158,7 @@
                                             </table>
                                         </td>
                                         <td>
-                                            <a href="<?= $this->url("boutique", "fiches", "bonvente", $vente->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> </a>
+                                            <a href="<?= $this->url("fiches", "master", "bonvente", $vente->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> </a>
                                         <!-- <?php if ($vente->etat_id == Home\ETAT::ENCOURS) { ?>
                                             <button onclick="terminer(<?= $vente->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
                                             <?php } ?> -->

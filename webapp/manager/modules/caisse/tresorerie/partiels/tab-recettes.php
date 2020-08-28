@@ -104,7 +104,7 @@
                         </tr>
                         <?php foreach ($tableau as $key => $operation) {  ?>
                             <tr>
-                                <td class="text-center" style="background-color: rgba(<?= (isset($operation->categorieoperation))?hex2rgb($operation->categorieoperation->color):"255, 255, 255"; ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("gestion", "fiches", $operation->fiche, $operation->id)  ?>"><i class="fa fa-file-text-o fa-2x"></i></a> 
+                                <td class="text-center" style="background-color: rgba(<?= (isset($operation->categorieoperation))?hex2rgb($operation->categorieoperation->color):"255, 255, 255"; ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("fiches", "master", $operation->fiche, $operation->id)  ?>"><i class="fa fa-file-text-o fa-2x"></i></a> 
                                 </td>
                                 <td>
                                     <h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->mouvement->typemouvement_id == Home\TYPEMOUVEMENT::DEPOT)?"text-green":"text-red" ?>"><?= $operation->type ?>  

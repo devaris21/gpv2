@@ -144,7 +144,7 @@
                                                     <?php foreach ($commandes as $key => $commande) {
                                                         $commande->actualise(); ?>
                                                         <tr>
-                                                            <td><a href="<?= $this->url("boutique", "fiches", "boncommande", $commande->id)  ?>"><i class="fa fa-2x fa-file-text-o"></i></a></td>
+                                                            <td><a href="<?= $this->url("fiches", "master", "boncommande", $commande->id)  ?>"><i class="fa fa-2x fa-file-text-o"></i></a></td>
                                                             <td>
                                                                 <span><?= $commande->groupecommande->client->name() ?></span>
                                                             </td>
@@ -170,7 +170,7 @@
                                                     <?php foreach ($livraisons as $key => $livraison) {
                                                         $livraison->actualise(); ?>
                                                         <tr>
-                                                            <td><a href="<?= $this->url("boutique", "fiches", "bonlivraison", $livraison->id)  ?>"><i class="fa fa-2x text-warning fa-file-text-o"></i></a></td>
+                                                            <td><a href="<?= $this->url("fiches", "master", "bonlivraison", $livraison->id)  ?>"><i class="fa fa-2x text-warning fa-file-text-o"></i></a></td>
                                                             <td>
                                                                 <span><?= $livraison->groupelivraison->client->name() ?></span>
                                                             </td>
@@ -213,7 +213,7 @@
                                                     </tr>
                                                     <?php foreach ($operations as $key => $operation) { ?>
                                                         <tr style="font-size: 11px;">
-                                                            <td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("boutique", "fiches", "boncaisse", $operation->id)  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
+                                                            <td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("fiches", "master", "boncaisse", $operation->id)  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
                                                             <td>
                                                                 <h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>"><?= $operation->categorieoperation->name() ?> <span><?= ($operation->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <span class="pull-right"><i class="fa fa-clock-o"></i> <?= heurecourt($operation->created) ?></span></h6>
                                                                 <i style="font-size: 11px;"><?= $operation->comment ?></i>
