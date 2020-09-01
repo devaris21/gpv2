@@ -13,7 +13,7 @@ $(function(){
 
 
 	filtrer = function(){
-		var url = "../../webapp/manager/modules/production/entrepots/ajax.php";
+		var url = "../../webapp/manager/modules/production/boutiques/ajax.php";
 		var formdata = new FormData($("#formFiltrer")[0]);
 		formdata.append('action', "filtrer");
 		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
@@ -23,7 +23,7 @@ $(function(){
 
 
 	$("select[name=id]").change(function(){
-		var url = "../../webapp/manager/modules/production/entrepots/ajax.php";
+		var url = "../../webapp/manager/modules/production/boutiques/ajax.php";
 		var id = $(this).val();
 		var formdata = new FormData();
 		formdata.append('id', id);

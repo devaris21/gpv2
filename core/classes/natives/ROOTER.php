@@ -103,13 +103,18 @@ class ROOTER extends PATH
                                     if (in_array($role->id, $tableauDeRoles)) {
                                         $employe->actualise();
 
-                                        if ($employe->boutique_id != null) {
-                                            $boutique = $employe->boutique;
-                                            session("boutique_connecte_id", $boutique->id);
-                                        }
-                                        if ($employe->entrepot_id != null) {
-                                            $entrepot = $employe->entrepot;
-                                            session("entrepot_connecte_id", $entrepot->id);
+                                        session("boutique_connecte_id", null);
+                                        session("entrepot_connecte_id", null);
+
+                                        if (!in_array($this->module, ["manager", "config"])) {
+                                            if ($employe->boutique_id != null) {
+                                                $boutique = $employe->boutique;
+                                                session("boutique_connecte_id", $boutique->id);
+                                            }
+                                            if ($employe->entrepot_id != null) {
+                                                $entrepot = $employe->entrepot;
+                                                session("entrepot_connecte_id", $entrepot->id);
+                                            }
                                         }
 
                                         session("lastUrl", $this->url);

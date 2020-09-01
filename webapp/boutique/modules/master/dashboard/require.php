@@ -3,8 +3,6 @@ namespace Home;
 unset_session("produits");
 unset_session("commande-encours");
 
-$params = PARAMS::findLastId();
-
 COMMERCIAL::finDuMois();
 GROUPECOMMANDE::etat();
 VENTE::ResetProgramme();

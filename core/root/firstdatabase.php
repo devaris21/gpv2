@@ -141,6 +141,7 @@ $datas = ["Caisse courante"];
 foreach ($datas as $key => $value) {
 	$item = new COMPTEBANQUE();
 	$item->name = $value;
+	$item->etablissement = "Caisse principale";
 	$item->setProtected(1);
 	$item->save();
 }

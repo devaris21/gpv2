@@ -62,8 +62,18 @@
                     <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
                 <?php } ?>
 
+                <?php if ($employe->isAutoriser("production")) { ?>
+                    <li class="" id="production">
+                        <a href="<?= $this->url($this->section, "production", "production") ?>"><i class="fa fa-free-code-camp"></i> <span class="nav-label">Production</span></a>
+                    </li>
+                    <li class="" id="conditionnement">
+                        <a href="<?= $this->url($this->section, "production", "conditionnement") ?>"><i class="fa fa-flask"></i> <span class="nav-label">Conditionnement</span></a>
+                    </li>
+                    <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
+                <?php } ?>
 
-                <?php if ($employe->isAutoriser("boutique")) { ?>
+
+                <?php if ($employe->isAutoriser("boutique") && $employe->isAutoriser("production")) { ?>
                     <li id="boutiques">
                         <a href="#"><i class="fa fa-home"></i> <span class="nav-label">Les boutiques</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
@@ -74,7 +84,7 @@
                     </li>
                 <?php } ?>
 
-                <?php if ($employe->isAutoriser("entrepot")) { ?>
+                <?php if ($employe->isAutoriser("entrepot") && $employe->isAutoriser("production")) { ?>
                     <li id="entrepots">
                         <a href="#"><i class="fa fa-home"></i> <span class="nav-label">Les entrepots</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">

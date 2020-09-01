@@ -16,6 +16,6 @@ if ($action == "filtrer") {
 
 
 if ($action == "changer") {
-	$data->setUrl("gestion", "production", "entrepots", $id);
+	$data->setUrl("gestion", "production", "boutiques", $id);
 	echo json_encode($data);
 }

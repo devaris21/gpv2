@@ -16,7 +16,8 @@ class OPERATION extends TABLE
 	public $mouvement_id;
 	public $modepayement_id;
 	public $employe_id;
-	public $boutique_id = BOUTIQUE::PRINCIPAL;
+	public $boutique_id ;
+	public $entrepot_id ;
 	public $etat_id = ETAT::VALIDEE;
 	public $comment;
 	public $date_approbation;
@@ -27,6 +28,7 @@ class OPERATION extends TABLE
 		$data = new RESPONSE;
 		$this->employe_id = getSession("employe_connecte_id");
 		$this->boutique_id = getSession("boutique_connecte_id");
+		$this->entrepot_id = getSession("entrepot_connecte_id");
 		
 		$datas = EMPLOYE::findBy(["id ="=>$this->employe_id]);
 		if (count($datas) == 1) {

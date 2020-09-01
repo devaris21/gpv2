@@ -1,101 +1,88 @@
 <div role="tabpanel" id="pan-global" class="tab-pane">
-
 	<div class=" border-bottom white-bg dashboard-header">
-		<div class="row">
-			<div class="col-md-9">
-				<div class="row">
-					<div class="col-md-4">
-						<img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 60px;" alt=""><br>
-						<h2 class="text-uppercase"><?= $entrepot->name() ?></h2>
-						<small><?= $entrepot->lieu ?> </small>
-						<ul class="list-group clear-list m-t">
-							<li class="list-group-item fist-item">
-								Commandes en cours <span class="label label-success float-right"><?= start0(count($groupes__)); ?></span> 
-							</li>
-							<li class="list-group-item">
-								Livraisons en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "boutique_id ="=>$entrepot->id, "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]))); ?></span> 
-							</li>
-							<li class="list-group-item">
-								Prospections en cours <span class="label label-success float-right"><?= start0(count(Home\PROSPECTION::findBy(["etat_id ="=>Home\ETAT::ENCOURS, "boutique_id ="=>$entrepot->id, "typeprospection_id ="=>Home\TYPEPROSPECTION::PROSPECTION]))); ?></span> 
-							</li>
-							<li class="list-group-item"></li>
-						</ul>
-					</div>
-					<div class="col-md-8">
-						<div class="flot-chart" style="height: 220px">
-							<div class="flot-chart-content" id="flot-dashboard-chart"></div>
-						</div><hr>
-						<div class="row text-center">
-							<div class="col">
-								<div class="">
-									<span class="h5 font-bold block"><?= money(comptage(Home\VENTE::todayDirect($entrepot->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-									<small class="text-muted block">Ventes directes</small>
-								</div>
+		<div class="ibox">
+			<div class="ibox-title">
+				<h5 class="float-left">Du <?= datecourt($date1) ?> au <?= datecourt($date2) ?></h5>
+				<div class="ibox-tools">
+					<form id="formFiltrer" method="POST">
+						<div class="row" style="margin-top: -1%">
+							<div class="col-5">
+								<input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
 							</div>
-							<div class="col border-right border-left">
-								<span class="h5 font-bold block"><?= money(comptage(Home\PROSPECTION::effectuee(dateAjoute(), $entrepot->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-								<small class="text-muted block">Ventes par prospection</small>
+							<div class="col-5">
+								<input type="date" value="<?= $date2 ?>" class="form-control input-sm" name="date2">
 							</div>
-							<div class="col text-danger">
-								<span class="h5 font-bold block"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1), $entrepot->id)) ?> <small><?= $params->devise ?></small></span>
-								<small class="text-muted block">Dépense du jour</small>
+							<div class="col-2">
+								<button type="button" onclick="filtrer()" class="btn btn-sm btn-white"><i class="fa fa-search"></i> Filtrer</button>
 							</div>
 						</div>
-					</div>
-				</div>
-				<!--<hr>
-				 <div class="text-center row">
-					<div class="col">
-						<button data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim"> <i class="fa fa-long-arrow-right"></i> Nouvelle vente directe</button>
-					</div>
-					<div class="col">
-						<button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary dim"><i class="fa fa-bicycle"></i> Nouvelle prospection</button>
-					</div>
-					<div class="col">
-						<button data-toggle="modal" data-target="#modal-ventecave" class="btn btn-success dim"><i class="fa fa-home"></i> Nouvelle vente en cave</button>
-					</div>
-				</div> -->
-			</div>
-			<div class="col-md-3 border-left">
-				<div class="statistic-box" style="margin-top: 0%">
-					<div class="ibox">
-						<div class="ibox-content">
-							<h5>Courbe des ventes</h5>
-							<div id="sparkline2"></div>
-						</div>
-
-						<div class="ibox-content">
-							<h5>Dette chez les clients</h5>
-							<h2 class="no-margins"><?= money(Home\CLIENT::Dettes()); ?> <?= $params->devise  ?></h2>
-						</div>
-
-						<div class="ibox-content">
-							<h5>En rupture de Stock</h5>
-							<h2 class="no-margins"><?= start0($rupture) ?> produit(s)</h2>
-						</div>
-					</div>
+					</form>
 				</div>
 			</div>
+		<br>
+			<div class="ibox-content">
+				 <div class="row">
+                        <div class="col-md-3">
+                            <div class="text-center" style="margin-top: 15%;">
+                                <img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="width: 70%;" alt=""><br>
+                                <h2 class="text-uppercase"><?= $entrepot->name() ?></h2><br>
+                            </div>
+                        </div>
+                        <div class="col-md-9 border-left">
+                            <div class="row text-center">
+                                <div class="col-sm-4 border-left border-bottom">
+                                    <div class="p-lg">
+                                        <i class="fa fa-free-code-camp fa-3x text-dark"></i>
+                                        <h1 class="m-xs"><?= start0(count(Home\LIGNEPRODUCTION::findBy(["DATE(created) ="=>dateAjoute()])))  ?></h1>
+                                        <h3 class="no-margins text-uppercase gras">Production</h3>
+                                        <small>Aujourd'hui</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 border-left border-bottom">
+                                    <div class="p-lg">
+                                        <i class="fa fa-codepen fa-3x text-danger"></i>
+                                        <h2 class="m-xs"><?= start0(count(Home\EMBALLAGE::ruptureEntrepot()))  ?></h2>
+                                        <h4 class="no-margins text-uppercase gras">Rupture d'emballages</h4>
+                                        <small><?= $params->societe ?></small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 border-left border-bottom">
+                                    <div class="p-lg">
+                                        <i class="fa fa-cubes fa-3x text-danger"></i>
+                                        <h2 class="m-xs"><?= start0(count(Home\RESSOURCE::ruptureEntrepot()))  ?></h2>
+                                        <h4 class="no-margins text-uppercase gras">Rupture de ressources</h4>
+                                        <small><?= $params->societe ?></small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 border-left">
+                                    <div class="p-lg">
+                                        <i class="fa fa-stack-overflow fa-3x text-dark"></i>
+                                        <h1 class="m-xs"><?= start0(count($approvisionnements__)); ?></h1>
+                                        <h3 class="no-margins text-uppercase gras">Appro en cours</h3>
+                                        <small><?= $params->societe ?></small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 border-left">
+                                    <div class="p-lg">
+                                        <i class="fa fa-truck fa-3x text-orange"></i>
+                                        <h1 class="m-xs"><?= start0(count($entrepot->fourni("miseenboutique", ["etat_id ="=>Home\ETAT::PARTIEL, "entrepot_id="=>$entrepot->id]))); ?></h1>
+                                        <h3 class="no-margins text-uppercase gras">Demandes de depôt</h3>
+                                        <small><?= $params->societe ?></small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 border-left">
+                                    <div class="p-lg">
+                                        <i class="fa fa-truck fa-3x text-green"></i>
+                                        <h1 class="m-xs"><?= start0(count($entrepot->fourni("miseenboutique", ["etat_id ="=>Home\ETAT::ENCOURS, "entrepot_id="=>$entrepot->id]))); ?></h1>
+                                        <h3 class="no-margins text-uppercase gras">Depôts en cours</h3>
+                                        <small><?= $params->societe ?></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+			</div>
 		</div>
-		<hr><hr class="mp0"><br>
-
-		<div class="row">
-			<?php foreach ($produits as $key => $produit) { ?>
-				<div class="col-md border-right">
-					<h6 class="text-uppercase text-center gras" style="color: <?= $produit->couleur; ?>">Stock de <?= $produit->name() ?></h6>
-					<ul class="list-group clear-list m-t">
-						<?php foreach ($tableaux[$produit->id] as $key => $pdv) { ?>
-							<li class="list-group-item <?= ($pdv->rupture)?"rupture":""  ?>" >
-								<i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <small><?= $pdv->quantite ?></small>          
-								<span class="float-right">
-									<span title="en boutique" class="gras text-<?= ($pdv->boutique > 0)?"green":"danger" ?>"><?= money($pdv->boutique) ?></span>
-								</span>
-							</li>
-						<?php } ?>
-						<li class="list-group-item"></li>
-					</ul>
-				</div>
-			<?php } ?>
-		</div>
-	</div>
+	</div><hr>
 </div>
+

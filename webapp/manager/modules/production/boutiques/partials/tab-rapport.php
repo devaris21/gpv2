@@ -1,165 +1,256 @@
 <div role="tabpanel" id="pan-rapport" class="tab-pane">
 
 	<div class="ibox-content">
-		<br>
-		<div class="tabs-container produits">
-			<ul class="nav nav-tabs text-uppercase" role="tablist">
-				<li ><a class="nav-link active" data-toggle="tab" href="#pan-0"><i class="fa fa-flask" ></i> Global</a></li>
-				<?php foreach ($produits as $key => $produit) { ?>
-					<li style=" border-bottom: 3px solid <?= $produit->couleur; ?>,"><a class="nav-link" data-toggle="tab" href="#pan-<?= $produit->id ?>"><i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i> <?= $produit->name() ?></a></li>
-				<?php } ?>
-			</ul>
-			<div class="tab-content">
-				<div role="tabpanel" id="pan-0" class="tab-pane active">
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-md-12 border-right border-left text-center">
-								<div class="row">
-									<div class="col-sm-3 border-right">
-										<h5 class="text-uppercase">Parfum le plus vendu</h5><br>
-										<canvas id="myChart1"></canvas>
-									</div>
-
-									<div class="col-sm-6 text-center">
-										<div class="flot-chart">
-											<div class="flot-chart-content" id="flot-dashboard-chart1"></div>
-										</div><br><br>
-										<span>Vente directe / vente par prospection</span>
-										<hr>
-										<div class="row text-center">
-											<div class="col">
-												<div class="">
-													<span class="h5 font-bold block text-primary"><?= money(comptage(Home\VENTE::direct($date1, $date2, $boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-													<small class="text-muted block">Ventes directes</small>
-												</div>
-											</div>
-											<div class="col border-right border-left text-danger">
-												<span class="h5 font-bold block"><?= money(comptage(Home\VENTE::prospection($date1, $date2, $boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-												<small class="text-muted block">Ventes par prospection</small>
-											</div>
-											<div class="col text-blue">
-												<span class="h5 font-bold block"><?= money(comptage(Home\VENTE::cave($date1, $date2, $boutique->id), "vendu", "somme")); ?> <small><?= $params->devise ?></small></span>
-												<small class="text-muted block">Ventes en cave</small>
-											</div>
-										</div>
-									</div>
-
-									<div class="col-sm-3 border-left">
-										<h5 class="text-uppercase">Emballage le plus vendu</h5><br>
-										<canvas id="myChart3"></canvas>
-									</div>
-								</div><hr> 
-							</div>
-						</div>
-
+		<div class="row">
+			<div class="col-md-12 border-right border-left">
+				<div class="row">
+					<div class="col-sm-3 border-right">
+						<h5 class="text-uppercase gras text-center">C.A. par parfum</h5>
+						<ul class="list-group clear-list m-t">
+							<?php foreach ($parfums as $key => $item) {  ?>
+								<li class="list-group-item">
+									<i class="fa fa-flask" style="color: "></i> <span><?= $item->name()  ?></span>          
+									<i class=" float-right"><?= money($item->vendu) ?> <?= $params->devise ?></i>
+								</li>
+							<?php } ?>
+							<li class="list-group-item"></li>
+						</ul>
 					</div>
-				</div>
-
-				<?php foreach ($produits as $key => $produit) {
-					$total = 0; ?>
-					<div role="tabpanel" id="pan-<?= $produit->id ?>" class="tab-pane">
-						<div class="panel-body"><br>
-							<div class="row">
-								<div class="col-md-3">
-									<h3 class="text-uppercase">Stock de <?= $produit->name() ?></h3>
-									<ul class="list-group text-left clear-list m-t">
-										<?php foreach ($tableaux[$produit->id] as $key => $pdv) { 
-											$total += $pdv->pdv->montantVendu($date1, $date2, $boutique->id); ?>
-											<li class="list-group-item">
-												<i class="fa fa-flask" style="color: <?= $produit->couleur; ?>"></i>&nbsp;&nbsp;&nbsp; <?= $pdv->name ?>                                        
-												<span class="float-right">
-													<span class="label label-<?= ($pdv->boutique>0)?"success":"danger" ?>"><?= money($pdv->boutique) ?></span>&nbsp;&nbsp;
-												</span>
-											</li>
-										<?php } ?>
-										<li class="list-group-item"></li>
-									</ul>
-
-									<div class="ibox">
-										<div class="ibox-content">
-											<h5>Estimation des ventes sur la période</h5>
-											<h1 class="no-margins"><?= money($total) ?> <?= $params->devise ?></h1>
-										</div><br>
-									</div>
+					<div class="col-sm-6 text-center">
+						<div class="flot-chart" style="height: 210px">
+							<div class="flot-chart-content" id="flot-dashboard-chart2" ></div>
+						</div><br><br><br>
+						<hr class="mp3">
+						<h2 class="mp0 gras"><?= money(comptage($quantites, "vendu", "somme"));  ?> <?= $params->devise ?> </h2>
+						<span class="small">de Chiffre d'Affaire</span>
+						<hr class="mp3">
+						<div class="row text-center">
+							<div class="col">
+								<div class="">
+									<span class="h6 mp0 font-bold block text-primary"><?= money(comptage(Home\VENTE::direct($date1, $date2, $boutique->id), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+									<small class="text-muted block">Ventes directes</small>
 								</div>
-
-								<div class="col-md-7 border-right border-left">
-									<div class="" style="margin-top: 0%">
-										<div class="row">
-											<div class="col-sm">
-												<div class="carre bg-primary"></div><span>Quantité vendue</span>
-											</div>
-											<div class="col-sm">
-												<div class="carre bg-success"></div><span>Quantité livrée</span>
-											</div>
-											<div class="col-sm">
-												<div class="carre bg-danger"></div><span>Quantité perdue</span>
-											</div>
-										</div><hr class="mp3">
-										<table class="table table-bordered table-hover text-center">
-											<thead>
-												<tr>
-													<th rowspan="2" class="border-none"></th>
-													<?php 
-													$lots = $produit->fourni("prixdevente", ["isActive ="=>Home\TABLE::OUI], [], ["quantite_id"=>"ASC"]) ;
-													foreach ($tableaux[$produit->id] as $key => $pdv) { ?>
-														<th><small><?= $pdv->quantite ?></small></th>
-													<?php } ?>
-												</tr>
-											</thead>
-											<tbody>
-												<?php $i =0;
-												foreach ($productions as $key => $production) {
-													$i++; ?>
-													<tr>
-														<td><?= datecourt($production->ladate)  ?></td>
-														<?php foreach ($tableaux[$produit->id] as $key => $pdv) {
-															$pdv->tab[] = $pdv->pdv->montantVendu($production->ladate, $production->ladate, $boutique->id);
-															?>
-															<td>
-																<h5 class="d-inline text-green"><?= start0($pdv->pdv->vendu($production->ladate, $production->ladate, $boutique->id)); ?></h5> &nbsp;&nbsp;|&nbsp;&nbsp;
-
-																<h5 class="d-inline text-success"><?= start0($pdv->pdv->livree($production->ladate, $production->ladate, $boutique->id)) ?></h5> &nbsp;&nbsp;|&nbsp;&nbsp;
-
-																<h5 class="d-inline text-danger"><?= start0($pdv->pdv->perteProspection($production->ladate, $production->ladate, $boutique->id)); ?></h5>
-															</td>
-														<?php } ?>
-													</tr>
-												<?php } ?>
-												<tr style="height: 18px;"></tr>
-												<tr>
-													<td class="text-center"><h4 class="text-center gras text-uppercase mp0">Vente totale</h4></td>
-													<?php foreach ($tableaux[$produit->id] as $key => $pdv) { ?>
-														<td><h3 class="text-green gras" ><?= money($pdv->pdv->montantVendu($date1, $date2, $boutique->id)) ?> <?= $params->devise ?></h3></td>
-													<?php } ?>
-												</tr>
-											</tbody>
-										</table>   
-									</div>
-								</div>
-
-								<div class="col-md-2">
-									<?php foreach ($tableaux[$produit->id] as $key => $pdv) { ?>
-										<div class="ibox">
-											<div class="ibox-content">
-												<h5>Courbe des ventes de <?= $pdv->pdv->quantite->name() ?></h5>
-												<div id="sparkline-<?= $pdv->id ?>"></div>
-											</div>
-										</div>
-									<?php } ?>
-								</div>
-
+							</div>
+							<div class="col border-right border-left text-danger">
+								<span class="h6 mp0 font-bold block"><?= money(comptage(Home\VENTE::prospection($date1, $date2, $boutique->id), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+								<small class="text-muted block">Ventes par prospection</small>
+							</div>
+							<div class="col text-blue border-right">
+								<span class="h6 mp0 font-bold block"><?= money(comptage(Home\VENTE::cave($date1, $date2, $boutique->id), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+								<small class="text-muted block">Ventes en cave</small>
+							</div>
+							<div class="col text-warning">
+								<span class="h6 mp0 font-bold block"><?= money(comptage(Home\VENTE::commande($date1, $date2, $boutique->id), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+								<small class="text-muted block">Commandes</small>
 							</div>
 						</div>
 					</div>
-					<?php 
-					$tabvendu[$produit->id] = $total;
-				} ?>
+					<div class="col-sm-3 border-left">
+						<h5 class="text-uppercase gras text-center">C.A. par type de produit</h5>
+						<ul class="list-group clear-list m-t">
+							<?php foreach ($typeproduits as $key => $item) {  ?>
+								<li class="list-group-item">
+									<i class="fa fa-flask" style="color: "></i> <span><?= $item->name()  ?></span>          
+									<i class=" float-right"><?= money($item->vendu) ?> <?= $params->devise ?></i>
+								</li>
+							<?php } ?>
+							<li class="list-group-item"></li>
+						</ul>
 
+						<ul class="list-group clear-list">
+							<h5 class="text-uppercase gras text-center">C.A. par emballage</h5>
+							<?php foreach ($quantites as $key => $item) {  ?>
+								<li class="list-group-item">
+									<i class="fa fa-flask" style="color: "></i> <span><?= $item->name()  ?></span>          
+									<i class=" float-right"><?= money($item->vendu) ?> <?= $params->devise ?></i>
+								</li>
+							<?php } ?>
+							<li class="list-group-item"></li>
+						</ul>
+					</div>
+				</div><hr style="border: dashed 1px orangered"> 
 			</div>
-
 		</div>
+		<div class="row text-center">
+			<div class="col-sm-3 col-md">
+				<canvas id="doughnutChart" width="150" height="150" style="margin: 18px auto 0"></canvas>
+				<h5 >Par parfum</h5>
+			</div>
+			<div class="col-sm-3 col-md">
+				<canvas id="doughnutChart1" width="150" height="150" style="margin: 18px auto 0"></canvas>
+				<h5 >Par type de produit</h5>
+			</div>
+			<div class="col-sm-3 col-md">
+				<canvas id="doughnutChart2" width="150" height="150" style="margin: 18px auto 0"></canvas>
+				<h5 >par emballage</h5>
+			</div>
+			<div class="col-sm-3 col-md">
+				<canvas id="doughnutChart3" width="150" height="150" style="margin: 18px auto 0"></canvas>
+				<h5 >par type de vente</h5>
+			</div>
+		</div><hr style="border: dashed 1px green">
 
-
+		<div class="row">
+			<?php foreach ($parfums as $key => $parfum) { ?>
+				<div class="col-md border-right">
+					<h6 class="text-uppercase text-center gras" style="color: "><?= $parfum->name();  ?></h6>
+					<ul class="list-group clear-list m-t">
+						<?php foreach ($typeproduits as $key => $type) { ?>
+							<li class="list-group-item" style="padding-bottom: 5px">
+								<small><?= $type->name();  ?></small>          
+								<small class="gras float-right"><?= money(Home\PRODUIT::totalVendu($date1, $date2, $boutique->id, $parfum->id, $type->id)) ?></small>
+							</li>
+						<?php } ?>
+						<li class="list-group-item"></li>
+					</ul>
+				</div>
+			<?php } ?>
+		</div>
 	</div>
+
 </div>
+
+
+
+
+
+
+<script>
+    $(document).ready(function() {
+
+        var data1 = [<?php foreach ($stats2 as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->total ?>], <?php } ?> ];
+
+        var dataset = [
+        {
+            label: "Evolution du chiffre d'affaire",
+            data: data1,
+            color: "#1ab394",
+            lines: {
+                lineWidth:1,
+                show: true,
+                fillColor: {
+                    colors: [{
+                        opacity: 0.2
+                    }, {
+                        opacity: 0.4
+                    }]
+                }
+            },
+            splines: {
+                show: false,
+                tension: 0.6,
+                lineWidth: 1,
+                fill: 0.1
+            },
+
+        }
+        ];
+
+
+        var options = {
+            xaxis: {
+                mode: "time",
+                tickSize: [<?= $lot->nb  ?>, "day"],
+                tickLength: 0,
+                axisLabel: "Date",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Arial',
+                axisLabelPadding: 10,
+                color: "#d5d5d5"
+            },
+            yaxes: [{
+                position: "left",
+                color: "#d5d5d5",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Arial',
+                axisLabelPadding: 3
+            }
+            ],
+            legend: {
+                noColumns: 1,
+                labelBoxBorderColor: "#000000",
+                position: "nw"
+            },
+            grid: {
+                hoverable: false,
+                borderWidth: 0
+            }
+        };
+
+        function gd(year, month, day) {
+            return new Date(year, month - 1, day).getTime();
+        }
+
+        var previousPoint = null, previousLabel = null;
+
+        $.plot($("#flot-dashboard-chart2"), dataset, options);
+
+        var doughnutOptions = {
+            responsive: false,
+            legend: {
+                display: false
+            }
+        };
+
+
+        var doughnutData = {
+            labels: [<?php foreach ($parfums as $key => $item) { echo "'".$item->name()."', "; } ?>],
+            datasets: [{
+                data: [<?php foreach ($parfums as $key => $item) { echo "'".$item->vendu."', "; } ?>],
+                backgroundColor: [<?php foreach ($parfums as $key => $item) { echo "'".$faker->hexColor()."', "; } ?>],
+            }]
+        } ;
+
+        var doughnutData1 = {
+            labels: [<?php foreach ($typeproduits as $key => $item) { echo "'".$item->name()."', "; } ?>],
+            datasets: [{
+                data: [<?php foreach ($typeproduits as $key => $item) { echo "'".$item->vendu."', "; } ?>],
+                backgroundColor: [<?php foreach ($typeproduits as $key => $item) { echo "'".$faker->hexColor()."', "; } ?>],
+            }]
+        } ;
+
+
+        var doughnutData2 = {
+            labels: [<?php foreach ($quantites as $key => $item) { echo "'".$item->name()."', "; } ?>],
+            datasets: [{
+                data: [<?php foreach ($quantites as $key => $item) { echo "'".$item->vendu."', "; } ?>],
+                backgroundColor: [<?php foreach ($quantites as $key => $item) { echo "'".$faker->hexColor()."', "; } ?>],
+            }]
+        } ;
+
+
+        var doughnutData3 = {
+            labels: ["Vente Directe", "Prospection", "Vente Cave", "Commandes"],
+            datasets: [{
+                data: [<?= comptage(Home\VENTE::direct($date1, $date2, $boutique->id), "montant", "somme")?>, <?= comptage(Home\VENTE::prospection($date1, $date2, $boutique->id), "montant", "somme")?>, <?= comptage(Home\VENTE::cave($date1, $date2, $boutique->id), "montant", "somme")?>, <?= comptage(Home\VENTE::commande($date1, $date2, $boutique->id), "montant", "somme")?>],
+                backgroundColor: [<?php for ($i =0; $i < 4; $i++) { echo "'".$faker->hexColor()."', "; } ?>],
+            }]
+        } ;
+
+
+        var doughnutOptions = {
+            responsive: false,
+            legend: {
+                display: false
+            }
+        };
+
+
+        var ctx4 = document.getElementById("doughnutChart").getContext("2d");
+        new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
+
+
+        var ctx4 = document.getElementById("doughnutChart1").getContext("2d");
+        new Chart(ctx4, {type: 'doughnut', data: doughnutData1, options:doughnutOptions});
+
+
+        var ctx4 = document.getElementById("doughnutChart2").getContext("2d");
+        new Chart(ctx4, {type: 'doughnut', data: doughnutData2, options:doughnutOptions});
+
+        var ctx4 = document.getElementById("doughnutChart3").getContext("2d");
+        new Chart(ctx4, {type: 'doughnut', data: doughnutData3, options:doughnutOptions});
+
+    });
+</script>

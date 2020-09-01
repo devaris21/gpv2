@@ -14,8 +14,8 @@
         </div>
         
 
-        <div class="row white-bg dashboard-header">
-            <div class="col-md-3" style="font-size: 12px">
+        <div class="row ">
+            <div class="col-md-3 white-bg dashboard-header" style="font-size: 12px">
                 <br><br>
                 <button class="btn btn-primary dim btn-block"><i class="fa fa-truck"></i> Bilan comptable </button>
                 <button class="btn btn-success dim btn-block"><i class="fa fa-truck"></i> Voir le budget prévisionnel </button>
@@ -23,26 +23,19 @@
                 <button data-toggle="modal" data-target="#modal-cloture" class="btn btn-success dim btn-block"><i class="fa fa-truck"></i> Cloture de l'exercice </button>
             </div>
             <div class="col-md-9">
-                <div class="flot-chart ">
-                    <div class="flot-chart-content" id="flot-dashboard-chart"></div>
-                </div><hr>
-                <div class="row text-center">
-                    <div class="col">
-                        <div class=" m-l-md">
-                            <span class="h6 font-bold block text-blue"><?= money(Home\COMPTEBANQUE::tresorerie()) ?> <?= $params->devise ?></span>
-                            <small class="text-muted block">Trésorerie nette</small>
+               <div class="row">
+                <div class="col-lg-3">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <h5>Income</h5>
+                            <h1 class="no-margins">886,200</h1>
+                            <div class="stat-percent font-bold text-navy">98% <i class="fa fa-bolt"></i></div>
+                            <small>Total income</small>
                         </div>
-                    </div>
-                    <div class="col">
-                        <span class="h5 font-bold block text-primary"><?= money($caisse->solde()) ?> <?= $params->devise ?></span>
-                        <small class="text-muted block">Caisse courante</small>
-                    </div>
-                    <div class="col">
-                        <span class="h6 font-bold block text-warning"><?= money(Home\OPERATION::resultat($exercice->created , $exercice->datefin())) ?> <?= $params->devise ?></span>
-                        <small class="text-muted block">Resultat net</small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
