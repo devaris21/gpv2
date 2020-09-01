@@ -7,9 +7,9 @@ unset_session("commande-encours");
 $title = "GPV | Toutes les ventes";
 
 
-$encours = $boutique->fourni("vente", ["etat_id ="=>ETAT::ENCOURS]);
+$encours = $boutique->fourni("vente", ["boutique_id ="=>$boutique->id, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
 
-$ventes = $boutique->fourni("vente", ["etat_id !="=>ETAT::ENCOURS, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2]);
+$ventes = $boutique->fourni("vente", ["boutique_id ="=>$boutique->id, "etat_id !="=>ETAT::ENCOURS, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2], [], ["created"=>"DESC"]);
 
 
 ?>

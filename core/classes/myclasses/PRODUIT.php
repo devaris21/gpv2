@@ -36,10 +36,10 @@ class PRODUIT extends TABLE
 						$item->enregistre();
 					}
 
-					// $item = new ETIQUETTE;
-					// $item->produit_id = $this->id;
-					// $item->initial = 0;
-					// $item->enregistre();
+					$item = new ETIQUETTE;
+					$item->produit_id = $this->id;
+					$item->initial = 0;
+					$item->enregistre();
 				}
 			}else{
 				$data->status = false;

@@ -14,7 +14,7 @@
                                 <span class="text-muted text-xs block"><?= $entrepot->name(); ?></span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a class="dropdown-item" href="<?= $this->url($this->section, "access", "locked") ?>">Vérouiller la session</a></li>
+                                <li><a class="dropdown-item" href="<?= $this->url("main", "access", "locked") ?>">Vérouiller la session</a></li>
                                 <li><a class="dropdown-item" href="#" id="btn-deconnexion" >Déconnexion</a></li>
                             </ul>
                         </div>
@@ -65,14 +65,16 @@
                         <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Approvisionnements</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li id="approressource"><a href="<?= $this->url($this->section, "stock", "approressource") ?>">Appro de ressources</a></li>
-                            <li id="approemballage"><a href="<?= $this->url($this->section, "stock", "approemballage") ?>">Appro d'emballage</a></li>
+                            <li id="approemballage"><a href="<?= $this->url($this->section, "stock", "approemballage") ?>">Appro d'emballages</a></li>
+                            <li id="approetiquette"><a href="<?= $this->url($this->section, "stock", "approetiquette") ?>">Appro d'etiquettes</a></li>
                         </ul>
                     </li>
                     <li class="groupe">
                         <a href="#"><i class="fa fa-cubes"></i> <span class="nav-label">Les stocks</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li id="ressources"><a href="<?= $this->url($this->section, "stock", "ressources") ?>">Stock de ressources</a></li>
-                            <li id="emballages"><a href="<?= $this->url($this->section, "stock", "emballages") ?>">Stock d'emballage</a></li>
+                            <li id="emballages"><a href="<?= $this->url($this->section, "stock", "emballages") ?>">Stock d'emballages</a></li>
+                            <li id="etiquettes"><a href="<?= $this->url($this->section, "stock", "etiquettes") ?>">Stock d'etiquettes</a></li>
                         </ul>
                     </li>
                     <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
@@ -80,13 +82,10 @@
 
 
                 <?php if ($employe->isAutoriser("rapports")) { ?>
-                    <li class="" id="rapportjour">
-                        <a href="<?= $this->url($this->section, "rapports", "rapportjour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
-                    </li>
                     <li class="" id="rapportproduction">
                         <a href="<?= $this->url($this->section, "rapports", "rapportproduction") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de production</span></a>
                     </li>
-                    <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
+                    <li style="margin: 3% auto"><hr class="mp0" style="background-color: #aaa; "></li>
                 <?php } ?>
                 
 

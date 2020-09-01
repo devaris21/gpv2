@@ -16,24 +16,7 @@
 
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-9">
-                    <h2 class="text-uppercase text-warning gras">Approvisionnements d'etiquettes</h2>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xs-7 gras ">Afficher même les approvisionnements passées</div>
-                            <div class="offset-1"></div>
-                            <div class="col-xs-4">
-                                <div class="switch">
-                                    <div class="onoffswitch">
-                                        <input type="checkbox" class="onoffswitch-checkbox" id="example1">
-                                        <label class="onoffswitch-label" for="example1">
-                                            <span class="onoffswitch-inner"></span>
-                                            <span class="onoffswitch-switch"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <h2 class="text-uppercase text-blue gras">Approvisionnements d'etiquettes</h2>
                 </div>
                 <div class="col-sm-3">
                   <button style="margin-top: 5%" data-toggle='modal' data-target="#modal-approetiquette" class="btn btn-success dim"><i class="fa fa-plus"></i> Approvisionnement d'etiquette</button>
@@ -187,7 +170,7 @@
                 </table>
 
             <?php }else{ ?>
-                <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucun conditionnement pour le moment</h1>
+                <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucun approvisionnement pour le moment</h1>
             <?php } ?>
 
 

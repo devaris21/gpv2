@@ -5,6 +5,7 @@ $title = "GPV | Toutes les productions";
 
 unset_session("produits");
 
+$typeproduits = TYPEPRODUIT::findBy(["isActive ="=>TABLE::OUI]);
 
 $mises__ = $entrepot->fourni("production", ["entrepot_id ="=>$entrepot->id, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);;
 $encours2 = $entrepot->fourni("production", ["entrepot_id ="=>$entrepot->id, "etat_id ="=>ETAT::PARTIEL], [], ["created"=>"DESC"]);

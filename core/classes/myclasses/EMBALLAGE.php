@@ -165,15 +165,21 @@ class EMBALLAGE extends TABLE
 
 
 	public function price(){
-		$total = 0;
-		$requette = "SELECT SUM(quantite_recu) as quantite, SUM(ligneapproemballage.price) as price FROM ligneapproemballage, emballage, approemballage WHERE ligneapproemballage.emballage_id = emballage.id AND emballage.id = ? AND ligneapproemballage.approemballage_id = approemballage.id AND approemballage.etat_id = ? GROUP BY emballage.id";
-		$item = LIGNEAPPROEMBALLAGE::execute($requette, [$this->id, ETAT::VALIDEE]);
-		if (count($item) < 1) {$item = [new LIGNEAPPROEMBALLAGE()]; }
-		if ($item[0]->quantite > 0) {
-			$total += $item[0]->price / $item[0]->quantite;
+		$requette = "SELECT SUM(quantite_recu) as quantite, SUM(transport) as transport, SUM(ligneapproemballage.price) as price FROM ligneapproemballage, approemballage WHERE ligneapproemballage.emballage_id = ? AND ligneapproemballage.approemballage_id = approemballage.id AND approemballage.etat_id = ? ";
+			$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
+			if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
+			$item = $datas[0];
+
+			$requette = "SELECT SUM(quantite_recu) as quantite FROM ligneapproemballage, approemballage WHERE ligneapproemballage.approemballage_id = approemballage.id AND approemballage.id IN (SELECT approemballage_id FROM ligneapproemballage WHERE ligneapproemballage.emballage_id = ? ) AND approemballage.etat_id = ? ";
+			$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
+			if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
+			$ligne = $datas[0];
+
+			if ($item->quantite == 0) {
+				return 0;
+			}
+			$total = ($item->price / $item->quantite) + ($item->transport / $ligne->quantite);
 			return $total;
-		}
-		return 0;
 	}
 
 

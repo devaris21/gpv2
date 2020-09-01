@@ -14,7 +14,7 @@
                                 <span class="text-muted text-xs block"><?= $boutique->name()  ?></span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a class="dropdown-item" href="<?= $this->url($this->section, "access", "locked") ?>">Vérouiller la session</a></li>
+                                <li><a class="dropdown-item" href="<?= $this->url("main", "access", "locked") ?>">Vérouiller la session</a></li>
                                 <li><a class="dropdown-item" href="#" id="btn-deconnexion" >Déconnexion</a></li>
                             </ul>
                         </div>

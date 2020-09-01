@@ -79,11 +79,6 @@
                             </div>
                         </div>
                     </div><hr>
-                    <div>
-                        <button data-toggle=modal data-target="#modal-vente" class="btn btn-warning btn-xs dim"> <i class="fa fa-long-arrow-right"></i> Nouvelle vente directe</button>
-                        <button data-toggle="modal" data-target="#modal-prospection" class="btn btn-primary btn-xs dim"><i class="fa fa-bicycle"></i> Nouvelle prospection</button> 
-                        <button data-toggle="modal" data-target="#modal-ventecave" class="btn btn-success btn-xs dim"><i class="fa fa-home"></i> Nouvelle vente en cave</button>
-                    </div>
                 </div>
 
 

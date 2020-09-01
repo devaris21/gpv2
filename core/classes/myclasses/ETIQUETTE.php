@@ -42,22 +42,29 @@ class ETIQUETTE extends TABLE
 		return $this->produit->name();
 	}
 
-	public function stock(String $date){
-		return $this->achat("2020-06-01", $date) + intval($this->initial) - $this->consommee("2020-06-01", $date);
+	public function stock(String $date1, String $date2, int $entrepot_id = null){
+		return $this->achat($date1, $date2, $entrepot_id) + intval($this->initial) - $this->consommee($date1, $date2, $entrepot_id) - $this->consommee($date1, $date2, $entrepot_id);
 	}
 
 
-	public function consommee(string $date1 = "2020-06-01", string $date2){
-		$requette = "SELECT SUM(production) as production  FROM production, ligneproduction, prixdevente, etiquette WHERE ligneproduction.produit_id = prixdevente.id AND ligneproduction.production_id = production.id AND etiquette.produit_id = prixdevente.id AND  etiquette.id = ? AND production.etat_id != ? AND DATE(ligneproduction.created) >= ? AND DATE(ligneproduction.created) <= ? GROUP BY etiquette.id";
-		$item = LIGNEPRODUCTION::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
-		if (count($item) < 1) {$item = [new LIGNEPRODUCTION()]; }
-		return $item[0]->production;
+	public function consommee(String $date1, String $date2, int $entrepot_id = null){
+		$paras = "";
+		if ($entrepot_id != null) {
+			$paras.= "AND entrepot_id = $entrepot_id ";
+		}
+		$requette = "SELECT SUM(quantite) as quantite  FROM ligneconsommationetiquette, conditionnement WHERE ligneconsommationetiquette.etiquette_id = ? AND ligneconsommationetiquette.conditionnement_id = conditionnement.id AND conditionnement.etat_id != ? AND DATE(ligneconsommationetiquette.created) >= ? AND DATE(ligneconsommationetiquette.created) <= ? $paras";
+		$item = LIGNECONSOMMATIONETIQUETTE::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new LIGNECONSOMMATIONETIQUETTE()]; }
+		return $item[0]->quantite;
 	}
 
 
-	public function achat(string $date1 = "2020-04-01", string $date2){
-		$total = 0;
-		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapproetiquette, etiquette, approetiquette WHERE ligneapproetiquette.etiquette_id = etiquette.id AND etiquette.id = ? AND ligneapproetiquette.approetiquette_id = approetiquette.id AND approetiquette.etat_id = ? AND DATE(approetiquette.created) >= ? AND DATE(approetiquette.created) <= ? GROUP BY etiquette.id";
+	public function achat(String $date1, String $date2, int $entrepot_id = null){
+		$paras = "";
+		if ($entrepot_id != null) {
+			$paras.= "AND entrepot_id = $entrepot_id ";
+		}
+		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneapproetiquette, etiquette, approetiquette WHERE ligneapproetiquette.etiquette_id = etiquette.id AND etiquette.id = ? AND ligneapproetiquette.approetiquette_id = approetiquette.id AND approetiquette.etat_id = ? AND DATE(approetiquette.created) >= ? AND DATE(approetiquette.created) <= ? $paras";
 		$item = LIGNEAPPROETIQUETTE::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEAPPROETIQUETTE()]; }
 		return $item[0]->quantite;
@@ -65,40 +72,35 @@ class ETIQUETTE extends TABLE
 
 
 
-	public function en_cours(){
-		$total = 0;
-		$requette = "SELECT SUM(quantite) as quantite  FROM ligneapproetiquette, etiquette, approetiquette WHERE ligneapproetiquette.etiquette_id = etiquette.id AND etiquette.id = ? AND ligneapproetiquette.approetiquette_id = approetiquette.id AND approetiquette.etat_id = ? GROUP BY etiquette.id";
-		$item = LIGNEAPPROETIQUETTE::execute($requette, [$this->id, ETAT::ENCOURS]);
-		if (count($item) < 1) {$item = [new LIGNEAPPROETIQUETTE()]; }
+	public function perte(string $date1, string $date2, int $entrepot_id = null){
+		$paras = "";
+		if ($entrepot_id != null) {
+			$paras.= "AND entrepot_id = $entrepot_id ";
+		}
+		$requette = "SELECT SUM(quantite) as quantite  FROM perteentrepot WHERE perteentrepot.etiquette_id = ? AND  perteentrepot.etat_id = ? AND DATE(perteentrepot.created) >= ? AND DATE(perteentrepot.created) <= ? $paras ";
+		$item = PERTEENTREPOT::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new PERTEENTREPOT()]; }
 		return $item[0]->quantite;
 	}
 
 
 
-	public function exigence(int $quantite, int $produit_id){
-		$datas = EXIGENCEPRODUCTION::findBy(["etiquette_id ="=>$this->id, "produit_id ="=>$produit_id]);
-		if (count($datas) == 1) {
+	public function price(){
+		$requette = "SELECT SUM(quantite_recu) as quantite, SUM(transport) as transport, SUM(ligneapproetiquette.price) as price FROM ligneapproetiquette, approetiquette WHERE ligneapproetiquette.etiquette_id = ? AND ligneapproetiquette.approetiquette_id = approetiquette.id AND approetiquette.etat_id = ? ";
+			$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
+			if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
 			$item = $datas[0];
-			if ($item->quantite_etiquette == 0) {
+
+			$requette = "SELECT SUM(quantite_recu) as quantite FROM ligneapproetiquette, approetiquette WHERE ligneapproetiquette.approetiquette_id = approetiquette.id AND approetiquette.id IN (SELECT approetiquette_id FROM ligneapproetiquette WHERE ligneapproetiquette.etiquette_id = ? ) AND approetiquette.etat_id = ? ";
+			$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
+			if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
+			$ligne = $datas[0];
+
+			if ($item->quantite == 0) {
 				return 0;
 			}
-			return ($quantite * $item->quantite_produit) / $item->quantite_etiquette;
-		}
-		return 0;
-	}
-
-
-
-	public function price(){
-		$total = 0;
-		$requette = "SELECT SUM(quantite_recu) as quantite, SUM(ligneapproetiquette.price) as price FROM ligneapproetiquette, etiquette, approetiquette WHERE ligneapproetiquette.etiquette_id = etiquette.id AND etiquette.id = ? AND ligneapproetiquette.approetiquette_id = approetiquette.id AND approetiquette.etat_id = ? GROUP BY etiquette.id";
-		$item = LIGNEAPPROETIQUETTE::execute($requette, [$this->id, ETAT::VALIDEE]);
-		if (count($item) < 1) {$item = [new LIGNEAPPROETIQUETTE()]; }
-		if ($item[0]->quantite > 0) {
-			$total += $item[0]->price / $item[0]->quantite;
+			$total = ($item->price / $item->quantite) + ($item->transport / $ligne->quantite);
 			return $total;
-		}
-		return 0;
 	}
 
 

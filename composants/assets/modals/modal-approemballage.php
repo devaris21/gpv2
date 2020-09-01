@@ -25,7 +25,7 @@
                             <div class=" text-center">
                                 <?php foreach (Home\EMBALLAGE::getAll() as $key => $item) {
                                     $item->actualise();
-                                    if ($item->isActive == Home\TABLE::OUI) { ?>
+                                    if ($item->isActive()) { ?>
                                         <button class="btn btn-white dim newressource text-capitalize" data-id="<?= $item->id ?>"><i class="fa fa-flask"></i> <?= $item->name(); ?></button>                   
                                     <?php  }
                                 }  ?>

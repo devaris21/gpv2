@@ -19,8 +19,8 @@
                 <h2 class="text-uppercase text-warning gras">Toutes les ventes directes</h2>
             </div>
             <div class="col-sm-3">
-                <button style="margin-top: 5%;" data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim float-right"> <i class="fa fa-file-text-o"></i> Nouvelle vente directe</button>
-            </div>
+<!--                 <button style="margin-top: 5%;" data-toggle=modal data-target="#modal-vente" class="btn btn-warning dim float-right"> <i class="fa fa-file-text-o"></i> Nouvelle vente directe</button>
+ -->            </div>
         </div>
 
         <div class="wrapper wrapper-content">
@@ -88,7 +88,10 @@
                                                 <th></th>
                                                 <?php foreach ($vente->lignedeventes as $key => $ligne) { 
                                                     $ligne->actualise(); ?>
-                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
+                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->name() ?></span><br>
+                                                        <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>" >
+                                                        <small><?= $ligne->emballage->name() ?></small>
+                                                    </th>
                                                 <?php } ?>
                                             </tr>
                                         </thead>
@@ -143,7 +146,10 @@
                                                         <th></th>
                                                         <?php foreach ($vente->lignedeventes as $key => $ligne) { 
                                                             $ligne->actualise(); ?>
-                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->name() ?></span><br>
+                                                                <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>" >
+                                                                <small><?= $ligne->emballage->name() ?></small>
+                                                            </th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>

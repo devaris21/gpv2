@@ -16,6 +16,7 @@ class TYPEPRODUIT_PARFUM extends TABLE
 	public $parfum_id;
 	public $typeproduit_id;
 	public $isActive = TABLE::NON;
+	public $ressource_id;
 
 
 	public function enregistre(){

@@ -6,6 +6,7 @@ use Native\RESPONSE;
 
 $data = new RESPONSE;
 extract($_POST);
+$params = PARAMS::findLastId();
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,7 +40,6 @@ if ($action == "annulerProspection") {
 
 
 if ($action == "calcul") {
-	$params = PARAMS::findLastId();
 	$montant = 0;
 	$tableau = explode(",", $tableau);
 	foreach ($tableau as $key => $value) {
@@ -50,8 +50,7 @@ if ($action == "calcul") {
 		$datas = LIGNEPROSPECTION::findBy(["id = "=>$id]);
 		if (count($datas) == 1) {
 			$ligne = $datas[0];
-			$ligne->actualise();
-			$montant += $ligne->prixdevente->prix->price * intval($val);
+			$montant += ($ligne->price / $ligne->quantite) * intval($val);
 		}
 	}
 	session("total", $montant);
@@ -71,28 +70,22 @@ if ($action == "validerProspection") {
 		$prospection->fourni("ligneprospection");
 
 		$produits = explode(",", $tableau);
-		foreach ($produits as $key => $value) {
-			$lot = explode("-", $value);
-			$array[$lot[0]] = end($lot);
-		}
-
 		$produits1 = explode(",", $tableau1);
-		foreach ($produits1 as $key => $value) {
-			$lot = explode("-", $value);
-			$array1[$lot[0]] = end($lot);
-		}
 
 		if (count($produits) > 0) {
-			foreach ($array as $key => $value) {
-				if (!is_numeric($value)) {
-					$array[$key] = 0;
-				}
+			foreach ($produits1 as $key => $value) {
+				$lot = explode("-", $value);
+				$array1[$lot[0]] = end($lot);
 			}
-			$tests = $array;
+
+			$tests = $produits;
 			foreach ($tests as $key => $value) {
+				$lot = explode("-", $value);
+				$id = $lot[0];
+				$qte = end($lot);
+
 				foreach ($prospection->ligneprospections as $cle => $lgn) {
-					$lgn->actualise();
-					if (($lgn->id == $key) && ($lgn->quantite >= ($value + intval($array1[$key])))) {
+					if (($lgn->id == $id ) && ($lgn->quantite >= $qte) && ($lgn->quantite >= ($qte + intval($array1[$key]) )) ) {
 						unset($tests[$key]);
 					}
 				}
@@ -105,7 +98,7 @@ if ($action == "validerProspection") {
 					foreach ($prospection->ligneprospections as $cle => $lgn) {
 						if ($lgn->id == $key) {
 							$lgn->quantite_vendu = $value;
-							$lgn->perte = $array1[$key];
+							$lgn->perte = intval($array1[$key]);
 							$lgn->reste = $lgn->quantite - $value - intval($array1[$key]);
 							$lgn->save();
 							break;

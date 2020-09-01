@@ -19,8 +19,8 @@
                 <h2 class="text-uppercase text-blue gras">Les livraisons en cours</h2>
             </div>
             <div class="col-sm-3">
-                <button style="margin-top: 5%;" type="button" data-toggle=modal data-target='#modal-clients' class="btn btn-success btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle livraison </button>
-            </div>
+<!--                 <button style="margin-top: 5%;" type="button" data-toggle=modal data-target='#modal-clients' class="btn btn-success btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle livraison </button>
+ -->            </div>
         </div>
 
         <div class="wrapper wrapper-content">
@@ -86,8 +86,12 @@
                                                 <thead>
                                                     <tr class="no">
                                                         <th></th>
-                                                        <?php foreach ($livraison->ligneprospections as $key => $ligne) { ?>
-                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
+                                                        <?php foreach ($livraison->ligneprospections as $key => $ligne) {
+                                                            $ligne->actualise(); ?>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->name() ?></span><br>
+                                                                <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>" >
+                                                                <small><?= $ligne->emballage->name() ?></small>
+                                                            </th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>
@@ -102,7 +106,7 @@
                                             </table>
                                         </td>
                                         <td>
-                                            <a href="<?= $this->url("fiches", "master", "bonsortie", $livraison->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                            <a href="<?= $this->url("fiches", "master", "bonlivraison", $livraison->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                             <?php if ($livraison->etat_id == Home\ETAT::ENCOURS) { ?>
                                                 <button onclick="terminer(<?= $livraison->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
                                             <?php } ?>
@@ -144,7 +148,10 @@
                                                         <th></th>
                                                         <?php foreach ($livraison->ligneprospections as $key => $ligne) { 
                                                             $ligne->actualise(); ?>
-                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit->name() ?><br><?= $ligne->produit->parfum->name() ?> <?= $ligne->produit->quantite->name() ?></span></th>
+                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->name() ?></span><br>
+                                                                <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>" >
+                                                                <small><?= $ligne->emballage->name() ?></small>
+                                                            </th>
                                                         <?php } ?>
                                                     </tr>
                                                 </thead>
@@ -159,7 +166,7 @@
                                             </table>
                                         </td>
                                         <td>
-                                            <a href="<?= $this->url("fiches", "master", "bonsortie", $livraison->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                            <a href="<?= $this->url("fiches", "master", "bonlivraison", $livraison->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                             <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
                                                 <button onclick="annulervente(<?= $livraison->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                             <?php } ?>
@@ -189,12 +196,8 @@
         <?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
 
         <?php 
-        foreach ($livraisons as $key => $livraison) {
-            if ($livraison->etat_id == Home\ETAT::ENCOURS) { 
-                $livraison->actualise();
-                $livraison->fourni("ligneprospection");
-                include($this->rootPath("composants/assets/modals/modal-livraison2.php"));
-            } 
+        foreach ($encours as $key => $livraison) {
+            include($this->rootPath("composants/assets/modals/modal-livraison2.php"));
         } 
         ?>
 

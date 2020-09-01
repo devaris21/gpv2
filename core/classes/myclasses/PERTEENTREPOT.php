@@ -18,6 +18,7 @@ class PERTEENTREPOT extends TABLE
 	public $produit_id;
 	public $emballage_id;
 	public $ressource_id;
+	public $etiquette_id;
 	public $quantite;
 	public $comment;
 	public $entrepot_id;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<?php include($this->rootPath("webapp/master/elements/templates/head.php")); ?>
+<?php include($this->rootPath("webapp/config/elements/templates/head.php")); ?>
 
 <body class="top-navigation">
 
@@ -28,13 +28,7 @@
                                     </li>
 
                                 </ul>
-                                <ul class="nav navbar-top-links navbar-right">
-                                    <li id="btn-deconnexion" class="text-red cursor">
-                                        <a href="<?= $this->url("config", "master", "dashboard"); ?>" class="btn_modal btn btn-xs btn-white" >
-                                            << Retour à la vue générale
-                                        </a>
-                                    </li>
-                                </ul>
+                                <a id="onglet-master" href="<?= $this->url("config", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px; margin-right: 10px;"><i class="fa fa-long-arrow-left"></i> Retour au tableau de bord</a>
                             </div>
                         </nav>
                     </div>
@@ -273,7 +267,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-4 bloc">
+                            <div class="col-sm-6 bloc">
                                 <div class="ibox border">
                                     <div class="ibox-title">
                                         <h5 class="text-uppercase">Les matières premières</h5>
@@ -291,6 +285,8 @@
                                                     <th>Libéllé</th>
                                                     <th>Unité</th>
                                                     <th>Abbr</th>
+                                                    <th>stockable ?</th>
+                                                    <th></th>
                                                     <th></th>
                                                     <th></th>
                                                 </tr>
@@ -304,6 +300,26 @@
                                                         <td class="gras"><?= $item->name(); ?></td>
                                                         <td><?= $item->unite; ?></td>
                                                         <td><?= $item->abbr; ?></td>
+                                                        <td>
+                                                            <div class="switch">
+                                                                <div class="onoffswitch">
+                                                                    <input type="checkbox" <?= ($item->isActive())?"checked":""  ?> onchange='changeActive("ressource", <?= $item->id ?>)' class="onoffswitch-checkbox" id="ressource<?= $item->id ?>">
+                                                                    <label class="onoffswitch-label" for="ressource<?= $item->id ?>">
+                                                                        <span class="onoffswitch-inner"></span>
+                                                                        <span class="onoffswitch-switch"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td width="110px">
+                                                            <?php if ($item->isActive()) { ?>
+                                                                <small>Stk. initial</small>
+                                                                <input type="text" title="Stock initial" number class="form-control input-xs text-center ressource" value="<?= $item->initial ?>" name="initial" id="<?= $item->id ?>">
+                                                            <?php }else{ ?>
+                                                                <small>Prix U.</small>
+                                                                <input type="text" title="Prix Unitaire normal" number class="form-control input-xs text-center ressource" step="0.1" value="<?= $item->price ?>" name="price" id="<?= $item->id ?>">
+                                                            <?php } ?>
+                                                        </td>
                                                         <td data-toggle="modal" data-target="#modal-ressource" title="modifier l'élément" onclick="modification('ressource', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
                                                         <td title="supprimer la ressource" onclick="suppressionWithPassword('ressource', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                     </tr>
@@ -355,14 +371,14 @@
 
                 <br>
 
-                <?php include($this->rootPath("webapp/master/elements/templates/footer.php")); ?>
+                <?php include($this->rootPath("webapp/config/elements/templates/footer.php")); ?>
 
 
             </div>
         </div>
 
 
-        <?php include($this->rootPath("webapp/master/elements/templates/script.php")); ?>
+        <?php include($this->rootPath("webapp/config/elements/templates/script.php")); ?>
         <?php include($this->relativePath("modals.php")); ?>
 
         <?php include($this->rootPath("composants/assets/modals/modal-params.php") );  ?>

@@ -25,10 +25,10 @@ $(function(){
 
 
     //nouvelle commande
-    $("body").on("click", ".newetiquette", function(event) {
+    $("body").on("click", ".newressource", function(event) {
         var url = "../../webapp/entrepot/modules/stock/approetiquette/ajax.php";
         var id = $(this).attr("data-id");
-        $.post(url, {action:"newetiquette", id:id}, (data)=>{
+        $.post(url, {action:"newressource", id:id}, (data)=>{
             $("tbody.approvisionnement").append(data);
             $("button[data-id ="+id+"]").hide(200);
             calcul()
@@ -159,26 +159,27 @@ $(function(){
 
 
     $(".formValiderApprovisionnement").submit(function(event) {
-        var url = "../../webapp/entrepot/modules/stock/approetiquette/ajax.php";
-        var formdata = new FormData($(this)[0]);
-        var tableau = new Array();
-        $(this).find("table tr").each(function(index, el) {
-            var id = $(this).attr('data-id');
-            var val = $(this).find('input').val();
-            var item = id+"-"+val;
-            tableau.push(item);
-        });
-        formdata.append('tableau', tableau);
-        formdata.append('action', "validerAppro");
-        $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-            if (data.status) {
-                window.location.reload()
-            }else{
-                Alerter.error('Erreur !', data.message);
-            }
-        }, 'json');
-        return false;
+       Loader.start();
+       var url = "../../webapp/entrepot/modules/stock/approetiquette/ajax.php";
+       var formdata = new FormData($(this)[0]);
+       var tableau = new Array();
+       $(this).find("table tr").each(function(index, el) {
+        var id = $(this).attr('data-id');
+        var val = $(this).find('input').val();
+        var item = id+"-"+val;
+        tableau.push(item);
     });
+       formdata.append('tableau', tableau);
+       formdata.append('action', "validerAppro");
+       $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+        if (data.status) {
+            window.location.reload()
+        }else{
+            Alerter.error('Erreur !', data.message);
+        }
+    }, 'json');
+       return false;
+   });
 
 
 })

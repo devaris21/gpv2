@@ -50,7 +50,7 @@
             <?php foreach ($clients as $key => $client) { ?>
                 <div class="col-lg-3 clients">
                     <div class="contact-box ">
-                        <a href="<?= $this->url("gestion", "master", "client", $client->id) ?>">
+                        <a href="<?= $this->url("manager", "master", "client", $client->id) ?>">
                             <h3><strong><?= $client->name() ?></strong></h3>
                             <address>
                                 <i class="fa fa-phone"></i>&nbsp; <?= $client->contact ?><br>

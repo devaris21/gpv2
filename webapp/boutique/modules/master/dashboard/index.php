@@ -82,7 +82,7 @@
 
                                 <div class="ibox-content">
                                     <h5>En rupture de Stock</h5>
-                                    <h2 class="no-margins"><?= start0(Home\PRODUIT::ruptureBoutique()) ?> produit(s)</h2>
+                                    <h2 class="no-margins"><?= start0(count(Home\PRODUIT::ruptureBoutique($boutique->id))) ?> produit(s)</h2>
                                 </div>
                             </div>
                         </div>

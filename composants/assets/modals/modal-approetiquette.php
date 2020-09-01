@@ -23,16 +23,17 @@
                             </table>
                         </div>
 
-                        <div class="row">
-                            <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
-                                <div class="col text-center border-right">
-                                    <h5 class="text-uppercase gras text-center"><?= $type->name()  ?></h5>
-                                    <?php foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
-                                        $pro->actualise(); ?>
-                                        <button class="btn btn-white btn-xs newetiquette btn-block cursor" data-id="<?= $pro->id ?>"><?= $pro->name(); ?></button>
-                                    <?php }  ?>
-                                </div>
-                            <?php } ?>
+                        <div class=" text-center">
+                            <div class="row">
+                                <?php foreach (Home\ETIQUETTE::getAll() as $key => $item) {
+                                    $item->actualise();
+                                    if ($item->produit->isActive()) { ?>
+                                        <div class="col-sm-3 col-md-2">
+                                            <button class="btn btn-white btn-xs newressource btn-block" data-id="<?= $item->id ?>"><i class="fa fa-ticket"></i> <?= $item->produit->typeproduit_parfum->parfum->name(); ?> <?= $item->produit->quantite->name(); ?></button>
+                                        </div> 
+                                    <?php  }
+                                }  ?>
+                            </div>
                         </div>
                     </div>
                 </div>

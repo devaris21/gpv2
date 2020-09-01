@@ -25,7 +25,7 @@ class PRODUCTION extends TABLE
 		if (count($datas) == 1) {
 			$this->reference = "PROD/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
 			$data = $this->save();
-			if ($data->status && $this->transport > 0) {
+			if ($data->status && $this->maindoeuvre > 0) {
 				$this->actualise();
 				$mouvement = new OPERATION();
 				$mouvement->montant = $this->maindoeuvre;

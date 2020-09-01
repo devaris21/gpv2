@@ -17,7 +17,7 @@
 
           <div class="ibox">
             <div class="ibox-title">
-                <h5 class="text-uppercase">Stock de ressource</h5>
+                <h5 class="text-uppercase">Stock d'emballages</h5>
                 <div class="ibox-tools">
                     <button data-toggle='modal' data-target="#modal-approemballage" style="margin-top: -2%" class="btn btn-success btn-xs dim"><i class="fa fa-plus"></i> Nouvel Approvisionnement</button>
                     <button style="margin-top: -2%;" type="button" data-toggle=modal data-target='#modal-perteentrepot' class="btn btn-danger btn-xs dim"><i class="fa fa-trash"></i> Enregistrer une perte </button>
@@ -26,7 +26,7 @@
             <div class="ibox-content">
                 <div class="row text-center">
                   <?php $total = 0; foreach ($emballages as $key => $emballage) {
-                    $stock = $emballage->stock(dateAjoute(), dateAjoute(1), $entrepot->id);
+                    $stock = $emballage->stock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $entrepot->id);
                     $prix = $stock * $emballage->price();
                     $total += $prix ?>
                     <div class="col-sm-4 col-md-3 col-lg-2 border-left border-bottom">

@@ -101,6 +101,16 @@ if ($action == "validerConditionnement") {
 									$ligne->emballage_id = $format->id;
 									$ligne->quantite = $value;
 									$ligne->enregistre();
+
+
+									$ligne = new LIGNECONSOMMATIONETIQUETTE();
+									$etiquette = ($produit->fourni("etiquette"))[0];
+
+									$ligne->conditionnement_id = $conditionnement->id;
+									$ligne->etiquette_id = $etiquette->id;
+									$ligne->quantite = $value * $format->nombre();
+									$ligne->price = $ligne->quantite * $format->nombre() * $etiquette->price();
+									$data = $ligne->enregistre();
 								}
 							}
 						}

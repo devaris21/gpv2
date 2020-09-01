@@ -75,9 +75,11 @@
                                             <h2 class="gras mp0"><?= start0($ligne->quantite) ?> <small class="small"><?= $ligne->typeproduit_parfum->typeproduit->unite ?>(s)</small></h2>
                                         </td>
                                     </tr>
+                                    <tr style="height: 15px;" />
+
                                     <tr>
                                         <td colspan="2">
-                                            <div class="row">
+                                            <div class="row justify-content-center">
                                                 <?php foreach ($ligne->typeproduit_parfum->fourni("exigenceproduction") as $key => $exi) {
                                                     foreach ($exi->fourni("ligneexigenceproduction") as $key => $lig) {
                                                         $lig->actualise();
@@ -91,29 +93,67 @@
                                                             $total+= $prix; }
                                                         }
                                                     } ?>
-                                                    <div class="col-sm border-right text-navy">
-                                                        Main d'oeuvre : <i><b><?= money($production->maindoeuvre) ?> <?= $params->devise ?></b></i>
-                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td>
+                                                <h4 class="text-uppercase gras">Coût d'achat :</h4>
+                                            </td>
+                                            <td><h4><i><b><?= money($total) ?> <?= $params->devise ?></b></i></h4></td>
+                                        </tr>
+                                        <tr style="height: 15px;" />
+
+                                        <tr>
+                                            <td>
+                                                <h4 class="text-uppercase gras">Coût de production :</h4>
+                                            </td>
+                                            <td>
+                                                <h4><i><b><?= money($production->maindoeuvre) ?> <?= $params->devise ?></b></i></h4>
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 15px;" />
+
+                                        <tr>
+                                            <td ><h4 class="text-uppercase text-warning">Coût de production total</h4></td>
+                                            <td ><h4><i><b><?= money($production->maindoeuvre + $total) ?> <?= $params->devise ?></b></i></h4></td>
+                                        </tr>
+                                        <tr style="height: 30px;" />
+
+                                        <tr>
                                             <td colspan="2">
                                                 <div class="row">
-                                                    <div class="col-sm border-right text-uppercase text-warning">
-                                                        <h4>Coût de production total = <i><b><?= money($production->maindoeuvre + $total) ?> <?= $params->devise ?></b></i>
-                                                        </h4>
-                                                    </div>
-                                                    <div class="col-sm border-right ">
-                                                        Soit 1 Litre vous coûte environs  = <i><b><?= money(($production->maindoeuvre + $total) / $ligne->quantite) ?> <?= $params->devise ?></b></i>
-                                                    </div>
-                                                    <div class="col-sm border-right ">
-                                                        Soit 0.5 Litre vous coûte environs  = <i><b><?= money(($production->maindoeuvre + $total) / $ligne->quantite / 2) ?> <?= $params->devise ?></b></i>
-                                                    </div>
+                                                    <?php foreach (Home\QUANTITE::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $qua) { ?>
+                                                        <div class="col-sm border-right ">
+                                                            Soit <?= $qua->name()  ?> vous coûte environs  = <i><b><?= money(($production->maindoeuvre + $total) / $ligne->quantite * $qua->name ) ?> <?= $params->devise ?></b></i>
+                                                        </div>
+                                                    <?php } ?>
                                                 </div> 
                                             </td>
                                         </tr>
                                         <tr style="height: 15px" />
+
+                                        <?php foreach ($ligne->typeproduit_parfum->fourni("produit") as $key => $produit) {
+                                            if ($produit->isActive()) {
+                                                $produit->actualise(); ?>
+                                                <tr>
+                                                    <td><?= $produit->name(); ?></td>
+                                                    <?php foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
+                                                        $prix = $produit->fourni("price", ["emballage_id ="=>$emballage->id])[0] ?>
+                                                        <td>
+                                                            <div class="text-center" style="color: blue">
+                                                                <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>">
+                                                                <small><?= $emballage->name(); ?></small>
+                                                                <h4><?= money((($production->maindoeuvre + $total) / $ligne->quantite * $produit->quantite->name) + $emballage->price()) ?> <?= $params->devise ?></h4>
+                                                            </div>
+                                                        </td>
+                                                    <?php } ?>
+                                                </tr>
+                                            <?php }
+                                        } ?>
+
+
+
                                     <?php } ?>                            
                                 </tbody>
                             </table><br>

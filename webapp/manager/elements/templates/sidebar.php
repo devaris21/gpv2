@@ -14,7 +14,7 @@
                                 <span class="text-muted text-xs block"><b class="caret"></b></span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a class="dropdown-item" href="<?= $this->url($this->section, "access", "locked") ?>">Vérouiller la session</a></li>
+                                <li><a class="dropdown-item" href="<?= $this->url("main", "access", "locked") ?>">Vérouiller la session</a></li>
                                 <li><a class="dropdown-item" href="#" id="btn-deconnexion" >Déconnexion</a></li>
                             </ul>
                         </div>
@@ -42,9 +42,6 @@
                 </li>
                 <li class="" id="commerciaux">
                     <a href="<?= $this->url($this->section, "master", "commerciaux") ?>"><i class="fa fa-bicycle"></i> <span class="nav-label">Liste des commerciaux</span></a>
-                </li>
-                <li class="" id="stock">
-                    <a href="<?= $this->url($this->section, "master", "stock") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Stock actuel</span></a>
                 </li>
                 <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
 

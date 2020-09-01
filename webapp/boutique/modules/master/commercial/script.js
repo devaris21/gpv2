@@ -2,7 +2,7 @@ $(function(){
 
 
 	$("#formPaye").submit(function(event) {
-		var url = "../../webapp/manager/modules/master/commercial/ajax.php";
+		var url = "../../webapp/boutique/modules/master/commercial/ajax.php";
 		alerty.confirm("Voulez-vous vraiment effectuer la paye de ce commercial ?", {
 			title: "Paye du commercial",
 			cancelLabel : "Non",
@@ -33,7 +33,7 @@ $(function(){
 
 
 	filtrer = function(){
-		var url = "../../webapp/manager/modules/master/commercial/ajax.php";
+		var url = "../../webapp/boutique/modules/master/commercial/ajax.php";
 		var formdata = new FormData($("#formFiltrer")[0]);
 		formdata.append('action', "filtrer");
 		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
@@ -43,7 +43,7 @@ $(function(){
 
 
 	$("select[name=id]").change(function(){
-		var url = "../../webapp/manager/modules/master/commercial/ajax.php";
+		var url = "../../webapp/boutique/modules/master/commercial/ajax.php";
 		var id = $(this).val();
 		var formdata = new FormData();
 		formdata.append('id', id);

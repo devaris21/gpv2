@@ -12,25 +12,9 @@ if ($this->id != null) {
 		$client = $datas[0];
 		$client->actualise();
 
-		$groupes = $client->fourni("groupecommande",["etat_id ="=>ETAT::ENCOURS]);
+		$encours = $client->fourni("groupecommande", ["boutique_id ="=>$boutique->id, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
 
-		$client->fourni("groupecommande");
-
-		$datas1 = $datas2 = [];
-		foreach ($client->groupecommandes as $key => $groupecommande) {
-			$datas1 = array_merge($datas1, $groupecommande->fourni("commande", ["etat_id !="=>ETAT::ANNULEE]));
-			$datas2 = array_merge($datas2, $groupecommande->fourni("prospection", ["etat_id !="=>ETAT::ANNULEE]));
-		}
-		foreach ($datas1 as $key => $ligne) {
-			$ligne->fourni("lignecommande");
-			$ligne->type = "commande";
-		}
-		foreach ($datas2 as $key => $ligne) {
-			$ligne->fourni("ligneprospection");
-			$ligne->type = "prospection";
-		}
-		$flux = array_merge($datas1, $datas2);
-		usort($flux, "comparerDateCreated2");
+		$groupes = $client->fourni("groupecommande", ["boutique_id ="=>$boutique->id, "etat_id !="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
 
 
 		$fluxcaisse = $client->fourni("reglementclient");

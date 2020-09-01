@@ -15,22 +15,24 @@
             <?php include($this->rootPath("webapp/entrepot/elements/templates/header.php")); ?>  
 
             <div class="row">
-                <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
+                <?php foreach ($typeproduits as $key => $type) { ?>
                     <div class="col border-right">
                         <h5 class="text-uppercase gras text-center">Quantité de <?= $type->name()  ?></h5>
                         <table class="table">
                             <tbody>
-                                <?php foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
+                                <?php
+                                foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
                                     $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $entrepot->id);
-                                    if ($qua > 0) {
-                                        $pro->actualise(); ?>
+                                        $pro->actualise();
+                                        include($this->rootPath("composants/assets/modals/modal-production.php")); ?>
                                         <tr>
                                             <td>
-                                                <button data-toggle="modal" data-target="#modal-conditionnement-<?= $type->id ?>-<?= $parfum->id ?>"  class="btn btn-white btn-xs pull-right"><?= start0($qua) ?> <?= $type->abbr  ?></button> <?= $pro->name(); ?>
+                                                <?= $pro->name(); ?>
+                                                <button data-toggle="modal" data-target="#modal-production<?= $pro->id ?>" class="btn btn-white btn-xs pull-right"><i class="fa fa-plus"></i></button>
+                                                <span class="gras pull-right" style="margin-right: 10px;"><?= start0($qua) ?> <?= $type->abbr  ?></span>
                                             </td>
                                         </tr>
-                                    <?php } 
-                                }  ?>
+                                    <?php } ?>
                             </tbody>
                         </table>
                     </div>
@@ -44,7 +46,6 @@
                 </div>
                 <div class="col-sm-5">
                     <button style="margin-top: 5%;" type="button" data-toggle=modal data-target='#modal-perteentrepot' class="btn btn-danger btn-xs dim float-right"><i class="fa fa-trash"></i> Enregistrer une perte </button>
-                    <button style="margin-top: 5%;" type="button" data-toggle=modal data-target='#modal-production' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle production </button>
                 </div>
             </div>
 
@@ -119,12 +120,12 @@
                                         </table>
                                     </td>
                                     <td>
-                                        <a href="<?= $this->url("fiches", "master", "production", $production->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                        <a href="<?= $this->url("entrepot", "rapports", "coutproduction", $production->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                         <?php if ($production->etat_id == Home\ETAT::PARTIEL) { ?>
                                             <button onclick="accepter(<?= $production->id ?>)" class="btn btn-white btn-sm text-green"><i class="fa fa-check"></i> Accepter</button>
                                         <?php } ?>
                                         <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                            <button onclick="annulerMiseenboutique(<?= $production->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                            <button onclick="annuler(<?= $production->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                         <?php } ?>
                                     </td>
                                 </tr>
@@ -153,7 +154,7 @@
                                                 <tr class="no">
                                                     <?php foreach ($production->ligneproductions as $key => $ligne) {
                                                         $ligne->actualise(); ?>
-                                                        <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->typeproduit_parfum->name() ?> ></span></th>
+                                                        <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->typeproduit_parfum->name() ?></span></th>
                                                     <?php } ?>
                                                 </tr>
                                             </thead>
@@ -167,7 +168,7 @@
                                         </table>
                                     </td>
                                     <td>
-                                        <a href="<?= $this->url("fiches", "master", "production", $production->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                        <a href="<?= $this->url("entrepot", "rapports", "coutproduction", $production->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                     </td>
                                 </tr>
                             <?php  } ?>
@@ -192,8 +193,6 @@
 
 
     <?php include($this->rootPath("webapp/entrepot/elements/templates/footer.php")); ?> 
-
-    <?php include($this->rootPath("composants/assets/modals/modal-production.php")); ?> 
 
 
 </div>

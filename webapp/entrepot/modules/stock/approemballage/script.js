@@ -159,6 +159,7 @@ $(function(){
 
 
     $(".formValiderApprovisionnement").submit(function(event) {
+         Loader.start();
         var url = "../../webapp/entrepot/modules/stock/approemballage/ajax.php";
         var formdata = new FormData($(this)[0]);
         var tableau = new Array();

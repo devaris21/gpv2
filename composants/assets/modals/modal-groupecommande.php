@@ -134,17 +134,13 @@
                                     <button class="btn btn-primary dim" onclick="fairenewcommande(<?= $groupecommande->id ?>)"><i class="fa fa-cart-plus"></i> Faire nouvelle commande</button>
                                 </div>
 
-                             <!--    <div class=" col-md">
-                                    <button class="btn btn-success dim" onclick="newProgrammation(<?= $groupecommande->id ?>)"><i class="fa fa-truck"></i> Programmer livraison </button>
+                                <div class=" col-md">
+                                    <button class="btn btn-warning dim" onclick="newlivraison(<?= $groupecommande->id  ?>)"><i class="fa fa-truck"></i> Faire livraison aujourd'hui</button>
                                 </div>
-                            -->
-                            <div class=" col-md">
-                                <button class="btn btn-warning dim" onclick="newlivraison(<?= $groupecommande->id  ?>)"><i class="fa fa-truck"></i> Faire livraison aujourd'hui</button>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>

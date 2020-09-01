@@ -23,14 +23,25 @@ $(function(){
     });
 
 
+    $("input[name=quantite]").change(function(){
+        var url = "../../webapp/entrepot/modules/production/production/ajax.php";
+        var formdata = new FormData();
+        $this = $(this);
+        formdata.append('id', $(this).attr('id'));
+        formdata.append('val', $(this).val());
+        formdata.append('action', "calcul");
+        $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+            $this.parent().parent().parent().find("div.ajax").html(data);
+        }, 'html')
+    })
 
 
-    nouvelleProduction = function(){
+
+    nouvelleProduction = function(id){
         var formdata = new FormData($("#formProduction")[0]);
-        
         tableau = new Array();
-        $("#modal-production tr input").each(function(index, el) {
-            var id = $(this).attr('data-id');
+        $("#modal-production"+id+" input[name=quantite]").each(function(index, el) {
+            var id = $(this).attr('id');
             var val = $(this).val();
             if (val > 0) {
                 var item = id+"-"+val;
@@ -39,7 +50,7 @@ $(function(){
         });
         formdata.append('listeproduits', tableau);
 
-        alerty.confirm("Voulez-vous vraiment confirmer la production de ces produits ?", {
+        alerty.confirm("Voulez-vous vraiment confirmer cette production ?", {
             title: "Confirmation de la production",
             cancelLabel : "Non",
             okLabel : "OUI, Valider",
@@ -56,6 +67,39 @@ $(function(){
             }, 'json')
         })
     }
+
+    // nouvelleProduction = function(){
+
+    //     var formdata = new FormData($("#formProduction")[0]);
+        
+    //     tableau = new Array();
+    //     $("#modal-production tr input").each(function(index, el) {
+    //         var id = $(this).attr('data-id');
+    //         var val = $(this).val();
+    //         if (val > 0) {
+    //             var item = id+"-"+val;
+    //             tableau.push(item);
+    //         }       
+    //     });
+    //     formdata.append('listeproduits', tableau);
+
+    //     alerty.confirm("Voulez-vous vraiment confirmer la production de ces produits ?", {
+    //         title: "Confirmation de la production",
+    //         cancelLabel : "Non",
+    //         okLabel : "OUI, Valider",
+    //     }, function(){
+    //         Loader.start();
+    //         var url = "../../webapp/entrepot/modules/production/production/ajax.php";
+    //         formdata.append('action', "nouvelleProduction");
+    //         $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+    //             if (data.status) {
+    //                 window.location.reload();
+    //             }else{
+    //                 Alerter.error('Erreur !', data.message);
+    //             }
+    //         }, 'json')
+    //     })
+    // }
 
 
 

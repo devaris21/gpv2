@@ -22,106 +22,129 @@
                 </div>
             </div>
             <div class="col-sm-3">
-               <div class="row">
-                <div class="col-md-12">
-                    <div class="widget style1 lazur-bg">
-                        <div class="row">
-                            <div class="col-3">
-                                <i class="fa fa-th-large fa-3x"></i>
+<!--                 <button style="margin-top: 5%;" type="button" data-toggle=modal data-target='#modal-clients' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle commande </button>
+ -->
+            </div>
+        </div>
+
+        <div class="wrapper wrapper-content">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>Toutes les commandes</h5>
+                    <div class="ibox-tools">
+                        <form id="formFiltrer" method="POST">
+                            <div class="row" style="margin-top: -1%">
+                                <div class="col-5">
+                                    <input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
+                                </div>
+                                <div class="col-5">
+                                    <input type="date" value="<?= $date2 ?>" class="form-control input-sm" name="date2">
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" onclick="filtrer()" class="btn btn-sm btn-white"><i class="fa fa-search"></i> Filtrer</button>
+                                </div>
                             </div>
-                            <div class="col-9 text-right">
-                                <span> Commandes en cours </span>
-                                <h2 class="font-bold"><?= start0(count($groupes))  ?></h2>
-                            </div>
-                        </div>
+                        </form>
                     </div>
+                </div>
+                <div class="ibox-content">
+                    <?php if (count($groupes + $encours) > 0) { ?>
+                        <table class="footable table table-stripped toggle-arrow-tiny">
+                            <thead>
+                                <tr>
+                                    <th data-toggle="true">Status</th>
+                                    <th>Reference</th>
+                                    <th>Boutique</th>
+                                    <th>Reste</th>
+                                    <th>Client</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($encours as $key => $groupe) {
+                                    $groupe->actualise(); 
+                                    $datas = $groupe->fourni("commande", ["etat_id != "=>Home\ETAT::ANNULEE]);
+                                    $datas1 = $groupe->fourni("prospection", ["etat_id > "=>Home\ETAT::ANNULEE, "etat_id < "=>Home\ETAT::VALIDEE]);
+                                    ?>
+                                    <tr style="border-bottom: 2px solid black">
+                                        <td class="project-status">
+                                            <span class="label label-<?= $groupe->etat->class ?>"><?= $groupe->etat->name() ?></span>
+                                        </td>
+                                        <td>
+                                            <span class="text-uppercase gras">Commande (<?= count($groupe->fourni("commande")) ?>)</span><br>
+                                            <span><?= depuis($groupe->created) ?></span>
+                                            <?php if (count($datas1) > 0) { ?>
+                                                <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours/programmée pour cette commande</p>
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <h5 class="text-uppercase"><?= $groupe->boutique->name() ?></h5>
+                                        </td>
+                                        <td>
+                                            <h3 class="gras text-orange"><?= money($groupe->resteAPayer()) ?> <?= $params->devise  ?></h3>
+                                        </td>
+                                         <td>
+                                            <h5 class="text-uppercase"><a href="<?= $this->url("manager", "master", "client", $groupe->client_id)  ?>"><?= $groupe->client->name() ?></a></h5>
+                                        </td>
+                                        <td>
+                                            <button onclick="fichecommande(<?= $groupe->id  ?>)" class="btn btn-white btn-sm "><i class="fa fa-plus"></i> de détails </button>
+                                        </td>
+                                    </tr>
+                                <?php  } ?>
+
+                                <tr />
+
+                                <?php foreach ($groupes as $key => $groupe) {
+                                    $groupe->actualise(); 
+                                    $datas = $groupe->fourni("commande", ["etat_id != "=>Home\ETAT::ANNULEE]);
+                                    $datas1 = $groupe->fourni("prospection", ["etat_id > "=>Home\ETAT::ANNULEE, "etat_id < "=>Home\ETAT::VALIDEE]);
+                                    ?>
+                                    <tr style="border-bottom: 2px solid black">
+                                        <td class="project-status">
+                                            <span class="label label-<?= $groupe->etat->class ?>"><?= $groupe->etat->name() ?></span>
+                                        </td>
+                                        <td>
+                                            <span class="text-uppercase gras">Commande (<?= count($groupe->fourni("commande")) ?>)</span><br>
+                                            <span><?= depuis($groupe->created) ?></span>
+                                            <?php if (count($datas1) > 0) { ?>
+                                                <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours/programmée pour cette commande</p>
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <h5 class="text-uppercase"><?= $groupe->boutique->name() ?></h5>
+                                        </td>
+                                        <td>
+                                            <h3 class="gras text-orange"><?= money($groupe->resteAPayer()) ?> <?= $params->devise  ?></h3>
+                                        </td>
+                                        <td>
+                                            <h5 class="text-uppercase"><a href="<?= $this->url("manager", "master", "client", $groupe->client_id)  ?>"><?= $groupe->client->name() ?></a></h5>
+                                        </td>
+                                        <td>
+                                            <button onclick="fichecommande(<?= $groupe->id  ?>)" class="btn btn-white btn-sm "><i class="fa fa-plus"></i> de détails </button>
+                                        </td>
+                                    </tr>
+                                <?php  } ?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination float-right"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    <?php }else{ ?>
+                        <h1 style="margin-top: 30% auto;" class="text-center text-muted aucun"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune commande en cours pour le moment !</h1>
+                    <?php } ?>
+
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="wrapper wrapper-content">
-        <div class="ibox">
-            <div class="ibox-title">
-                <h5>Toutes les commandes</h5>
-                <div class="ibox-tools">
-                    <button style="margin-top: -5%;" type="button" data-toggle=modal data-target='#modal-clients' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle commande </button>
-                </div>
-            </div>
-            <div class="ibox-content">
-               <?php if (count($groupes) > 0) { ?>
-                 <table class="table table-hover table-commande">
-                    <tbody>
-                        <?php foreach ($groupes as $key => $commande) {
-                            $commande->actualise(); 
-                            $lots = $commande->lesRestes();
-                            $datas = $commande->fourni("commande");
-                            $datas1 = $commande->fourni("prospection", ["etat_id > "=>Home\ETAT::ANNULEE, "etat_id < "=>Home\ETAT::VALIDEE]);
-                            $client = $commande->client;
-                            ?>
-                            <tr class="border-bottom">
-                                <td class="project-status">
-                                    <span class="label label-<?= $commande->etat->class ?>"><?= $commande->etat->name ?></span>
-                                </td>
-                                <td class="project-title border-right" style="width: 35%;">
-                                    <h3 class="text-uppercase">Commandes (<?= count($datas) ?>)</h3>
-                                    <h5 class="text-uppercase text-muted">de <a href="<?= $this->url("gestion", "master", "client", $commande->client_id)  ?>"><?= $commande->client->name() ?></a></h5>
-                                    <ul>Date de livraison prévue
-                                        <?php foreach ($datas as $key => $com) { ?>
-                                            <li><?= datecourt($com->datelivraison) ?></li>
-                                        <?php } ?>
-                                    </ul>
-                                    <?php if (count($datas1) > 0) { ?>
-                                        <p class="text-blue">(<?= count($datas1) ?>) livraison est déjà en cours/programmée pour cette commande</p>
-                                    <?php } ?>
-                                </td>
-                                <td class="border-right">
-                                    <h4>Satisfaction de la commande</h4>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <?php foreach ($lots as $key => $value) { 
-                                                    if ($commande->reste($value->id) > 0) {
-                                                    $value->actualise(); ?>
-                                                        <th class="text-center text-uppercase"><small class="gras"><?= $value->produit->name() ?></small><br> <small><?= $value->quantite->name() ?></small></th>
-                                                    <?php }
-                                                } ?>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><h4 class="mp0">Reste : </h4></td>
-                                                <?php foreach ($lots as $key => $value) {
-                                                    $reste = $commande->reste($value->id);
-                                                    if ($reste > 0) { ?>
-                                                     <td class="text-center"><?= start0($reste) ?></td>
-                                                 <?php } 
-                                             } ?>
-                                         </tr>
-                                     </tbody>
-                                 </table>
-                             </td>
-                             <td>
-                                <br>
-                                <button onclick="fichecommande(<?= $commande->id  ?>)" class="btn btn-block btn-primary btn-sm dim"><i class="fa fa-plus"></i> de détails </button>
-                            </td>
-                        </tr>
-                    <?php  } ?>
-                </tbody>
-            </table>
-        <?php }else{ ?>
-            <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune commande en cours pour le moment</h1>
-        <?php } ?>
+
+        <?php include($this->rootPath("webapp/manager/elements/templates/footer.php")); ?> 
 
     </div>
-</div>
-</div>
-
-
-<?php include($this->rootPath("webapp/manager/elements/templates/footer.php")); ?> 
-
-</div>
 </div>
 
 

@@ -22,6 +22,7 @@ class COMMERCIAL extends PERSONNE
 	public $contact;
 	public $salaire = 0;
 	public $objectif = 0;
+	public $boutique_id = 0;
 	public $image = "default.png";
 	
 	public $disponibilite_id = DISPONIBILITE::LIBRE;
@@ -32,6 +33,7 @@ class COMMERCIAL extends PERSONNE
 		$data = new RESPONSE;
 		if ($this->name ) {
 			if ($this->salaire >= 0 ) {
+				$this->boutique_id = getSession("boutique_connecte_id");
 				$data = $this->save();
 				if ($data->status) {
 					$this->uploading($this->files);

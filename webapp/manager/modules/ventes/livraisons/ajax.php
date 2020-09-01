@@ -62,7 +62,7 @@ if ($action == "validerLivraison") {
 				$qte = end($lot);
 
 				foreach ($livraison->ligneprospections as $cle => $lgn) {
-					if (($lgn->id == $id) && ($lgn->quantite >= $qte) && ($lgn->quantite >= ($qte + $array1[$id])) ) {
+					if (($lgn->id == $id ) && ($lgn->quantite >= $qte) && ($lgn->quantite >= ($qte + intval($array1[$id]))) ) {
 						unset($tests[$key]);
 					}
 				}
@@ -75,8 +75,8 @@ if ($action == "validerLivraison") {
 					foreach ($livraison->ligneprospections as $key => $lgn) {
 						if ($lgn->id == $id) {
 							$lgn->quantite_vendu = $qte;
-							$lgn->perte = $array1[$id];
-							$lgn->reste = $lgn->quantite - $qte - $array1[$id];
+							$lgn->perte = intval($array1[$id]);
+							$lgn->reste = $lgn->quantite - $qte - intval($array1[$id]);
 							$lgn->save();
 
 							if ($lgn->reste > 0) {

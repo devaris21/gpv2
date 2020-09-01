@@ -80,6 +80,7 @@ class ROOTER extends PATH
             $date2 = getSession("date2");
         }
 
+
         if (in_array($this->section, static::SECTION_ADMIN)) {
             $data = PARAMS::checkTimeout($this->section);
             if ($data->status == true) {
@@ -111,6 +112,7 @@ class ROOTER extends PATH
                                             session("entrepot_connecte_id", $entrepot->id);
                                         }
 
+                                        session("lastUrl", $this->url);
                                     }else{
                                         $this->new_root("main", "home", "erreur500");
                                         $this->render();

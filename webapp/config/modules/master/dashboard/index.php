@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<?php include($this->rootPath("webapp/master/elements/templates/head.php")); ?>
+<?php include($this->rootPath("webapp/config/elements/templates/head.php")); ?>
 
 <body class="top-navigation">
 
@@ -28,13 +28,7 @@
                                     </li>
 
                                 </ul>
-                                <ul class="nav navbar-top-links navbar-right">
-                                    <li id="btn-deconnexion" class="text-red cursor">
-                                        <a href="<?= $this->url("master", "master", "dashboard"); ?>" class="btn_modal btn btn-xs btn-white" >
-                                            << Retour 
-                                        </a>
-                                    </li>
-                                </ul>
+                                <a id="onglet-master" href="<?= $this->url("master", "master", "dashboard") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px; margin-right: 10px;"><i class="fa fa-long-arrow-left"></i> Retour à l'acceuil</a>
                             </div>
                         </nav>
                     </div>
@@ -45,23 +39,23 @@
 
                             <div class="container">
                                 <div class="row justify-content-center">
-                                        <div class="col-lg-4">
-                                            <a href="<?= $this->url("config", "master", "generale")  ?>">
-                                                <div class="ibox">
-                                                    <div class="ibox-content">
-                                                        <div class="row">
-                                                            <div class="col-9">
-                                                                <h2 class="text-uppercase gras">Infos générales</h2>
-                                                                <h5 class="no-margins text-orange">Nom, adresse, contact, logo de sté </h5>
-                                                            </div>
-                                                            <div class="col-3 text-right">
-                                                                <i class="fa fa-hospital-o fa-5x text-muted"></i>
-                                                            </div>
+                                    <div class="col-lg-4">
+                                        <a href="<?= $this->url("config", "master", "generale")  ?>">
+                                            <div class="ibox">
+                                                <div class="ibox-content">
+                                                    <div class="row">
+                                                        <div class="col-9">
+                                                            <h2 class="text-uppercase gras">Infos générales</h2>
+                                                            <h5 class="no-margins text-orange">Nom, adresse, contact, logo de sté </h5>
+                                                        </div>
+                                                        <div class="col-3 text-right">
+                                                            <i class="fa fa-hospital-o fa-5x text-muted"></i>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </a>
-                                        </div>
+                                            </div>
+                                        </a>
+                                    </div>
 
                                     <?php if ($employe->isAutoriser("roles")) { ?>
                                         <div class="col-lg-4">
@@ -159,23 +153,6 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-lg-3">
-                                    <a href="<?= $this->url("config", "master", "caisse")  ?>">
-                                        <div class="ibox">
-                                            <div class="ibox-content">
-                                                <div class="row">
-                                                    <div class="col-9">
-                                                        <h3 class="text-uppercase gras text-navy">Config de la caisse</h3>
-                                                        <h5 class="no-margins text-muted">Lorem ipsum dolor sit amet</h5>
-                                                    </div>
-                                                    <div class="col-3 text-right">
-                                                        <i class="fa fa-lock fa-5x text-muted"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
                             </div><br>
 
 
@@ -192,40 +169,6 @@
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <i class="fa fa-history fa-5x text-muted"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-lg-3">
-                                    <a href="<?= $this->url("config", "master", "production2")  ?>">
-                                        <div class="ibox">
-                                            <div class="ibox-content">
-                                                <div class="row">
-                                                    <div class="col-9">
-                                                        <h3 class="text-uppercase gras text-navy">Gestion de production</h3>
-                                                        <h5 class="no-margins text-muted">Lorem ipsum dolor sit amet</h5>
-                                                    </div>
-                                                    <div class="col-3 text-right">
-                                                        <i class="fa fa-fire fa-5x text-muted"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-lg-3">
-                                    <a href="<?= $this->url("config", "master", "caisse")  ?>">
-                                        <div class="ibox">
-                                            <div class="ibox-content">
-                                                <div class="row">
-                                                    <div class="col-9">
-                                                        <h3 class="text-uppercase gras text-navy">Config de la caisse</h3>
-                                                        <h5 class="no-margins text-muted">Lorem ipsum dolor sit amet</h5>
-                                                    </div>
-                                                    <div class="col-3 text-right">
-                                                        <i class="fa fa-dollar fa-5x text-muted"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -258,14 +201,14 @@
 
                     <br>
 
-                    <?php include($this->rootPath("webapp/master/elements/templates/footer.php")); ?>
+                    <?php include($this->rootPath("webapp/config/elements/templates/footer.php")); ?>
 
 
                 </div>
             </div>
 
 
-            <?php include($this->rootPath("webapp/master/elements/templates/script.php")); ?>
+            <?php include($this->rootPath("webapp/config/elements/templates/script.php")); ?>
 
             <script type="text/javascript" src="<?= $this->relativePath("../../master/client/script.js") ?>"></script>
             <script type="text/javascript" src="<?= $this->relativePath("../../production/miseenboutique/script.js") ?>"></script>
