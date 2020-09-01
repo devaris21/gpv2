@@ -187,10 +187,10 @@
                                                 </thead>
                                                 <tbody class="tableau">
                                                     <tr>
-                                                        <td colspan="2">Repport du solde de la veille (<?= datecourt(dateAjoute(-8)) ?>) </td>
+                                                        <td colspan="2">Repport du solde </td>
                                                         <td class="text-center">-</td>
                                                         <td class="text-center">-</td>
-                                                        <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = $comptebanque->solde($date2)) ?> <?= $params->devise ?></td>
+                                                        <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = $comptebanque->solde(null, dateAjoute1($date1, -1))) ?> <?= $params->devise ?></td>
                                                     </tr>
                                                     <?php foreach ($mouvements as $key => $mouvement) {  ?>
                                                         <tr>

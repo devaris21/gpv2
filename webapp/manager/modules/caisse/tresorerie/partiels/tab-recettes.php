@@ -97,7 +97,7 @@
                     </thead>
                     <tbody class="tableau">
                         <tr>
-                            <td colspan="2">Repport du solde de la veille (<?= datecourt(dateAjoute(-8)) ?>) </td>
+                            <td colspan="2">Repport du solde </td>
                             <td class="text-center">-</td>
                             <td class="text-center">-</td>
                             <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute(-8))) ?> <?= $params->devise ?></td>

@@ -76,7 +76,7 @@
                                     <div class="col-lg-3">
                                         <ul class="stat-list">
                                             <li>
-                                                <h2 class="no-margins "><?= money($comptebanque->getIn($date1, $date2)) ?> <small><?= $params->devise ?> <small><?= $params->devise ?></small></h2>
+                                                <h2 class="no-margins "><?= money($comptebanque->getIn($date1, $date2)) ?> <small><?= $params->devise ?> <small></small></h2>
                                                 <small>Autres entrées en caisse</small>
                                                 <div class="progress progress-mini">
                                                     <div style="width: 60%;" class="progress-bar"></div>
@@ -149,10 +149,10 @@
                                                 </thead>
                                                 <tbody class="tableau">
                                                     <tr>
-                                                        <td colspan="2">Repport du solde de la veille (<?= datecourt(dateAjoute(-8)) ?>) </td>
+                                                        <td colspan="2">Repport du solde </td>
                                                         <td class="text-center">-</td>
                                                         <td class="text-center">-</td>
-                                                        <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = $comptebanque->solde($date2)) ?> <?= $params->devise ?></td>
+                                                        <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = $comptebanque->solde(null, dateAjoute1($date1, -1))) ?> <?= $params->devise ?></td>
                                                     </tr>
                                                     <?php foreach ($mouvements as $key => $mouvement) {  ?>
                                                         <tr>
