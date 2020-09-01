@@ -139,12 +139,16 @@
                                                 <tr>
                                                     <td><?= $produit->name(); ?></td>
                                                     <?php foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
-                                                        $prix = $produit->fourni("price", ["emballage_id ="=>$emballage->id])[0] ?>
+                                                        $prix = $produit->fourni("price", ["emballage_id ="=>$emballage->id])[0];
+                                                        $etiquette = $produit->fourni("etiquette")[0];
+
+                                                        $cout = (($production->maindoeuvre + $total) / $ligne->quantite * $produit->quantite->name) + $emballage->price() + $etiquette->price(); ?>
                                                         <td>
                                                             <div class="text-center" style="color: blue">
                                                                 <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>">
                                                                 <small><?= $emballage->name(); ?></small>
-                                                                <h4><?= money((($production->maindoeuvre + $total) / $ligne->quantite * $produit->quantite->name) + $emballage->price()) ?> <?= $params->devise ?></h4>
+                                                                <h5 class="text-danger"><?= money($cout) ?> <?= $params->devise ?></h5>
+                                                                <h5 class="text-green"><?= money($prix->prix - $cout) ?> <?= $params->devise ?> /// <?= money($prix->prix_gros - $cout) ?> <?= $params->devise ?></h5>
                                                             </div>
                                                         </td>
                                                     <?php } ?>
@@ -175,9 +179,9 @@
                                 </table>
                             </div>
                             <div class="col-5">
-                                <div class="text-right" style="margin-bottom: 20%;">
+                                <!-- <div class="text-right" style="margin-bottom: 20%;">
                                     <span><u>Signature & Cachet</u></span>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 

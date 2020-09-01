@@ -212,7 +212,7 @@
 
             <?php include($this->rootPath("webapp/config/elements/templates/script.php")); ?>
 
-            <?php include($this->rootPath("composants/assets/modals/modal-params.php") );  ?>
+            <?php include($this->rootPath("composants/assets/modals/modal-comptebanque.php") );  ?>
 
 
         </body>

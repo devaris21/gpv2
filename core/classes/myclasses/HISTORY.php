@@ -7,7 +7,7 @@ use Native\RESPONSE;
 class HISTORY extends TABLE
 {
 
-public static $tableName = __CLASS__;
+	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
 	public $sentense; // phrase de l'historique
@@ -31,9 +31,8 @@ public static $tableName = __CLASS__;
 		$story->typeSave = $type_save;
 		$story->sentense =  $element->sentense;
 
-		if (getSession("employe_connecte_id") != null) {
-			$story->employe_id = getSession("employe_connecte_id");
-		}
+		$story->employe_id = getSession("employe_connecte_id");
+
 		if ($story->typeSave == "insert") {
 			$story->sentense = $element->sentenseCreate();
 		}else if ($story->typeSave == "delete") {
@@ -41,10 +40,7 @@ public static $tableName = __CLASS__;
 		}else if ($story->typeSave == "update") {
 			$story->sentense = $element->sentenseUpdate();
 		}
-		if (in_array($story->record, ["depense", "entree", "reglement", "remboursement", "lignefacture"])) {
-			$story->isOperationCaisse = 1;
-			$story->price = $element->price;
-		}
+
 		if ($story->sentense != "") {
 			$story->enregistre();
 		}

@@ -14,84 +14,8 @@
 
             <?php include($this->rootPath("webapp/manager/elements/templates/header.php")); ?>  
 
-            <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-lg-7">
-                    <h2 class="text-uppercase"><?= $comptebanque->name() ?></h2>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="index.html">N°<?= $comptebanque->numero ?></a>
-                        </li>
-                    </ol>
-                </div>
-                <div class="col-lg-5">
-                    <h4><?= $comptebanque->etablissement ?></h4>
-                </div>
-            </div>
 
             <div class="wrapper wrapper-content">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="ibox">
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-7">
-                                        <h5 class="text-uppercase">Chiffre d'affaire</h5>
-                                        <h2 class="no-margins"><?= money(Home\TRESORERIE::chiffreAffaire($date1, $date2))  ?> </h2>
-                                    </div>
-                                    <div class="col-5 text-right">
-                                        <i class="fa fa-dollar fa-5x" style="color: #ddd"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="ibox">
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-7">
-                                        <h5 class="text-uppercase">Résultat brut</h5>
-                                        <h2 class="no-margins"><?= money($comptebanque->getIn($date1, $date2) - $comptebanque->getOut($date1, $date2)) ?></h2>
-                                    </div>
-                                    <div class="col-5 text-right">
-                                        <i class="fa fa-money fa-5x" style="color: #ddd"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="ibox">
-                            <div class="ibox-content bg-navy">
-                                <div class="row">
-                                    <div class="col-7">
-                                        <h5 class="text-uppercase">Dette clientèle</h5>
-                                        <h2 class="no-margins"><?= money(Home\CLIENT::dettes()) ?></h2>
-                                    </div>
-                                    <div class="col-5 text-right">
-                                        <i class="fa fa-users fa-5x" style="color: #ddd"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="ibox">
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-7">
-                                        <h5 class="text-uppercase">Dette Fournisseur</h5>
-                                        <h2 class="no-margins"><?= money(Home\FOURNISSEUR::dettes()) ?></h2>
-                                    </div>
-                                    <div class="col-5 text-right">
-                                        <i class="fa fa-truck fa-5x text-danger"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -152,26 +76,19 @@
                                     <div class="col-lg-3">
                                         <ul class="stat-list">
                                             <li>
-                                                <h2 class="no-margins"><?= money(Home\REGLEMENTCLIENT::total($date1 , $date2)) ?> <small><?= $params->devise ?></small></h2>
-                                                <small>Total reglements clients</small>
-                                                <div class="progress progress-mini">
-                                                    <div style="width: 48%;" class="progress-bar"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <h2 class="no-margins "><?= money(Home\OPERATION::entree($date1 , $date2)) ?> <small><?= $params->devise ?></small></h2>
+                                                <h2 class="no-margins "><?= money($comptebanque->getIn($date1, $date2)) ?> <small><?= $params->devise ?> <small><?= $params->devise ?></small></h2>
                                                 <small>Autres entrées en caisse</small>
                                                 <div class="progress progress-mini">
                                                     <div style="width: 60%;" class="progress-bar"></div>
                                                 </div>
                                             </li><br>
                                             <li>
-                                                <h2 class="no-margins text-danger "><?= money($comptebanque->getOut(dateAjoute(), dateAjoute(1))) ?> <small><?= $params->devise ?></small></h2>
+                                                <h2 class="no-margins text-danger "><?= money($comptebanque->getOut($date1, $date2) - comptage($transferts , "montant", "somme")) ?> <small><?= $params->devise ?></small></h2>
                                                 <small>Total Charges de fonctionnement</small>
                                                 <div class="progress progress-mini">
                                                     <div style="width: 22%;" class="progress-bar progress-bar-animated progress-bar-danger"></div>
                                                 </div>
-                                            </li>
+                                            </li><br>
                                         <!--     <li>
                                                 <div class="row">
                                                     <div class="col-sm-6">
@@ -182,7 +99,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <h3 class="no-margins text-danger "><?= money(Home\REGLEMENTFOURNISSEUR::total($date1 , $date2)) ?> <small><?= $params->devise ?></small></h3>
+                                                        <h3 class="no-margins text-danger "><?= money(Home\REGLEMENTFOURNISSEUR::total($date1 , $date2, $manager->id)) ?> <small><?= $params->devise ?></small></h3>
                                                         <small>Fourniture</small>
                                                         <div class="progress progress-mini">
                                                             <div style="width: 22%;" class="progress-bar progress-bar-animated progress-bar-danger"></div>
@@ -235,7 +152,7 @@
                                                         <td colspan="2">Repport du solde de la veille (<?= datecourt(dateAjoute(-8)) ?>) </td>
                                                         <td class="text-center">-</td>
                                                         <td class="text-center">-</td>
-                                                        <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute(-8))) ?> <?= $params->devise ?></td>
+                                                        <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = $comptebanque->solde($date2)) ?> <?= $params->devise ?></td>
                                                     </tr>
                                                     <?php foreach ($mouvements as $key => $mouvement) {  ?>
                                                         <tr>

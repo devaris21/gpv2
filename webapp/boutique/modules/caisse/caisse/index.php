@@ -17,7 +17,7 @@
 
             <div class="wrapper wrapper-content">
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="ibox">
                             <div class="ibox-content">
                                 <div class="row">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="ibox">
                             <div class="ibox-content">
                                 <div class="row">
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="ibox">
                             <div class="ibox-content bg-navy">
                                 <div class="row">
@@ -57,21 +57,6 @@
                                     </div>
                                     <div class="col-5 text-right">
                                         <i class="fa fa-users fa-5x" style="color: #ddd"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="ibox">
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-7">
-                                        <h5 class="text-uppercase">Dette Fournisseur</h5>
-                                        <h2 class="no-margins"><?= money(Home\FOURNISSEUR::dettes()) ?></h2>
-                                    </div>
-                                    <div class="col-5 text-right">
-                                        <i class="fa fa-truck fa-5x text-danger"></i>
                                     </div>
                                 </div>
                             </div>
@@ -153,30 +138,13 @@
                                                 </div>
                                             </li><br>
                                             <li>
-                                                <h2 class="no-margins text-danger "><?= money($comptebanque->getOut(dateAjoute(), dateAjoute(1))) ?> <small><?= $params->devise ?></small></h2>
+                                                <h2 class="no-margins text-danger "><?= money($comptebanque->getOut($date1, $date2) - comptage($transferts , "montant", "somme")) ?> <small><?= $params->devise ?></small></h2>
                                                 <small>Total Charges de fonctionnement</small>
                                                 <div class="progress progress-mini">
                                                     <div style="width: 22%;" class="progress-bar progress-bar-animated progress-bar-danger"></div>
                                                 </div>
                                             </li>
-                                        <!--     <li>
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <h3 class="no-margins text-danger "><?= money(0) ?> <small><?= $params->devise ?></small></h3>
-                                                        <small>Paye </small>
-                                                        <div class="progress progress-mini">
-                                                            <div style="width: 22%;" class="progress-bar progress-bar-animated progress-bar-danger"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <h3 class="no-margins text-danger "><?= money(Home\REGLEMENTFOURNISSEUR::total($date1 , $date2, $boutique->id)) ?> <small><?= $params->devise ?></small></h3>
-                                                        <small>Fourniture</small>
-                                                        <div class="progress progress-mini">
-                                                            <div style="width: 22%;" class="progress-bar progress-bar-animated progress-bar-danger"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li><br> -->
+                                      
                                             <li>
                                                 <h2 class="no-margins text-warning"><?= money(comptage($transferts , "montant", "somme")) ?> <small><?= $params->devise ?></small></h2>
                                                 <small>Transferts vers autre compte</small>
@@ -222,7 +190,7 @@
                                                         <td colspan="2">Repport du solde de la veille (<?= datecourt(dateAjoute(-8)) ?>) </td>
                                                         <td class="text-center">-</td>
                                                         <td class="text-center">-</td>
-                                                        <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute(-8))) ?> <?= $params->devise ?></td>
+                                                        <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = $comptebanque->solde($date2)) ?> <?= $params->devise ?></td>
                                                     </tr>
                                                     <?php foreach ($mouvements as $key => $mouvement) {  ?>
                                                         <tr>

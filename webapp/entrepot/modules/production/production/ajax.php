@@ -58,11 +58,11 @@ if ($action == "nouvelleProduction") {
 				foreach ($type->fourni("exigenceproduction") as $key1 => $exi) {
 					$res = $exi->fourni("ligneexigenceproduction", ["ressource_id ="=> $type->ressource_id])[0];
 					$total = $qte * $exi->quantite / $res->quantite;
-					$datas = $exi->fourni("ligneexigenceproduction", ["ressource_id !="=> $type->ressource_id, "quantite >"=>0]);
+					$datas = $exi->fourni("ligneexigenceproduction", ["quantite >"=>0]);
 					foreach ($datas as $key2 => $ligne) {
 						if ($ligne->quantite > 0) {
 							$ligne->actualise();
-							if ($ligne->ressource->isActive() && ($total*$ligne->quantite/$exi->quantite) > $ligne->ressource->stock(PARAMS::DATE_DEFAULT, dateAjoute(1), getSession("entrepot_connecte_id"))) {
+							if ($ligne->ressource->isActive() && ($total*$ligne->quantite/$exi->quantite) > $ligne->ressource->stock(PARAMS::DATE_DEFAULT, dateAjoute(1), getSession("entrepot_connecte_id")) ) {
 								$test = false;
 								break 2;
 							}
@@ -83,7 +83,6 @@ if ($action == "nouvelleProduction") {
 			if ($entrepot->comptebanque->solde() >= $maindoeuvre) {
 				$production = new PRODUCTION();
 				$production->hydrater($_POST);
-				$production->maindoeuvre = intval($production->maindoeuvre);
 				$data = $production->enregistre();
 				if ($data->status) {
 					foreach ($listeproduits as $key => $value) {

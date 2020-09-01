@@ -33,7 +33,7 @@
                                     <div class="">
                                         <label>Coût de la main d'oeuvre <span1>*</span1></label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" number name="maindoeuvre">
+                                            <input type="text" class="form-control" value="0" number name="maindoeuvre">
                                         </div>
                                     </div>
 

@@ -42,6 +42,7 @@ class COMPTEBANQUE extends TABLE
 		$montant = intval($montant);
 		if ($montant > 0) {
 			$mouvement = new MOUVEMENT();
+			$mouvement->name = "Depôt sur le compte";
 			$mouvement->typemouvement_id = TYPEMOUVEMENT::DEPOT;
 			$mouvement->comptebanque_id = $this->id;
 			$mouvement->montant = $montant;
@@ -61,6 +62,7 @@ class COMPTEBANQUE extends TABLE
 		if ($montant > 0) {
 			if ($this->solde(PARAMS::DATE_DEFAULT, dateAjoute()) >= $montant) {
 				$mouvement = new MOUVEMENT();
+				$mouvement->name = "Retrait sur le compte";
 				$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
 				$mouvement->comptebanque_id = $this->id;
 				$mouvement->montant = $montant;

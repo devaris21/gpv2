@@ -11,11 +11,10 @@ if (count($datas) == 1) {
 
 	$transferts = TRANSFERTFOND::findBy(["comptebanque_id_source="=>$comptebanque->id, "DATE(created) >= "=> $date1, "DATE(created) <= "=> $date2]);
 
-	$operations = OPERATION::findBy(["DATE(created) >= "=> dateAjoute(-7)]);
 	$entrees = $depenses = [];
-	foreach ($operations as $key => $value) {
+	foreach ($mouvements as $key => $value) {
 		$value->actualise();
-		if ($value->categorieoperation->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE) {
+		if ($value->typemouvement_id == TYPEMOUVEMENT::DEPOT) {
 			$entrees[] = $value;
 		}else{
 			$depenses[] = $value;

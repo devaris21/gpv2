@@ -16,7 +16,7 @@ $ventecaves__ = PROSPECTION::findBy(["etat_id ="=>ETAT::ENCOURS, "typeprospectio
 $livraisons__ = PROSPECTION::findBy(["etat_id ="=>ETAT::ENCOURS, "typeprospection_id ="=>TYPEPROSPECTION::LIVRAISON]);
 $approvisionnements__ = APPROVISIONNEMENT::encours();
 
-$title = "GPV | Tableau de bord";
+$title = "GPV | Paramètres de configuration de la caisse";
 
 
 
