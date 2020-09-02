@@ -140,7 +140,7 @@
                                         <span class="label label-<?= $production->etat->class ?>"><?= $production->etat->name ?></span>
                                     </td>
                                     <td>
-                                        <span class="text-uppercase gras">Mise en boutique</span><br>
+                                        <span class="text-uppercase gras">Nouvelle Production</span><br>
                                         <span><?= $production->reference ?></span>
                                     </td>
                                     <td>

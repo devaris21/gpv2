@@ -24,6 +24,9 @@ class APPROEMBALLAGE extends TABLE
 	public $comment;
 	public $datelivraison;
 
+	public $acompteFournisseur = 0;
+	public $detteFournisseur = 0;
+	
 
 	public function enregistre(){
 		$data = new RESPONSE;

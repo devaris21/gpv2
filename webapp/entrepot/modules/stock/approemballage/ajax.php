@@ -158,12 +158,9 @@ if ($action == "validerApprovisionnement") {
 								}
 								if ($data->status) {
 
+									$fournisseur->actualise();
 									if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
 										$approvisionnement->reglementfournisseur_id = $data->lastid;
-										$fournisseur->actualise();
-										$payement->acompteClient = $fournisseur->acompte;
-										$payement->detteClient = $fournisseur->dette;
-										$data = $payement->save();
 									}
 									if ($data->status) {
 
@@ -172,6 +169,8 @@ if ($action == "validerApprovisionnement") {
 											$approvisionnement->datelivraison = date("Y-m-d H:i:s");
 										}
 										$approvisionnement->montant = $total;
+										$approvisionnement->acompteFournisseur = $fournisseur->acompte;
+										$approvisionnement->detteFournisseur = $fournisseur->dette;
 										$data = $approvisionnement->enregistre();
 										if ($data->status) {
 											foreach ($ressources as $key => $value) {
@@ -194,8 +193,8 @@ if ($action == "validerApprovisionnement") {
 											if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && $total > 0) {
 												$payement->comment = "Réglement de la facture d'approvisionnement d'emballage N°".$approvisionnement->reference;
 												$data = $payement->save();
-												$data->setUrl("fiches", "master", "boncaisse", $data->lastid);
 											}
+											$data->setUrl("fiches", "master", "bonapproemballage", $approvisionnement->id);
 										}
 									}
 								}

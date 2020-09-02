@@ -16,12 +16,12 @@ class TRANSFERTFOND extends TABLE
 	public $comptebanque_id_source;
 	public $comptebanque_id_destination;
 	public $comment;
+	public $employe_id;
 
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$this->employe_id = getSession("employe_connecte_id");
 		$datas = COMPTEBANQUE::findBy(["id ="=>$this->comptebanque_id_source]);
 		if (count($datas) == 1) {
 			$source = $datas[0];
@@ -30,6 +30,7 @@ class TRANSFERTFOND extends TABLE
 				$destinataire = $datas[0];
 				$data = $source->transaction($this->montant, $destinataire, $this->comment);
 				if ($data->status) {
+					$this->employe_id = getSession("employe_connecte_id");
 					$data = $this->save() ;
 				}	
 			}else{

@@ -4,7 +4,6 @@ $(function(){
 	// Initialisation des plugins
 	$("select.select2").select2();
 
- $("[number]").inputmask({"mask": "999"});
 
     $('.i-checks').iCheck({
         checkboxClass: 'icheckbox_square-green',

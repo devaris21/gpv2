@@ -49,7 +49,7 @@
 							<div class="text-center">
 								<div class="row">
 									<div class="offset-sm-5 col-sm-2">
-										<input type="number" name="quantite" class="form-control" value="<?= $exi->quantite; ?>">
+										<input type="number" name="quantite" class="form-control" step="0.1" value="<?= $exi->quantite; ?>">
 									</div>	
 									<div class="col-sm-1"><?= $exi->typeproduit_parfum->typeproduit->abbr ?></div>	
 								</div>
@@ -63,7 +63,7 @@
 									<div class="col-sm-2">
 										<label><?= $ligne->ressource->name() ?> (<?= $ligne->ressource->abbr ?>)</label>
 										<div class="form-group">
-											<input type="number" number name="<?= $ligne->id ?>" class="form-control" value="<?= $ligne->quantite; ?>">
+											<input type="number" number step="0.1" name="<?= $ligne->id ?>" class="form-control" value="<?= $ligne->quantite; ?>">
 										</div>
 									</div>					
 								<?php } ?>
@@ -91,7 +91,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title">Ressource principle</h4>
+				<h4 class="modal-title">Ressource principale</h4>
 				<small>Veuillez saisir les quantités de chaque ressources néccessaire pour la production</small>
 			</div>
 			<form method="POST" class="formShamman" classname="typeproduit_parfum">

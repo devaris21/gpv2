@@ -37,9 +37,9 @@
                                     </div>
                                     <div class="col-sm-7 text-right">
                                         <h2 class="title text-uppercase gras text-blue">Bon de caisse</h2>
-                                        <h3 class="text-uppercase">N°<?= $operation->reference ?></h3>
-                                        <h5><?= datelong($operation->created) ?></h5>  
-                                        <h4><small>Bon délivré par :</small> <span class="text-uppercase"><?= $operation->employe->name() ?></span></h4>                                
+                                        <h3 class="text-uppercase">N°<?= $mouvement->reference ?></h3>
+                                        <h5><?= datelong($mouvement->created) ?></h5>  
+                                        <h4><small>Bon délivré par :</small> <span class="text-uppercase"><?= $mouvement->employe->name() ?></span></h4>                                
                                     </div>
                                 </div><hr class="mp3">
 
@@ -48,17 +48,17 @@
                                     <div class="row" style="margin-top: 1%;">
                                         <div class="col-6">
                                             <br>
-                                            <span class="text-uppercase gras">Opération par <?= $operation->modepayement->name() ?></span>
+                                            <span class="text-uppercase gras">Opération par <?= $mouvement->modepayement->name() ?></span>
                                         </div>
                                         <div class="col-6 text-right">
-                                            <span>Montant :</span> <span class="prix text-uppercase"><?= money($operation->montant) ?> <?= $params->devise ?></span>
+                                            <span>Montant :</span> <span class="prix text-uppercase"><?= money($mouvement->montant) ?> <?= $params->devise ?></span>
                                         </div>
                                     </div><br><br>
 
                                     <div class="text">
-                                        <span>Opération de <i><?= $operation->categorieoperation->typeoperationcaisse->name() ?> N°<?= $operation->reference ?></i> d'un montant de</span> <span class="lettre text-capitalize"><?= enLettre($operation->montant) ?> <?= $params->devise  ?></span><br>
-                                        <span>pour <i><?= $operation->comment ?></i>.</span>
-                                        <p class="m-b-xs"><?= $operation->structure ?> - <?= $operation->numero ?></p><br>
+                                        <span>Opération de <i><?= $mouvement->typemouvement->name() ?> N°<?= $mouvement->reference ?></i> d'un montant de</span> <span class="lettre text-capitalize"><?= enLettre($mouvement->montant) ?> <?= $params->devise  ?></span><br>
+                                        <span>pour <i><?= $mouvement->comment ?></i>.</span>
+                                        <p class="m-b-xs"><?= $mouvement->structure ?> - <?= $mouvement->numero ?></p><br>
                                     </div>
 
                                     <br><br>

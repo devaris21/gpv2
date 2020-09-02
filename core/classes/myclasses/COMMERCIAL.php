@@ -131,7 +131,10 @@ class COMMERCIAL extends PERSONNE
 			return 0;
 		}else{
 			if ($vendu >= ($nombre * $this->objectif)) {
-				return $this->salaire;
+				if ($nombre >= 26) {
+					return $this->salaire;
+				}
+				return $this->salaire * 10/100;
 			}else{
 				return round((($vendu * 0.1)), 2);
 			}

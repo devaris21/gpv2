@@ -13,13 +13,13 @@ foreach ($datas as $key => $value) {
 }
 
 $item = new BOUTIQUE();
-$item->name = "Boutique principal";
+$item->name = "Boutique principale";
 $item->comptebanque_id = COMPTEBANQUE::COURANT;
 $item->setProtected(1);
 $item->save();
 
 $item = new ENTREPOT();
-$item->name = "Entrepôt principal";
+$item->name = "Usine principale";
 $item->comptebanque_id = COMPTEBANQUE::COURANT;
 $item->setProtected(1);
 $item->save();
@@ -37,14 +37,6 @@ foreach ($datas as $key => $value) {
 $datas = ["Prospection par commercial", "livraison de commande"];
 foreach ($datas as $key => $value) {
 	$item = new TYPEPROSPECTION();
-	$item->name = $value;
-	$item->setProtected(1);
-	$item->save();
-}
-
-$datas = ["Voiture", "Camion benne", "Tricycle", "Moto"];
-foreach ($datas as $key => $value) {
-	$item = new TYPEVEHICULE();
 	$item->name = $value;
 	$item->setProtected(1);
 	$item->save();
@@ -164,7 +156,7 @@ foreach ($datas as $key => $value) {
 	$item->enregistre();
 }
 
-$datas = ["Jus sucré", "Sans sucre", "Sirop", "Confiture"];
+$datas = ["Jus sucré", "Sans sucre"];
 foreach ($datas as $key => $value) {
 	$item = new TYPEPRODUIT();
 	$item->name = $value;
@@ -180,15 +172,6 @@ foreach ($datas as $key => $value) {
 	$item->name = $value;
 	$item->setProtected(1);
 	$item->enregistre();
-}
-
-
-$datas = ["Prix normal", "Prix de gros"];
-foreach ($datas as $key => $value) {
-	$item = new TYPEBAREME();
-	$item->name = $value;
-	$item->setProtected(1);
-	$item->save();
 }
 
 

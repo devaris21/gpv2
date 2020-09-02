@@ -17,6 +17,7 @@ class MOUVEMENT extends TABLE
 	public $comptebanque_id;
 	public $etat_id = ETAT::VALIDEE;
 	public $comment;
+	public $modepayement_id ;
 	public $structure;
 	public $numero;
 	public $employe_id;

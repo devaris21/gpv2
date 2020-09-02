@@ -17,7 +17,7 @@
 
             <div class="wrapper wrapper-content">
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="ibox">
                             <div class="ibox-content">
                                 <div class="row">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="ibox">
                             <div class="ibox-content">
                                 <div class="row">
@@ -47,16 +47,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 bg-red">
+                    <div class="col-lg-4">
                         <div class="ibox">
-                            <div class="ibox-content">
+                            <div class="ibox-content bg-red">
                                 <div class="row">
                                     <div class="col-7">
                                         <h5 class="text-uppercase">Dette Fournisseur</h5>
                                         <h2 class="no-margins"><?= money(Home\FOURNISSEUR::dettes()) ?></h2>
                                     </div>
                                     <div class="col-5 text-right">
-                                        <i class="fa fa-truck fa-5x text-danger"></i>
+                                        <i class="fa fa-truck fa-5x "></i>
                                     </div>
                                 </div>
                             </div>

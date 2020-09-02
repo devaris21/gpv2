@@ -43,7 +43,10 @@
                     <a href="<?= $this->url($this->section, "master", "commerciaux") ?>"><i class="fa fa-bicycle"></i> <span class="nav-label">Liste des commerciaux</span></a>
                 </li>
                 <li class="" id="stock">
-                    <a href="<?= $this->url($this->section, "master", "stock") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Stock actuel</span></a>
+                    <a href="<?= $this->url($this->section, "master", "stock") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Stock des produits</span></a>
+                </li>
+                <li class="" id="perteboutique">
+                    <a href="<?= $this->url($this->section, "master", "perteboutique") ?>"><i class="fa fa-trash"></i> <span class="nav-label">Perte en entrepot</span></a>
                 </li>
                 <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
 
@@ -93,6 +96,6 @@
 
 <style type="text/css">
     li.dropdown-divider{
-     !important;
- }
+       !important;
+   }
 </style>

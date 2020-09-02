@@ -79,7 +79,7 @@
 
                                     <?php if ($employe->isAutoriser("mycompte")) { ?>
                                         <div class="col-lg-4">
-                                            <a href="<?= $this->url("manager", "master", "dashboard")  ?>">
+                                            <a href="<?= $this->url("config", "master", "mycompte")  ?>">
                                                 <div class="ibox">
                                                     <div class="ibox-content">
                                                         <div class="row">
@@ -176,7 +176,7 @@
                                     </a>
                                 </div>
                                 <div class="col-lg-3">
-                                    <a href="<?= $this->url("config", "master", "caisse")  ?>">
+                                    <a href="<?= $this->url("config", "master", "about")  ?>">
                                         <div class="ibox">
                                             <div class="ibox-content">
                                                 <div class="row">

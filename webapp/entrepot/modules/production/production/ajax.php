@@ -13,30 +13,35 @@ if ($action == "calcul") {
 	$datas = TYPEPRODUIT_PARFUM::findBy(["id ="=> $id]);
 	if (count($datas) == 1) {
 		$type = $datas[0];
-		$type->actualise();
-		?>
-		<div class="row justify-content-center">
-			<?php 
-			foreach ($type->fourni("exigenceproduction") as $key1 => $exi) {
-				$res = $exi->fourni("ligneexigenceproduction", ["ressource_id ="=> $type->ressource_id])[0];
-				$total = $val * $exi->quantite / $res->quantite;
-				$datas = $exi->fourni("ligneexigenceproduction", ["ressource_id !="=> $type->ressource_id, "quantite >"=>0]);
-				foreach ($datas as $key2 => $ligne) { 
-					$ligne->actualise();
-					?>
-					<div class="col-sm text-center border-right">
-						<label>Quantité de <?= $ligne->ressource->name()  ?></label>
-						<h4 class="mp0"><?= round((($total * $ligne->quantite) / $exi->quantite), 2) ?> <?= $ligne->ressource->abbr  ?></h4>
-					</div>	
-				<?php }
-			} ?>
-		</div><br><br><br>
+		if (intval($type->ressource_id) > 0) {
+			$type->actualise();
+			?>
+			<div class="row justify-content-center">
+				<?php 
+				foreach ($type->fourni("exigenceproduction") as $key1 => $exi) {
+					$res = $exi->fourni("ligneexigenceproduction", ["ressource_id ="=> $type->ressource_id])[0];
+					$total = $val * $exi->quantite / $res->quantite;
+					$datas = $exi->fourni("ligneexigenceproduction", ["ressource_id !="=> $type->ressource_id, "quantite >"=>0]);
+					foreach ($datas as $key2 => $ligne) { 
+						$ligne->actualise();
+						?>
+						<div class="col-sm text-center border-right">
+							<label>Quantité de <?= $ligne->ressource->name()  ?></label>
+							<h4 class="mp0"><?= round((($total * $ligne->quantite) / $exi->quantite), 2) ?> <?= $ligne->ressource->abbr  ?></h4>
+						</div>	
+					<?php }
+				} ?>
+			</div><br><br><br>
 
-		<div class="text-center">
-			<h4>Pour une production total de </h4>
-			<h2 class="gras mp0"><?= round($total, 1) ?> <?= $type->typeproduit->abbr  ?></h2>
-		</div>
-		<?php
+			<div class="text-center">
+				<h4>Pour une production total de </h4>
+				<h2 class="gras mp0"><?= round($total, 1) ?> <?= $type->typeproduit->abbr  ?></h2>
+			</div>
+			<?php
+		}else{ ?>
+			<br><br>
+			<h2 class="text-center"> Aucune matière première de base n'a été définie pour ce produit. Veuillez le faire dans les parametres de production pour pouvoir effectuer la production !</h2>
+		<?php }
 	}
 }
 
@@ -55,19 +60,24 @@ if ($action == "nouvelleProduction") {
 			$datas = TYPEPRODUIT_PARFUM::findBy(["id ="=> $id]);
 			if (count($datas) == 1) {
 				$type = $datas[0];
-				foreach ($type->fourni("exigenceproduction") as $key1 => $exi) {
-					$res = $exi->fourni("ligneexigenceproduction", ["ressource_id ="=> $type->ressource_id])[0];
-					$total = $qte * $exi->quantite / $res->quantite;
-					$datas = $exi->fourni("ligneexigenceproduction", ["quantite >"=>0]);
-					foreach ($datas as $key2 => $ligne) {
-						if ($ligne->quantite > 0) {
-							$ligne->actualise();
-							if ($ligne->ressource->isActive() && ($total*$ligne->quantite/$exi->quantite) > $ligne->ressource->stock(PARAMS::DATE_DEFAULT, dateAjoute(1), getSession("entrepot_connecte_id")) ) {
-								$test = false;
-								break 2;
+				if (intval($type->ressource_id) > 0) {
+					foreach ($type->fourni("exigenceproduction") as $key1 => $exi) {
+						$res = $exi->fourni("ligneexigenceproduction", ["ressource_id ="=> $type->ressource_id])[0];
+						$total = $qte * $exi->quantite / $res->quantite;
+						$datas = $exi->fourni("ligneexigenceproduction", ["quantite >"=>0]);
+						foreach ($datas as $key2 => $ligne) {
+							if ($ligne->quantite > 0) {
+								$ligne->actualise();
+								if ($ligne->ressource->isActive() && ($total*$ligne->quantite/$exi->quantite) > $ligne->ressource->stock(PARAMS::DATE_DEFAULT, dateAjoute(1), getSession("entrepot_connecte_id")) ) {
+									$test = false;
+									break 3;
+								}
 							}
 						}
 					}
+				}else{
+					$test = false;
+					break ;
 				}
 			}
 		}
@@ -124,7 +134,7 @@ if ($action == "nouvelleProduction") {
 		}
 	}else{
 		$data->status = false;
-		$data->message = "Certaines productions neccessite plus de ressources que vous n'en possédez !";
+		$data->message = "Certaines productions neccessite plus de ressources que vous n'en possédez ou sont mal définies !";
 	}
 	echo json_encode($data);
 }

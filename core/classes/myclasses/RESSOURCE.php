@@ -101,24 +101,24 @@ class RESSOURCE extends TABLE
 
 
 	public function price(){
-		if ($this->isActive()) {
-			$requette = "SELECT SUM(quantite_recu) as quantite, SUM(transport) as transport, SUM(ligneapprovisionnement.price) as price FROM ligneapprovisionnement, approvisionnement WHERE ligneapprovisionnement.ressource_id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND approvisionnement.etat_id = ? ";
-			$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
-			if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
-			$item = $datas[0];
+		$requette = "SELECT SUM(quantite_recu) as quantite, SUM(transport) as transport, SUM(ligneapprovisionnement.price) as price FROM ligneapprovisionnement, approvisionnement WHERE ligneapprovisionnement.ressource_id = ? AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND approvisionnement.etat_id = ? ";
+		$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
+		if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
+		$item = $datas[0];
 
-			$requette = "SELECT SUM(quantite_recu) as quantite FROM ligneapprovisionnement, approvisionnement WHERE ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND approvisionnement.id IN (SELECT approvisionnement_id FROM ligneapprovisionnement WHERE ligneapprovisionnement.ressource_id = ? ) AND approvisionnement.etat_id = ? ";
-			$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
-			if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
-			$ligne = $datas[0];
+		$requette = "SELECT SUM(quantite_recu) as quantite FROM ligneapprovisionnement, approvisionnement WHERE ligneapprovisionnement.approvisionnement_id = approvisionnement.id AND approvisionnement.id IN (SELECT approvisionnement_id FROM ligneapprovisionnement WHERE ligneapprovisionnement.ressource_id = ? ) AND approvisionnement.etat_id = ? ";
+		$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
+		if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
+		$ligne = $datas[0];
 
-			if ($item->quantite == 0) {
-				return 0;
-			}
+		if ($item->quantite == 0) {
+			return 0;
+		}
+		if (intval($this->price) <= 0) {
 			$total = ($item->price / $item->quantite) + ($item->transport / $ligne->quantite);
 			return $total;
 		}
-		return $this->price;
+		return $this->price + ($item->transport / $ligne->quantite);
 	}
 
 

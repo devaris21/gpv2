@@ -22,9 +22,6 @@ class REGLEMENTFOURNISSEUR extends TABLE
 	public $isModified = 0;
 	public $employe_id;
 
-	public $acompteFournisseur = 0;
-	public $detteFournisseur = 0;
-
 	public $image;
 	public $montant;
 	public $comptebanque_id;
@@ -52,6 +49,7 @@ class REGLEMENTFOURNISSEUR extends TABLE
 						$mouvement->name = "reglement de fournisseur";
 						$mouvement->montant = $this->montant;
 						$mouvement->comment = $this->comment;
+						$mouvement->modepayement_id = $this->modepayement_id;
 						$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
 						$mouvement->comptebanque_id  = $entrepot->comptebanque_id;
 						$data = $mouvement->enregistre();

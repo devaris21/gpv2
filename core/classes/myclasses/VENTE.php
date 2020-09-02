@@ -35,7 +35,10 @@ class VENTE extends TABLE
 			$this->boutique_id = getSession("boutique_connecte_id");
 			$this->reference = "BVE/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
 
-			$this->rendu = $this->montant - $this->recu;
+			$this->rendu = $this->recu - $this->montant;
+			if ($this->rendu < 0) {
+				$this->rendu = 0;
+			}
 			$data = $this->save();
 		}else{
 			$data->status = false;

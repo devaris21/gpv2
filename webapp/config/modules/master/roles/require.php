@@ -18,6 +18,4 @@ $approvisionnements__ = APPROVISIONNEMENT::encours();
 
 $title = "GPV | Tableau de bord";
 
-
-
 ?>

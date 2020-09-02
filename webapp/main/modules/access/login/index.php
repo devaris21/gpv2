@@ -14,10 +14,9 @@
                 <br>
                 <p>Veuillez entrer vos informations de connexion pour avoir accès à la plateforme de gestion.</p>
 
-                <p>En cas d'oubli ou de perte de votre mot de passe, vous pouvez le recupérer à l'aide de votre email en cliquant sur <br><a href="<?= $this->url("gestion", "access", "reset") ?>">J'ai oublié mon mot de passe !</a>
-                </p>
+                <p>Si vous avez oublié ou perdu votre mot de passe, veuillez contacter votre administrateur pour qu'il le reinitialise pour vous !</p>
 
-                <p>Pour tous autre chose, veuillez contacter votre administrateur système.</p>
+                <p>Pour toute autre chose, veuillez contacter votre administrateur système.</p>
 
             </div>
             <div class="col-md-6">
@@ -33,10 +32,6 @@
                         </div><br>
                         <button type="submit" class="btn btn-primary block full-width m-b dim"><i class="fa fa-check"></i> Se connecter</button>
 
-                        <!-- <br><p class="text-center"><a href="<?= $this->url("gestion", "access", "reset") ?>">
-                            J'ai oublié mon mot de passe !
-                        </a></p> --><br>
-                        <p>Si vous avez oublié votre mot de passe, veuillez contactez votre administrateur pour qu'il le reinitialise !</p>
                     </form>
                 </div>
             </div>

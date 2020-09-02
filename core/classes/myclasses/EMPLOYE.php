@@ -39,13 +39,12 @@ class EMPLOYE extends AUTH
 					$datas = static::findBy(["login ="=>$this->login]);
 					if (count($datas) == 0) {
 						$data = $this->save();
-						$this->actualise();
-
-						$tr = new ROLE_EMPLOYE();
-						$tr->employe_id = $data->lastid;
-						$tr->role_id = ROLE::MASTER;
-						$tr->setProtected(1);
-						$tr->enregistre();
+						if ($data->status) {
+							$tr = new ROLE_EMPLOYE();
+							$tr->employe_id = $data->lastid;
+							$tr->role_id = ROLE::MASTER;
+							$tr->enregistre();
+						}
 					}else{
 						$data->status = false;
 						$data->message = "Ce login ne peut plus etre utilisé !";

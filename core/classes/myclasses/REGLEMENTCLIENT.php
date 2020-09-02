@@ -54,6 +54,7 @@ class REGLEMENTCLIENT extends TABLE
 						$mouvement->name = "reglement de client";
 						$mouvement->montant = $this->montant;
 						$mouvement->comment = $this->comment;
+						$mouvement->modepayement_id = $this->modepayement_id;
 						$mouvement->typemouvement_id = TYPEMOUVEMENT::DEPOT;
 						$mouvement->comptebanque_id  = $boutique->comptebanque_id;
 						$data = $mouvement->enregistre();

@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="ibox-content" style="min-height: 300px;">
-                 <?php if (count($datas + $encours) > 0) { ?>
+                   <?php if (count($datas + $encours) > 0) { ?>
                     <table class="footable table table-stripped toggle-arrow-tiny">
                         <thead>
                             <tr>
@@ -70,6 +70,7 @@
                                     </td>
                                     <td>
                                         <span class="text-uppercase gras">Appro N°<?= $appro->reference ?></span><br>
+                                        <small><?= depuis($appro->created) ?></small>
                                     </td>
                                     <td>
                                         <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $appro->entrepot->name() ?></h6>
@@ -101,7 +102,7 @@
                                         </table>
                                     </td>
                                     <td>
-                                        <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $appro->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                        <a href="<?= $this->url("fiches", "master", "bonapproetiquette", $appro->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                         <?php if ($appro->etat_id == Home\ETAT::ENCOURS) { ?>
                                             <button onclick="terminer(<?= $appro->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Valider</button>
                                         <?php } ?>
@@ -135,7 +136,7 @@
                                     </td>
                                     <td><i class="fa fa-user"></i> <?= $appro->fournisseur->name() ?></td>
                                     <td class="border-right">
-                                     <table class="table table-bordered">
+                                       <table class="table table-bordered">
                                         <thead>
                                             <tr class="no">
                                                 <?php foreach ($appro->ligneapproetiquettes as $key => $ligne) {
@@ -154,7 +155,7 @@
                                     </table>
                                 </td>
                                 <td>
-                                    <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $appro->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                    <a href="<?= $this->url("fiches", "master", "bonapproetiquette", $appro->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                 </td>
                             </tr>
                         <?php  } ?>

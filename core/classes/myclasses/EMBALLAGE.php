@@ -19,6 +19,7 @@ class EMBALLAGE extends TABLE
 	public $emballage_id ;
 	public $isActive = TABLE::OUI;
 	public $initial = 0;
+	public $price = 0;
 	public $image ;
 
 
@@ -155,7 +156,7 @@ class EMBALLAGE extends TABLE
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
-		$requette = "SELECT SUM(quantite) as quantite  FROM perteentrepot WHERE perteentrepot.emballage_id = ? AND  perteentrepot.etat_id = ? AND DATE(perteentrepot.created) >= ? AND DATE(perteentrepot.created) <= ? $paras ";
+		$requette = "SELECT SUM(quantite) as quantite  FROM perteentrepot WHERE perteentrepot.emballage_id = ? AND perteentrepot.produit_id IS NULL AND perteentrepot.etat_id = ? AND DATE(perteentrepot.created) >= ? AND DATE(perteentrepot.created) <= ? $paras ";
 		$item = PERTEENTREPOT::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new PERTEENTREPOT()]; }
 		return $item[0]->quantite;
@@ -165,7 +166,7 @@ class EMBALLAGE extends TABLE
 
 
 	public function price(){
-		$requette = "SELECT SUM(quantite_recu) as quantite, SUM(transport) as transport, SUM(ligneapproemballage.price) as price FROM ligneapproemballage, approemballage WHERE ligneapproemballage.emballage_id = ? AND ligneapproemballage.approemballage_id = approemballage.id AND approemballage.etat_id = ? ";
+			$requette = "SELECT SUM(quantite_recu) as quantite, SUM(transport) as transport, SUM(ligneapproemballage.price) as price FROM ligneapproemballage, approemballage WHERE ligneapproemballage.emballage_id = ? AND ligneapproemballage.approemballage_id = approemballage.id AND approemballage.etat_id = ? ";
 			$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
 			if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
 			$item = $datas[0];
@@ -178,8 +179,11 @@ class EMBALLAGE extends TABLE
 			if ($item->quantite == 0) {
 				return 0;
 			}
+		if (intval($this->price) <= 0) {
 			$total = ($item->price / $item->quantite) + ($item->transport / $ligne->quantite);
 			return $total;
+		}
+		return $this->price + ($item->transport / $ligne->quantite);
 	}
 
 

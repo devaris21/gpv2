@@ -171,7 +171,7 @@
                                                                     <tr>
                                                                         <td class="" style="width: 30%">
                                                                             <?= $produit->name(); ?> 
-                                                                            <div class="row produits">
+                                                                            <div class="row">
                                                                                 <div class="col-sm-6">
                                                                                     <div class="onoffswitch">
                                                                                         <input type="checkbox" <?= ($produit->isActive())?"checked":""  ?> onchange='changeActive("produit", <?= $produit->id ?>)' class="onoffswitch-checkbox" id="produit<?= $produit->id ?>">
@@ -190,22 +190,26 @@
                                                                             </div>
                                                                         </td>
                                                                         <td class="text-center">
-                                                                            <?php if ($produit->isActive()) {
-                                                                               foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
-                                                                                $prix = $produit->fourni("price", ["emballage_id ="=>$emballage->id])[0] ?>
-                                                                                <div class="" style="color: blue">
-                                                                                    <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> <small><?= $emballage->name(); ?></small>
-                                                                                </div><hr class="mp3">
-                                                                                <div class="row produits">
-                                                                                    <div class="col-sm-6">
-                                                                                        <input type="text" title="Prix Unitaire normal" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center prix" value="<?= $prix->prix ?>" name="prix" id="<?= $prix->id ?>">
+                                                                            <div class="row">
+                                                                                <?php if ($produit->isActive()) {
+                                                                                 foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
+                                                                                    $prix = $produit->fourni("price", ["emballage_id ="=>$emballage->id])[0] ?>
+                                                                                    <div class="col-md border-right">
+                                                                                        <div class="" style="color: blue">
+                                                                                            <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> <small><?= $emballage->name(); ?></small>
+                                                                                        </div><hr class="mp3">
+                                                                                        <div class="row produits">
+                                                                                            <div class="col-sm-6">
+                                                                                                <input type="text" title="Prix Unitaire normal" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center prix" value="<?= $prix->prix ?>" name="prix" id="<?= $prix->id ?>">
+                                                                                            </div>
+                                                                                            <div class="col-sm-6" style=" color: orangered">
+                                                                                                <input type="text" title="Prix unitaire de gros" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center prix_gros" value="<?= $prix->prix_gros ?>" name="prix_gros" id="<?= $prix->id ?>">
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <div class="col-sm-6" style=" color: orangered">
-                                                                                        <input type="text" title="Prix unitaire de gros" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center prix_gros" value="<?= $prix->prix_gros ?>" name="prix_gros" id="<?= $prix->id ?>">
-                                                                                    </div>
-                                                                                </div>
-                                                                            <?php }
-                                                                        } ?>
+                                                                                <?php }
+                                                                            } ?>
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             <?php } ?>

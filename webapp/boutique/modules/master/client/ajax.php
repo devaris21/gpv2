@@ -283,7 +283,8 @@ if ($action == "venteDirecte") {
 								$lignedevente->enregistre();	
 							}
 						}
-						$data = $vente->payement($total, $_POST);							
+						$data = $vente->payement($total, $_POST);	
+																	$data->setUrl("fiches", "master", "bonvente", $vente->id);						
 					}
 
 				}else{
@@ -361,7 +362,6 @@ if ($action == "validerPropection") {
 								}
 							}
 							$data->setUrl("fiches", "master", "bonsortie", $data->lastid);
-							// $data->url2 = $data->setUrl("fiches", "master", "boncommande", $data->lastid);
 						}
 					}else{
 						$data->status = false;
@@ -486,7 +486,6 @@ if ($action == "validerCommande") {
 							$commande->detteClient = $client->dette;
 							$data = $commande->save();
 
-							$data->url1 = $data->setUrl("fiches", "master", "boncaisse", $lot->lastid);
 							$data->url2 = $data->setUrl("fiches", "master", "boncommande", $data->lastid);
 						}
 

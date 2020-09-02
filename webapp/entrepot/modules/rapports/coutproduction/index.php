@@ -147,8 +147,8 @@
                                                             <div class="text-center" style="color: blue">
                                                                 <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>">
                                                                 <small><?= $emballage->name(); ?></small>
-                                                                <h5 class="text-danger"><?= money($cout) ?> <?= $params->devise ?></h5>
-                                                                <h5 class="text-green"><?= money($prix->prix - $cout) ?> <?= $params->devise ?> /// <?= money($prix->prix_gros - $cout) ?> <?= $params->devise ?></h5>
+                                                                <h5 class="text-danger" title="Coût de revient unitaire"><?= money($cout) ?> <?= $params->devise ?></h5>
+                                                                <h5 class="text-green" title="Bénéfice unitaire"><?= money($prix->prix - $cout) ?> <?= $params->devise ?> /// <?= money($prix->prix_gros - $cout) ?> <?= $params->devise ?></h5>
                                                             </div>
                                                         </td>
                                                     <?php } ?>

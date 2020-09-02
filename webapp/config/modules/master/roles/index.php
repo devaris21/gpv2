@@ -37,7 +37,7 @@
                     <div class="wrapper-content">
                         <div class="animated fadeInRightBig container-fluid">
 
-                         <div class="ibox border">
+                           <div class="ibox border">
                             <div class="ibox-title">
                                 <h5 class="text-uppercase">Personnes ayant accès et leur roles</h5>
                                 <div class="ibox-tools">
@@ -53,7 +53,7 @@
                                             <th>Status</th>
                                             <th>Utilisateur</th>
                                             <th>Identifiants</th>
-                                            <th style="width: 45%">Accès et rôles</th>
+                                            <th style="width: 40%">Accès et rôles</th>
                                             <th>Affiliation</th>
                                             <th></th>
                                         </tr>
@@ -93,9 +93,10 @@
                                                             </div>
                                                         <?php } ?>
                                                         <?php foreach (Home\ROLE::getAll() as $key => $role) {
-                                                            if (!in_array($role->id, $lots)) { ?>
+                                                            if (!in_array($role->id, $lots)) {
+                                                                ?>
                                                                 <div class="col-6 col-sm-4">
-                                                                    <label class="cursor"><input type="checkbox" class="i-checks" employe_id="<?= $rem->employe_id ?>" role_id="<?= $role->id ?>" name="<?= $rem->role->name() ?>"> <?= $rem->role->name() ?></label>
+                                                                    <label class="cursor"><input type="checkbox" class="i-checks" employe_id="<?= $item->id ?>" role_id="<?= $role->id ?>" name="<?= $role->name() ?>"> <?= $role->name() ?></label>
                                                                 </div>
                                                             <?php } 
                                                         } ?>  
@@ -152,7 +153,7 @@
 
         <?php include($this->rootPath("webapp/config/elements/templates/script.php")); ?>
 
-        <?php include($this->rootPath("composants/assets/modals/modal-params.php") );  ?>
+        <?php include($this->rootPath("composants/assets/modals/modal-employe.php") );  ?>
 
 
     </body>

@@ -5,8 +5,8 @@ require '../../../../../core/root/includes.php';
 use Native\RESPONSE;
 use Native\ROOTER;
 
-	$params = PARAMS::findLastId();
-	$rooter = new ROOTER;
+$params = PARAMS::findLastId();
+$rooter = new ROOTER;
 
 $data = new RESPONSE;
 extract($_POST);
@@ -161,12 +161,9 @@ if ($action == "validerApprovisionnement") {
 								}
 								if ($data->status) {
 
+									$fournisseur->actualise();
 									if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
 										$appro->reglementfournisseur_id = $data->lastid;
-										$fournisseur->actualise();
-										$payement->acompteClient = $fournisseur->acompte;
-										$payement->detteClient = $fournisseur->dette;
-										$data = $payement->save();
 									}
 									if ($data->status) {
 
@@ -175,6 +172,8 @@ if ($action == "validerApprovisionnement") {
 											$appro->datelivraison = date("Y-m-d H:i:s");
 										}
 										$appro->montant = $total;
+										$appro->acompteFournisseur = $fournisseur->acompte;
+										$appro->detteFournisseur = $fournisseur->dette;
 										$data = $appro->enregistre();
 										if ($data->status) {
 											foreach ($ressources as $key => $value) {
@@ -182,7 +181,7 @@ if ($action == "validerApprovisionnement") {
 												$id = $lot[0];
 												$qte = $lot[1];
 												$prix = end($lot);
-												$datas = RESSOURCE::findBy(["id ="=> $id]);
+												$datas = ETIQUETTE::findBy(["id ="=> $id]);
 												if (count($datas) == 1) {
 													$ressource = $datas[0];
 													$lignecommande = new LIGNEAPPROETIQUETTE;
@@ -197,8 +196,8 @@ if ($action == "validerApprovisionnement") {
 											if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && $total > 0) {
 												$payement->comment = "Réglement de la facture d'approvisionnement N°".$appro->reference;
 												$data = $payement->save();
-												$data->setUrl("fiches", "master", "boncaisse", $data->lastid);
 											}
+											$data->setUrl("fiches", "master", "bonapproetiquette", $appro->id);
 										}
 									}
 								}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : lun. 24 août 2020 à 17:43
+-- Généré le : jeu. 03 sep. 2020 à 15:23
 -- Version du serveur :  5.7.24
 -- Version de PHP : 7.3.2
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `gpv2`
+-- Base de données : `gpv2_`
 --
 
 -- --------------------------------------------------------
@@ -164,7 +164,7 @@ CREATE TABLE `approvisionnement` (
 CREATE TABLE `boutique` (
   `id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
-  `lieu` varchar(200) COLLATE utf8_bin NOT NULL,
+  `lieu` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `comptebanque_id` int(11) DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -198,9 +198,9 @@ CREATE TABLE `capitaux` (
 CREATE TABLE `caracteristiqueemballage` (
   `id` int(11) NOT NULL,
   `emballage_id` int(11) NOT NULL,
-  `typeproduit_id` int(11) DEFAULT NULL,
-  `parfum_id` int(11) DEFAULT NULL,
-  `quantite_id` int(11) DEFAULT NULL,
+  `typeproduit_id` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `parfum_id` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `quantite_id` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -297,7 +297,6 @@ CREATE TABLE `commande` (
   `reference` varchar(20) COLLATE utf8_bin NOT NULL,
   `groupecommande_id` int(20) NOT NULL,
   `zonedevente_id` int(11) NOT NULL,
-  `boutique_id` int(11) NOT NULL,
   `lieu` varchar(200) COLLATE utf8_bin NOT NULL,
   `taux_tva` int(11) DEFAULT NULL,
   `tva` int(11) NOT NULL,
@@ -336,7 +335,7 @@ CREATE TABLE `commercial` (
   `objectif` int(11) NOT NULL,
   `disponibilite_id` int(11) NOT NULL,
   `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `visibility` int(11) NOT NULL,
+  `boutique_id` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -516,15 +515,18 @@ CREATE TABLE `dotation` (
 
 CREATE TABLE `emballage` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `name` text COLLATE utf8_bin NOT NULL,
+  `quantite` int(11) NOT NULL,
+  `initial` int(11) NOT NULL,
+  `price` int(11) DEFAULT NULL,
   `emballage_id` int(11) DEFAULT NULL,
-  `Colonne 4` int(11) DEFAULT NULL,
-  `image` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `isActive` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -541,10 +543,8 @@ CREATE TABLE `employe` (
   `login` varchar(50) COLLATE utf8_bin NOT NULL,
   `password` text COLLATE utf8_bin NOT NULL,
   `image` varchar(50) COLLATE utf8_bin NOT NULL,
-  `boutique_id` int(11) NOT NULL DEFAULT '0',
-  `entrepot_id` int(11) NOT NULL DEFAULT '0',
-  `isAdmin` int(11) NOT NULL DEFAULT '0',
-  `isManager` int(11) NOT NULL DEFAULT '0',
+  `boutique_id` int(11) DEFAULT '0',
+  `entrepot_id` int(11) DEFAULT '0',
   `is_new` int(11) NOT NULL DEFAULT '0',
   `is_allowed` int(11) NOT NULL DEFAULT '1',
   `visibility` int(11) NOT NULL DEFAULT '0',
@@ -579,7 +579,7 @@ CREATE TABLE `energie` (
 CREATE TABLE `entrepot` (
   `id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
-  `lieu` varchar(200) COLLATE utf8_bin NOT NULL,
+  `lieu` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `comptebanque_id` int(11) DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -653,6 +653,7 @@ CREATE TABLE `etiquette` (
   `id` int(11) NOT NULL,
   `produit_id` int(11) NOT NULL,
   `initial` int(11) DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -685,26 +686,6 @@ CREATE TABLE `exigenceproduction` (
   `id` int(11) NOT NULL,
   `typeproduit_parfum_id` int(20) NOT NULL,
   `quantite` int(11) NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `protected` int(11) NOT NULL DEFAULT '0',
-  `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `formatemballage`
---
-
-CREATE TABLE `formatemballage` (
-  `id` int(11) NOT NULL,
-  `name` text COLLATE utf8_bin NOT NULL,
-  `quantite` int(11) NOT NULL,
-  `initial` int(11) NOT NULL,
-  `emballage_id` int(11) DEFAULT NULL,
-  `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `isActive` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -951,7 +932,8 @@ CREATE TABLE `ligneapprovisionnement` (
 CREATE TABLE `lignecommande` (
   `id` int(11) NOT NULL,
   `commande_id` int(11) NOT NULL,
-  `prixdevente_id` int(11) NOT NULL,
+  `produit_id` int(11) NOT NULL,
+  `emballage_id` int(11) NOT NULL,
   `quantite` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
@@ -971,7 +953,7 @@ CREATE TABLE `ligneconditionnement` (
   `conditionnement_id` int(11) NOT NULL,
   `produit_id` int(11) NOT NULL,
   `emballage_id` int(11) NOT NULL,
-  `quantite` int(11) NOT NULL,
+  `quantite` float NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -986,14 +968,33 @@ CREATE TABLE `ligneconditionnement` (
 
 CREATE TABLE `ligneconsommation` (
   `id` int(11) NOT NULL,
-  `productionjour_id` int(11) NOT NULL,
+  `production_id` int(11) NOT NULL,
   `ressource_id` int(11) NOT NULL,
-  `consommation` float NOT NULL,
+  `quantite` float NOT NULL,
+  `price` int(11) NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ligneconsommationetiquette`
+--
+
+CREATE TABLE `ligneconsommationetiquette` (
+  `id` int(11) NOT NULL,
+  `conditionnement_id` int(11) NOT NULL,
+  `etiquette_id` int(11) NOT NULL,
+  `quantite` float NOT NULL,
+  `price` int(11) NOT NULL DEFAULT '0',
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -1005,6 +1006,7 @@ CREATE TABLE `lignedevente` (
   `id` int(11) NOT NULL,
   `vente_id` int(11) NOT NULL,
   `produit_id` int(11) NOT NULL,
+  `emballage_id` int(11) NOT NULL,
   `quantite` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
@@ -1021,9 +1023,9 @@ CREATE TABLE `lignedevente` (
 
 CREATE TABLE `ligneetiquette` (
   `id` int(11) NOT NULL,
-  `productionjour_id` int(11) NOT NULL,
+  `conditionnement_id` int(11) NOT NULL,
   `etiquette_id` int(11) NOT NULL,
-  `consommation` int(11) NOT NULL,
+  `quantite` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1040,7 +1042,7 @@ CREATE TABLE `ligneexigenceproduction` (
   `id` int(11) NOT NULL,
   `exigenceproduction_id` int(20) NOT NULL,
   `ressource_id` int(11) NOT NULL,
-  `quantite` int(11) NOT NULL,
+  `quantite` float NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1056,13 +1058,12 @@ CREATE TABLE `ligneexigenceproduction` (
 CREATE TABLE `lignemiseenboutique` (
   `id` int(11) NOT NULL,
   `miseenboutique_id` int(11) NOT NULL,
-  `produit_id` int(11) DEFAULT NULL,
-  `emballage_id` int(11) DEFAULT NULL,
+  `produit_id` int(11) NOT NULL,
+  `emballage_id` int(11) NOT NULL,
   `quantite_depart` int(11) DEFAULT NULL,
   `quantite_demande` int(11) DEFAULT NULL,
-  `quantite` int(11) DEFAULT NULL,
+  `quantite` int(11) NOT NULL,
   `perte` int(11) DEFAULT NULL,
-  `restant` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1095,24 +1096,6 @@ CREATE TABLE `lignepayement` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ligneperteentrepot`
---
-
-CREATE TABLE `ligneperteentrepot` (
-  `id` int(11) NOT NULL,
-  `perteentrepot_id` int(11) NOT NULL,
-  `produit_id` int(11) NOT NULL,
-  `emballage_id` int(11) NOT NULL,
-  `perte` int(11) NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `protected` int(11) NOT NULL DEFAULT '0',
-  `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `ligneproduction`
 --
 
@@ -1120,7 +1103,7 @@ CREATE TABLE `ligneproduction` (
   `id` int(11) NOT NULL,
   `production_id` int(11) NOT NULL,
   `typeproduit_parfum_id` int(11) NOT NULL,
-  `quantite` int(11) NOT NULL,
+  `quantite` float NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1137,7 +1120,8 @@ CREATE TABLE `ligneprospection` (
   `id` int(11) NOT NULL,
   `prospection_id` int(11) NOT NULL,
   `produit_id` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
+  `emballage_id` int(11) NOT NULL,
+  `price` int(11) DEFAULT NULL,
   `quantite` int(11) NOT NULL,
   `quantite_vendu` int(11) NOT NULL,
   `reste` int(11) NOT NULL,
@@ -1256,7 +1240,8 @@ CREATE TABLE `operation` (
   `categorieoperation_id` int(11) NOT NULL,
   `reference` varchar(20) COLLATE utf8_bin NOT NULL,
   `montant` int(11) NOT NULL,
-  `boutique_id` int(11) NOT NULL,
+  `boutique_id` int(11) DEFAULT NULL,
+  `entrepot_id` int(11) DEFAULT NULL,
   `mouvement_id` int(11) NOT NULL,
   `modepayement_id` int(11) NOT NULL,
   `structure` varchar(50) COLLATE utf8_bin DEFAULT NULL,
@@ -1337,14 +1322,17 @@ CREATE TABLE `paye` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `perteentrepot`
+-- Structure de la table `perteboutique`
 --
 
-CREATE TABLE `perteentrepot` (
+CREATE TABLE `perteboutique` (
   `id` int(11) NOT NULL,
-  `reference` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `typeperte_id` int(11) NOT NULL,
+  `quantite` int(11) NOT NULL,
+  `produit_id` int(11),
+  `emballage_id` int(11),
+  `boutique_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
-  `entrepot_id` int(11) NOT NULL,
   `etat_id` int(11) NOT NULL,
   `comment` text COLLATE utf8_bin,
   `created` datetime DEFAULT NULL,
@@ -1356,13 +1344,40 @@ CREATE TABLE `perteentrepot` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `prix`
+-- Structure de la table `perteentrepot`
 --
 
-CREATE TABLE `prix` (
+CREATE TABLE `perteentrepot` (
   `id` int(11) NOT NULL,
-  `price` varchar(200) COLLATE utf8_bin NOT NULL,
-  `isActive` int(11) NOT NULL DEFAULT '0',
+  `typeperte_id` int(11) NOT NULL,
+  `produit_id` int(11) DEFAULT NULL,
+  `ressource_id` int(11) DEFAULT NULL,
+  `emballage_id` int(11) DEFAULT NULL,
+  `etiquette_id` int(11) DEFAULT NULL,
+  `typeproduit_parfum_id` int(11) DEFAULT NULL,
+  `quantite` int(11) NOT NULL,
+  `entrepot_id` int(11) NOT NULL,
+  `employe_id` int(11) NOT NULL,
+  `etat_id` int(11) NOT NULL,
+  `comment` text COLLATE utf8_bin,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `price`
+--
+
+CREATE TABLE `price` (
+  `id` int(11) NOT NULL,
+  `produit_id` int(11) NOT NULL DEFAULT '0',
+  `emballage_id` int(11) NOT NULL DEFAULT '0',
+  `prix` int(11) NOT NULL DEFAULT '0',
+  `prix_gros` int(11) NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1379,7 +1394,7 @@ CREATE TABLE `production` (
   `id` int(11) NOT NULL,
   `comment` text COLLATE utf8_bin NOT NULL,
   `reference` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `groupemanoeuvre_id` int(11) NOT NULL,
+  `maindoeuvre` int(11) DEFAULT NULL,
   `entrepot_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
   `etat_id` int(11) NOT NULL,
@@ -1399,11 +1414,8 @@ CREATE TABLE `produit` (
   `id` int(11) NOT NULL,
   `typeproduit_parfum_id` int(11) NOT NULL DEFAULT '0',
   `quantite_id` int(11) NOT NULL DEFAULT '0',
-  `prix` int(11) NOT NULL DEFAULT '0',
-  `prix_gros` int(11) NOT NULL DEFAULT '0',
   `isActive` int(11) NOT NULL DEFAULT '0',
   `initial` int(11) DEFAULT NULL,
-  `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1424,7 +1436,7 @@ CREATE TABLE `prospection` (
   `zonedevente_id` int(11) DEFAULT NULL,
   `typebareme_id` int(11) DEFAULT NULL,
   `lieu` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `montant` int(11) DEFAULT NULL,
+  `montant` int(11) NOT NULL,
   `vendu` int(11) DEFAULT NULL,
   `monnaie` int(11) DEFAULT NULL,
   `transport` int(11) DEFAULT NULL,
@@ -1470,7 +1482,6 @@ CREATE TABLE `reglementclient` (
   `reference` varchar(20) COLLATE utf8_bin NOT NULL,
   `client_id` int(11) NOT NULL,
   `mouvement_id` int(11) NOT NULL,
-  `commercial_id` int(11) DEFAULT NULL,
   `modepayement_id` int(11) NOT NULL,
   `structure` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `numero` varchar(50) COLLATE utf8_bin DEFAULT NULL,
@@ -1529,6 +1540,8 @@ CREATE TABLE `ressource` (
   `unite` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `abbr` varchar(20) COLLATE utf8_bin NOT NULL,
   `initial` int(11) DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  `isActive` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1617,6 +1630,51 @@ CREATE TABLE `transfertfond` (
   `comptebanque_id_source` int(11) NOT NULL,
   `comptebanque_id_destination` int(11) NOT NULL,
   `montant` int(11) NOT NULL,
+  `employe_id` int(11) NOT NULL,
+  `comment` text COLLATE utf8_bin,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `transfertstockboutique`
+--
+
+CREATE TABLE `transfertstockboutique` (
+  `id` int(11) NOT NULL,
+  `produit_id` int(11) NOT NULL,
+  `quantite` int(11) NOT NULL,
+  `emballage_id_source` int(11) NOT NULL,
+  `quantite2` int(11) NOT NULL,
+  `emballage_id_destination` int(11) NOT NULL,
+  `boutique_id` int(11) NOT NULL,
+  `employe_id` int(11) NOT NULL,
+  `comment` text COLLATE utf8_bin,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `transfertstockentrepot`
+--
+
+CREATE TABLE `transfertstockentrepot` (
+  `id` int(11) NOT NULL,
+  `produit_id` int(11) NOT NULL,
+  `quantite` int(11) NOT NULL,
+  `emballage_id_source` int(11) NOT NULL,
+  `quantite2` int(11) NOT NULL,
+  `emballage_id_destination` int(11) NOT NULL,
+  `entrepot_id` int(11) NOT NULL,
+  `employe_id` int(11) NOT NULL,
   `comment` text COLLATE utf8_bin,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -1764,10 +1822,10 @@ CREATE TABLE `typeoperationcaisse` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `typeprestataire`
+-- Structure de la table `typeperte`
 --
 
-CREATE TABLE `typeprestataire` (
+CREATE TABLE `typeperte` (
   `id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
@@ -1804,6 +1862,7 @@ CREATE TABLE `typeproduit_parfum` (
   `id` int(11) NOT NULL,
   `parfum_id` int(11) NOT NULL DEFAULT '0',
   `typeproduit_id` int(11) NOT NULL DEFAULT '0',
+  `ressource_id` int(11) DEFAULT '0',
   `isActive` int(11) NOT NULL DEFAULT '0',
   `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -2133,12 +2192,6 @@ ALTER TABLE `exigenceproduction`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `formatemballage`
---
-ALTER TABLE `formatemballage`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Index pour la table `fournisseur`
 --
 ALTER TABLE `fournisseur`
@@ -2223,6 +2276,12 @@ ALTER TABLE `ligneconsommation`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `ligneconsommationetiquette`
+--
+ALTER TABLE `ligneconsommationetiquette`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `lignedevente`
 --
 ALTER TABLE `lignedevente`
@@ -2250,12 +2309,6 @@ ALTER TABLE `lignemiseenboutique`
 -- Index pour la table `lignepayement`
 --
 ALTER TABLE `lignepayement`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `ligneperteentrepot`
---
-ALTER TABLE `ligneperteentrepot`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2325,15 +2378,21 @@ ALTER TABLE `paye`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `perteboutique`
+--
+ALTER TABLE `perteboutique`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `perteentrepot`
 --
 ALTER TABLE `perteentrepot`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `prix`
+-- Index pour la table `price`
 --
-ALTER TABLE `prix`
+ALTER TABLE `price`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2409,6 +2468,18 @@ ALTER TABLE `transfertfond`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `transfertstockboutique`
+--
+ALTER TABLE `transfertstockboutique`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `transfertstockentrepot`
+--
+ALTER TABLE `transfertstockentrepot`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `typeamortissement`
 --
 ALTER TABLE `typeamortissement`
@@ -2463,9 +2534,9 @@ ALTER TABLE `typeoperationcaisse`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `typeprestataire`
+-- Index pour la table `typeperte`
 --
-ALTER TABLE `typeprestataire`
+ALTER TABLE `typeperte`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2689,12 +2760,6 @@ ALTER TABLE `exigenceproduction`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `formatemballage`
---
-ALTER TABLE `formatemballage`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT pour la table `fournisseur`
 --
 ALTER TABLE `fournisseur`
@@ -2779,6 +2844,12 @@ ALTER TABLE `ligneconsommation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `ligneconsommationetiquette`
+--
+ALTER TABLE `ligneconsommationetiquette`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `lignedevente`
 --
 ALTER TABLE `lignedevente`
@@ -2806,12 +2877,6 @@ ALTER TABLE `lignemiseenboutique`
 -- AUTO_INCREMENT pour la table `lignepayement`
 --
 ALTER TABLE `lignepayement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `ligneperteentrepot`
---
-ALTER TABLE `ligneperteentrepot`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -2881,15 +2946,21 @@ ALTER TABLE `paye`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `perteboutique`
+--
+ALTER TABLE `perteboutique`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `perteentrepot`
 --
 ALTER TABLE `perteentrepot`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `prix`
+-- AUTO_INCREMENT pour la table `price`
 --
-ALTER TABLE `prix`
+ALTER TABLE `price`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -2965,6 +3036,18 @@ ALTER TABLE `transfertfond`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `transfertstockboutique`
+--
+ALTER TABLE `transfertstockboutique`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `transfertstockentrepot`
+--
+ALTER TABLE `transfertstockentrepot`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `typeamortissement`
 --
 ALTER TABLE `typeamortissement`
@@ -3019,9 +3102,9 @@ ALTER TABLE `typeoperationcaisse`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `typeprestataire`
+-- AUTO_INCREMENT pour la table `typeperte`
 --
-ALTER TABLE `typeprestataire`
+ALTER TABLE `typeperte`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

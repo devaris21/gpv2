@@ -223,7 +223,7 @@ $(function(){
 				formdata.append('action', "venteDirecte");
 				$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 					if (data.status) {
-					//window.open(data.url, "_blank");
+					window.open(data.url, "_blank");
 					window.location.reload();
 				}else{
 					Alerter.error('Erreur !', data.message);

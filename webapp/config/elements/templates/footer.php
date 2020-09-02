@@ -16,7 +16,7 @@
 		Copyright &copy; 2019-2020 | <strong>DEVARIS 21</strong>.
 	</div>
 	<div>
-		<strong class="text-uppercase"><img style="width: 20px" src="<?= $this->stockage("images", "societe", $params->image) ?>"> <?= $params->societe  ?></strong>
+		<strong class="text-uppercase"><img style="width: 20px" src="<?= $this->stockage("images", "societe", $params->image) ?>"> <?= $params->societe  ?></strong> | <span><?= start0(dateDiffe(dateAjoute(), $mycompte->expired)) ?> jours restants</span>
 	</div>
 </div>
 

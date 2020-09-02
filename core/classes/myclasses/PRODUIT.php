@@ -16,7 +16,7 @@ class PRODUIT extends TABLE
 	public $typeproduit_parfum_id;
 	public $quantite_id;
 	public $initial = 0;
-	public $isActive = TABLE::OUI;
+	public $isActive = TABLE::NON;
 
 
 	public function enregistre(){
@@ -55,6 +55,7 @@ class PRODUIT extends TABLE
 
 
 	public function name(){
+		$this->actualise();
 		return $this->typeproduit_parfum->name()." : ".$this->quantite->name();
 	}
 
@@ -157,13 +158,13 @@ class PRODUIT extends TABLE
 
 
 
-	public function perteEntrepot(string $date1, string $date2, int $entrepot_id = null){
+	public function perteEntrepot(string $date1, string $date2, int $emballage_id, int $entrepot_id = null){
 		$paras = "";
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
-		$requette = "SELECT SUM(quantite) as quantite  FROM perteentrepot WHERE perteentrepot.produit_id = ? AND  perteentrepot.etat_id = ? AND DATE(perteentrepot.created) >= ? AND DATE(perteentrepot.created) <= ? $paras ";
-		$item = PERTEENTREPOT::execute($requette, [$this->id, ETAT::VALIDEE, $date1, $date2]);
+		$requette = "SELECT SUM(quantite) as quantite  FROM perteentrepot WHERE perteentrepot.produit_id = ? AND  perteentrepot.emballage_id = ? AND perteentrepot.etat_id = ? AND DATE(perteentrepot.created) >= ? AND DATE(perteentrepot.created) <= ? $paras ";
+		$item = PERTEENTREPOT::execute($requette, [$this->id, $emballage_id, ETAT::VALIDEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new PERTEENTREPOT()]; }
 		return $item[0]->quantite;
 	}
@@ -193,15 +194,26 @@ class PRODUIT extends TABLE
 		return $item[0]->quantite;
 	}
 
+	public function perteBoutique(string $date1, string $date2, int $emballage_id, int $boutique_id = null){
+		$paras = "";
+		if ($boutique_id != null) {
+			$paras.= "AND boutique_id = $boutique_id ";
+		}
+		$requette = "SELECT SUM(quantite) as quantite  FROM perteboutique WHERE perteboutique.produit_id = ? AND perteboutique.emballage_id = ? AND perteboutique.etat_id = ? AND DATE(perteboutique.created) >= ? AND DATE(perteboutique.created) <= ? $paras ";
+		$item = PERTEENTREPOT::execute($requette, [$this->id, $emballage_id, ETAT::VALIDEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new PERTEENTREPOT()]; }
+		return $item[0]->quantite;
+	}
 
 	public function enBoutique(string $date1, string $date2, int $emballage_id, int $boutique_id = null){
 		$paras = "";
 		if ($boutique_id != null) {
 			$paras.= "AND boutique_id = $boutique_id ";
 		}
-		$total = $this->totalMiseEnBoutique($date1, $date2, $emballage_id, $boutique_id) - ($this->enProspection($emballage_id, $boutique_id) + $this->livree($date1, $date2, $emballage_id, $boutique_id) + $this->vendu($date1, $date2, $emballage_id, $boutique_id) + $this->perteProspection($date1, $date2, $emballage_id, $boutique_id));
+		$total = $this->totalMiseEnBoutique($date1, $date2, $emballage_id, $boutique_id) - ($this->enProspection($emballage_id, $boutique_id) + $this->livree($date1, $date2, $emballage_id, $boutique_id) + $this->vendu($date1, $date2, $emballage_id, $boutique_id) + $this->perteProspection($date1, $date2, $emballage_id, $boutique_id) + $this->perteBoutique($date1, $date2, $emballage_id, $boutique_id));
 		return $total;
 	}
+
 
 
 

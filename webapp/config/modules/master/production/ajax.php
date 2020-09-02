@@ -18,3 +18,16 @@ if ($action == "changement") {
 	}
 	echo json_encode($data);
 }
+
+
+
+
+if ($action == "changementEmballage") {
+	$datas = EMBALLAGE::findBy(["id ="=>$id]);
+	if (count($datas) == 1) {
+		$emballage = $datas[0];
+		$emballage->$name = $val;
+		$data = $emballage->save();
+	}
+	echo json_encode($data);
+}

@@ -8,7 +8,9 @@ $configs =  [
 		"description"  => "applicaton de Gestion de la Production et des Ventes",
 		"organization" => "P@IYEL Developpement",
 		"email"        => "infos@shamman.com",
-		"website"      => "https://www.shamman.com"
+		"website"      => "https://www.shamman.com",
+		"licence"      => "Licence complete",
+		"version"      => "2.0.0"
 	],
 
 
