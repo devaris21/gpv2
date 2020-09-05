@@ -72,9 +72,9 @@
                     <li class="" id="miseenboutique">
                         <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span> <?php if (count($mises__) > 0) { ?> <span class="label label-warning float-right"><?= count($mises__) ?></span> <?php } ?></a>
                     </li>
-                    <li class="" id="rapportjour">
+                    <!-- <li class="" id="rapportjour">
                         <a href="<?= $this->url($this->section, "rapports", "rapportjour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
-                    </li>
+                    </li> -->
                     <li class="" id="rapportvente">
                         <a href="<?= $this->url($this->section, "rapports", "rapportvente") ?>"><i class="fa fa-file-text-o"></i> <span class="nav-label">Rapport de vente</span></a>
                     </li>

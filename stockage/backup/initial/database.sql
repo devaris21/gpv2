@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : jeu. 03 sep. 2020 à 15:23
+-- Généré le : ven. 04 sep. 2020 à 16:59
 -- Version du serveur :  5.7.24
 -- Version de PHP : 7.3.2
 
@@ -685,7 +685,7 @@ CREATE TABLE `exercicecomptable` (
 CREATE TABLE `exigenceproduction` (
   `id` int(11) NOT NULL,
   `typeproduit_parfum_id` int(20) NOT NULL,
-  `quantite` int(11) NOT NULL,
+  `quantite` float NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1201,7 +1201,7 @@ CREATE TABLE `mouvement` (
   `reference` varchar(20) COLLATE utf8_bin NOT NULL,
   `structure` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `numero` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `modepayement_id` int(11) NOT NULL DEFAULT '0',
+  `modepayement_id` int(11) DEFAULT '0',
   `typemouvement_id` int(11) NOT NULL,
   `comptebanque_id` int(11) NOT NULL,
   `montant` int(11) NOT NULL,
@@ -1515,8 +1515,6 @@ CREATE TABLE `reglementfournisseur` (
   `structure` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `numero` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `comment` text COLLATE utf8_bin,
-  `acompteFournisseur` int(11) NOT NULL,
-  `detteFournisseur` int(11) NOT NULL,
   `etat_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
   `date_approbation` datetime DEFAULT NULL,
