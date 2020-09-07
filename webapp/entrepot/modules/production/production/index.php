@@ -121,11 +121,8 @@
                                     </td>
                                     <td>
                                         <a href="<?= $this->url("entrepot", "rapports", "coutproduction", $production->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
-                                        <?php if ($production->etat_id == Home\ETAT::PARTIEL) { ?>
-                                            <button onclick="accepter(<?= $production->id ?>)" class="btn btn-white btn-sm text-green"><i class="fa fa-check"></i> Accepter</button>
-                                        <?php } ?>
                                         <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                            <button onclick="annuler(<?= $production->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                            <button onclick="annulerProduction(<?= $production->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                         <?php } ?>
                                     </td>
                                 </tr>
@@ -169,7 +166,11 @@
                                     </td>
                                     <td>
                                         <a href="<?= $this->url("entrepot", "rapports", "coutproduction", $production->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                        <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
+                                            <button onclick="annulerProduction(<?= $production->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                        <?php } ?>
                                     </td>
+
                                 </tr>
                             <?php  } ?>
 

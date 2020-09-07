@@ -162,15 +162,17 @@ class PROSPECTION extends TABLE
 					$this->groupecommande->etat_id = ETAT::ENCOURS;
 					$this->groupecommande->save();
 
-					if ($this->chauffeur_id > 0) {
-						$this->chauffeur->etatchauffeur_id = ETATCHAUFFEUR::RAS;
-						$this->chauffeur->save();
-					}
+					// if ($this->chauffeur_id > 0) {
+					// 	$this->chauffeur->etatchauffeur_id = ETATCHAUFFEUR::RAS;
+					// 	$this->chauffeur->save();
+					// }
 
-					$this->vehicule->etat_id = ETATVEHICULE::RAS;
-					$this->vehicule->save();
+					// $this->vehicule->etat_id = ETATVEHICULE::RAS;
+					// $this->vehicule->save();
 				}
-				
+				if ($this->typeprospection_id == TYPEPROSPECTION::PROSPECTION) {
+					$this->vente->annuler();
+				}
 			}
 		}else{
 			$data->status = false;

@@ -146,16 +146,16 @@ if ($action == "nouvelleProduction") {
 
 
 
-if ($action == "annulerMiseenboutique") {
+if ($action == "annulerProduction") {
 	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 	if (count($datas) > 0) {
 		$employe = $datas[0];
 		$employe->actualise();
 		if ($employe->checkPassword($password)) {
-			$datas = MISEENBOUTIQUE::findBy(["id ="=>$id]);
+			$datas = PRODUCTION::findBy(["id ="=>$id]);
 			if (count($datas) == 1) {
-				$prospection = $datas[0];
-				$data = $prospection->annuler();
+				$production = $datas[0];
+				$data = $production->annuler();
 			}else{
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer";
@@ -171,56 +171,3 @@ if ($action == "annulerMiseenboutique") {
 	echo json_encode($data);
 }
 
-
-
-
-if ($action == "validerMiseenboutique") {
-	$id = getSession("miseenboutique_id");
-	$datas = MISEENBOUTIQUE::findBy(["id ="=>$id, "etat_id = "=>ETAT::ENCOURS]);
-	if (count($datas) > 0) {
-		$mise = $datas[0];
-		$mise->actualise();
-		$mise->fourni("lignemiseenboutique");
-
-		$produits = explode(",", $tableau);
-		foreach ($produits as $key => $value) {
-			$lot = explode("-", $value);
-			$array[$lot[0]] = end($lot);
-		}
-
-		if (count($produits) > 0) {
-			$tests = $array;
-			foreach ($tests as $key => $value) {
-				foreach ($mise->lignemiseenboutiques as $cle => $lgn) {
-					if (($lgn->id == $key) && ($lgn->quantite_depart >= $value)) {
-						unset($tests[$key]);
-					}
-				}
-			}
-			if (count($tests) == 0) {
-				foreach ($array as $key => $value) {
-					foreach ($mise->lignemiseenboutiques as $cle => $lgn) {
-						if ($lgn->id == $key) {
-							$lgn->quantite = $value;
-							$lgn->perte = $lgn->quantite_depart - $value;
-							$lgn->save();
-							break;
-						}
-					}					
-				}
-				$mise->hydrater($_POST);
-				$data = $mise->valider();
-			}else{
-				$data->status = false;
-				$data->message = "Veuillez à bien vérifier les quantités des différents produits, certaines sont incorrectes !";
-			}			
-		}else{
-			$data->status = false;
-			$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer";
-		}
-	}else{
-		$data->status = false;
-		$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer";
-	}
-	echo json_encode($data);
-}

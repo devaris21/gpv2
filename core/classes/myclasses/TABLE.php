@@ -115,17 +115,17 @@ abstract class TABLE
     public function setCreated($date = null){
         $this->created = $date;
         if ($date == null) {
-         $this->created = date("Y-m-d H:i:s");
-     }
-     return $this;
- }
+           $this->created = date("Y-m-d H:i:s");
+       }
+       return $this;
+   }
 
- public function setModified($date = null){
+   public function setModified($date = null){
     $this->modified = $date;
     if ($date == null) {
-       $this->modified = date("Y-m-d H:i:s");
-   }
-   return $this;
+     $this->modified = date("Y-m-d H:i:s");
+ }
+ return $this;
 }
 
 
@@ -133,6 +133,20 @@ public function historique(String $texte){
     $this->sentense = $texte;
 }
 
+
+
+public function annuler(){
+    $data = new RESPONSE;
+    if ($this->etat_id != ETAT::ANNULEE) {          
+        $this->etat_id = ETAT::ANNULEE;
+        $this->historique("L'element vient d'être annulée !");
+        $data = $this->save();
+    }else{
+        $data->status = false;
+        $data->message = "Vous ne pouvez plus faire cette opération sur cette mise en boutique !";
+    }
+    return $data;
+}
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //initialiser la connexion et recuperer le nom de la table

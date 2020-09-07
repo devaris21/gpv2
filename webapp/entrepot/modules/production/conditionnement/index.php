@@ -52,7 +52,7 @@
                     <div class="ibox-title">
                         <h5>Toutes les mises en boutique de la production</h5>
                         <div class="ibox-tools">
-                         <form id="formFiltrer" method="POST">
+                           <form id="formFiltrer" method="POST">
                             <div class="row" style="margin-top: -1%">
                                 <div class="col-5">
                                     <input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
@@ -120,12 +120,9 @@
                                             </table>
                                         </td>
                                         <td>
-                                            <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $conditionnement->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
-                                            <?php if ($conditionnement->etat_id == Home\ETAT::PARTIEL) { ?>
-                                                <button onclick="accepter(<?= $conditionnement->id ?>)" class="btn btn-white btn-sm text-green"><i class="fa fa-check"></i> Accepter</button>
-                                            <?php } ?>
+                                            <a href="<?= $this->url("fiches", "master", "bonconditionnement", $conditionnement->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
                                             <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                                <button onclick="annulerMiseenboutique(<?= $conditionnement->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                                <button onclick="annulerConditionnement(<?= $conditionnement->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                             <?php } ?>
                                         </td>
                                     </tr>
@@ -169,37 +166,40 @@
                                             </table>
                                         </td>
                                         <td>
-                                            <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $conditionnement->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
-                                        </td>
-                                    </tr>
-                                <?php  } ?>
-
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="5">
-                                        <ul class="pagination float-right"></ul>
+                                           <a href="<?= $this->url("fiches", "master", "bonconditionnement", $conditionnement->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                           <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
+                                            <button onclick="annulerConditionnement(<?= $conditionnement->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                        <?php } ?>
                                     </td>
                                 </tr>
-                            </tfoot>
-                        </table>
+                            <?php  } ?>
 
-                    <?php }else{ ?>
-                        <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucun conditionnement pour le moment</h1>
-                    <?php } ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5">
+                                    <ul class="pagination float-right"></ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
 
-                </div>
+                <?php }else{ ?>
+                    <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucun conditionnement pour le moment</h1>
+                <?php } ?>
+
             </div>
         </div>
-
-
-        <?php include($this->rootPath("webapp/entrepot/elements/templates/footer.php")); ?> 
-
-        <?php foreach (Home\TYPEPRODUIT_PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
-            $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $pro->id, $entrepot->id);
-            if ($qua > 0) { include($this->rootPath("composants/assets/modals/modal-conditionnement.php")); } 
-        }  ?>
     </div>
+
+
+    <?php include($this->rootPath("webapp/entrepot/elements/templates/footer.php")); ?> 
+
+    <?php foreach (Home\TYPEPRODUIT_PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
+        $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $pro->id, $entrepot->id);
+        if ($qua > 0) { include($this->rootPath("composants/assets/modals/modal-conditionnement.php")); } 
+    }  ?>
+</div>
 </div>
 
 

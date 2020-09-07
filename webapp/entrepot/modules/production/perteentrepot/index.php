@@ -72,18 +72,14 @@
                                             <small><?= $perte->comment ?></small>
                                         </td>
                                         <td><b><?= $perte->name() ?></b></td>
-                                        <td><?= start0($perte->quantite) ?> <?= $perte->typeproduit_parfum->typeproduit->abbr ?></td>
+                                        <td><?= start0($perte->quantite) ?> </td>
                                         <td>
                                             <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $perte->entrepot->name() ?></h6>
                                         </td>
                                         <td><i class="fa fa-user"></i> <?= $perte->employe->name() ?></td>
                                         <td>
-                                            <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $perte->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
-                                            <?php if ($perte->etat_id == Home\ETAT::PARTIEL) { ?>
-                                                <button onclick="accepter(<?= $perte->id ?>)" class="btn btn-white btn-sm text-green"><i class="fa fa-check"></i> Accepter</button>
-                                            <?php } ?>
                                             <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                                <button onclick="annulerMiseenboutique(<?= $perte->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                                <button onclick="annulerPerte(<?= $perte->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                             <?php } ?>
                                         </td>
                                     </tr>
@@ -101,14 +97,16 @@
                                             <small><?= $perte->comment ?></small>
                                         </td>
                                         <td><b><?= $perte->name() ?></b></td>
-                                        <td><?= start0($perte->quantite) ?> <?= $perte->typeproduit_parfum->typeproduit->abbr ?></td>
+                                        <td><?= start0($perte->quantite) ?> </td>
                                         <td>
                                             <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $perte->entrepot->name() ?></h6>
                                             <small>Emise <?= depuis($perte->created) ?></small>
                                         </td>
                                         <td><i class="fa fa-user"></i> <?= $perte->employe->name() ?></td>
                                         <td>
-                                            <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $perte->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                            <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
+                                                <button onclick="annulerPerte(<?= $perte->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                            <?php } ?>
                                         </td>
                                     </tr>
                                 <?php  } ?>

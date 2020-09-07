@@ -72,20 +72,6 @@ class MISEENBOUTIQUE extends TABLE
 	}
 
 
-	public function annuler(){
-		$data = new RESPONSE;
-		if ($this->etat_id != ETAT::ANNULEE) {			
-			$this->etat_id = ETAT::ANNULEE;
-			$this->historique("La mise en boutique en reference $this->reference vient d'être annulée !");
-			$data = $this->save();
-			$this->vehicule->save();
-		}else{
-			$data->status = false;
-			$data->message = "Vous ne pouvez plus faire cette opération sur cette mise en boutique !";
-		}
-		return $data;
-	}
-
 
 
 	//les livraions programmées du jour

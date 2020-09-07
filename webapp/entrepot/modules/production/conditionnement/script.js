@@ -50,13 +50,13 @@ $(function(){
 
 
     
-    annulerProduction = function(id){
+    annulerConditionnement = function(id){
         alerty.confirm("Voulez-vous vraiment annuler cette mise en boutique ?", {
             title: "Annuler la mise en boutique",
             cancelLabel : "Non",
             okLabel : "OUI, annuler",
         }, function(){
-            var url = "../../webapp/boutique/modules/production/miseenboutique/ajax.php";
+            var url = "../../webapp/entrepot/modules/production/conditionnement/ajax.php";
             alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
                 title: 'Récupération du mot de passe !',
                 inputType : "password",
@@ -64,7 +64,7 @@ $(function(){
                 okLabel : "Valider"
             }, function(password){
                 Loader.start();
-                $.post(url, {action:"annulerMiseenboutique", id:id, password:password}, (data)=>{
+                $.post(url, {action:"annulerConditionnement", id:id, password:password}, (data)=>{
                     if (data.status) {
                         window.location.reload()
                     }else{
