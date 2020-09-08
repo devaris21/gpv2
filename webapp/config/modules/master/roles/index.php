@@ -89,7 +89,7 @@
                                                             $rem->actualise();
                                                             $lots[] = $rem->role->id; ?>
                                                             <div class="col-6 col-sm-4">
-                                                                <label class="cursor"><input type="checkbox" class="i-checks" employe_id="<?= $rem->employe_id ?>" role_id="<?= $role->id ?>" checked name="<?= $rem->role->name() ?>"> <?= $rem->role->name() ?></label>
+                                                                <label class="cursor"><input type="checkbox" class="i-checks" employe_id="<?= $rem->employe_id ?>" role_id="<?= $rem->role->id ?>" checked name="<?= $rem->role->name() ?>"> <?= $rem->role->name() ?></label>
                                                             </div>
                                                         <?php } ?>
                                                         <?php foreach (Home\ROLE::getAll() as $key => $role) {
