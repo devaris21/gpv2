@@ -24,29 +24,6 @@ $(function(){
 
 
 
-    $(".formConditionnement").submit(function(event) {
-        var formdata = new FormData($(this)[0]);
-        alerty.confirm("Voulez-vous vraiment valider cet conditionnement ?", {
-            title: "valider le conditionnement",
-            cancelLabel : "Non",
-            okLabel : "OUI, valider",
-        }, function(){
-            Loader.start();
-            $(this).find("input.quantite").last().change();
-            var url = "../../webapp/entrepot/modules/production/conditionnement/ajax.php";
-            formdata.append('action', "validerConditionnement");
-            $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-                if (data.status) {
-                    window.location.reload()
-                }else{
-                    Alerter.error('Erreur !', data.message);
-                }
-            }, 'json');
-        });
-        return false;
-    });
-
-
 
 
     

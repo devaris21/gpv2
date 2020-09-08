@@ -50,6 +50,9 @@
                     <li class="" id="miseenboutique">
                         <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span></a>
                     </li>
+                    <li class="" id="transfertstock">
+                        <a href="<?= $this->url($this->section, "production", "transfertstock") ?>"><i class="fa fa-refresh"></i> <span class="nav-label">Transfert de stock</span></a>
+                    </li>
                     <li class="" id="perteentrepot">
                         <a href="<?= $this->url($this->section, "production", "perteentrepot") ?>"><i class="fa fa-trash"></i> <span class="nav-label">Perte en entrepot</span></a>
                     </li>

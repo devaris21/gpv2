@@ -21,7 +21,7 @@
                         <table class="table">
                             <tbody>
                                 <?php foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
-                                    $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $pro->id, $entrepot->id);
+                                    $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $entrepot->id);
                                     if ($qua > 0) {
                                         $pro->actualise(); ?>
                                         <tr>
@@ -196,7 +196,7 @@
     <?php include($this->rootPath("webapp/entrepot/elements/templates/footer.php")); ?> 
 
     <?php foreach (Home\TYPEPRODUIT_PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
-        $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $pro->id, $entrepot->id);
+        $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $entrepot->id);
         if ($qua > 0) { include($this->rootPath("composants/assets/modals/modal-conditionnement.php")); } 
     }  ?>
 </div>

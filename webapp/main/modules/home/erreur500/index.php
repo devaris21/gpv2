@@ -8,7 +8,7 @@
 	<div class="container text-center " style="padding-top: 7%;">
 		<div class="row">
 			<div class="offset-1 col-md-3">
-				<br><img style="width: 320px; opacity: 0.5"  src="<?= $this->stockage("images", "societe", "logo.png") ?>" alt="logo de DEVARIS 21">
+				<br><img style="width: 320px; opacity: 0.5"  src="<?= $this->stockage("images", "societe", "logo.png") ?>" alt="logo de PAYIEL">
 			</div>
 			<div class="col-md-6 offset-1 text-justify">
 				<h1 class="text-orange" style="font-size: 65px;"> NON, désolé !</h1>

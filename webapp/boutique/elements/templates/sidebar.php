@@ -42,13 +42,24 @@
                 <li class="" id="commerciaux">
                     <a href="<?= $this->url($this->section, "master", "commerciaux") ?>"><i class="fa fa-bicycle"></i> <span class="nav-label">Liste des commerciaux</span></a>
                 </li>
-                <li class="" id="stock">
-                    <a href="<?= $this->url($this->section, "master", "stock") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Stock des produits</span></a>
-                </li>
-                <li class="" id="perteboutique">
-                    <a href="<?= $this->url($this->section, "master", "perteboutique") ?>"><i class="fa fa-trash"></i> <span class="nav-label">Perte en entrepot</span></a>
-                </li>
                 <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
+
+
+                <?php if ($employe->isAutoriser("production")) { ?>
+                    <li class="" id="stock">
+                        <a href="<?= $this->url($this->section, "production", "stock") ?>"><i class="fa fa-cubes"></i> <span class="nav-label">Stock des produits</span></a>
+                    </li>
+                    <li class="" id="miseenboutique">
+                        <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span> <?php if (count($mises__) > 0) { ?> <span class="label label-warning float-right"><?= count($mises__) ?></span> <?php } ?></a>
+                    </li>
+                    <li class="" id="transfertstock">
+                        <a href="<?= $this->url($this->section, "production", "transfertstock") ?>"><i class="fa fa-refresh"></i> <span class="nav-label">Transfert de stock</span></a>
+                    </li>
+                    <li class="" id="perteboutique">
+                        <a href="<?= $this->url($this->section, "production", "perteboutique") ?>"><i class="fa fa-trash"></i> <span class="nav-label">Perte à la boutique</span></a>
+                    </li>
+                    <li style="margin: 3% auto"><hr class="mp0" style="background-color: #000; "></li>
+                <?php } ?>
 
 
                 <?php if ($employe->isAutoriser("ventes")) { ?>
@@ -69,9 +80,7 @@
                 
 
                 <?php if ($employe->isAutoriser("rapports")) { ?>
-                    <li class="" id="miseenboutique">
-                        <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span> <?php if (count($mises__) > 0) { ?> <span class="label label-warning float-right"><?= count($mises__) ?></span> <?php } ?></a>
-                    </li>
+                   
                     <!-- <li class="" id="rapportjour">
                         <a href="<?= $this->url($this->section, "rapports", "rapportjour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
                     </li> -->

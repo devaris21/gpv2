@@ -216,11 +216,36 @@ if ($action == "calcul") {
 			}
 		}
 	}
-	session("total", $montant);
+
+	$redis = 0;
+	if ($params->prixParPalier == TABLE::OUI) {
+		$datas = PALIER::findBy(["min <= "=>$montant], [], ["min"=>"DESC"]);
+		if (count($datas) > 0) {
+			$palier = $datas[0];
+			if ($palier->typereduction_id ==TYPEREDUCTION::BRUT) {
+				$redis = $palier->reduction;
+			}else{
+				$redis = ($palier->reduction * $montant)/100;
+			}
+		}
+	}
+	$total = $montant - $redis;
+
+	$tva = ($total * $params->tva) / 100;
+	$total += $tva;
+
+
+	session("tva", $tva);
+	session("reduction", $redis);
+	session("montant", $montant);
+	session("total", $total);
 	session("recu", $recu);
-	session("rendu", intval($recu) - $montant);
+	session("rendu", intval($recu) - $total);
 
 	$data = new \stdclass();
+	$data->tva = money(getSession("tva"))." ".$params->devise;
+	$data->montant = money(getSession("montant"))." ".$params->devise;
+	$data->reduction = money(getSession("reduction"))." ".$params->devise;
 	$data->total = money(getSession("total"))." ".$params->devise;
 	$data->rendu = money(getSession("rendu"))." ".$params->devise;
 	echo json_encode($data);
@@ -256,6 +281,8 @@ if ($action == "venteDirecte") {
 					$vente = new VENTE();
 					$vente->hydrater($_POST);
 					$vente->montant = getSession("total");
+					$vente->tva = getSession("tva");
+					$vente->reduction = getSession("reduction");
 					$vente->recu = getSession("recu");
 					$data = $vente->enregistre();
 					if ($data->status) {
@@ -273,7 +300,6 @@ if ($action == "venteDirecte") {
 									$prix = $price->prix_gros * intval($qte);
 								}
 
-								$total += $prix;
 								$lignedevente = new LIGNEDEVENTE;
 								$lignedevente->vente_id = $vente->id;
 								$lignedevente->produit_id = $id;
@@ -283,8 +309,8 @@ if ($action == "venteDirecte") {
 								$lignedevente->enregistre();	
 							}
 						}
-						$data = $vente->payement($total, $_POST);	
-																	$data->setUrl("fiches", "master", "bonvente", $vente->id);						
+						$data = $vente->payement($vente->montant, $_POST);	
+						$data->setUrl("fiches", "master", "bonvente", $vente->id);						
 					}
 
 				}else{
@@ -334,6 +360,8 @@ if ($action == "validerPropection") {
 					if (count($tests) == 0) {
 						$prospection = new PROSPECTION();
 						$prospection->hydrater($_POST);
+						$prospection->tva = getSession("tva");
+						$prospection->reduction = getSession("reduction");
 						$prospection->montant = getSession("total");
 						$data = $prospection->enregistre();
 						if ($data->status) {
@@ -351,7 +379,6 @@ if ($action == "validerPropection") {
 										$prix = $price->prix_gros * intval($qte);
 									}
 
-									$total += $prix;
 									$ligneprospection = new LIGNEPROSPECTION;
 									$ligneprospection->prospection_id = $prospection->id;
 									$ligneprospection->produit_id = $id;
@@ -435,7 +462,6 @@ if ($action == "validerCommande") {
 										$prix = $price->prix_gros * intval($qte);
 									}
 
-									$total += $prix;
 									$lignecommande = new LIGNECOMMANDE;
 									$lignecommande->commande_id = $commande->id;
 									$lignecommande->produit_id = $id;
@@ -446,8 +472,9 @@ if ($action == "validerCommande") {
 								}
 							}
 
-							$tva = ($total * $params->tva) / 100;
-							$total += $tva;
+
+
+							$total =  getSession("total");
 
 							if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
 								if ($client->acompte >= $total) {
@@ -469,7 +496,6 @@ if ($action == "validerCommande") {
 								$payement->client_id = $client_id;
 								$payement->comment = "Réglement de la facture pour la commande N°".$commande->reference;
 								$lot = $payement->enregistre();
-								var_dump($lot);
 								$commande->reglementclient_id = $lot->lastid;
 
 								$client->actualise();
@@ -478,7 +504,8 @@ if ($action == "validerCommande") {
 								$payement->save();
 							}
 
-							$commande->tva = $tva;
+							$commande->tva = getSession("tva");
+							$commande->reduction = getSession("reduction");
 							$commande->montant = $total;
 							$commande->reste = $commande->montant - $commande->avance;
 

@@ -34,7 +34,7 @@
                                                 $produit->actualise();  ?>
                                                 <li class="list-group-item">
                                                     <i class="fa fa-flask"></i> <small><?= $produit->quantite->name() ?></small>  
-                                                    <?php foreach (Home\EMBALLAGE::getAll() as $key => $emballage) {
+                                                    <?php foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
                                                         $a = $produit->enBoutique(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, $boutique->id);
                                                         if ($a > 0) { ?>
                                                             <span class="float-right cursor" data-toggle="modal" onclick="session('produit_id', <?= $produit->id ?>)" data-target="#modal-transfertstockboutique<?= $produit->id  ?>">     
@@ -61,7 +61,7 @@
         <?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?>
 
 
-        <button class="btn btn-outline-danger btn-rounded d-print-none" data-toggle="modal" data-target="#modal-perteboutique" style="position: fixed; bottom: 1%; right: 1%; z-index: 8000"><i class="fa fa-print"></i> Perte en boutique</button>
+        <button class="btn btn-outline-danger btn-rounded d-print-none" data-toggle="modal" data-target="#modal-perteboutique" style="position: fixed; bottom: 7%; right: 1%; z-index: 8000"><i class="fa fa-print"></i> Perte en boutique</button>
 
 
     </div>

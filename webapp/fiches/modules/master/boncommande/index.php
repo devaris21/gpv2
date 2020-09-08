@@ -92,20 +92,25 @@
                                         <?php } ?> 
                                         <tr style="height: 20px;"></tr>
                                         <tr style="background-color: #fff">
-                                            <td colspan="3" class="text-uppercase text-right"><h4 class="">Total = </h4></td>
+                                            <td colspan="3" class="text-uppercase text-right"><h4 class="">Montant Total = </h4></td>
                                             <td></td>
-                                            <td colspan="1" class="text-center"><h3 class="text-muted"><?= money($commande->montant - $commande->tva) ?> <?= $params->devise ?></h3></td>
+                                            <td colspan="1" class="text-center"><h2 class="text-muted"><?= money($commande->montant + $commande->reduction - $commande->tva) ?> <?= $params->devise ?></h2></td>
                                         </tr>
                                         <tr style="background-color: #fff">
                                             <td colspan="3" class="text-uppercase text-right"><h4 class="">TVA (<?= $commande->taux_tva ?>%) = </h4></td>
                                             <td></td>
                                             <td colspan="1" class="text-center"><h4 class="text-muted"><?= money($commande->tva) ?> <?= $params->devise ?></h4></td>
                                         </tr>
+                                        <tr style="background-color: #fff">
+                                            <td colspan="3" class="text-uppercase text-right"><h4 class="">Reduction = </h4></td>
+                                            <td></td>
+                                            <td colspan="1" class="text-center"><h4 class="text-muted"><?= money($commande->reduction) ?> <?= $params->devise ?></h4></td>
+                                        </tr>
 
                                         <tr style="height: 35px;"></tr>
 
                                         <tr class="border">
-                                            <td colspan="3" class="text-uppercase text-right"><h2 class="">montant total à payer = </h2></td>
+                                            <td colspan="3" class="text-uppercase text-right"><h2 class="">Net à payer = </h2></td>
                                             <td></td>
                                             <td colspan="1" class="text-center"><h2 class="gras text-success"><?= money($commande->montant) ?> <?= $params->devise ?></h2></td>
                                         </tr>

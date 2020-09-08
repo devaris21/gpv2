@@ -29,7 +29,7 @@
                     <div class="ibox-title">
                         <h5>Toutes les pertes survenues dans cet boutique</h5>
                         <div class="ibox-tools">
-                           <form id="formFiltrer" method="POST">
+                         <form id="formFiltrer" method="POST">
                             <div class="row" style="margin-top: -1%">
                                 <div class="col-5">
                                     <input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
@@ -78,12 +78,8 @@
                                         </td>
                                         <td><i class="fa fa-user"></i> <?= $perte->employe->name() ?></td>
                                         <td>
-                                            <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $perte->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
-                                            <?php if ($perte->etat_id == Home\ETAT::PARTIEL) { ?>
-                                                <button onclick="accepter(<?= $perte->id ?>)" class="btn btn-white btn-sm text-green"><i class="fa fa-check"></i> Accepter</button>
-                                            <?php } ?>
                                             <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                                <button onclick="annulerMiseenboutique(<?= $perte->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                                <button onclick="annulerPerte(<?= $perte->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                             <?php } ?>
                                         </td>
                                     </tr>
@@ -108,7 +104,9 @@
                                         </td>
                                         <td><i class="fa fa-user"></i> <?= $perte->employe->name() ?></td>
                                         <td>
-                                            <a href="<?= $this->url("fiches", "master", "bonmiseenboutique", $perte->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
+                                            <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
+                                                <button onclick="annulerPerte(<?= $perte->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                            <?php } ?>
                                         </td>
                                     </tr>
                                 <?php  } ?>
@@ -124,7 +122,7 @@
                         </table>
 
                     <?php }else{ ?>
-                        <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucun conditionnement pour le moment</h1>
+                        <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune perte pour le moment</h1>
                     <?php } ?>
 
                 </div>
@@ -134,16 +132,12 @@
 
         <?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?> 
 
-        <?php foreach (Home\TYPEPRODUIT_PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
-            $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $pro->id, $boutique->id);
-            if ($qua > 0) { include($this->rootPath("composants/assets/modals/modal-conditionnement.php")); } 
-        }  ?>
+
     </div>
 </div>
 
 
 <?php include($this->rootPath("webapp/boutique/elements/templates/script.php")); ?>
-<script type="text/javascript" src="<?= $this->rootPath("webapp/boutique/modules/master/client/script.js") ?>"></script>
 
 
 </body>

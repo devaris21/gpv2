@@ -6,6 +6,7 @@
 
 <?php include($this->rootPath("composants/assets/modals/modal-parfum.php") );  ?>
 <?php include($this->rootPath("composants/assets/modals/modal-ressource.php") );  ?>
+<?php include($this->rootPath("composants/assets/modals/modal-palier.php") );  ?>
 
 
 <div class="modal inmodal fade" id="modal-zonedevente">
@@ -148,12 +149,6 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm-4">
-							<label>Qté initial </label>
-							<div class="form-group">
-								<input type="number" class="form-control" name="initial" required>
-							</div>
-						</div>
 						<div class="col-md-8">
 							<label>Image du format </label>
 							<div class="">

@@ -31,7 +31,7 @@
                             <div class="ibox-content"  style="background-color: #fafafa">
                                 <form id="formProduction">
                                     <div class="">
-                                        <label>Coût de la main d'oeuvre <span1>*</span1></label>
+                                        <label>Coût de la main d'oeuvre </label>
                                         <div class="form-group">
                                             <input type="text" class="form-control" value="0" number name="maindoeuvre">
                                         </div>

@@ -8,7 +8,7 @@
 	<div class="container text-center " style="padding-top: 7%;">
 		<div class="row">
 			<div class="offset-1 col-md-3">
-				<br><img style="width: 320px; opacity: 0.5"  src="<?= $this->stockage("images", "societe", "logo.png") ?>" alt="logo de DEVARIS 21">
+				<br><img style="width: 320px; opacity: 0.5"  src="<?= $this->stockage("images", "societe", "logo.png") ?>" alt="logo de PAYIEL">
 			</div>
 			<div class="col-md-6 offset-1 text-justify">
 				<h1 class="text-orange" style="font-size: 50px;"> Vous êtes à expiration !</h1>
@@ -19,7 +19,7 @@
 					Nous sommes désolé de ne pas pouvoir donner suite à votre requette car votre abonnement à ce logiciel a expiré. Donc vous n'y avez plus accès. Quelques conseils :
 				</h4><br>
 				<ul>
-					<li><a href="<?= $this->url("devaris21", "home", "renouveller") ?>">Renouveller l'abonnement</a></li>
+					<li><a href="<?= $this->url("main", "home", "renouveller") ?>">Renouveller l'abonnement</a></li>
 					<li>Contactez votre administrateur pour vous reabonner !</li>
 				</ul>
 			</div>

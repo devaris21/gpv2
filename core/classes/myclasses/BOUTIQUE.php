@@ -20,6 +20,19 @@ class BOUTIQUE extends TABLE
 		if ($this->name != "") {
 			$data = $this->save();
 			if ($data->status) {
+
+				foreach (PRODUIT::getAll() as $key => $prod) {
+					foreach (EMBALLAGE::getAll() as $key => $emb) {
+						$ligne = new INITIALPRODUITBOUTIQUE();
+						$ligne->produit_id = $prod->id;
+						$ligne->emballage_id = $emb->id;
+						$ligne->boutique_id = $this->id;
+						$ligne->quantite = 0;
+						$ligne->enregistre();
+					}
+				}
+
+
 				$compte = new COMPTEBANQUE;
 				$compte->name = "Compte de ".$this->name();
 				$data = $compte->enregistre();

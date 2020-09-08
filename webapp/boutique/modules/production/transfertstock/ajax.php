@@ -12,16 +12,16 @@ unset_session("emballages-disponibles");
 
 
 
-if ($action == "annulerMiseenboutique") {
+if ($action == "annulerTransfert") {
 	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 	if (count($datas) > 0) {
 		$employe = $datas[0];
 		$employe->actualise();
 		if ($employe->checkPassword($password)) {
-			$datas = MISEENBOUTIQUE::findBy(["id ="=>$id]);
+			$datas = TRANSFERTSTOCKBOUTIQUE::findBy(["id ="=>$id]);
 			if (count($datas) == 1) {
-				$prospection = $datas[0];
-				$data = $prospection->annuler();
+				$transfertstockentrepot = $datas[0];
+				$data = $transfertstockentrepot->annuler();
 			}else{
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer";

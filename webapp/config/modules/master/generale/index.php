@@ -116,6 +116,7 @@
                                                         <th>Lieu</th>
                                                         <th></th>
                                                         <th></th>
+                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -124,6 +125,11 @@
                                                         <tr>
                                                             <td class="gras"><?= $item->name(); ?></td>
                                                             <td><?= $item->lieu; ?></td>
+                                                            <td>
+                                                                <a href="<?= $this->url("config", "master", "adminboutique", $item->id)  ?>" class="btn_modal btn btn-xs btn-white">
+                                                                    <i class="fa fa-wrench"></i> Admin
+                                                                </a>
+                                                            </td>
                                                             <td data-toggle="modal" data-target="#modal-boutique" title="modifier la categorie" onclick="modification('boutique', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
                                                             <td title="supprimer la categorie" onclick="suppressionWithPassword('boutique', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                         </tr>
@@ -153,6 +159,7 @@
                                                         <th>Compte attribué</th>
                                                         <th></th>
                                                         <th></th>
+                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -162,6 +169,11 @@
                                                             <td class="gras"><?= $item->name(); ?></td>
                                                             <td><?= $item->lieu; ?></td>
                                                             <td class="gras"><?= $item->comptebanque->name(); ?></td>
+                                                            <td>
+                                                                <a href="<?= $this->url("config", "master", "adminentrepot", $item->id)  ?>" class="btn_modal btn btn-xs btn-white">
+                                                                    <i class="fa fa-wrench"></i> Admin
+                                                                </a>
+                                                            </td>
                                                             <td data-toggle="modal" data-target="#modal-entrepot" title="modifier la categorie" onclick="modification('entrepot', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
                                                             <td title="supprimer la categorie" onclick="suppressionWithPassword('entrepot', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                         </tr>

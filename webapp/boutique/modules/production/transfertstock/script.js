@@ -24,39 +24,14 @@ $(function(){
 
 
 
-    $(".formConditionnement").submit(function(event) {
-        var formdata = new FormData($(this)[0]);
-        alerty.confirm("Voulez-vous vraiment valider cet conditionnement ?", {
-            title: "valider le conditionnement",
-            cancelLabel : "Non",
-            okLabel : "OUI, valider",
-        }, function(){
-            Loader.start();
-            $(this).find("input.quantite").last().change();
-            var url = "../../webapp/entrepot/modules/production/conditionnement/ajax.php";
-            formdata.append('action', "validerConditionnement");
-            $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-                if (data.status) {
-                    window.location.reload()
-                }else{
-                    Alerter.error('Erreur !', data.message);
-                }
-            }, 'json');
-        });
-        return false;
-    });
-
-
-
-
     
-    annulerProduction = function(id){
-        alerty.confirm("Voulez-vous vraiment annuler cette mise en boutique ?", {
-            title: "Annuler la mise en boutique",
+    annulerTransfert = function(id){
+        alerty.confirm("Voulez-vous vraiment annuler cet transfert de stock ?", {
+            title: "Annuler le transfert",
             cancelLabel : "Non",
             okLabel : "OUI, annuler",
         }, function(){
-            var url = "../../webapp/boutique/modules/production/miseenboutique/ajax.php";
+            var url = "../../webapp/boutique/modules/production/transfertstock/ajax.php";
             alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
                 title: 'Récupération du mot de passe !',
                 inputType : "password",
@@ -64,7 +39,7 @@ $(function(){
                 okLabel : "Valider"
             }, function(password){
                 Loader.start();
-                $.post(url, {action:"annulerMiseenboutique", id:id, password:password}, (data)=>{
+                $.post(url, {action:"annulerTransfert", id:id, password:password}, (data)=>{
                     if (data.status) {
                         window.location.reload()
                     }else{

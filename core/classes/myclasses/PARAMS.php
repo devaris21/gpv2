@@ -29,6 +29,7 @@ class PARAMS extends TABLE
 
 	public $tva;
 	public $seuilCredit;
+	public $prixParPalier = TABLE::OUI;
 	public $ruptureStock = 10;
 	public $minImmobilisation = 350000;
 

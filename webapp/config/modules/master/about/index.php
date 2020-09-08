@@ -110,8 +110,8 @@
                                                     </div>
                                                     <div class="col-9">
                                                         <h4 class="text-uppercase gras text-orange">Courrier électronique</h4>
-                                                        <h5 class="no-margins text-muted">info@payiel-dev.com</h5>
-                                                        <h5 class="no-margins text-muted">sav@payiel-dev.com</h5>
+                                                        <h5 class="no-margins text-muted">info@payiel.com</h5>
+                                                        <h5 class="no-margins text-muted">sav@payiel.com</h5>
                                                     </div>
                                                 </div>
                                             </div>

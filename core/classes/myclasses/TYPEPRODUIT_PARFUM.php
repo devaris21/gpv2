@@ -32,9 +32,16 @@ class TYPEPRODUIT_PARFUM extends TABLE
 						$prod = new PRODUIT();
 						$prod->typeproduit_parfum_id = $this->id;
 						$prod->quantite_id = $quantite->id;
-						$prod->prix = 200;
-						$prod->prix_gros = 200;
-						$prod->enregistre();
+						$data = $prod->enregistre();
+					}
+
+
+					foreach (ENTREPOT::getAll() as $key => $exi) {
+						$ligne = new INITIALTYPEPRODUITENTREPOT();
+						$ligne->entrepot_id = $exi->id;
+						$ligne->typeproduit_parfum_id = $this->id;
+						$ligne->quantite = 0;
+						$ligne->enregistre();
 					}
 
 					$ligne = new EXIGENCEPRODUCTION();
@@ -98,7 +105,8 @@ class TYPEPRODUIT_PARFUM extends TABLE
 
 
 	public function enStock(string $date1, string $date2, int $entrepot_id = null){
-		return $this->production($date1, $date2, $entrepot_id) - $this->conditionne($date1, $date2, $entrepot_id) - $this->perte($date1, $date2, $entrepot_id);
+		$item = $this->fourni("initialtypeproduitentrepot")[0];
+		return $this->production($date1, $date2, $entrepot_id) - $this->conditionne($date1, $date2, $entrepot_id) - $this->perte($date1, $date2, $entrepot_id) + $item->quantite;
 	}
 
 

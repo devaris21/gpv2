@@ -26,7 +26,7 @@
             <div class="ibox-content">
                 <div class="row text-center">
                   <?php $total = 0; foreach ($ressources as $key => $ressource) {
-                    $stock = $ressource->stock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $entrepot->id);
+                    $stock = $ressource->stock(Home\PARAMS::DATE_DEFAULT, dateAjoute(), $entrepot->id);
                     $prix = $stock * $ressource->price();
                     $total += $prix ?>
                     <div class="col-sm-4 col-md-3 col-lg-2 border-left border-bottom">
@@ -89,7 +89,7 @@
                                 <tr>
                                     <td class="gras"><?= datecourt($index) ?></td>
                                     <?php foreach ($ressources as $key => $ressource) {
-                                        $stock = $ressource->stock($index, $index, $entrepot->id);
+                                        $stock = $ressource->stock(Home\PARAMS::DATE_DEFAULT, $index, $entrepot->id);
                                         $appro = $ressource->achat($index, $index, $entrepot->id);
                                         $conso = $ressource->consommee($index, $index, $entrepot->id);
                                         $perte = $ressource->perte($index, $index, $entrepot->id);

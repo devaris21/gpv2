@@ -181,12 +181,6 @@
                                                                                         </label>
                                                                                     </div>
                                                                                 </div>
-                                                                                <?php if ($produit->isActive()) { ?>
-                                                                                    <div class="col-sm-6">
-                                                                                        <small>Stock initial</small>
-                                                                                        <input type="text" style="font-size: 10px; padding: 5px" number class="form-control input-xs text-center initial gras" value="<?= $produit->initial ?>" name="initial" id="<?= $produit->id ?>">
-                                                                                    </div>
-                                                                                <?php } ?>
                                                                             </div>
                                                                         </td>
                                                                         <td class="text-center">
@@ -198,7 +192,7 @@
                                                                                         <div class="" style="color: blue">
                                                                                             <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> <small><?= $emballage->name(); ?></small>
                                                                                         </div><hr class="mp3">
-                                                                                        <div class="row produits">
+                                                                                        <div class="row price">
                                                                                             <div class="col-sm-6">
                                                                                                 <input type="text" title="Prix Unitaire normal" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center prix" value="<?= $prix->prix ?>" name="prix" id="<?= $prix->id ?>">
                                                                                             </div>

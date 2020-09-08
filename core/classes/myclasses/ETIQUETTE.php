@@ -24,6 +24,15 @@ class ETIQUETTE extends TABLE
 		if (count($datas) == 1) {
 			if ($this->initial >= 0) {
 				$data = $this->save();
+
+				foreach (ENTREPOT::getAll() as $key => $exi) {
+					$ligne = new INITIALETIQUETTEENTREPOT();
+					$ligne->entrepot_id = $exi->id;
+					$ligne->etiquette_id = $this->id;
+					$ligne->quantite = 0;
+					$ligne->enregistre();
+				}
+
 			}else{
 				$data->status = false;
 				$data->message = "Veuillez à bien renseigner le initial initial !";
@@ -44,7 +53,8 @@ class ETIQUETTE extends TABLE
 	}
 
 	public function stock(String $date1, String $date2, int $entrepot_id = null){
-		return $this->achat($date1, $date2, $entrepot_id) + intval($this->initial) - $this->consommee($date1, $date2, $entrepot_id) - $this->consommee($date1, $date2, $entrepot_id);
+		$item = $this->fourni("initialetiquetteentrepot")[0];
+		return $this->achat($date1, $date2, $entrepot_id) + intval($this->initial) - $this->consommee($date1, $date2, $entrepot_id) - $this->consommee($date1, $date2, $entrepot_id) + $item->quantite;
 	}
 
 
@@ -53,7 +63,7 @@ class ETIQUETTE extends TABLE
 		if ($entrepot_id != null) {
 			$paras.= "AND entrepot_id = $entrepot_id ";
 		}
-		$requette = "SELECT SUM(quantite) as quantite  FROM ligneconsommationetiquette, conditionnement WHERE ligneconsommationetiquette.etiquette_id = ? AND ligneconsommationetiquette.conditionnement_id = conditionnement.id AND conditionnement.etat_id != ? AND DATE(ligneconsommationetiquette.created) >= ? AND DATE(ligneconsommationetiquette.created) <= ? $paras";
+		$requette = "SELECT SUM(ligneconsommationetiquette.quantite) as quantite  FROM ligneconsommationetiquette, conditionnement WHERE ligneconsommationetiquette.etiquette_id = ? AND ligneconsommationetiquette.conditionnement_id = conditionnement.id AND conditionnement.etat_id != ? AND DATE(ligneconsommationetiquette.created) >= ? AND DATE(ligneconsommationetiquette.created) <= ? $paras";
 		$item = LIGNECONSOMMATIONETIQUETTE::execute($requette, [$this->id, ETAT::ANNULEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNECONSOMMATIONETIQUETTE()]; }
 		return $item[0]->quantite;

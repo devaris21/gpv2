@@ -39,10 +39,13 @@ class PROSPECTION extends TABLE
 		if (count($datas) == 1) {
 			$datas = COMMERCIAL::findBy(["id ="=>$this->commercial_id]);
 			if (count($datas) == 1) {
+				$params = PARAMS::findLastId();
+
 				$commercial = $datas[0];
 				$this->employe_id = getSession("employe_connecte_id");
 				$this->boutique_id = getSession("boutique_connecte_id");
 				$this->reference = "BSO/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
+				$this->taux_tva = $params->tva;
 				$data = $this->save();
 				if ($data->status) {
 					if ($this->commercial_id != COMMERCIAL::MAGASIN) {

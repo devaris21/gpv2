@@ -38,7 +38,7 @@ $(function(){
 
 
     nouvelleProduction = function(id){
-        var formdata = new FormData($("#formProduction")[0]);
+        var formdata = new FormData($("#modal-production"+id+" #formProduction")[0]);
         tableau = new Array();
         $("#modal-production"+id+" input[name=quantite]").each(function(index, el) {
             var id = $(this).attr('id');

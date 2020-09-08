@@ -23,7 +23,6 @@
                             <div class="">                                
                                <ul class="nav nav-tabs">
                                 <li><a class="nav-link active" data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i> Les commandes en cours</a></li>
-                                <li><a class="nav-link" data-toggle="tab" href="#tab-2"><i class="fa fa-file-text-o"></i> Flux des commandes</a></li>
                                 <li><a class="nav-link" data-toggle="tab" href="#tab-3"><i class="fa fa-money"></i> Transactions de caisse</a></li>
                             </ul>
                             <div class="tab-content" style="min-height: 300px;">
@@ -34,8 +33,8 @@
 
                                 <div id="tab-1" class="tab-pane active"><br>
                                     <div class="row container-fluid">
-<!--                                         <button type="button" <?= (count($encours) > 0)?" onclick='newcommande()' ": "data-toggle=modal data-target='#modal-newcommande'" ?>  class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle commande </button>
- -->                                    </div>
+                                      <button type="button" <?= (count($encours) > 0)?" onclick='newcommande()' ": "data-toggle=modal data-target='#modal-newcommande'" ?>  class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle commande </button>
+                                </div>
                                     <div class="">
                                       <div class="ibox-content">
                                           <?php if (count($groupes + $encours) > 0) { ?>
@@ -124,7 +123,7 @@
                                   </div>
                               </div>
 
-                              <div id="tab-2" class="tab-pane">
+<!--                               <div id="tab-2" class="tab-pane">
                                 <div class="ibox-content inspinia-timeline">
                                     <?php foreach ($flux as $key => $transaction) { ?>
                                         <div class="timeline-item">
@@ -185,7 +184,7 @@
                             <?php } ?>                                      
                         </div>
 
-                    </div>
+                    </div> -->
                 <?php } ?>
 
 

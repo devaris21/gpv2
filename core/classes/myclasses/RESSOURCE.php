@@ -12,7 +12,6 @@ class RESSOURCE extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 	public $name;
-	public $initial = 0;
 	public $unite;
 	public $abbr;
 	public $price = 0;
@@ -31,6 +30,15 @@ class RESSOURCE extends TABLE
 					$ligne->quantite = 0;
 					$ligne->enregistre();
 				}
+
+
+				foreach (ENTREPOT::getAll() as $key => $exi) {
+					$ligne = new INITIALRESSOURCEENTREPOT();
+					$ligne->entrepot_id = $exi->id;
+					$ligne->ressource_id = $this->id;
+					$ligne->quantite = 0;
+					$ligne->enregistre();
+				}
 			}
 		}else{
 			$data->status = false;
@@ -42,7 +50,8 @@ class RESSOURCE extends TABLE
 
 
 	public function stock(String $date1, String $date2, int $entrepot_id = null){
-		return $this->achat($date1, $date2, $entrepot_id) - $this->consommee($date1, $date2, $entrepot_id) - $this->perte($date1, $date2, $entrepot_id) + intval($this->initial);
+		$item = $this->fourni("initialressourceentrepot")[0];
+		return $this->achat($date1, $date2, $entrepot_id) - $this->consommee($date1, $date2, $entrepot_id) - $this->perte($date1, $date2, $entrepot_id) + intval($this->initial) + $item->quantite;
 	}
 
 

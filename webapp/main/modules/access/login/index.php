@@ -39,7 +39,7 @@
         <hr/>
         <div class="row text-white">
             <div class="col-md-6">
-                &copy; DEVARIS 21, tous droits reservés
+                &copy; PAYIEL, tous droits reservés
             </div>
             <div class="col-md-6 text-right">
                <small>© 2019-2020</small>

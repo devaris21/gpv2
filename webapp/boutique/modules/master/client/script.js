@@ -189,7 +189,10 @@ $(function(){
 			formdata.append('action', "calcul");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				$(".total").html(data.total);
+				$(".reduction").html(data.reduction);
+				$(".montant").html(data.montant);
 				$(".rendu").html(data.rendu);
+				$(".tva").html(data.tva);
 			}, 'json')
 
 			$("#actualise").hide(200);

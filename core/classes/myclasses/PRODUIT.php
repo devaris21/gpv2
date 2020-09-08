@@ -15,7 +15,6 @@ class PRODUIT extends TABLE
 
 	public $typeproduit_parfum_id;
 	public $quantite_id;
-	public $initial = 0;
 	public $isActive = TABLE::NON;
 
 
@@ -34,6 +33,30 @@ class PRODUIT extends TABLE
 						$item->prix = 200;
 						$item->prix_gros = 200;
 						$item->enregistre();
+					}
+
+
+					foreach (BOUTIQUE::getAll() as $key => $exi) {
+						foreach (EMBALLAGE::getAll() as $key => $emb) {
+							$ligne = new INITIALPRODUITBOUTIQUE();
+							$ligne->boutique_id = $exi->id;
+							$ligne->emballage_id = $emb->id;
+							$ligne->produit_id = $this->id;
+							$ligne->quantite = 0;
+							$ligne->enregistre();
+						}
+					}
+
+
+					foreach (ENTREPOT::getAll() as $key => $exi) {
+						foreach (EMBALLAGE::getAll() as $key => $emb) {
+							$ligne = new INITIALPRODUITENTREPOT();
+							$ligne->entrepot_id = $exi->id;
+							$ligne->emballage_id = $emb->id;
+							$ligne->produit_id = $this->id;
+							$ligne->quantite = 0;
+							$ligne->enregistre();
+						}
 					}
 
 					$item = new ETIQUETTE;
@@ -170,12 +193,33 @@ class PRODUIT extends TABLE
 	}
 
 
+	public function transfertEntrepot(string $date1, string $date2, int $emballage_id, int $entrepot_id = null){
+		$total = 0;
+		$paras = "";
+		if ($entrepot_id != null) {
+			$paras.= "AND entrepot_id = $entrepot_id ";
+		}
+		$requette = "SELECT SUM(quantite1) as quantite  FROM transfertstockentrepot WHERE transfertstockentrepot.produit_id = ? AND  transfertstockentrepot.emballage_id_destination = ? AND transfertstockentrepot.etat_id = ? AND DATE(transfertstockentrepot.created) >= ? AND DATE(transfertstockentrepot.created) <= ? $paras ";
+		$item = TRANSFERTSTOCKENTREPOT::execute($requette, [$this->id, $emballage_id, ETAT::VALIDEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new TRANSFERTSTOCKENTREPOT()]; }
+		$total = $item[0]->quantite;
+
+		$requette = "SELECT SUM(quantite) as quantite  FROM transfertstockentrepot WHERE transfertstockentrepot.produit_id = ? AND  transfertstockentrepot.emballage_id_source = ? AND transfertstockentrepot.etat_id = ? AND DATE(transfertstockentrepot.created) >= ? AND DATE(transfertstockentrepot.created) <= ? $paras ";
+		$item = TRANSFERTSTOCKENTREPOT::execute($requette, [$this->id, $emballage_id, ETAT::VALIDEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new TRANSFERTSTOCKENTREPOT()]; }
+		$total -= $item[0]->quantite;
+		return $total;
+	}
+
+
+
 	public function enEntrepot(string $date1, string $date2, int $emballage_id, int $entrepot_id = null){
 		$stock = 0;
 		if ($entrepot_id == ENTREPOT::PRINCIPAL) {
 			$stock = intval($this->initial);
 		}
-		$total = $this->conditionnement($date1, $date2, $emballage_id, $entrepot_id) - $this->totalSortieEntrepot($date1, $date2, $emballage_id, $entrepot_id) - $this->perteEntrepot($date1, $date2, $emballage_id, $entrepot_id);
+		$item = $this->fourni("initialproduitentrepot", ["emballage_id ="=>$emballage_id])[0];
+		$total = $this->conditionnement($date1, $date2, $emballage_id, $entrepot_id) - $this->totalSortieEntrepot($date1, $date2, $emballage_id, $entrepot_id) - $this->perteEntrepot($date1, $date2, $emballage_id, $entrepot_id) + $item->quantite + $this->transfertEntrepot($date1, $date2, $emballage_id, $entrepot_id);
 		return $total;
 	}
 
@@ -205,12 +249,34 @@ class PRODUIT extends TABLE
 		return $item[0]->quantite;
 	}
 
+
+	public function transfertBoutique(string $date1, string $date2, int $emballage_id, int $boutique_id = null){
+		$total = 0;
+		$paras = "";
+		if ($boutique_id != null) {
+			$paras.= "AND boutique_id = $boutique_id ";
+		}
+		$requette = "SELECT SUM(quantite1) as quantite  FROM transfertstockboutique WHERE transfertstockboutique.produit_id = ? AND  transfertstockboutique.emballage_id_destination = ? AND transfertstockboutique.etat_id = ? AND DATE(transfertstockboutique.created) >= ? AND DATE(transfertstockboutique.created) <= ? $paras ";
+		$item = TRANSFERTSTOCKBOUTIQUE::execute($requette, [$this->id, $emballage_id, ETAT::VALIDEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new TRANSFERTSTOCKBOUTIQUE()]; }
+		$total = $item[0]->quantite;
+
+		$requette = "SELECT SUM(quantite) as quantite  FROM transfertstockboutique WHERE transfertstockboutique.produit_id = ? AND  transfertstockboutique.emballage_id_source = ? AND transfertstockboutique.etat_id = ? AND DATE(transfertstockboutique.created) >= ? AND DATE(transfertstockboutique.created) <= ? $paras ";
+		$item = TRANSFERTSTOCKBOUTIQUE::execute($requette, [$this->id, $emballage_id, ETAT::VALIDEE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new TRANSFERTSTOCKBOUTIQUE()]; }
+		$total -= $item[0]->quantite;
+		return $total;
+	}
+
+
+
 	public function enBoutique(string $date1, string $date2, int $emballage_id, int $boutique_id = null){
 		$paras = "";
 		if ($boutique_id != null) {
 			$paras.= "AND boutique_id = $boutique_id ";
 		}
-		$total = $this->totalMiseEnBoutique($date1, $date2, $emballage_id, $boutique_id) - ($this->enProspection($emballage_id, $boutique_id) + $this->livree($date1, $date2, $emballage_id, $boutique_id) + $this->vendu($date1, $date2, $emballage_id, $boutique_id) + $this->perteProspection($date1, $date2, $emballage_id, $boutique_id) + $this->perteBoutique($date1, $date2, $emballage_id, $boutique_id));
+		$item = $this->fourni("initialproduitboutique", ["emballage_id ="=>$emballage_id])[0];
+		$total = $this->totalMiseEnBoutique($date1, $date2, $emballage_id, $boutique_id) - ($this->enProspection($emballage_id, $boutique_id) + $this->livree($date1, $date2, $emballage_id, $boutique_id) + $this->vendu($date1, $date2, $emballage_id, $boutique_id) + $this->perteProspection($date1, $date2, $emballage_id, $boutique_id) + $this->perteBoutique($date1, $date2, $emballage_id, $boutique_id)) + $item->quantite + $this->transfertBoutique($date1, $date2, $emballage_id, $boutique_id);
 		return $total;
 	}
 

@@ -83,7 +83,6 @@ if ($action == "nouvelleProduction") {
 			if ($entrepot->comptebanque->solde() >= $maindoeuvre) {
 				$production = new PRODUCTION();
 				$production->hydrater($_POST);
-				$production->maindoeuvre = intval($production->maindoeuvre);
 				$data = $production->enregistre();
 				if ($data->status) {
 					foreach ($listeproduits as $key => $value) {

@@ -54,72 +54,6 @@ foreach ($datas as $key => $value) {
 
 
 
-$item = new TYPEBIEN();
-$item->name = "Magasin / Entrepot / Usine";
-$item->min = 15;
-$item->max = 50;
-$item->setProtected(1);
-$item->save();
-
-
-$item = new TYPEBIEN();
-$item->name = "Meubles / Mobiliers";
-$item->min = 5;
-$item->max = 10;
-$item->setProtected(1);
-$item->save();
-
-
-$item = new TYPEBIEN();
-$item->name = "Véhicules";
-$item->min = 3;
-$item->max = 5;
-$item->setProtected(1);
-$item->save();
-
-
-$item = new TYPEBIEN();
-$item->name = "Materiels industriels / Outillages";
-$item->min = 5;
-$item->max = 10;
-$item->setProtected(1);
-$item->save();
-
-
-$item = new TYPEBIEN();
-$item->name = "Materiels informatiques";
-$item->min = 2;
-$item->max = 5;
-$item->setProtected(1);
-$item->save();
-
-
-$item = new TYPEBIEN();
-$item->name = "Brevets";
-$item->min = 3;
-$item->max = 5;
-$item->setProtected(1);
-$item->save();
-
-
-$item = new TYPEBIEN();
-$item->name ="Logiciels / Sites internet";
-$item->min = 2;
-$item->max = 3;
-$item->setProtected(1);
-$item->save();
-
-
-
-$datas = ["Immobilisation corporelle", "Immobilisation incorporelle", "Immobilisation financière"];
-foreach ($datas as $key => $value) {
-	$item = new TYPEIMMOBILISATION();
-	$item->name = $value;
-	$item->setProtected(1);
-	$item->save();
-}
-
-
 $datas = ["Dépôt", "Retrait"];
 foreach ($datas as $key => $value) {
 	$item = new TYPEMOUVEMENT();
@@ -138,25 +72,17 @@ foreach ($datas as $key => $value) {
 	$item->save();
 }
 
-$datas = ["Amortissement linéaire", "Amortissement dégressif"];
+
+$datas = [0.5, 1];
 foreach ($datas as $key => $value) {
-	$item = new TYPEAMORTISSEMENT();
-	$item->name = $value;
-	$item->setProtected(1);
-	$item->save();
-}
-
-
-
-$datas = ["Bissap", "Gingembre", "Passion", "Tamarin", "Citron", "Baobab"];
-foreach ($datas as $key => $value) {
-	$item = new PARFUM();
+	$item = new QUANTITE();
 	$item->name = $value;
 	$item->setProtected(1);
 	$item->enregistre();
 }
 
-$datas = ["Jus sucré", "Sans sucre"];
+
+$datas = ["Jus Sentinelle"];
 foreach ($datas as $key => $value) {
 	$item = new TYPEPRODUIT();
 	$item->name = $value;
@@ -166,9 +92,22 @@ foreach ($datas as $key => $value) {
 	$item->enregistre();
 }
 
-$datas = [0.25, 0.33, 0.5, 1];
+
+$datas = ["Orange", "Vert"];
 foreach ($datas as $key => $value) {
-	$item = new QUANTITE();
+	$item = new PARFUM();
+	$item->name = $value;
+	$item->setProtected(1);
+	$item->enregistre();
+}
+
+
+
+$datas = ["Cacao", "Latex"];
+foreach ($datas as $key => $value) {
+	$item = new RESSOURCE();
+	$item->unite = "kilos";
+	$item->abbr = "kg";
 	$item->name = $value;
 	$item->setProtected(1);
 	$item->enregistre();
@@ -208,7 +147,7 @@ foreach ($datas as $key => $value) {
 
 
 
-$datas = ["Incendie", "Peremption", "Dégats-endommagement", "Vol"];
+$datas = ["Surplus de la production", "Incendie", "Peremption", "Dégats-endommagement", "Vol"];
 foreach ($datas as $key => $value) {
 	$item = new TYPEPERTE();
 	$item->name = $value;
@@ -218,8 +157,8 @@ foreach ($datas as $key => $value) {
 
 
 $item = new PARAMS();
-$item->societe = "Devaris 21";
-$item->email = "info@devaris21.com";
+$item->societe = "PAYIEL INGENERIES";
+$item->email = "info@payiel.com";
 $item->devise = "Fcfa";
 $item->tva = 0;
 $item->seuilCredit = 0;
@@ -231,7 +170,7 @@ $item->enregistre();
 $item = new MYCOMPTE();
 $item->identifiant = strtoupper(substr(uniqid(), 5, 7));
 $item->tentative = 0;
-$item->expired = dateAjoute(7);
+$item->expired = dateAjoute(30);
 $item->setProtected(1);
 $item->enregistre();
 
@@ -287,7 +226,7 @@ $item->setProtected(1);
 $item->save();
 
 $item = new ETAT();
-$item->name = "Partiellement";
+$item->name = "StandBy";
 $item->class = "info";
 $item->setProtected(1);
 $item->save();
@@ -328,6 +267,14 @@ foreach ($datas as $key => $value) {
 	$item->save();
 }
 
+
+$datas = ["Brut", "pourcentage"];
+foreach ($datas as $key => $value) {
+	$item = new TYPEREDUCTION();
+	$item->name = $value;
+	$item->setProtected(1);
+	$item->save();
+}
 
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::ENTREE;
@@ -398,27 +345,6 @@ foreach (ROLE::getAll() as $key => $value) {
 
 $datas = ["standart"];
 foreach ($datas as $key => $value) {
-	$item = new TYPEVEHICULE();
-	$item->name = $value;
-	$item->setProtected(1);
-	$item->save();
-
-	$item = new TYPETRANSMISSION();
-	$item->name = $value;
-	$item->setProtected(1);
-	$item->save();
-
-
-	$item = new ENERGIE();
-	$item->name = $value;
-	$item->setProtected(1);
-	$item->save();
-
-	$item = new GROUPEMANOEUVRE();
-	$item->name = $value;
-	$item->setProtected(1);
-	$item->save();
-
 	$item = new TYPESUGGESTION();
 	$item->name = $value;
 	$item->setProtected(1);

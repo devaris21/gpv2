@@ -29,6 +29,7 @@ class EMBALLAGE extends TABLE
 			if ($this->name != "") {
 				$data = $this->save();
 				if ($data->status) {
+					
 					$this->uploading($this->files);
 					foreach (PRODUIT::getAll() as $key => $produit) {
 						$item = new PRICE;
@@ -38,6 +39,39 @@ class EMBALLAGE extends TABLE
 						$item->prix_gros = 200;
 						$item->enregistre();
 					}
+
+					foreach (ENTREPOT::getAll() as $key => $exi) {
+						$ligne = new INITIALEMBALLAGEENTREPOT();
+						$ligne->entrepot_id = $exi->id;
+						$ligne->emballage_id = $this->id;
+						$ligne->quantite = 0;
+						$ligne->enregistre();
+					}
+
+
+					foreach (BOUTIQUE::getAll() as $key => $exi) {
+						foreach (PRODUIT::getAll() as $key => $prod) {
+							$ligne = new INITIALPRODUITBOUTIQUE();
+							$ligne->boutique_id = $exi->id;
+							$ligne->produit_id = $prod->id;
+							$ligne->emballage_id = $this->id;
+							$ligne->quantite = 0;
+							$ligne->enregistre();
+						}
+					}
+
+
+					foreach (ENTREPOT::getAll() as $key => $exi) {
+						foreach (PRODUIT::getAll() as $key => $prod) {
+							$ligne = new INITIALPRODUITENTREPOT();
+							$ligne->entrepot_id = $exi->id;
+							$ligne->produit_id = $prod->id;
+							$ligne->emballage_id = $this->id;
+							$ligne->quantite = 0;
+							$ligne->enregistre();
+						}
+					}
+					
 				}
 			}else{
 				$data->status = false;
@@ -121,7 +155,8 @@ class EMBALLAGE extends TABLE
 
 
 	public function stock(String $date1, String $date2, int $entrepot_id = null){
-		return $this->achat($date1, $date2, $entrepot_id) - $this->consommee($date1, $date2, $entrepot_id) - $this->perte($date1, $date2, $entrepot_id) + intval($this->initial);
+		$item = $this->fourni("initialemballageentrepot")[0];
+		return $this->achat($date1, $date2, $entrepot_id) - $this->consommee($date1, $date2, $entrepot_id) - $this->perte($date1, $date2, $entrepot_id) + intval($this->initial) + $item->quantite;
 	}
 
 
@@ -166,19 +201,19 @@ class EMBALLAGE extends TABLE
 
 
 	public function price(){
-			$requette = "SELECT SUM(quantite_recu) as quantite, SUM(transport) as transport, SUM(ligneapproemballage.price) as price FROM ligneapproemballage, approemballage WHERE ligneapproemballage.emballage_id = ? AND ligneapproemballage.approemballage_id = approemballage.id AND approemballage.etat_id = ? ";
-			$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
-			if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
-			$item = $datas[0];
+		$requette = "SELECT SUM(quantite_recu) as quantite, SUM(transport) as transport, SUM(ligneapproemballage.price) as price FROM ligneapproemballage, approemballage WHERE ligneapproemballage.emballage_id = ? AND ligneapproemballage.approemballage_id = approemballage.id AND approemballage.etat_id = ? ";
+		$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
+		if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
+		$item = $datas[0];
 
-			$requette = "SELECT SUM(quantite_recu) as quantite FROM ligneapproemballage, approemballage WHERE ligneapproemballage.approemballage_id = approemballage.id AND approemballage.id IN (SELECT approemballage_id FROM ligneapproemballage WHERE ligneapproemballage.emballage_id = ? ) AND approemballage.etat_id = ? ";
-			$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
-			if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
-			$ligne = $datas[0];
+		$requette = "SELECT SUM(quantite_recu) as quantite FROM ligneapproemballage, approemballage WHERE ligneapproemballage.approemballage_id = approemballage.id AND approemballage.id IN (SELECT approemballage_id FROM ligneapproemballage WHERE ligneapproemballage.emballage_id = ? ) AND approemballage.etat_id = ? ";
+		$datas = LIGNEAPPROVISIONNEMENT::execute($requette, [$this->id, ETAT::VALIDEE]);
+		if (count($datas) < 1) {$datas = [new LIGNEAPPROVISIONNEMENT()]; }
+		$ligne = $datas[0];
 
-			if ($item->quantite == 0) {
-				return 0;
-			}
+		if ($item->quantite == 0) {
+			return 0;
+		}
 		if (intval($this->price) <= 0) {
 			$total = ($item->price / $item->quantite) + ($item->transport / $ligne->quantite);
 			return $total;

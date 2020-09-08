@@ -29,14 +29,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-sm-4 unmodified">
-							<label>Stock actuel </label>
-							<div class="form-group">
-								<input type="number" number class="form-control" name="initial" value="0" min="0" required>
-							</div>
-						</div>
-					</div>
 				</div><hr>
 				<div class="container">
 					<input type="hidden" name="id">

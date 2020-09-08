@@ -199,9 +199,7 @@
                                                     <th></th>
                                                     <th>Nom</th>
                                                     <th>Composé de </th>
-                                                    <th>Qté initial</th>
-                                                    <th>Stk. init</th>
-                                                    <th>Prix fixe</th>
+                                                    <th>Prix d'achat</th>
                                                     <th></th>
                                                     <th></th>
                                                 </tr>
@@ -213,11 +211,7 @@
                                                         <td ><img style="height: 25px" src="<?= $this->stockage("images", "emballages", $item->image); ?>"></td>
                                                         <td class="gras"><?= $item->name(); ?></td>
                                                         <td class="text-center"><?= $item->quantite; ?> <b><?= $item->emballage->name(); ?></b></td>
-                                                        <td class="text-center"><?= $item->initial; ?> unités</td>
-                                                        <td width="90px">
-                                                            <input type="text" title="Stock initial" number class="form-control input-xs text-center emballage" step="0.1" value="<?= $item->initial ?>" name="initial" id="<?= $item->id ?>" >
-                                                        </td>
-                                                        <td width="90px">
+                                                        <td width="100px">
                                                             <input type="text" title="Prix Unitaire normal" number class="form-control input-xs text-center emballage" value="<?= $item->price ?>" name="price" id="<?= $item->id ?>">
                                                         </td>
                                                         <td data-toggle="modal" data-target="#modal-emballage" title="modifier l'élément" onclick="modification('emballage', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
@@ -293,8 +287,7 @@
                                                     <th>Unité</th>
                                                     <th>Abbr</th>
                                                     <th>stockable ?</th>
-                                                    <th>Stock initial</th>
-                                                    <th>Prix fixe</th>
+                                                    <th>Prix d'achat</th>
                                                     <th></th>
                                                     <th></th>
                                                 </tr>
@@ -318,11 +311,6 @@
                                                             </div>
                                                         </td>
                                                         <td width="110px">
-                                                            <?php if ($item->isActive()) { ?>
-                                                                <input type="text" title="Stock initial" number class="form-control input-xs text-center ressource" value="<?= $item->initial ?>" name="initial" id="<?= $item->id ?>">
-                                                            <?php }  ?>
-                                                        </td>
-                                                        <td width="110px">
                                                             <input type="text" title="Prix Unitaire normal" number class="form-control input-xs text-center ressource" step="0.1" value="<?= $item->price ?>" name="price" id="<?= $item->id ?>" >
                                                         </td>
                                                         <td data-toggle="modal" data-target="#modal-ressource" title="modifier l'élément" onclick="modification('ressource', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
@@ -342,7 +330,7 @@
                                     <div class="ibox-title">
                                         <h5 class="text-uppercase">Les types d'etiquette</h5>
                                         <div class="ibox-tools">
-                                          
+
                                         </div>
                                     </div>
                                     <div class="ibox-content">
@@ -351,8 +339,7 @@
                                                 <tr>
                                                     <th>Nom</th>
                                                     <th>Qté initial</th>
-                                                    <th>Stk. init</th>
-                                                    <th>Prix fixe</th>
+                                                    <th>Prix d'achat</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -362,13 +349,52 @@
                                                     <tr>
                                                         <td class="gras"><?= $item->name(); ?></td>
                                                         <td class="text-center"><?= $item->initial; ?> unités</td>
-                                                        <td width="90px">
-                                                            <input type="text" title="Stock initial" number class="form-control input-xs text-center etiquette" step="0.1" value="<?= $item->initial ?>" name="initial" id="<?= $item->id ?>" >
-                                                        </td>
-                                                        <td width="90px">
+                                                        <td width="110px">
                                                             <input type="text" title="Prix Unitaire normal" number class="form-control input-xs text-center etiquette" value="<?= $item->price ?>" name="price" id="<?= $item->id ?>">
                                                         </td>
                                                         <td title="supprimer la format d'etiquette" onclick="suppressionWithPassword('etiquette', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                    </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm-7 bloc">
+                                <div class="ibox border">
+                                    <div class="ibox-title">
+                                        <h5 class="text-uppercase">Les paliers de reductions</h5>
+                                        <div class="ibox-tools">
+                                            <button class="btn_modal btn btn-xs btn-white" data-toggle="modal" data-target="#modal-palier">
+                                                <i class="fa fa-plus"></i> Ajouter
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Libéllé</th>
+                                                    <th>Prix min</th>
+                                                    <th>Prix max</th>
+                                                    <th>Reduction</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach (Home\PALIER::getAll() as $key => $item) {
+                                                    $item->actualise(); ?>
+                                                    <tr>
+                                                        <td class="gras"><?= $item->name(); ?></td>
+                                                        <td><?= money($item->min) ?> <?= $params->devise ?></td>
+                                                        <td><?= money($item->max) ?> <?= $params->devise ?></td>
+                                                        <td><?= $item->reduction; ?> <?= ($item->typereduction_id == Home\TYPEREDUCTION::BRUT)?$params->devise:"%"  ?></td>
+                                                        <td data-toggle="modal" data-target="#modal-palier" title="modifier l'élément" onclick="modification('palier', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                        <td title="supprimer le palier" onclick="suppressionWithPassword('palier', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                     </tr>
                                                 <?php } ?>
                                             </tbody>

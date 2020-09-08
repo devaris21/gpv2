@@ -85,8 +85,18 @@
 
                                 <input type="hidden" name="client_id" value="<?= Home\CLIENT::ANONYME ?>">
                                 <br>
+                                <h5><span>TVA (<?= $params->tva ?> %)</span> <span class="pull-right tva">0 Fcfa </span></h5>
+
                                 <div class="text-right">
                                     <label class="mp0">Montant total</label>
+                                    <h4 class="mp0 gras text-right montant">0 Fcfa</h4>
+                                </div><br>
+                                <div class="text-right">
+                                    <label class="mp0">Réduction</label>
+                                    <h4 class="mp0 gras text-green text-right reduction">0 Fcfa</h4>
+                                </div><br>
+                                <div class="text-right">
+                                    <label class="mp0">Total à payer</label>
                                     <h2 class="mp0 gras text-danger text-right total">0 Fcfa</h2>
                                 </div><br>
 

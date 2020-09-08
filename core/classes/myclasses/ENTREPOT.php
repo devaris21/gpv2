@@ -26,6 +26,53 @@ class ENTREPOT extends TABLE
 					$this->comptebanque_id = $data->lastid;
 					$this->save();
 				}
+
+				foreach (EMBALLAGE::getAll() as $key => $exi) {
+					$ligne = new INITIALEMBALLAGEENTREPOT();
+					$ligne->entrepot_id = $this->id;
+					$ligne->emballage_id = $exi->id;
+					$ligne->quantite = 0;
+					$ligne->enregistre();
+
+					foreach (PRODUIT::getAll() as $key => $prod) {
+						$ligne = new INITIALPRODUITENTREPOT();
+						$ligne->entrepot_id = $this->id;
+						$ligne->produit_id = $prod->id;
+						$ligne->emballage_id = $exi->id;
+						$ligne->quantite = 0;
+						$ligne->enregistre();
+					}
+				}
+
+
+
+
+				foreach (RESSOURCE::getAll() as $key => $exi) {
+					$ligne = new INITIALRESSOURCEENTREPOT();
+					$ligne->entrepot_id = $this->id;
+					$ligne->ressource_id = $exi->id;
+					$ligne->quantite = 0;
+					$ligne->enregistre();
+				}
+
+
+				foreach (ETIQUETTE::getAll() as $key => $exi) {
+					$ligne = new INITIALETIQUETTEENTREPOT();
+					$ligne->entrepot_id = $this->id;
+					$ligne->etiquette_id = $exi->id;
+					$ligne->quantite = 0;
+					$ligne->enregistre();
+				}
+
+
+				foreach (TYPEPRODUIT_PARFUM::getAll() as $key => $exi) {
+					$ligne = new INITIALTYPEPRODUITENTREPOT();
+					$ligne->entrepot_id = $this->id;
+					$ligne->typeproduit_parfum_id = $exi->id;
+					$ligne->quantite = 0;
+					$ligne->enregistre();
+				}
+
 			}
 		}else{
 			$data->status = false;

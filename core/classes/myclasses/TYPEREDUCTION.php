@@ -3,15 +3,16 @@ namespace Home;
 use Native\RESPONSE;/**
  * 
  */
-class TYPEBIEN extends TABLE
+class TYPEREDUCTION extends TABLE
 {
 
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
+
+	const BRUT = 1;
+	const POURCENTAGE = 2;
 	
 	public $name;
-	public $min;
-	public $max;
 
 	public function enregistre(){
 		$data = new RESPONSE;

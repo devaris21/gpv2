@@ -83,7 +83,6 @@ if ($action == "validerConditionnement") {
 				$conditionnement->hydrater($_POST);
 				$conditionnement->typeproduit_parfum_id = $produit->typeproduit_parfum_id;
 				$conditionnement->quantite = $quantite;
-				$conditionnement->etat_id = ETAT::ENCOURS;
 				$data = $conditionnement->enregistre();
 				if (count($datas) > 0) {
 					foreach ($_POST as $key => $value) {

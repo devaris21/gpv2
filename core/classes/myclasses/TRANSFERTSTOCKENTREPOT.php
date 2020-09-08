@@ -15,11 +15,13 @@ class TRANSFERTSTOCKENTREPOT extends TABLE
 	public $produit_id;
 	public $quantite;
 	public $emballage_id_source;
-	public $quantite2;
+	public $quantite1;
 	public $emballage_id_destination;
 	public $comment;
 	public $entrepot_id;
 	public $employe_id;
+	public $etat_id = ETAT::VALIDEE;
+
 
 
 
@@ -40,8 +42,8 @@ class TRANSFERTSTOCKENTREPOT extends TABLE
 					if ($this->emballage_id_source != $this->emballage_id_destination){
 						if ($this->quantite >= 1){
 							if ($produit->enEntrepot(PARAMS::DATE_DEFAULT, dateAjoute(1), $this->emballage_id_source, getSession("entrepot_connecte_id")) >= $this->quantite) {
-								$this->quantite2 = (int)($quantite * $emb1->nombre() / $emb2->nombre());
-								if ($this->quantite2 >= 1){
+								$this->quantite1 = (int)($quantite * $emb1->nombre() / $emb2->nombre());
+								if ($this->quantite1 >= 1){
 									$data = $this->save();	
 								}else{
 									$data->status = false;

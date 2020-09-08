@@ -31,9 +31,13 @@ class VENTE extends TABLE
 		$data = new RESPONSE;
 		$datas = ZONEDEVENTE::findBy(["id ="=>$this->zonedevente_id]);
 		if (count($datas) == 1) {
+			$params = PARAMS::findLastId();
+
+
 			$this->employe_id = getSession("employe_connecte_id");
 			$this->boutique_id = getSession("boutique_connecte_id");
 			$this->reference = "BVE/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
+			$this->taux_tva = $params->tva;
 
 			$this->rendu = $this->recu - $this->montant;
 			if ($this->rendu < 0) {

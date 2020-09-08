@@ -182,7 +182,7 @@
                                                 <div class="row">
                                                     <div class="col-9">
                                                         <h3 class="text-uppercase gras text-navy">à propos de nous</h3>
-                                                        <h5 class="no-margins text-muted">En savoir plus sur Devaris21</h5>
+                                                        <h5 class="no-margins text-muted">En savoir plus sur PAYIEL21</h5>
                                                     </div>
                                                     <div class="col-3 text-right">
                                                         <i class="fa fa-info fa-5x text-muted"></i>

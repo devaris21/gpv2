@@ -62,52 +62,66 @@
                                     <?php } ?>                            
                                 </tbody>
                             </table><hr>
-                            <div class="text-right">
-                                <h5 class="mp0">
-                                    <span>Montant total :</span>
-                                    <h4 class="text-red gras d-inline mp0"><?= money($vente->montant) ?> <?= $params->devise ?></h4>
-                                </h5>                  
-                            </div><br>
-
                             <div class="row">
-                                <div class="col-sm">
-                                    <h5 class="mp0">
-                                        <span>Montant réçu :</span>
-                                        <h4 class="gras d-inline mp0"><?= money($vente->recu) ?> <?= $params->devise ?></h4>
-                                    </h5>   
+                                <div class="offset-sm-6 col-sm-6 text-right">
+                                    <h4 class="text-muted gras d-inline mp0"><span>Montant total :</span> <?= money($vente->montant + $vente->reduction - $vente->tva) ?> <?= $params->devise ?></h4>   
                                 </div>
-                                <div class="col-sm text-right">
-                                    <h5 class="mp0">
-                                        <span>Monnaie rendu :</span>
-                                        <h4 class="text-muted gras d-inline mp0"><?= money($vente->rendu) ?> <?= $params->devise ?></h4>
-                                    </h5>   
+                            </div><br>
+                            <div class="row">
+                                <div class="offset-sm-6 col-sm-6 text-right">
+                                    <h5 class="text-muted gras d-inline mp0"><span>TVA (<?= start0($vente->taux_tva) ?>%) :</span> <?= money($vente->tva) ?> <?= $params->devise ?></h5> 
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="offset-sm-6 col-sm-6 text-right">
+                                    <h5 class="text-muted gras d-inline mp0"><span>Reduction :</span> <?= money($vente->reduction) ?> <?= $params->devise ?></h5>                                </div>
+                                </div><br>
+                                <div class="text-right">
+                                    <h5 class="mp0">
+                                        <span>Net à payer :</span>
+                                        <h4 class="text-red gras d-inline mp0"><?= money($vente->montant) ?> <?= $params->devise ?></h4>
+                                    </h5>                  
+                                </div><br>
+
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <h5 class="mp0">
+                                            <span>Montant réçu :</span>
+                                            <h4 class="gras d-inline mp0"><?= money($vente->recu) ?> <?= $params->devise ?></h4>
+                                        </h5>   
+                                    </div>
+                                    <div class="col-sm text-right">
+                                        <h5 class="mp0">
+                                            <span>Monnaie rendu :</span>
+                                            <h4 class="text-muted gras d-inline mp0"><?= money($vente->rendu) ?> <?= $params->devise ?></h4>
+                                        </h5>   
+                                    </div>
+                                </div>
 
 
-                            <hr>
-                            <p class="text-center"><small><i>Très bonne dégustation et à bientôt !</i></small></p>
+                                <hr>
+                                <p class="text-center"><small><i>Très bonne dégustation et à bientôt !</i></small></p>
 
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
+
+
             </div>
 
 
+            <?php include($this->rootPath("webapp/manager/elements/templates/footer.php")); ?>
+
+
         </div>
-
-
-        <?php include($this->rootPath("webapp/manager/elements/templates/footer.php")); ?>
-
-
     </div>
-</div>
 
 
-<?php include($this->rootPath("webapp/manager/elements/templates/script.php")); ?>
+    <?php include($this->rootPath("webapp/manager/elements/templates/script.php")); ?>
 
-<button class="btn btn-outline-primary btn-rounded btn-xs d-print-none" onclick="window.print()" style="position: fixed; bottom: 8%; right: 2%; z-index: 8000"><i class="fa fa-print"></i> Imprimer la fiche</button>
+    <button class="btn btn-outline-primary btn-rounded btn-xs d-print-none" onclick="window.print()" style="position: fixed; bottom: 8%; right: 2%; z-index: 8000"><i class="fa fa-print"></i> Imprimer la fiche</button>
 
 </body>
 
