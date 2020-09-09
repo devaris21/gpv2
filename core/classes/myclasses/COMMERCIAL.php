@@ -24,6 +24,7 @@ class COMMERCIAL extends PERSONNE
 	public $objectif = 0;
 	public $boutique_id = 0;
 	public $image = "default.png";
+	public $files = [];
 	
 	public $disponibilite_id = DISPONIBILITE::LIBRE;
 
@@ -100,11 +101,11 @@ class COMMERCIAL extends PERSONNE
 
 
 	public static function libres(){
-		return static::findBy(["disponibilite_id =" => DISPONIBILITE::LIBRE]);
+		return static::findBy(["disponibilite_id =" => DISPONIBILITE::LIBRE, "boutique_id ="=>getSession("boutique_connecte_id") ]);
 	}
 
 	public static function mission(){
-		return static::findBy(["disponibilite_id =" => DISPONIBILITE::MISSION, 'visibility ='=>1]);
+		return static::findBy(["disponibilite_id =" => DISPONIBILITE::MISSION, "boutique_id ="=>getSession("boutique_connecte_id") , 'visibility ='=>1]);
 	}
 
 

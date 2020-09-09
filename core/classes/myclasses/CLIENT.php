@@ -56,6 +56,7 @@ class CLIENT extends TABLE
 				$payement->comment = "Acréditation du compte du client ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
 				$data = $payement->enregistre();
 				if ($data->status) {
+					$payement->actualise();
 					$id = $data->lastid;
 					$this->acompte += intval($montant);
 					$data = $this->save();
@@ -64,7 +65,7 @@ class CLIENT extends TABLE
 					$payement->detteClient = $this->dette;
 					$payement->save();
 
-					$data->setUrl("fiches", "master", "boncaisse", $id);
+					$data->setUrl("fiches", "master", "boncaisse", $payement->mouvement->id);
 				}
 			}else{
 				$data->status = false;
@@ -83,13 +84,15 @@ class CLIENT extends TABLE
 		$params = PARAMS::findLastId();
 		if (intval($montant) > 0 ) {
 			if ($this->acompte >= intval($montant)) {
-				$payement = new REMBOURSEMENTCLIENT();
+				$payement = new OPERATION();
 				$payement->hydrater($post);
 				if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+					$payement->categorieoperation_id = CATEGORIEOPERATION::RETOURFOND_CLIENT;
 					$payement->client_id = $this->id;
 					$payement->comment = "Rembourser à partir du acompte du client ".$this->name()." d'un montant de ".money($montant)." ".$params->devise."\n ".$_POST["comment1"];
 					$data = $payement->enregistre();
 					if ($data->status) {
+						$payement->actualise();
 						$id = $data->lastid;
 						$this->acompte -= intval($montant);
 						$data = $this->save();
@@ -98,7 +101,7 @@ class CLIENT extends TABLE
 						$payement->detteClient = $this->dette;
 						$payement->save();
 
-						$data->setUrl("fiches", "master", "boncaisse", $id);
+						$data->setUrl("fiches", "master", "boncaisse", $payement->mouvement->id);
 					}
 				}else{
 					$data->status = false;

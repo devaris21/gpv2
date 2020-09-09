@@ -16,7 +16,7 @@
 				<hr>
 				<h2 class="font-bold text-red">L'accès à cette page vous est interdite !</h2><br>
 				<h4 style="line-height: 25px;">
-					Nous sommes désolé de ne pas pouvoir donner suite à votre requette car vous n'avez l'autorisation neccessaire pour acceder à cette page. Quelques conseils :
+					Nous sommes désolé de ne pas pouvoir donner suite à votre requette car vous n'avez pas l'autorisation neccessaire pour acceder à cette page. Quelques conseils :
 				</h4><br>
 				<ul>
 					<li>Vérifiez que l'adresse de la page est correctement saisie</li>

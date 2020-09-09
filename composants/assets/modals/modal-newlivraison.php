@@ -90,17 +90,12 @@
                                     <span class="input-group-addon"><i class="fa fa-map-marker"></i></span><input type="text" name="lieu" class="form-control" required>
                                 </div>
                             </div><br>
-                            <div>
-                                <label>Véhicule de la livraison <span style="color: red">*</span> </label>                                
-                                <div class="input-group">
-                                    <?php Native\BINDING::html("select-tableau", Home\VEHICULE::ras(), null, "vehicule_id"); ?>
-                                </div>
-                            </div><br>
+
 
                             <div class="commercial">
                                 <label>Commercial pour la livraison <span style="color: red">*</span> </label>                                
                                 <div class="input-group">
-                                    <?php Native\BINDING::html("select-tableau", Home\COMMERCIAL::libres(), null, "commercial_id"); ?>
+                                    <?php Native\BINDING::html("select-tableau", Home\COMMERCIAL::findBy(["boutique_id ="=>getSession("boutique_connecte_id")]), null, "commercial_id"); ?>
                                 </div><br>
                             </div>
 

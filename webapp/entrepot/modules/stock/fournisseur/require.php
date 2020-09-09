@@ -15,7 +15,7 @@ if ($this->id != null) {
 
 
 
-		$fluxcaisse = $fournisseur->fourni("operation");
+		$fluxcaisse = $fournisseur->fourni("reglementfournisseur");
 		usort($fluxcaisse, "comparerDateCreated2");
 
 		$title = "GPV | ".$fournisseur->name();

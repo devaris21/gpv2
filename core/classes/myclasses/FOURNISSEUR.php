@@ -30,15 +30,15 @@ class FOURNISSEUR extends AUTH
 		if ($this->name != "") {
 			if ($this->adresse != "" && $this->contact != "") {
 				$data = $this->save();
-					if ($data->status) {
-						$this->uploading($this->files);
+				if ($data->status) {
+					$this->uploading($this->files);
 						// ob_start();
 						// include(__DIR__."/../../sections/home/elements/mails/welcome_prestataire.php");
 						// $contenu = ob_get_contents();
 						// ob_end_clean();
 						// TODO gerer les mails
 						//EMAIL::send([$this->email], "Bienvenue - ARTCI | Gestion du parc auto", $contenu);
-					}
+				}
 			}else{
 				$data->status = false;
 				$data->message = "Veuillez renseigner tous les champs marqués d'un * !";
@@ -82,18 +82,18 @@ class FOURNISSEUR extends AUTH
 		$data = new RESPONSE;
 		$params = PARAMS::findLastId();
 		if (intval($montant) > 0 ) {
-			$payement = new OPERATION();
+			$payement = new REGLEMENTFOURNISSEUR();
 			$payement->hydrater($post);
 			if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
-				$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
 				$payement->fournisseur_id = $this->id;
 				$payement->comment = "Acréditation du compte du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
 				$data = $payement->enregistre();
 				if ($data->status) {
+					$payement->actualise();
 					$id = $data->lastid;
 					$this->acompte += intval($montant);
 					$data = $this->save();
-					$data->setUrl("fiches", "master", "boncaisse", $id);
+					$data->setUrl("fiches", "master", "boncaisse", $payement->mouvement->id);
 				}
 			}else{
 				$data->status = false;
@@ -115,15 +115,16 @@ class FOURNISSEUR extends AUTH
 				$payement = new OPERATION();
 				$payement->hydrater($post);
 				if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
-					$payement->categorieoperation_id = CATEGORIEOPERATION::REMBOURSEMENT_FOURNISSEUR;
+					$payement->categorieoperation_id = CATEGORIEOPERATION::RETOURFOND_FOURNISSEUR;
 					$payement->fournisseur_id = $this->id;
 					$payement->comment = "Rembourser à partir du acompte du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise."\n ".$_POST["comment1"];
 					$data = $payement->enregistre();
 					if ($data->status) {
+						$payement->actualise();
 						$id = $data->lastid;
 						$this->acompte -= intval($montant);
 						$data = $this->save();
-						$data->setUrl("fiches", "master", "boncaisse", $id);
+						$data->setUrl("fiches", "master", "boncaisse", $payement->mouvement->id);
 					}
 				}else{
 					$data->status = false;

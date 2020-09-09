@@ -42,9 +42,22 @@ class OPERATION extends TABLE
 					}else{
 						$this->etat_id = ETAT::VALIDEE;
 					}
-					
+
+
 					if (intval($this->montant) > 0) {
 						$mouvement = new MOUVEMENT();
+
+						$datas = ENTREPOT::findBy(["id ="=>getSession("entrepot_connecte_id")]);
+						if (count($datas) > 0) {
+							$item = $datas[0];
+							$mouvement->comptebanque_id = $item->comptebanque_id;
+						}else{
+							$datas = BOUTIQUE::findBy(["id ="=>getSession("boutique_connecte_id")]);
+							if (count($datas) > 0) {
+								$item = $datas[0];
+								$mouvement->comptebanque_id = $item->comptebanque_id;
+							}
+						}
 						$mouvement->montant = $this->montant;
 						$mouvement->comment = $this->comment;
 						$mouvement->modepayement_id = $this->modepayement_id;
@@ -53,7 +66,6 @@ class OPERATION extends TABLE
 						if ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE) {
 							$mouvement->typemouvement_id = TYPEMOUVEMENT::RETRAIT;
 						}
-						$mouvement->comptebanque_id = COMPTEBANQUE::COURANT;
 						$data = $mouvement->enregistre();
 						if ($data->status) {
 							$this->reference = "BCA/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));

@@ -101,23 +101,52 @@ class ROOTER extends PATH
                                 if (count($datas) == 1) {
                                     $role = $datas[0];
                                     if (in_array($role->id, $tableauDeRoles)) {
-                                        $employe->actualise();
 
-                                        session("boutique_connecte_id", null);
-                                        session("entrepot_connecte_id", null);
+                                        $datas = ROLE::findBy(["name ="=>$this->section]);
+                                        if (count($datas) == 1) {
+                                            $role = $datas[0];
+                                            if (in_array($role->id, $tableauDeRoles)) {
 
-                                        if (!in_array($this->module, ["manager", "config"])) {
-                                            if ($employe->boutique_id != null) {
-                                                $boutique = $employe->boutique;
-                                                session("boutique_connecte_id", $boutique->id);
+                                                $employe->actualise();
+
+                                                session("boutique_connecte_id", null);
+                                                session("entrepot_connecte_id", null);
+
+                                                if ($this->section == "boutique" && $employe->boutique_id == null) {
+                                                    $this->new_root("main", "home", "erreur500");
+                                                    $this->render();
+                                                    return false;
+                                                }
+
+                                                if ($this->section == "entrepot" && $employe->entrepot_id == null) {
+                                                    $this->new_root("main", "home", "erreur500");
+                                                    $this->render();
+                                                    return false;
+                                                }
+
+
+                                                if (!in_array($this->section, ["manager", "config"])) {
+                                                    if ($employe->boutique_id != null) {
+                                                        $boutique = $employe->boutique;
+                                                        session("boutique_connecte_id", $boutique->id);
+                                                    }
+                                                    if ($employe->entrepot_id != null) {
+                                                        $entrepot = $employe->entrepot;
+                                                        session("entrepot_connecte_id", $entrepot->id);
+                                                    }
+                                                }
+
+                                                session("lastUrl", $this->url);
+                                            }else{
+                                                $this->new_root("main", "home", "erreur500");
+                                                $this->render();
+                                                return false;
                                             }
-                                            if ($employe->entrepot_id != null) {
-                                                $entrepot = $employe->entrepot;
-                                                session("entrepot_connecte_id", $entrepot->id);
-                                            }
+                                        }else{
+                                            $this->new_root("main", "home", "erreur500");
+                                            $this->render();
+                                            return false;
                                         }
-
-                                        session("lastUrl", $this->url);
                                     }else{
                                         $this->new_root("main", "home", "erreur500");
                                         $this->render();

@@ -33,6 +33,14 @@ class BOUTIQUE extends TABLE
 				}
 
 
+				$item = new COMMERCIAL();
+				$item->name = "La boutique elle-même";
+				$item->adresse = "....";
+				$item->contact = "...";
+				$item->setProtected(1);
+				$item->enregistre();
+
+
 				$compte = new COMPTEBANQUE;
 				$compte->name = "Compte de ".$this->name();
 				$data = $compte->enregistre();

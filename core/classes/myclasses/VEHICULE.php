@@ -97,7 +97,7 @@ class VEHICULE extends TABLE
 
 
 	public function name(){
-		return $this->modele." ".$this->etiquette;
+		return $this->modele;
 	}
 
 

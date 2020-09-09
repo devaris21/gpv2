@@ -65,11 +65,11 @@ class PROSPECTION extends TABLE
 				}
 			}else{
 				$data->status = false;
-				$data->message = "veuillez selectionner un commercial pour la vente!";
+				$data->message = "veuillez selectionner un commercial pour la prospection/livraion!";
 			}
 		}else{
 			$data->status = false;
-			$data->message = "Une erreur s'est produite lors de l'enregistrement de la vente!";
+			$data->message = "Une erreur s'est produite lors de l'enregistrement de la prospection/livraion!";
 		}
 		return $data;
 	}

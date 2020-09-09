@@ -16,13 +16,13 @@ $item = new BOUTIQUE();
 $item->name = "Boutique principale";
 $item->comptebanque_id = COMPTEBANQUE::COURANT;
 $item->setProtected(1);
-$item->save();
+$item->enregistre();
 
 $item = new ENTREPOT();
 $item->name = "Usine principale";
 $item->comptebanque_id = COMPTEBANQUE::COURANT;
 $item->setProtected(1);
-$item->save();
+$item->enregistre();
 
 
 $datas = ["Vente Directe", "Prospection", "Livraison Commande", "Vente en Cave"];
@@ -112,6 +112,8 @@ foreach ($datas as $key => $value) {
 	$item->setProtected(1);
 	$item->enregistre();
 }
+
+
 
 
 $datas = ["Entreprise", "Particulier"];

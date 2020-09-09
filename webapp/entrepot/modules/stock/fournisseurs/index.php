@@ -48,7 +48,7 @@
                                     <?= $fournisseur->fax ?>
                                 </td>
                                 <td class="text-right">
-                                    <a href="<?= $this->url("gestion", "stock", "fournisseur", $fournisseur->id)  ?>" class="btn btn-white btn-xs"><i class="fa fa-eye"></i> Voir le compte</a>
+                                    <a href="<?= $this->url("entrepot", "stock", "fournisseur", $fournisseur->id)  ?>" class="btn btn-white btn-xs"><i class="fa fa-eye"></i> Voir le compte</a>
                                 </td>
                             </tr>
                         <?php } ?>

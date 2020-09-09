@@ -215,6 +215,47 @@
             <?php include($this->rootPath("composants/assets/modals/modal-comptebanque.php") );  ?>
 
 
+            <div class="modal inmodal fade" id="modal-categorieoperation">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">Formulaire des type d'operations</h4>
+                        </div>
+                        <form method="POST" class="formShamman" classname="categorieoperation">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <label>Type d'opération <span1>*</span1></label>
+                                        <div class="form-group">
+                                            <?php Native\BINDING::html("select", "typeoperationcaisse") ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <label>Libéllé </label>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <label>Couleur spécifique </label>
+                                    <div class="form-group">
+                                        <input type="color" name="color">
+                                    </div>
+                                </div>
+                            </div><hr>
+                            <div class="container">
+                                <input type="hidden" name="id">
+                                <button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
+                                <button class="btn btn-sm btn-primary pull-right dim"><i class="fa fa-check"></i> enregistrer</button>
+                            </div>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </body>
 
 

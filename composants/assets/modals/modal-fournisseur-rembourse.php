@@ -1,4 +1,4 @@
-<div class="modal inmodal fade" id="modal-commercial-paye">
+<div class="modal inmodal fade" id="modal-fournisseur-rembourse">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,7 +10,7 @@
                     <div class="">
                         <label>Montant à payer <span1>*</span1></label>
                         <div class="form-group">
-                            <input type="text" value="<?= $commercial->salaireDuMois() + $commercial->bonus() ?>" number class="form-control" name="montant" required>
+                            <input type="text" value="<?= $fournisseur->acompte ?>" number class="form-control" name="montant" required>
                         </div>
                     </div>   
                     <div>
