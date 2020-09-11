@@ -241,9 +241,9 @@ class VENTE extends TABLE
 
 	public static function commande(string $date1, string $date2, int $boutique_id = null){
 		if ($boutique_id == null) {
-			return static::findBy(["typevente_id ="=>TYPEVENTE::COMMANDE, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE]);
+			return COMMANDE::findBy(["DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE]);
 		}else{
-			return static::findBy(["typevente_id ="=>TYPEVENTE::COMMANDE, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE, "boutique_id ="=>$boutique_id]);
+			return COMMANDE::findBy(["DATE(created) >="=>$date1, "DATE(created) <="=>$date2, "etat_id !="=>ETAT::ANNULEE, "boutique_id ="=>$boutique_id]);
 
 		}
 	}

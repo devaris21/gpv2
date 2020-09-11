@@ -105,7 +105,7 @@ class TYPEPRODUIT_PARFUM extends TABLE
 
 
 	public function enStock(string $date1, string $date2, int $entrepot_id = null){
-		$item = $this->fourni("initialtypeproduitentrepot")[0];
+		$item = $this->fourni("initialtypeproduitentrepot", ["entrepot_id ="=>$entrepot_id])[0];
 		return $this->production($date1, $date2, $entrepot_id) - $this->conditionne($date1, $date2, $entrepot_id) - $this->perte($date1, $date2, $entrepot_id) + $item->quantite;
 	}
 

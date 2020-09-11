@@ -85,21 +85,21 @@ if ($action == "validerProspection") {
 				$qte = end($lot);
 
 				foreach ($prospection->ligneprospections as $cle => $lgn) {
-					if (($lgn->id == $id ) && ($lgn->quantite >= $qte) && ($lgn->quantite >= ($qte + intval($array1[$key]) )) ) {
+					if (($lgn->id == $id ) && ($lgn->quantite >= $qte) && ($lgn->quantite >= ($qte + intval($array1[$id]) )) ) {
 						unset($tests[$key]);
 					}
 				}
 			}
 			if (count($tests) == 0) {
-				foreach ($array as $key => $value) {
-					if (!is_numeric($array1[$key])) {
-						$array1[$key] = 0;
-					}
+				foreach ($produits as $key => $value) {
+					$lot = explode("-", $value);
+					$id = $lot[0];
+					$qte = end($lot);
 					foreach ($prospection->ligneprospections as $cle => $lgn) {
-						if ($lgn->id == $key) {
-							$lgn->quantite_vendu = $value;
-							$lgn->perte = intval($array1[$key]);
-							$lgn->reste = $lgn->quantite - $value - intval($array1[$key]);
+						if ($lgn->id == $id) {
+							$lgn->quantite_vendu = $qte;
+							$lgn->perte = intval($array1[$id]);
+							$lgn->reste = $lgn->quantite - $qte - intval($array1[$id]);
 							$lgn->save();
 							break;
 						}

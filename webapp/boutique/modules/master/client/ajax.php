@@ -392,11 +392,11 @@ if ($action == "validerPropection") {
 						}
 					}else{
 						$data->status = false;
-						$data->message = "Le solde du compte est insuffisant pour regler les frais de transport de la production !";
+						$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
 					}
 				}else{
 					$data->status = false;
-					$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
+					$data->message = "Le solde du compte est insuffisant pour regler les frais de transport de la prospection !";
 				}						
 			}else{
 				$data->status = false;

@@ -46,6 +46,7 @@ class PROSPECTION extends TABLE
 				$this->boutique_id = getSession("boutique_connecte_id");
 				$this->reference = "BSO/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
 				$this->taux_tva = $params->tva;
+				$this->transport = intval($this->transport);
 				$data = $this->save();
 				if ($data->status) {
 					if ($this->commercial_id != COMMERCIAL::MAGASIN) {

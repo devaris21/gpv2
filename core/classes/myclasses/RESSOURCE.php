@@ -50,7 +50,7 @@ class RESSOURCE extends TABLE
 
 
 	public function stock(String $date1, String $date2, int $entrepot_id = null){
-		$item = $this->fourni("initialressourceentrepot")[0];
+		$item = $this->fourni("initialressourceentrepot", ["entrepot_id ="=>$entrepot_id])[0];
 		return $this->achat($date1, $date2, $entrepot_id) - $this->consommee($date1, $date2, $entrepot_id) - $this->perte($date1, $date2, $entrepot_id) + $item->quantite;
 	}
 

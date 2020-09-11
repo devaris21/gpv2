@@ -12,6 +12,7 @@ class COMMANDE extends TABLE
 	public $reference;
 	public $groupecommande_id;
 	public $datelivraison;
+	public $boutique_id;
 	public $zonedevente_id;
 	public $typebareme_id;
 	public $lieu;
