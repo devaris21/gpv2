@@ -1,7 +1,7 @@
 <div role="tabpanel" id="pan-ventes" class="tab-pane">
 	<div class="panel-body">
 
-		<?php foreach ($listetypeproduits as $key => $type) { ?>
+		<?php foreach ($typeproduits as $key => $type) { ?>
 			<div class="ibox">
 				<div class="ibox-title">
 					<h5 class="text-uppercase">Stock de <?= $type->name() ?></h5>

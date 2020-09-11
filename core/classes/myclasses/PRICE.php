@@ -13,7 +13,7 @@ class PRICE extends TABLE
 	public $emballage_id;
 	public $price;
 	public $price_gros;
-	public $isActive = TABLE::OUI;
+	//public $isActive = TABLE::OUI;
 
 	public function enregistre(){
 		$data = new RESPONSE;

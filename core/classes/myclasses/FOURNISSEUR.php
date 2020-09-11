@@ -13,6 +13,7 @@ class FOURNISSEUR extends AUTH
 
 	const FOURNISSEURSYSTEME = 1;
 
+	public $entrepot_id;
 	public $name;
 	public $adresse;
 	public $contact;
@@ -29,6 +30,7 @@ class FOURNISSEUR extends AUTH
 		$data = new RESPONSE;
 		if ($this->name != "") {
 			if ($this->adresse != "" && $this->contact != "") {
+				$this->entrepot_id = getSession("entrepot_connecte_id");
 				$data = $this->save();
 				if ($data->status) {
 					$this->uploading($this->files);
@@ -86,7 +88,7 @@ class FOURNISSEUR extends AUTH
 			$payement->hydrater($post);
 			if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 				$payement->fournisseur_id = $this->id;
-				$payement->comment = "Acréditation du compte du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
+				$payement->comment = "Créditation du compte du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
 				$data = $payement->enregistre();
 				if ($data->status) {
 					$payement->actualise();
@@ -117,7 +119,7 @@ class FOURNISSEUR extends AUTH
 				if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 					$payement->categorieoperation_id = CATEGORIEOPERATION::RETOURFOND_FOURNISSEUR;
 					$payement->fournisseur_id = $this->id;
-					$payement->comment = "Rembourser à partir du acompte du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise."\n ".$_POST["comment1"];
+					$payement->comment = "Retour de fonds au fournisseur ".$this->name()." pour ".$_POST["comment1"];
 					$data = $payement->enregistre();
 					if ($data->status) {
 						$payement->actualise();
@@ -216,8 +218,34 @@ class FOURNISSEUR extends AUTH
 
 
 
-	public static function dettes(){
-		return comptage(static::getAll(), "dette", "somme");
+
+	public static function dettes(int $entrepot_id = null){
+		$total = 0;
+		if ($entrepot_id != null) {
+			foreach (static::findBy(["entrepot_id ="=> $entrepot_id]) as $key => $client) {
+				$total += $client->resteAPayer();
+			}
+		}else{
+			foreach (static::findBy([]) as $key => $client) {
+				$total += $client->resteAPayer();
+			}
+		}
+		return $total;
+	}
+
+
+	public function resteAPayer(){
+		$total = 0;
+		foreach ($this->fourni("approvisionnement", ["etat_id !="=>ETAT::ANNULEE]) as $key => $appro) {
+			$total += $appro->reste();	
+		}
+		foreach ($this->fourni("approemballage", ["etat_id !="=>ETAT::ANNULEE]) as $key => $appro) {
+			$total += $appro->reste();	
+		}
+		foreach ($this->fourni("approetiquette", ["etat_id !="=>ETAT::ANNULEE]) as $key => $appro) {
+			$total += $appro->reste();	
+		}
+		return $total;
 	}
 
 

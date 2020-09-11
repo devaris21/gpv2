@@ -78,7 +78,7 @@
                                             </td>
                                             <td class="text-center">
                                                 <h2 class="gras mp0"><?= start0($ligne->quantite) ?></h2>
-                                                <i><?= money($ligne->price) ?> <?= $params->devise ?></i>
+                                                <!-- <i><?= money($ligne->price) ?> <?= $params->devise ?></i> -->
                                             </td>
                                             <td class="text-center"><h2 class="gras"><?= start0(money($ligne->quantite)) ?></h2></td>
                                             <td class="text-center"><h2><?= ($livraison->etat_id == Home\ETAT::VALIDEE)? $ligne->quantite_vendu : "" ?></h2></td>

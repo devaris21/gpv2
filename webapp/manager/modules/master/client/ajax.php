@@ -11,7 +11,7 @@ extract($_POST);
 
 
 if ($action == "changer") {
-	$data->setUrl("gestion", "master", "client", $id);
+	$data->setUrl("manager", "master", "client", $id);
 	echo json_encode($data);
 }
 

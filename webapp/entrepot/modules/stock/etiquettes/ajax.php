@@ -9,7 +9,7 @@ $data = new RESPONSE;
 extract($_POST);
 
 if ($action == "filtrer") {
-	$data->setUrl("gestion", "production", "ressources", "$date1@$date2");
+	$data->setUrl("entrepot", "production", "ressources", "$date1@$date2");
 	echo json_encode($data);
 }
 

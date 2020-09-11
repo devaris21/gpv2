@@ -16,7 +16,7 @@ if ($action == "filtrer") {
 
 
 if ($action == "changer") {
-	$data->setUrl("gestion", "master", "commercial", $id);
+	$data->setUrl("manager", "master", "commercial", $id);
 	echo json_encode($data);
 }
 

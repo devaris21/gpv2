@@ -22,7 +22,7 @@ foreach (QUANTITE::findBy(["isActive ="=>TABLE::OUI]) as $key => $item) {
 }
 
 foreach (BOUTIQUE::getAll() as $key => $item) {
-	$item->vendu = PRODUIT::totalVendu($date1, $date2, $boutique->id);
+	$item->vendu = PRODUIT::totalVendu($date1, $date2);
 	$boutiques[] = $item;
 }
 

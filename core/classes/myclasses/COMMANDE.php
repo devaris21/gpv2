@@ -61,6 +61,40 @@ class COMMANDE extends TABLE
 	}
 
 
+
+	public function reste(){
+		return $this->montant - $this->avance - comptage($this->fourni("reglementclient"), "montant", "somme");
+	}
+
+
+
+	public function reglementDeCommande(){
+		$data = new RESPONSE;
+		$this->actualise();
+		if ($this->reste() > 0) {
+			if ($this->groupecommande->client->acompte > 0) {
+				$reglementclient = new REGLEMENTCLIENT();
+				$reglementclient->recouvrement = TABLE::OUI;
+				$reglementclient->commande_id = $this->id;
+				$reglementclient->montant = ($this->groupecommande->client->acompte >= $this->reste())? $this->reste() : $this->groupecommande->client->acompte;
+				$reglementclient->modepayement_id = MODEPAYEMENT::PRELEVEMENT_ACOMPTE;
+				$reglementclient->comment = "Recouvrement de commande N°$this->reference ";
+				$data = $reglementclient->enregistre();
+				if ($data->status) {
+					$data = $this->groupecommande->client->debiter($reglementclient->montant);
+				}
+			}else{
+				$data->status = false;
+				$data->message = "L'acompte du client est épuisé pour recouvrir la/les commandes restante(s) !!";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Cette commande à déjà été réglé entièrement !";
+		}
+		return $data ;
+	}
+
+
 	public function annuler(){
 		$data = new RESPONSE;
 		if ($this->etat_id != ETAT::ANNULEE) {

@@ -3,7 +3,7 @@ namespace Home;
 
 $title = "GPV | Tous les fournisseurs";
 
-$fournisseurs = FOURNISSEUR::findBy(["visibility ="=>1]);
+$fournisseurs = FOURNISSEUR::findBy(["entrepot_id ="=>$entrepot->id]);
 
 
 ?>

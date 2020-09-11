@@ -21,7 +21,7 @@
                                     <!-- rempli en Ajax -->
                                 </tbody>
                             </table>
-<hr>
+                            <hr>
                             <div class=" text-center">
                                 <?php foreach (Home\EMBALLAGE::getAll() as $key => $item) {
                                     $item->actualise();

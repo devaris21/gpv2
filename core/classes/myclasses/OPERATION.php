@@ -137,154 +137,153 @@ class OPERATION extends TABLE
 
 
 
-	public static function entree(string $date1 = "2020-04-01", string $date2, int $boutique_id = null){
-		if ($boutique_id == null) {
-			$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ?";
-			$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::ENTREE, $date1, $date2]);
-			if (count($item) < 1) {$item = [new OPERATION()]; }
-			return $item[0]->montant;
-		}else{
-			$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? AND operation.boutique_id = ?";
-			$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::ENTREE, $date1, $date2, $boutique_id]);
-			if (count($item) < 1) {$item = [new OPERATION()]; }
-			return $item[0]->montant;
+	public static function entree(string $date1 = "2020-04-01", string $date2, int $boutique_id = null, int $entrepot_id = null){
+		$paras = "";
+		if ($boutique_id != null) {
+			$paras = "AND boutique_id = $boutique_id ";
 		}
+		if ($entrepot_id != null) {
+			$paras = "AND entrepot_id = $entrepot_id ";
+		}
+		$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? $paras";
+		$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::ENTREE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new OPERATION()]; }
+		return $item[0]->montant;
 	}
 
 
 
-	public static function sortie(string $date1 = "2020-04-01", string $date2, int $boutique_id = null){
-		if ($boutique_id == null) {
-			$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ?";
-			$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::SORTIE, $date1, $date2]);
-			if (count($item) < 1) {$item = [new OPERATION()]; }
-			return $item[0]->montant;
-		}else{
-			$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? AND operation.boutique_id = ? ";
-			$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::SORTIE, $date1, $date2, $boutique_id]);
-			if (count($item) < 1) {$item = [new OPERATION()]; }
-			return $item[0]->montant;
+	public static function sortie(string $date1 = "2020-04-01", string $date2, int $boutique_id = null, int $entrepot_id = null){
+		$paras = "";
+		if ($boutique_id != null) {
+			$paras = "AND boutique_id = $boutique_id ";
 		}
-	}
-
-
-	public static function resultat(string $date1 = "2020-04-01", string $date2, int $boutique_id = null){
-		if ($boutique_id == null) {
-			return static::entree($date1, $date2) - static::sortie($date1, $date2);
-		}else{
-			return static::entree($date1, $date2, $boutique_id) - static::sortie($date1, $date2, $boutique_id);
+		if ($entrepot_id != null) {
+			$paras = "AND entrepot_id = $entrepot_id ";
 		}
+		$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND operation.valide = 1 AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? $paras";
+		$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::SORTIE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new OPERATION()]; }
+		return $item[0]->montant;
 	}
 
 
 
 
+	public static function resultat(string $date1 = "2020-04-01", string $date2, int $boutique_id = null, int $entrepot_id = null){
+		return static::entree($date1, $date2, $boutique_id, $entrepot_id) - static::sortie($date1, $date2, $boutique_id, $entrepot_id);
+	}
 
-	public static function enAttente(int $boutique_id = null){
-		if ($boutique_id == null) {
-			return static::findBy(["etat_id ="=> ETAT::ENCOURS]);
-		}else{
+
+
+
+
+	public static function enAttente(int $boutique_id = null, int $entrepot_id = null){
+		if ($boutique_id != null) {
 			return static::findBy(["etat_id ="=> ETAT::ENCOURS, "boutique_id ="=>$boutique_id]);
-
-		}
-	}
-
-
-
-	public static function statistiques(int $boutique_id = null){
-		$tableau_mois = ["", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-		$tableau_mois_abbr = ["", "Jan", "Fév", "Mar", "Avr", "Mai", "Jui", "Juil", "Août", "Sept", "Oct", "Nov", "Déc"];
-		$mois1 = date("m", strtotime("-1 year")); $year1 = date("Y", strtotime("-1 year"));
-		$mois2 = date("m"); $year2 = date("Y");
-		$tableaux = [];
-
-		if ($boutique_id == null) {
-			while ( $year2 >= $year1) {
-				$debut = $year1."-".$mois1."-01";
-				$fin = $year1."-".$mois1."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);
-				$data = new RESPONSE;
-				$data->name = $tableau_mois_abbr[intval($mois1)]." ".$year1;
-			//$data->name = $year1."-".start0($mois1)."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);;
-			////////////
-
-				$data->entree = OPERATION::entree($debut, $fin);
-				$data->sortie = OPERATION::sortie($debut, $fin);
-				$data->resultat = $data->entree - $data->sortie;
-
-				$tableaux[] = $data;
-			///////////////////////
-				if ($mois2 == $mois1 && $year2 == $year1) {
-					break;
-				}else{
-					if ($mois1 == 12) {
-						$mois1 = 01;
-						$year1++;
-					}else{
-						$mois1++;
-					}
-				}
-			}
+		}elseif ($entrepot_id != null) {
+			return static::findBy(["etat_id ="=> ETAT::ENCOURS, "entrepot_id ="=>$entrepot_id]);
 		}else{
-			while ( $year2 >= $year1) {
-				$debut = $year1."-".$mois1."-01";
-				$fin = $year1."-".$mois1."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);
-				$data = new RESPONSE;
-				$data->name = $tableau_mois_abbr[intval($mois1)]." ".$year1;
-			//$data->name = $year1."-".start0($mois1)."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);;
-			////////////
-
-				$data->entree = OPERATION::entree($debut, $fin, $boutique_id);
-				$data->sortie = OPERATION::sortie($debut, $fin, $boutique_id);
-				$data->resultat = $data->entree - $data->sortie;
-
-				$tableaux[] = $data;
-			///////////////////////
-				if ($mois2 == $mois1 && $year2 == $year1) {
-					break;
-				}else{
-					if ($mois1 == 12) {
-						$mois1 = 01;
-						$year1++;
-					}else{
-						$mois1++;
-					}
-				}
-			}
+			return static::findBy(["etat_id ="=> ETAT::ENCOURS]);
 		}
-		return $tableaux;
 	}
 
 
 
-	public static function stats(string $date1 = "2020-04-01", string $date2){
-		$tableaux = [];
-		$nb = ceil(dateDiffe($date1, $date2) / 12);
-		$index = $date1;
-		while ( $index <= $date2 ) {
-			$debut = $index;
-			$fin = dateAjoute1($index, ceil($nb/2));
+	// public static function statistiques(int $boutique_id = null){
+	// 	$tableau_mois = ["", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+	// 	$tableau_mois_abbr = ["", "Jan", "Fév", "Mar", "Avr", "Mai", "Jui", "Juil", "Août", "Sept", "Oct", "Nov", "Déc"];
+	// 	$mois1 = date("m", strtotime("-1 year")); $year1 = date("Y", strtotime("-1 year"));
+	// 	$mois2 = date("m"); $year2 = date("Y");
+	// 	$tableaux = [];
 
-			$data = new \stdclass;
-			$data->year = date("Y", strtotime($index));
-			$data->month = date("m", strtotime($index));
-			$data->day = date("d", strtotime($index));
-			$data->nb = $nb;
-			////////////
+	// 	if ($boutique_id == null) {
+	// 		while ( $year2 >= $year1) {
+	// 			$debut = $year1."-".$mois1."-01";
+	// 			$fin = $year1."-".$mois1."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);
+	// 			$data = new RESPONSE;
+	// 			$data->name = $tableau_mois_abbr[intval($mois1)]." ".$year1;
+	// 		//$data->name = $year1."-".start0($mois1)."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);;
+	// 		////////////
 
-			$data->ca = OPERATION::entree($debut, $fin);
-			$data->sortie = OPERATION::sortie($debut, $fin);
-			$data->marge = 0 ;
-			if ($data->ca != 0) {
-				$data->marge = (OPERATION::resultat($debut, $fin) / $data->ca) *100;
-			}
+	// 			$data->entree = OPERATION::entree($debut, $fin);
+	// 			$data->sortie = OPERATION::sortie($debut, $fin);
+	// 			$data->resultat = $data->entree - $data->sortie;
 
-			$tableaux[] = $data;
-			///////////////////////
+	// 			$tableaux[] = $data;
+	// 		///////////////////////
+	// 			if ($mois2 == $mois1 && $year2 == $year1) {
+	// 				break;
+	// 			}else{
+	// 				if ($mois1 == 12) {
+	// 					$mois1 = 01;
+	// 					$year1++;
+	// 				}else{
+	// 					$mois1++;
+	// 				}
+	// 			}
+	// 		}
+	// 	}else{
+	// 		while ( $year2 >= $year1) {
+	// 			$debut = $year1."-".$mois1."-01";
+	// 			$fin = $year1."-".$mois1."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);
+	// 			$data = new RESPONSE;
+	// 			$data->name = $tableau_mois_abbr[intval($mois1)]." ".$year1;
+	// 		//$data->name = $year1."-".start0($mois1)."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);;
+	// 		////////////
+
+	// 			$data->entree = OPERATION::entree($debut, $fin, $boutique_id);
+	// 			$data->sortie = OPERATION::sortie($debut, $fin, $boutique_id);
+	// 			$data->resultat = $data->entree - $data->sortie;
+
+	// 			$tableaux[] = $data;
+	// 		///////////////////////
+	// 			if ($mois2 == $mois1 && $year2 == $year1) {
+	// 				break;
+	// 			}else{
+	// 				if ($mois1 == 12) {
+	// 					$mois1 = 01;
+	// 					$year1++;
+	// 				}else{
+	// 					$mois1++;
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// 	return $tableaux;
+	// }
+
+
+
+	// public static function stats(string $date1 = "2020-04-01", string $date2){
+	// 	$tableaux = [];
+	// 	$nb = ceil(dateDiffe($date1, $date2) / 12);
+	// 	$index = $date1;
+	// 	while ( $index <= $date2 ) {
+	// 		$debut = $index;
+	// 		$fin = dateAjoute1($index, ceil($nb/2));
+
+	// 		$data = new \stdclass;
+	// 		$data->year = date("Y", strtotime($index));
+	// 		$data->month = date("m", strtotime($index));
+	// 		$data->day = date("d", strtotime($index));
+	// 		$data->nb = $nb;
+	// 		////////////
+
+	// 		$data->ca = OPERATION::entree($debut, $fin);
+	// 		$data->sortie = OPERATION::sortie($debut, $fin);
+	// 		$data->marge = 0 ;
+	// 		if ($data->ca != 0) {
+	// 			$data->marge = (OPERATION::resultat($debut, $fin) / $data->ca) *100;
+	// 		}
+
+	// 		$tableaux[] = $data;
+	// 		///////////////////////
 			
-			$index = $fin;
-		}
-		return $tableaux;
-	}
+	// 		$index = $fin;
+	// 	}
+	// 	return $tableaux;
+	// }
 
 
 	public function sentenseCreate(){}

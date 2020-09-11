@@ -11,7 +11,7 @@ extract($_POST);
 
 
 if ($action == "changer") {
-	$data->setUrl("gestion", "master", "client", $id);
+	$data->setUrl("boutique", "master", "client", $id);
 	echo json_encode($data);
 }
 
@@ -425,7 +425,10 @@ if ($action == "validerCommande") {
 
 			if (getSession("total") > 0) {
 				if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE || ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && intval($avance) <= getSession("total") && intval($avance) > 0)) {
-					if ((getSession("total") - intval($avance) + $client->dette) <= $params->seuilCredit ) {
+					if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+						$avance = $client->acompte ;
+					}
+					if ((getSession("total") - intval($avance) + $client->resteAPayer()) <= $params->seuilCredit ) {
 						if (getSession("commande-encours") != null) {
 							$datas = GROUPECOMMANDE::findBy(["id ="=>getSession("commande-encours")]);
 							if (count($datas) > 0) {
@@ -500,7 +503,7 @@ if ($action == "validerCommande") {
 
 								$client->actualise();
 								$payement->acompteClient = $client->acompte;
-								$payement->detteClient = $client->dette;
+								$payement->detteClient = $client->resteAPayer() + $total;
 								$payement->save();
 							}
 
@@ -510,7 +513,7 @@ if ($action == "validerCommande") {
 							$commande->reste = $commande->montant - $commande->avance;
 
 							$commande->acompteClient = $client->acompte;
-							$commande->detteClient = $client->dette;
+							$commande->detteClient = $client->resteAPayer() + $total;
 							$data = $commande->save();
 
 							$data->url2 = $data->setUrl("fiches", "master", "boncommande", $data->lastid);
@@ -853,16 +856,77 @@ if ($action == "acompte") {
 
 
 
-if ($action == "dette") {
+if ($action == "reglerCommande") {
 	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 	if (count($datas) > 0) {
 		$employe = $datas[0];
 		$employe->actualise();
 		if ($employe->checkPassword($password)) {
-			$datas = CLIENT::findBy(["id=" => $client_id]);
+			$datas = COMMANDE::findBy(["id=" => $commande_id]);
+			if (count($datas) > 0) {
+				$commande = $datas[0];
+				$data = $client->recouvrir(intval($montant), $_POST);
+			}else{
+				$data->status = false;
+				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Votre mot de passe ne correspond pas !";
+		}
+	}else{
+		$data->status = false;
+		$data->message = "Vous ne pouvez pas effectué cette opération !";
+	}
+	echo json_encode($data);
+}
+
+
+// if ($action == "dette") {
+// 	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
+// 	if (count($datas) > 0) {
+// 		$employe = $datas[0];
+// 		$employe->actualise();
+// 		if ($employe->checkPassword($password)) {
+// 			$datas = CLIENT::findBy(["id=" => $client_id]);
+// 			if (count($datas) > 0) {
+// 				$client = $datas[0];
+// 				$data = $client->reglerDette(intval($montant), $_POST);
+// 			}else{
+// 				$data->status = false;
+// 				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
+// 			}
+// 		}else{
+// 			$data->status = false;
+// 			$data->message = "Votre mot de passe ne correspond pas !";
+// 		}
+// 	}else{
+// 		$data->status = false;
+// 		$data->message = "Vous ne pouvez pas effectué cette opération !";
+// 	}
+// 	echo json_encode($data);
+// }
+
+
+if ($action == "reglerToutesDettes") {
+	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
+	if (count($datas) > 0) {
+		$employe = $datas[0];
+		$employe->actualise();
+		if ($employe->checkPassword($password)) {
+			$datas = CLIENT::findBy(["id=" => $id]);
 			if (count($datas) > 0) {
 				$client = $datas[0];
-				$data = $client->reglerDette(intval($montant), $_POST);
+				if ($client->acompte > 0) {
+					foreach ($client->fourni("groupecommande", ["etat_id !="=>ETAT::ANNULEE]) as $key => $groupe) {
+						foreach ($groupe->fourni("commande", ["etat_id !="=>ETAT::ANNULEE]) as $key => $commande) {
+							$data = $commande->reglementDeCommande();
+						}		
+					}
+				}else{
+					$data->status = false;
+					$data->message = "L'acompte du client est de 0F. Veuillez le crediter pour effectuer cette opération !!";
+				}
 			}else{
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";

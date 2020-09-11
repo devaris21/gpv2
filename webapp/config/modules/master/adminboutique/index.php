@@ -41,80 +41,81 @@
 
                             <div class="row">
 
-                            <div class="col-md-12 bloc">
-                                <div class="ibox border">
-                                    <div class="ibox-title">
-                                        <h5 class="text-uppercase">Stock initial par produit et par emballage dans vos boutiques</h5>
-                                    </div>
-                                    <div class="ibox-content">
-                                        <div class="row">
-                                            <?php $i =0; foreach ($types_parfums as $key => $type) { ?>
-                                                <div class="col-md-6" style="margin-bottom: 3%">
-                                                    <table class="table table-striped table-bordered">
-                                                        <thead>
-                                                            <tr>
-                                                                <th colspan="2" class="text-uppercase text-center"><?= $type->name(); ?></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $i =0; 
-                                                            foreach ($type->fourni("produit") as $key => $produit) {
-                                                                $produit->actualise(); ?>
+                                <div class="col-md-12 bloc">
+                                    <div class="ibox border">
+                                        <div class="ibox-title">
+                                            <h5 class="text-uppercase">Stock initial par produit et par emballage dans vos boutiques</h5>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="row">
+                                                <?php $i =0; foreach ($types_parfums as $key => $type) { ?>
+                                                    <div class="col-md-6" style="margin-bottom: 3%">
+                                                        <table class="table table-striped table-bordered">
+                                                            <thead>
                                                                 <tr>
-                                                                    <td class="" style="width: 30%">
-                                                                        <?= $produit->name(); ?>
-                                                                    </td>
-                                                                    <td class="">
-                                                                        <div class="row">
-                                                                            <?php if ($produit->isActive()) {
-                                                                             foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
-                                                                                $item = $produit->fourni("initialproduitboutique", ["emballage_id ="=>$emballage->id, "boutique_id ="=>$boutique->id])[0] ?>
-                                                                                <div class="col-md border-right">
-                                                                                    <div class="">
-                                                                                        <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> <small><?= $emballage->name(); ?></small><br>
-                                                                                        <div class="col-sm-6">
-                                                                                            <input type="text" title="Stock initial" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center maj" value="<?= $item->quantite ?>" name="initialproduitboutique" id="<?= $item->id ?>">
+                                                                    <th colspan="2" class="text-uppercase text-center"><?= $type->name(); ?></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $i =0; 
+                                                                foreach ($type->fourni("produit") as $key => $produit) {
+                                                                    $produit->actualise(); ?>
+                                                                    <tr>
+                                                                        <td class="" style="width: 30%">
+                                                                            <?= $produit->name(); ?>
+                                                                        </td>
+                                                                        <td class="">
+                                                                            <div class="row">
+                                                                                <?php if ($produit->isActive()) {
+                                                                                   foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
+                                                                                    $item = $produit->fourni("initialproduitboutique", ["emballage_id ="=>$emballage->id, "boutique_id ="=>$boutique->id])[0];
+                                                                                    $item->actualise(); ?>
+                                                                                    <div class="col-md border-right">
+                                                                                        <div class="">
+                                                                                            <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> <small><?= $emballage->name(); ?></small><br>
+                                                                                            <div class="col-sm-6">
+                                                                                                <input type="text" title="Stock initial" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center maj" value="<?= $item->quantite ?>" name="initialproduitboutique" id="<?= $item->id ?>">
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                </div>
-                                                                            <?php }
-                                                                        } ?>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        <?php } ?>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        <?php } ?>
+                                                                                <?php }
+                                                                            } ?>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            <?php } ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+
+
                         </div>
-
-
-
                     </div>
                 </div>
+
+                <br>
+
+                <?php include($this->rootPath("webapp/config/elements/templates/footer.php")); ?>
+
+
             </div>
-
-            <br>
-
-            <?php include($this->rootPath("webapp/config/elements/templates/footer.php")); ?>
-
-
         </div>
-    </div>
 
 
-    <?php include($this->rootPath("webapp/config/elements/templates/script.php")); ?>
-    <?php include($this->relativePath("modals.php")); ?>
+        <?php include($this->rootPath("webapp/config/elements/templates/script.php")); ?>
+        <?php include($this->relativePath("modals.php")); ?>
 
-    <?php include($this->rootPath("composants/assets/modals/modal-params.php") );  ?>
-
-
-</body>
+        <?php include($this->rootPath("composants/assets/modals/modal-params.php") );  ?>
 
 
+    </body>
 
-</html>
+
+
+    </html>

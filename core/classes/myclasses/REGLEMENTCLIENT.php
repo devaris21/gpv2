@@ -23,69 +23,156 @@ class REGLEMENTCLIENT extends TABLE
 	public $date_approbation;
 	public $isModified = 0;
 	public $employe_id;
+	public $commande_id ;
 
 	public $acompteClient = 0;
 	public $detteClient = 0;
 
 	public $image;
 	public $montant;
+	public $recouvrement;
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$this->employe_id = getSession("employe_connecte_id");
-		$this->boutique_id = getSession("boutique_connecte_id");
+		if (isset($this->recouvrement) && $this->recouvrement == TABLE::OUI) {
+			$data = $this->recouvrement();
+		}else{
+			$this->employe_id = getSession("employe_connecte_id");
+			$this->boutique_id = getSession("boutique_connecte_id");
 
-		$datas = EMPLOYE::findBy(["id ="=>$this->employe_id]);
-		if (count($datas) == 1) {
-			$this->reference = "RGC/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
-			if (!in_array($this->modepayement_id, [MODEPAYEMENT::ESPECE, MODEPAYEMENT::PRELEVEMENT_ACOMPTE])) {
-				$this->etat_id = ETAT::ENCOURS;
-			}else{
-				$this->etat_id = ETAT::VALIDEE;
-			}
-			if (intval($this->montant) > 0) {
-				$datas = ENTREPOT::findBy(["id ="=>getSession("boutique_connecte_id")]);
-				if (count($datas) == 1) {
-					$boutique = $datas[0];
-					$boutique->actualise();
-					if ($boutique->comptebanque->solde() >= $this->montant) {
-						$mouvement = new MOUVEMENT();
-						$mouvement->name = "reglement de client";
-						$mouvement->montant = $this->montant;
-						$mouvement->comment = $this->comment;
-						$mouvement->modepayement_id = $this->modepayement_id;
-						$mouvement->typemouvement_id = TYPEMOUVEMENT::DEPOT;
-						$mouvement->comptebanque_id  = $boutique->comptebanque_id;
-						$data = $mouvement->enregistre();
-						if ($data->status) {
-							$this->mouvement_id = $mouvement->id;
-							$data = $this->save();
+			$datas = EMPLOYE::findBy(["id ="=>$this->employe_id]);
+			if (count($datas) == 1) {
+				$this->reference = "RGC/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
+				if (!in_array($this->modepayement_id, [MODEPAYEMENT::ESPECE, MODEPAYEMENT::PRELEVEMENT_ACOMPTE])) {
+					$this->etat_id = ETAT::ENCOURS;
+				}else{
+					$this->etat_id = ETAT::VALIDEE;
+				}
+				if ($this->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+					if (intval($this->montant) > 0) {
+						$datas = BOUTIQUE::findBy(["id ="=>getSession("boutique_connecte_id")]);
+						if (count($datas) == 1) {
+							$boutique = $datas[0];
+							$boutique->actualise();
+
+							$mouvement = new MOUVEMENT();
+							$mouvement->name = "reglement de client";
+							$mouvement->montant = $this->montant;
+							$mouvement->comment = $this->comment;
+							$mouvement->modepayement_id = $this->modepayement_id;
+							$mouvement->typemouvement_id = TYPEMOUVEMENT::DEPOT;
+							$mouvement->comptebanque_id  = $boutique->comptebanque_id;
+							$data = $mouvement->enregistre();
 							if ($data->status) {
-								if (!(isset($this->files) && is_array($this->files))) {
-									$this->files = [];
+								$this->mouvement_id = $mouvement->id;
+								$data = $this->save();
+								if ($data->status) {
+									if (!(isset($this->files) && is_array($this->files))) {
+										$this->files = [];
+									}
+									$this->uploading($this->files);
 								}
-								$this->uploading($this->files);
 							}
+
+						}else{
+							$data->status = false;
+							$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !!";
 						}
 					}else{
 						$data->status = false;
-						$data->message = "Le solde du compte est insuffisant pour effectuer cette opération !!";
+						$data->message = "Le montant pour cette opération est incorrecte, verifiez-le !";
 					}
 				}else{
 					$data->status = false;
-					$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !!";
+					$data->message = "Vous ne pouvez pas utiliser ce mode de payement, verifiez-le !";
 				}
 			}else{
 				$data->status = false;
-				$data->message = "Le montant pour cette opération est incorrecte, verifiez-le !";
+				$data->message = "++Une erreur s'est produite lors de l'opération, veuillez recommencer !!";
 			}
-		}else{
-			$data->status = false;
-			$data->message = "++Une erreur s'est produite lors de l'opération, veuillez recommencer !!";
 		}
 		return $data;
 	}
+
+
+
+
+	public function recouvrement(){
+		$data = new RESPONSE;
+		$datas = COMMANDE::findBy(["id = "=>$this->commande_id]);
+		if (count($datas) > 0) {
+			$commande = $datas[0];
+			if ($commande->reste() >= $this->montant) {
+
+				$this->employe_id = getSession("employe_connecte_id");
+				$this->boutique_id = getSession("boutique_connecte_id");
+				$this->reference = "RGC/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
+
+				if (!in_array($this->modepayement_id, [MODEPAYEMENT::ESPECE, MODEPAYEMENT::PRELEVEMENT_ACOMPTE])) {
+					$this->etat_id = ETAT::ENCOURS;
+				}
+
+				if ($this->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+					if (intval($this->montant) > 0) {
+						$datas = BOUTIQUE::findBy(["id ="=>getSession("boutique_connecte_id")]);
+						if (count($datas) == 1) {
+							$boutique = $datas[0];
+							$boutique->actualise();
+
+							$mouvement = new MOUVEMENT();
+							$mouvement->name = "reglement de client";
+							$mouvement->montant = $this->montant;
+							$mouvement->comment = $this->comment;
+							$mouvement->modepayement_id = $this->modepayement_id;
+							$mouvement->typemouvement_id = TYPEMOUVEMENT::DEPOT;
+							$mouvement->comptebanque_id  = $boutique->comptebanque_id;
+							$data = $mouvement->enregistre();
+							if ($data->status) {
+								$this->mouvement_id = $mouvement->id;
+								$data = $this->save();
+								if ($data->status) {
+									if (!(isset($this->files) && is_array($this->files))) {
+										$this->files = [];
+									}
+									$this->uploading($this->files);
+								}
+							}
+
+						}else{
+							$data->status = false;
+							$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !!";
+						}
+					}else{
+						$data->status = false;
+						$data->message = "Le montant pour cette opération est incorrecte, verifiez-le !";
+					}
+				}else{
+					$datas = CLIENT::findBy(["id = "=>$this->client_id]);
+					if (count($datas) > 0) {
+						$client = $datas[0];
+						$data = $client->debiter($this->montant);
+						if ($data->status) {
+							$data = $this->save();
+						}
+					}else{
+						$data->status = false;
+						$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !!";
+					}
+				}
+			}else{
+				$data->status = false;
+				$data->message = "Le montant saisi est supérieur au reste à recouvrir !";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !!";
+		}
+		return $data;
+	}
+
+
+
 
 
 
@@ -128,14 +215,12 @@ class REGLEMENTCLIENT extends TABLE
 
 
 	public static function total(string $date1 = "2020-04-01", string $date2, int $boutique_id = null){
-		if ($boutique_id == null) {
-			$requette = "SELECT SUM(montant) as montant  FROM reglementclient, mouvement WHERE reglementclient.mouvement_id = mouvement.id AND mouvement.typemouvement_id = ? AND reglementclient.valide = 1 AND DATE(reglementclient.created) >= ? AND DATE(reglementclient.created) <= ?";
-			$item = MOUVEMENT::execute($requette, [TYPEMOUVEMENT::DEPOT, $date1, $date2]);
-		}else{
-			$requette = "SELECT SUM(montant) as montant  FROM reglementclient, mouvement WHERE reglementclient.mouvement_id = mouvement.id AND mouvement.typemouvement_id = ? AND reglementclient.valide = 1 AND DATE(reglementclient.created) >= ? AND DATE(reglementclient.created) <= ? AND reglementclient.boutique_id = ? ";
-			$item = MOUVEMENT::execute($requette, [TYPEMOUVEMENT::DEPOT, $date1, $date2, $boutique_id]);
+		$paras = "";
+		if ($boutique_id != null) {
+			$paras.= "AND boutique_id = $boutique_id ";
 		}
-
+		$requette = "SELECT SUM(reglementclient.montant) as montant  FROM reglementclient, mouvement WHERE reglementclient.mouvement_id = mouvement.id AND mouvement.typemouvement_id = ? AND reglementclient.valide = 1 AND DATE(reglementclient.created) >= ? AND DATE(reglementclient.created) <= ? $paras";
+		$item = MOUVEMENT::execute($requette, [TYPEMOUVEMENT::DEPOT, $date1, $date2]);
 		if (count($item) < 1) {$item = [new MOUVEMENT()]; }
 		return $item[0]->montant;
 	}
@@ -143,8 +228,12 @@ class REGLEMENTCLIENT extends TABLE
 
 
 
-	public static function versements(string $date1 = "2020-04-01", string $date2){
-		$requette = "SELECT SUM(montant) as montant  FROM operation WHERE operation.categorieoperation_id = ? AND operation.valide = 1 AND operation.client_id = ? AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? AND operation.valide = 1";
+	public static function versements(string $date1 = "2020-04-01", string $date2, int $boutique_id = null){
+		$paras = "";
+		if ($boutique_id != null) {
+			$paras.= "AND boutique_id = $boutique_id ";
+		}
+		$requette = "SELECT SUM(montant) as montant  FROM operation WHERE operation.categorieoperation_id = ? AND operation.valide = 1 AND operation.client_id = ? AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? AND operation.valide = 1 $paras";
 		$item = OPERATION::execute($requette, [CATEGORIEOPERATION::VENTE, CLIENT::ANONYME, $date1, $date2]);
 		if (count($item) < 1) {$item = [new OPERATION()]; }
 		return $item[0]->montant;
@@ -219,7 +308,7 @@ class REGLEMENTCLIENT extends TABLE
 
 			$tableaux[] = $data;
 			///////////////////////
-			
+
 			$index = $fin;
 		}
 		return $tableaux;

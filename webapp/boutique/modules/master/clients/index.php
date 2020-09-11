@@ -73,7 +73,6 @@
 
 
 <?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?>
- <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?>  
 
 </div>
 </div>

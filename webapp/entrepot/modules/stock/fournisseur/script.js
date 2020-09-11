@@ -65,6 +65,33 @@ $(function(){
 	});
 
 
+	reglerToutesDettes = function(id){
+		alerty.confirm("Voulez-vous vraiment regler toutes les dettes de ce client ? \n Le Recouvrement se fera via la caisse directement. veuillez donc vous assurer d'un solde adéquat. \n Le recouvrement se fera également dans la limite des fonds disponibles", {
+			title: "Recouvrement de dettes",
+			cancelLabel : "Non",
+			okLabel : "OUI, valider",
+		}, function(){
+			var url = "../../webapp/entrepot/modules/stock/fournisseur/ajax.php";
+			alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
+				title: 'Récupération du mot de passe !',
+				inputType : "password",
+				cancelLabel : "Annuler",
+				okLabel : "Valider"
+			}, function(password){
+				Loader.start();
+				$.post(url, {action:"reglerToutesDettes", id:id, password:password}, (data)=>{
+					if (data.status) {
+						window.location.reload()
+					}else{
+						Alerter.error('Erreur !', data.message);
+					}
+				},"json");
+			})
+		})
+	}
+
+
+
 	$("#formRembourser").submit(function(event) {
 		var url = "../../webapp/entrepot/modules/stock/fournisseur/ajax.php";
 		alerty.confirm("Voulez-vous vraiment rembourser ce montant à ce fournisseur ?", {

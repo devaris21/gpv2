@@ -25,7 +25,7 @@
                             <li ><a class="nav-link" data-toggle="tab" href="#pan-ventes"><i class="fa fa-handshake-o" ></i> Stock des produits</a></li>
                             <li ><a class="nav-link" data-toggle="tab" href="#pan-rapport"><i class="fa fa-money" ></i> Rapport de production</a></li>
                             <li ><a class="nav-link" data-toggle="tab" href="#pan-caisse"><i class="fa fa-money" ></i> La caisse</a></li>
-                            <li style="width: 270px; position: absolute; right: 0;"><?php Native\BINDING::html("select", "boutique", $entrepot, "id") ?></li>
+                            <li style="width: 270px; position: absolute; right: 0;"><?php Native\BINDING::html("select", "entrepot", $entrepot, "id") ?></li>
                         </ul>
                         <div class="tab-content loading-data">
 

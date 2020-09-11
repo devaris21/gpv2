@@ -147,6 +147,9 @@ if ($action == "validerApprovisionnement") {
 				if (count($datas) == 1) {
 					$entrepot = $datas[0];
 					$entrepot->actualise();
+					if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
+						$avance = 0;
+					}
 					if ($entrepot->comptebanque->solde() >= ($transport + $avance)) {
 						$total = getSession("total");
 						$data->status = true;
@@ -179,7 +182,8 @@ if ($action == "validerApprovisionnement") {
 										}
 										$approvisionnement->montant = $total;
 										$approvisionnement->acompteFournisseur = $fournisseur->acompte;
-										$approvisionnement->detteFournisseur = $fournisseur->dette;
+										$approvisionnement->reste = $total - $approvisionnement->avance;
+										$approvisionnement->detteFournisseur = $fournisseur->resteAPayer() + $total;
 										$data = $approvisionnement->enregistre();
 										if ($data->status) {
 											foreach ($ressources as $key => $value) {

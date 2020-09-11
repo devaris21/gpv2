@@ -21,8 +21,11 @@ class GROUPECOMMANDE extends TABLE
 
 
 	public function resteAPayer(){
-		$datas = $this->fourni("commande", ["etat_id !="=>ETAT::ANNULEE]);
-		return comptage($datas, "reste", "somme");
+		$total = 0;
+		foreach ($this->fourni("commande", ["etat_id !="=>ETAT::ANNULEE]) as $key => $commande) {
+			$total += $commande->reste();
+		}
+		return $total;
 	}
 
 

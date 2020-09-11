@@ -34,7 +34,7 @@ class COMMERCIAL extends PERSONNE
 		$data = new RESPONSE;
 		if ($this->name ) {
 			if ($this->salaire >= 0 ) {
-				$this->boutique_id = getSession("boutique_connecte_id");
+				$this->boutique_id = (getSession("boutique_connecte_id") == null)? BOUTIQUE::PRINCIPAL : getSession("boutique_connecte_id");
 				$data = $this->save();
 				if ($data->status) {
 					$this->uploading($this->files);

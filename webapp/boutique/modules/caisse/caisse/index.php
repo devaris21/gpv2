@@ -279,7 +279,7 @@
          <div class="modal-body">
             <table class="table table-bordered table-hover table-operation">
                 <tbody class="tableau-attente">
-                    <?php foreach (Home\OPERATION::enAttente() as $key => $operation) {
+                    <?php foreach (Home\OPERATION::enAttente($boutique->id) as $key => $operation) {
                         $operation->actualise(); ?>
                         <tr>
                             <td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("fiches", "master", "boncaisse", $operation->id)  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>

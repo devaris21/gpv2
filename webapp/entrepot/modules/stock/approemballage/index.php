@@ -56,6 +56,7 @@
                                 <th>Entrepôt</th>
                                 <th>Enregistré par</th>
                                 <th>Montant</th>
+                                <th>Reste à payer</th>
                                 <th>Fournisseur</th>
                                 <th data-hide="all"></th>
                                 <th>Action</th>
@@ -81,6 +82,11 @@
                                     <td>
                                         <h4>
                                             <span class="gras text-blue"><?= money($appro->montant) ?> <?= $params->devise  ?></span>
+                                        </h4>
+                                    </td>
+                                    <td>
+                                        <h4>
+                                            <span class="gras text-blue"><?= money($appro->reste()) ?> <?= $params->devise  ?></span>
                                         </h4>
                                     </td>
                                     <td><i class="fa fa-user"></i> <?= $appro->fournisseur->name() ?></td>
@@ -134,6 +140,11 @@
                                     <td>
                                         <h4>
                                             <span class="gras text-blue"><?= money($appro->montant) ?> <?= $params->devise  ?></span>
+                                        </h4>
+                                    </td>
+                                    <td>
+                                        <h4>
+                                            <span class="gras text-blue"><?= money($appro->reste()) ?> <?= $params->devise  ?></span>
                                         </h4>
                                     </td>
                                     <td><i class="fa fa-user"></i> <?= $appro->fournisseur->name() ?></td>

@@ -57,6 +57,39 @@ class APPROEMBALLAGE extends TABLE
 	}
 
 
+	public function reste(){
+		return $this->montant - $this->avance - comptage($this->fourni("reglementfournisseur"), "montant", "somme");
+	}
+	
+
+	public function reglement(){
+		$data = new RESPONSE;
+		$this->actualise();
+		if ($this->reste() > 0) {
+			$solde = $this->entrepot->comptebanque->solde();
+			if ($this->entrepot->comptebanque->solde() > 0) {
+				$reglement = new REGLEMENTFOURNISSEUR();
+				$reglement->recouvrement = TABLE::OUI;
+				$reglement->idd = $this->id;
+				$reglement->approemballage_id = $this->id;
+				$reglement->classe = "approemballage";
+				$reglement->fournisseur_id = $this->fournisseur->id;
+				$reglement->montant = ($solde >= $this->reste())? $this->reste() : $solde;
+				$reglement->modepayement_id = MODEPAYEMENT::ESPECE;
+				$reglement->comment = "Recouvrement d'approvisionnement d'emballages N°$this->reference ";
+				$data = $reglement->enregistre();
+			}else{
+				$data->status = false;
+				$data->message = "L'acompte du fournisseur est épuisé pour recouvrir la/les approvisionnements restante(s) !!";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Cet approvisionnement à déjà été réglé entièrement !";
+		}
+		return $data ;
+	}
+
+
 	public static function encours(){
 		return static::findBy(["etat_id ="=>ETAT::ENCOURS, "visibility = "=>1]);
 	}

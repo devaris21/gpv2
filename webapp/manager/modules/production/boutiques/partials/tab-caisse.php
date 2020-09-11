@@ -47,21 +47,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3">
-                <div class="ibox">
-                    <div class="ibox-content">
-                        <div class="row">
-                            <div class="col-7">
-                                <h5 class="text-uppercase">Dette Fournisseur</h5>
-                                <h2 class="no-margins"><?= money(Home\FOURNISSEUR::dettes()) ?></h2>
-                            </div>
-                            <div class="col-5 text-right">
-                                <i class="fa fa-truck fa-5x text-danger"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
 <br>
@@ -73,7 +58,7 @@
                             <div class="col-lg-9">
                                 <div class="flot-chart">
                                     <div class="flot-chart-content" id="flot-dashboard-chart3"></div>
-                                </div><br>
+                                </div><br><br>
                                 <div class="row stat-list text-center">
                                     <div class="col-4 ">
                                         <h3 class="no-margins text-green"><?= money($comptebanque->getIn(dateAjoute(), dateAjoute(1))) ?> <small><?= $params->devise ?></small></h3>

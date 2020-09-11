@@ -72,20 +72,20 @@
                                     <div class="row text-center">
                                         <div class="col">
                                             <div class="">
-                                                <span class="h6 mp0 font-bold block text-primary"><?= money(comptage(Home\VENTE::direct($date1, $date2, $boutique->id), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                                <span class="h6 mp0 font-bold block text-primary"><?= money(comptage(Home\VENTE::direct($date1, $date2), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
                                                 <small class="text-muted block">Ventes directes</small>
                                             </div>
                                         </div>
                                         <div class="col border-right border-left text-danger">
-                                            <span class="h6 mp0 font-bold block"><?= money(comptage(Home\VENTE::prospection($date1, $date2, $boutique->id), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                            <span class="h6 mp0 font-bold block"><?= money(comptage(Home\VENTE::prospection($date1, $date2), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
                                             <small class="text-muted block">Ventes par prospection</small>
                                         </div>
                                         <div class="col text-blue border-right">
-                                            <span class="h6 mp0 font-bold block"><?= money(comptage(Home\VENTE::cave($date1, $date2, $boutique->id), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                            <span class="h6 mp0 font-bold block"><?= money(comptage(Home\VENTE::cave($date1, $date2), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
                                             <small class="text-muted block">Ventes en cave</small>
                                         </div>
                                         <div class="col text-warning">
-                                            <span class="h6 mp0 font-bold block"><?= money(comptage(Home\VENTE::commande($date1, $date2, $boutique->id), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
+                                            <span class="h6 mp0 font-bold block"><?= money(comptage(Home\VENTE::commande($date1, $date2), "montant", "somme")); ?> <small><?= $params->devise ?></small></span>
                                             <small class="text-muted block">Commandes</small>
                                         </div>
                                     </div>
@@ -143,7 +143,7 @@
                                 <?php foreach ($typeproduits as $key => $type) { ?>
                                     <li class="list-group-item" style="padding-bottom: 5px">
                                         <small><?= $type->name();  ?></small>          
-                                        <small class="gras float-right"><?= money(Home\PRODUIT::totalVendu($date1, $date2, $boutique->id, $parfum->id, $type->id)) ?></small>
+                                        <small class="gras float-right"><?= money(Home\PRODUIT::totalVendu($date1, $date2, $parfum->id, $type->id)) ?></small>
                                     </li>
                                 <?php } ?>
                                 <li class="list-group-item"></li>
@@ -278,7 +278,7 @@
         var doughnutData3 = {
             labels: ["Vente Directe", "Prospection", "Vente Cave", "Commandes"],
             datasets: [{
-                data: [<?= comptage(Home\VENTE::direct($date1, $date2, $boutique->id), "montant", "somme")?>, <?= comptage(Home\VENTE::prospection($date1, $date2, $boutique->id), "montant", "somme")?>, <?= comptage(Home\VENTE::cave($date1, $date2, $boutique->id), "montant", "somme")?>, <?= comptage(Home\VENTE::commande($date1, $date2, $boutique->id), "montant", "somme")?>],
+                data: [<?= comptage(Home\VENTE::direct($date1, $date2), "montant", "somme")?>, <?= comptage(Home\VENTE::prospection($date1, $date2), "montant", "somme")?>, <?= comptage(Home\VENTE::cave($date1, $date2), "montant", "somme")?>, <?= comptage(Home\VENTE::commande($date1, $date2), "montant", "somme")?>],
                 backgroundColor: [<?php for ($i =0; $i < 4; $i++) { echo "'".$faker->hexColor()."', "; } ?>],
             }]
         } ;

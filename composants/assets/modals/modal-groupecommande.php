@@ -1,5 +1,5 @@
 
-<div class="modal inmodal fade" id="modal-groupecommande" style="z-index: -9">
+<div class="modal inmodal fade" id="modal-groupecommande" style="z-index: -25009">
     <div class="modal-dialog modal-xll">
         <div class="modal-content">
             <div class="modal-body">
@@ -76,7 +76,7 @@
                                         <small><?= datelong($ligne->created)  ?></small>
                                     </td>
                                     <td data-toggle="tooltip" title="imprimer le bon de <?= $ligne->type ?>">
-                                        <?php if ($ligne->type == "prospection") { ?>
+                                        <?php if ($ligne->type == "Livraison") { ?>
                                             <a target="_blank" href="<?= $rooter->url("fiches", "master", "bonlivraison", $ligne->id) ?>">
                                                 <i class="fa fa-file-text fa-2x d-block"></i></a>
                                             <?php }else{ ?>
@@ -107,10 +107,17 @@
                                                 <td data-toggle="tooltip" title="imprimer le facture">
                                                     <a target="_blank" href="<?= $rooter->url("fiches", "master", "boncaisse", $ligne->reglementclient_id) ?>"><i class="fa fa-file-text fa-2x d-block"></i></a>
                                                 </td>
-                                            <?php }  ?>
 
+                                            <?php }  ?>
+                                            <td>
+                                                <?php if (isset($ligne->reste) && $ligne->reste() > 0) { ?>
+                                                    <div class=" col-md">
+                                                        <button class="btn btn-danger btn-xs dim" data-toggle="modal" data-target="#modal-reglerCommande<?= $ligne->id  ?>" data-dismiss="modal"><i class="fa fa-money"></i> Regler la facture</button>
+                                                    </div>
+                                                <?php } ?>
+                                            </td>
                                             <?php if ($ligne->type == "vente" && $ligne->etat_id == Home\ETAT::VALIDEE) { ?>
-                                                <td >
+                                                <td>
                                                     <i class="fa fa-check fa-2x text-green"></i>
                                                 </td>
                                             <?php }  ?>

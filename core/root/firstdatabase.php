@@ -278,6 +278,8 @@ foreach ($datas as $key => $value) {
 	$item->save();
 }
 
+
+
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::ENTREE;
 $item->name = "Retour de fonds par le fournisseur";
@@ -307,7 +309,13 @@ $item->save();
 
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
-$item->name = "Réglement de facture de reparation / d'entretien";
+$item->name = "Paye du loyer des locaux";
+$item->setProtected(1);
+$item->save();
+
+$item = new CATEGORIEOPERATION();
+$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
+$item->name = "Réglement de facture CIE / SODECI";
 $item->setProtected(1);
 $item->save();
 
@@ -317,6 +325,11 @@ $item->name = "Retour de fonds au client";
 $item->setProtected(1);
 $item->save();
 
+$item = new CATEGORIEOPERATION();
+$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
+$item->name = "Réglement d'autres factures";
+$item->setProtected(1);
+$item->save();
 
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;

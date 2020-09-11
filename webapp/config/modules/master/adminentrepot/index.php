@@ -96,7 +96,7 @@
                                                             <td class="gras"><?= $item->ressource->name(); ?></td>
                                                             <td><?= $item->ressource->unite; ?></td>
                                                             <td width="110px">
-                                                                <?php if ($item->isActive()) { ?>
+                                                                <?php if ($item->ressource->isActive()) { ?>
                                                                     <input type="text" title="Stock initial" number class="form-control input-xs text-center maj" value="<?= $item->quantite ?>" name="initialressourceentrepot" id="<?= $item->id ?>">
                                                                 <?php }  ?>
                                                             </td>
@@ -125,7 +125,8 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php foreach (Home\INITIALTYPEPRODUITENTREPOT::findBy(["entrepot_id ="=>$entrepot->id]) as $key => $item) { ?> 
+                                                <?php foreach (Home\INITIALTYPEPRODUITENTREPOT::findBy(["entrepot_id ="=>$entrepot->id]) as $key => $item) {
+                                                    $item->actualise(); ?> 
                                                     <tr>
                                                         <td style="width: 250px" class="gras text-uppercase"> <?= $item->typeproduit_parfum->name(); ?></td>
                                                         <td class=""><?= $item->typeproduit_parfum->typeproduit->unite ?></td>
@@ -150,7 +151,8 @@
                                     </div>
                                     <div class="ibox-content">
                                         <div class="row">
-                                            <?php $i =0; foreach (Home\INITIALETIQUETTEENTREPOT::findBy(["entrepot_id ="=>$entrepot->id]) as $key => $item) {  ?>
+                                            <?php $i =0; foreach (Home\INITIALETIQUETTEENTREPOT::findBy(["entrepot_id ="=>$entrepot->id]) as $key => $item) {
+                                                $item->actualise();  ?>
                                                 <div class="col-sm-6 col-md-4 col-lg-3 border-right border-bottom" style="margin-bottom: 2%">
                                                     <div class="row">
                                                         <div class="col-9">
@@ -196,8 +198,9 @@
                                                                     <td class="">
                                                                         <div class="row">
                                                                             <?php if ($produit->isActive()) {
-                                                                             foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
-                                                                                $item = $produit->fourni("initialproduitentrepot", ["emballage_id ="=>$emballage->id])[0] ?>
+                                                                               foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
+                                                                                $item = $produit->fourni("initialproduitentrepot", ["emballage_id ="=>$emballage->id])[0];
+                                                                                $item->actualise(); ?>
                                                                                 <div class="col-md border-right">
                                                                                     <div class="">
                                                                                         <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> <small><?= $emballage->name(); ?></small><br>

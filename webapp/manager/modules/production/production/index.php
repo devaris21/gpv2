@@ -22,7 +22,7 @@
                             <tbody>
                                 <?php
                                 foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
-                                    $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $entrepot->id);
+                                    $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1));
                                         $pro->actualise();
                                         include($this->rootPath("composants/assets/modals/modal-production.php")); ?>
                                         <tr>

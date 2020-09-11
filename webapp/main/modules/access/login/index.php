@@ -48,7 +48,7 @@
 
    </div>
 
-   <div style="position: fixed; z-index: -251; bottom: 0; height: 350px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
+   <div style="position: fixed; z-index: -251; bottom: 0; height: 330px; width: 100%; background-image: url(<?= $this->stockage("images", "societe", "fond.png") ?>) !important; background-size: 100%; background-repeat: no-repeat;">
 
    </div>
 

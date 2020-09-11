@@ -53,7 +53,6 @@
                                     <th>Reference</th>
                                     <th>Commercial</th>
                                     <th></th>
-                                    <th>Montant</th>
                                     <th data-hide="all">Produits</th>
                                     <th>Action</th>
                                 </tr>
@@ -77,9 +76,6 @@
                                         <td>
                                             <h6 class="text-uppercase text-muted" style="margin: 0">Zone de livraison :  <?= $livraison->zonedevente->name() ?></h6>
                                             <small><?= depuis($livraison->created) ?></small>
-                                        </td>
-                                        <td>
-                                            <h3 class="gras text-orange"><?= money($livraison->montant) ?> <?= $params->devise  ?></h3>
                                         </td>
                                         <td class="border-right">
                                             <table class="table table-bordered">
@@ -137,9 +133,6 @@
                                         <td>
                                             <h6 class="text-uppercase text-muted">Zone de livraison :  <?= $livraison->zonedevente->name() ?></h6>
                                             <small>Validé <?= depuis($livraison->dateretour) ?></small>
-                                        </td>
-                                        <td>
-                                            <h3 class="gras text-orange"><?= money($livraison->montant) ?> <?= $params->devise  ?></h3>
                                         </td>
                                         <td class="border-right">
                                             <table class="table table-bordered">

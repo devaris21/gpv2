@@ -21,7 +21,7 @@
                         <table class="table">
                             <tbody>
                                 <?php foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
-                                    $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $pro->id, $entrepot->id);
+                                    $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $pro->id);
                                     if ($qua > 0) {
                                         $pro->actualise(); ?>
                                         <tr>

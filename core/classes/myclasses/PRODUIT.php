@@ -214,11 +214,7 @@ class PRODUIT extends TABLE
 
 
 	public function enEntrepot(string $date1, string $date2, int $emballage_id, int $entrepot_id = null){
-		$stock = 0;
-		if ($entrepot_id == ENTREPOT::PRINCIPAL) {
-			$stock = intval($this->initial);
-		}
-		$item = $this->fourni("initialproduitentrepot", ["emballage_id ="=>$emballage_id])[0];
+		$item = $this->fourni("initialproduitentrepot", ["emballage_id ="=>$emballage_id, "entrepot_id ="=>$entrepot_id])[0];
 		$total = $this->conditionnement($date1, $date2, $emballage_id, $entrepot_id) - $this->totalSortieEntrepot($date1, $date2, $emballage_id, $entrepot_id) - $this->perteEntrepot($date1, $date2, $emballage_id, $entrepot_id) + $item->quantite + $this->transfertEntrepot($date1, $date2, $emballage_id, $entrepot_id);
 		return $total;
 	}
@@ -271,11 +267,7 @@ class PRODUIT extends TABLE
 
 
 	public function enBoutique(string $date1, string $date2, int $emballage_id, int $boutique_id = null){
-		$paras = "";
-		if ($boutique_id != null) {
-			$paras.= "AND boutique_id = $boutique_id ";
-		}
-		$item = $this->fourni("initialproduitboutique", ["emballage_id ="=>$emballage_id])[0];
+		$item = $this->fourni("initialproduitboutique", ["emballage_id ="=>$emballage_id, "boutique_id ="=>$boutique_id])[0];
 		$total = $this->totalMiseEnBoutique($date1, $date2, $emballage_id, $boutique_id) - ($this->enProspection($emballage_id, $boutique_id) + $this->livree($date1, $date2, $emballage_id, $boutique_id) + $this->vendu($date1, $date2, $emballage_id, $boutique_id) + $this->perteProspection($date1, $date2, $emballage_id, $boutique_id) + $this->perteBoutique($date1, $date2, $emballage_id, $boutique_id)) + $item->quantite + $this->transfertBoutique($date1, $date2, $emballage_id, $boutique_id);
 		return $total;
 	}
@@ -305,7 +297,7 @@ class PRODUIT extends TABLE
 		if ($boutique_id != null) {
 			$paras.= "AND boutique_id = $boutique_id ";
 		}
-		$requette = "SELECT SUM(quantite) as quantite  FROM ligneprospection, prospection WHERE ligneprospection.produit_id =  ? AND ligneprospection.emballage_id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.typeprospection_id = ? AND prospection.etat_id != ? AND ligneprospection.created >= ? AND ligneprospection.created <= ? $paras ";
+		$requette = "SELECT SUM(quantite_vendu) as quantite  FROM ligneprospection, prospection WHERE ligneprospection.produit_id =  ? AND ligneprospection.emballage_id = ? AND ligneprospection.prospection_id = prospection.id AND prospection.typeprospection_id = ? AND prospection.etat_id != ? AND ligneprospection.created >= ? AND ligneprospection.created <= ? $paras ";
 		$item = LIGNEPROSPECTION::execute($requette, [$this->id, $emballage_id, TYPEPROSPECTION::LIVRAISON, ETAT::ANNULEE, $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNEPROSPECTION()]; }
 		return $item[0]->quantite;
@@ -420,9 +412,10 @@ class PRODUIT extends TABLE
 
 	public static function ruptureBoutique(int $boutique_id = null){
 		$params = PARAMS::findLastId();
-		$datas = static::findBy(["isActive ="=>TABLE::OUI]);
+		$datas = PRICE::findBy([]);
 		foreach ($datas as $key => $item) {
-			if ($item->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $boutique_id) > $params->ruptureStock) {
+			$item->actualise();
+			if ($item->produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $item->emballage_id, $boutique_id) > $params->ruptureStock) {
 				unset($datas[$key]);
 			}
 		}
@@ -432,9 +425,10 @@ class PRODUIT extends TABLE
 
 	public static function ruptureEntrepot(int $entrepot_id = null){
 		$params = PARAMS::findLastId();
-		$datas = static::findBy(["isActive ="=>TABLE::OUI]);
+		$datas = PARAMS::findBy(["isActive ="=>TABLE::OUI]);
 		foreach ($datas as $key => $item) {
-			if ($item->enEntrepot(PARAMS::DATE_DEFAULT, dateAjoute(1), EMBALLAGE::PRIMAIRE, $entrepot_id) > $params->ruptureStock) {
+			$item->actualise();
+			if ($item->produit->enEntrepot(PARAMS::DATE_DEFAULT, dateAjoute(1), $item->emballage_id, $entrepot_id) > $params->ruptureStock) {
 				unset($datas[$key]);
 			}
 		}

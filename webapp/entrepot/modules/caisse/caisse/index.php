@@ -17,7 +17,7 @@
 
             <div class="wrapper wrapper-content">
                 <div class="row">
-                    <div class="col-lg-4">
+                    <!-- <div class="col-lg-4">
                         <div class="ibox">
                             <div class="ibox-content">
                                 <div class="row">
@@ -31,7 +31,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-lg-4">
                         <div class="ibox">
                             <div class="ibox-content">
@@ -53,7 +53,7 @@
                                 <div class="row">
                                     <div class="col-7">
                                         <h5 class="text-uppercase">Dette Fournisseur</h5>
-                                        <h2 class="no-margins"><?= money(Home\FOURNISSEUR::dettes()) ?></h2>
+                                        <h2 class="no-margins"><?= money(Home\FOURNISSEUR::dettes($entrepot->id)) ?></h2>
                                     </div>
                                     <div class="col-5 text-right">
                                         <i class="fa fa-truck fa-5x "></i>
@@ -124,7 +124,7 @@
                                     <div class="col-lg-3">
                                         <ul class="stat-list">
                                             <li>
-                                                <h2 class="no-margins "><?= money(Home\OPERATION::entree($date1 , $date2, $entrepot->id)) ?> <small><?= $params->devise ?></small></h2>
+                                                <h2 class="no-margins "><?= money(Home\OPERATION::entree($date1 , $date2, null, $entrepot->id)) ?> <small><?= $params->devise ?></small></h2>
                                                 <small>Autres entrées en caisse</small>
                                                 <div class="progress progress-mini">
                                                     <div style="width: 60%;" class="progress-bar"></div>
@@ -137,24 +137,13 @@
                                                     <div style="width: 22%;" class="progress-bar progress-bar-animated progress-bar-danger"></div>
                                                 </div>
                                             </li>
-                                        <!--     <li>
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <h3 class="no-margins text-danger "><?= money(0) ?> <small><?= $params->devise ?></small></h3>
-                                                        <small>Paye </small>
-                                                        <div class="progress progress-mini">
-                                                            <div style="width: 22%;" class="progress-bar progress-bar-animated progress-bar-danger"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <h3 class="no-margins text-danger "><?= money(Home\REGLEMENTFOURNISSEUR::total($date1 , $date2, $entrepot->id)) ?> <small><?= $params->devise ?></small></h3>
-                                                        <small>Fourniture</small>
-                                                        <div class="progress progress-mini">
-                                                            <div style="width: 22%;" class="progress-bar progress-bar-animated progress-bar-danger"></div>
-                                                        </div>
-                                                    </div>
+                                            <li>
+                                                <h2 class="no-margins"><?= money(Home\REGLEMENTFOURNISSEUR::total($date1 , $date2, $entrepot->id)) ?> <small><?= $params->devise ?></small></h2>
+                                                <small>Total reglements des fournisseurs</small>
+                                                <div class="progress progress-mini">
+                                                    <div style="width: 48%;" class="progress-bar progress-bar-animated progress-bar-danger"></div>
                                                 </div>
-                                            </li><br> -->
+                                            </li>
                                             <li>
                                                 <h2 class="no-margins text-warning"><?= money(comptage($transferts , "montant", "somme")) ?> <small><?= $params->devise ?></small></h2>
                                                 <small>Transferts vers autre compte</small>
@@ -283,13 +272,13 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title">Liste des versements en attentes</h4>
                 <div class="offset-md-4 col-md-4">
-                 <input type="text" id="search" class="form-control text-center" placeholder="Rechercher un versements"> 
-             </div>
-         </div>
-         <div class="modal-body">
+                   <input type="text" id="search" class="form-control text-center" placeholder="Rechercher un versements"> 
+               </div>
+           </div>
+           <div class="modal-body">
             <table class="table table-bordered table-hover table-operation">
                 <tbody class="tableau-attente">
-                    <?php foreach (Home\OPERATION::enAttente() as $key => $operation) {
+                    <?php foreach (Home\OPERATION::enAttente(null, $entrepot->id) as $key => $operation) {
                         $operation->actualise(); ?>
                         <tr>
                             <td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("fiches", "master", "boncaisse", $operation->id)  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
@@ -323,12 +312,12 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-       var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->entree ?>], <?php } ?> ];
+     var data1 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->entree ?>], <?php } ?> ];
 
-       var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->sortie ?>], <?php } ?> ];
-       var data3 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->solde ?>], <?php } ?> ];
-       var dataset = [
-       {
+     var data2 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->sortie ?>], <?php } ?> ];
+     var data3 = [<?php foreach ($stats as $key => $lot) { ?>[gd(<?= $lot->year ?>, <?= $lot->month ?>, <?= $lot->day ?>), <?= $lot->solde ?>], <?php } ?> ];
+     var dataset = [
+     {
         label: "Recettes",
         data: data1,
         color: "#1ab394",

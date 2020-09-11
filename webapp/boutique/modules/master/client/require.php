@@ -12,9 +12,9 @@ if ($this->id != null) {
 		$client = $datas[0];
 		$client->actualise();
 
-		$encours = $client->fourni("groupecommande", ["boutique_id ="=>$boutique->id, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
+		$encours = $client->fourni("groupecommande", ["etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
 
-		$groupes = $client->fourni("groupecommande", ["boutique_id ="=>$boutique->id, "etat_id !="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
+		$groupes = $client->fourni("groupecommande", ["etat_id !="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
 
 
 		$fluxcaisse = $client->fourni("reglementclient");

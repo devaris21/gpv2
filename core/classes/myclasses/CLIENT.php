@@ -16,6 +16,7 @@ class CLIENT extends TABLE
 	const ANONYME = 1;
 
 	public $typeclient_id = TYPECLIENT::ENTREPRISE;
+	public $boutique_id ;
 	public $name;
 	public $contact;
 	public $email;
@@ -29,6 +30,7 @@ class CLIENT extends TABLE
 	public function enregistre(){
 		$data = new RESPONSE;
 		if ($this->name != "") {
+			$this->boutique_id = getSession("boutique_connecte_id");
 			$data = $this->save();
 			$data->setUrl("boutique", "master", "client", $data->lastid);
 		}else{
@@ -53,7 +55,7 @@ class CLIENT extends TABLE
 			$payement->hydrater($post);
 			if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 				$payement->client_id = $this->id;
-				$payement->comment = "Acréditation du compte du client ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
+				$payement->comment = "Créditation du compte du client ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
 				$data = $payement->enregistre();
 				if ($data->status) {
 					$payement->actualise();
@@ -89,7 +91,7 @@ class CLIENT extends TABLE
 				if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 					$payement->categorieoperation_id = CATEGORIEOPERATION::RETOURFOND_CLIENT;
 					$payement->client_id = $this->id;
-					$payement->comment = "Rembourser à partir du acompte du client ".$this->name()." d'un montant de ".money($montant)." ".$params->devise."\n ".$_POST["comment1"];
+					$payement->comment = "Retour de fonds au client ".$this->name()." pour ".$_POST["comment1"];
 					$data = $payement->enregistre();
 					if ($data->status) {
 						$payement->actualise();
@@ -210,11 +212,30 @@ class CLIENT extends TABLE
 
 
 
-	public static function dettes(){
-		return comptage(static::getAll(), "dette", "somme");
+	public static function dettes(int $boutique_id = null){
+		$total = 0;
+		if ($boutique_id != null) {
+			foreach (static::findBy(["boutique_id ="=> $boutique_id]) as $key => $client) {
+				$total += $client->resteAPayer();
+			}
+		}else{
+			foreach (static::findBy([]) as $key => $client) {
+				$total += $client->resteAPayer();
+			}
+		}
+		return $total;
 	}
 
 
+	public function resteAPayer(){
+		$total = 0;
+		foreach ($this->fourni("groupecommande", ["etat_id !="=>ETAT::ANNULEE]) as $key => $groupe) {
+			foreach ($groupe->fourni("commande", ["etat_id !="=>ETAT::ANNULEE]) as $key => $commande) {
+				$total += $commande->reste();
+			}		
+		}
+		return $total;
+	}
 
 
 	public static function stats(string $date1 = "2020-04-01", string $date2){
