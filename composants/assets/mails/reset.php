@@ -13,14 +13,14 @@
             <div>
                 <img style="height: 50px; float: right;" src="http://dummyimage.com/800x600/4d494d/686a82.gif&text=placeholder+image" alt="placeholder+image">
                 <h1 style="font-size: 50px; color: grey; margin: 0; letter-spacing: 5px; font-weight: bold">AMB</h1>
-                <small>Plateforme de gestion de parc Auto-Moto-Bateau</small>
+                <small>Plateforme de gestion des productions et des ventes</small>
             </div>
             <br><br>
 
-            <h2 style="color: #23B2DBFF; text-align: center;">Reinitialisation de votre mot de passe</h2>
+            <h2 style="color: #23B2DBFF; text-align: center;">Vos paramètres de connexion</h2>
 
             <span><b>Cher <?= $this->name() ?>,</b> </span>
-            <p>Vos paramètres de connexion ont bien été reinitialisé. Nous vous invitons cette fois-ci à bien les conserver dans un endroit sûr !</p><br>
+            <p>Vos nouveaux paramètres de connexion viennent d'être enregistrés. Nous vous invitons à bien les conserver dans un endroit sûr !</p><br>
 
             <p>Nous tenons à vous rappelez également que les informations de connexion communiquées ci-dessous vous sont individuelles et vous incomberont de tout acte ou action ménée sur ladite plateforme à partir d'une session ouverte par celles-ci!</p><br>
 
@@ -45,7 +45,7 @@
 
             <div style="text-align: right;">
                 <h4 style="margin: 5px auto" >Cordialement,</h4>
-                <small style="text-align: right; color: grey;">AMB | Plateforme de gestion de parc Auto-Moto-Bateau</small>
+                <small style="text-align: right; color: grey;">GPV | Plateforme de gestion des productions et des ventes</small>
             </div>
         </div>
         <br>

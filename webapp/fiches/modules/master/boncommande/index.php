@@ -20,7 +20,6 @@
                     <div class="ibox"  >
                         <div class="ibox-content"  style="min-height: 33cm; background-image: url(<?= $this->stockage("images", "societe", "filigrane.png")  ?>) ; background-size: 50%; background-position: center center; background-repeat: no-repeat;">
 
-
                             <div>
                                 <div class="row">
                                     <div class="col-sm-5">
@@ -38,7 +37,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-7 text-right">
-                                        <h2 class="title text-uppercase gras text-blue">Bon de commande</h2>
+                                        <h2 class="title text-uppercase gras text-blue"><?= $commande->typecommande->name() ?></h2>
                                         <h3 class="text-uppercase">N°<?= $commande->reference  ?></h3>
                                         <h5><?= datelong($commande->created)  ?></h5>  
                                         <h4><small>Bon édité par :</small> <span class="text-uppercase"><?= $commande->employe->name() ?></span></h4>
@@ -51,12 +50,17 @@
                                         <h5><span>Lieu de livraison :</span> <span class="text-uppercase"><?= $commande->lieu ?></span></h5>   
                                         <?php if ($commande->typebareme_id == Home\TYPEBAREME::GROS) { ?>
                                             <h5 class="text-uppercase text-blue">vente au <?= $commande->typebareme->name() ?></span></h5>
-                                        <?php } ?>                         
+                                        <?php } ?>     
+
                                     </div>
 
                                     <div class="col-6 text-right">
                                         <h5><span>Client :</span> <span class="text-uppercase"><?= $commande->groupecommande->client->name() ?></span></h5>
-                                        <h5><span>Livraison prévue pour le:</span> <span class="text-uppercase"><?= datecourt($commande->datelivraison) ?></span></h5>
+                                        <h5><span>Livraison prévue pour le:</span> <span class="text-uppercase"><?= datecourt($commande->datelivraison) ?></span></h5><br>
+
+                                        <?php if ($commande->typecommande_id == Home\TYPECOMMANDE::AUTOSHIP) { ?>
+                                            <h4><span>Code Autoship :</span> <span class="text-uppercase text-orange"><?= $commande->code ?></span></h4>                   
+                                        <?php } ?>
                                     </div>
                                 </div><br><br>
 
@@ -123,7 +127,7 @@
                                                 <?php }else{ ?>
                                                     <small>Réglement par <?= $commande->reglementclient->modepayement->name() ?></small>
                                                 <?php } ?>
-                                                
+
                                             </td>
                                             <td></td>
                                             <td colspan="1" class="text-center"><h3 class="gras text-"><?= money($commande->avance) ?> <?= $params->devise ?></h3></td>

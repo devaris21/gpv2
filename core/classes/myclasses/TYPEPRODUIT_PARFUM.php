@@ -104,7 +104,7 @@ class TYPEPRODUIT_PARFUM extends TABLE
 	}
 
 
-	public function enStock(string $date1, string $date2, int $entrepot_id = null){
+	public function enStock(string $date1, string $date2, int $entrepot_id){
 		$item = $this->fourni("initialtypeproduitentrepot", ["entrepot_id ="=>$entrepot_id])[0];
 		return $this->production($date1, $date2, $entrepot_id) - $this->conditionne($date1, $date2, $entrepot_id) - $this->perte($date1, $date2, $entrepot_id) + $item->quantite;
 	}
@@ -129,9 +129,15 @@ class TYPEPRODUIT_PARFUM extends TABLE
 
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+	public function sentenseCreate(){
+		return $this->sentense = "Ajout d'un nouveau type de production : $this->name dans les paramétrages";
+	}
+	public function sentenseUpdate(){
+		return $this->sentense = "Modification des informations du type de production $this->id : $this->name ";
+	}
+	public function sentenseDelete(){
+		return $this->sentense = "Suppression definitive du type de production $this->id : $this->name";
+	}
 }
 
 ?>

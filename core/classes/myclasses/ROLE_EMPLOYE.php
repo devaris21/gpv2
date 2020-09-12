@@ -43,9 +43,15 @@ class ROLE_EMPLOYE extends TABLE
 
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+	public function sentenseCreate(){
+		return $this->sentense = "Attribution du rôle ".$this->name()." à ".$this->employe->name();
+	}
+	public function sentenseUpdate(){
+		return $this->sentense = "Modification du du rôle ".$this->name()." à ".$this->employe->name();
+	}
+	public function sentenseDelete(){
+		return $this->sentense = "Suppression du rôle ".$this->name()." à ".$this->employe->name();
+	}
 }
 
 ?>

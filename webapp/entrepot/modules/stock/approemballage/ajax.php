@@ -196,6 +196,7 @@ if ($action == "validerApprovisionnement") {
 
 											if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && $total > 0) {
 												$payement->comment = "Réglement de la facture d'approvisionnement d'emballage N°".$approvisionnement->reference;
+												$payement->approemballage_id = $approvisionnement->id;
 												$data = $payement->save();
 											}
 											$data->setUrl("fiches", "master", "bonapproemballage", $approvisionnement->id);

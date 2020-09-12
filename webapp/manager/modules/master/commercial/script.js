@@ -1,6 +1,9 @@
 $(function(){
 
-
+	$("#form1 input, #form1 select").change(function(){
+		$("#form1").submit();
+	})
+	
 	$("#formPaye").submit(function(event) {
 		var url = "../../webapp/manager/modules/master/commercial/ajax.php";
 		alerty.confirm("Voulez-vous vraiment effectuer la paye de ce commercial ?", {

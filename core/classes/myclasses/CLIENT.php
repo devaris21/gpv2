@@ -22,6 +22,9 @@ class CLIENT extends TABLE
 	public $email;
 	public $adresse;
 
+	public $seuilCredit = 0;
+	public $palier_id;
+
 	public $acompte = 0;
 	public $dette = 0;
 	
@@ -56,6 +59,7 @@ class CLIENT extends TABLE
 			if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 				$payement->client_id = $this->id;
 				$payement->comment = "Créditation du compte du client ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
+				$payement->historique($payement->comment);
 				$data = $payement->enregistre();
 				if ($data->status) {
 					$payement->actualise();
@@ -270,17 +274,17 @@ class CLIENT extends TABLE
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'un nouvel employé dans votre gestion :". $this->name();
+		return $this->sentense = "Ajout d'un nouvel client dans votre gestion :". $this->name();
 	}
 
 
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des informations de l'employé ".$this->name();
+		return $this->sentense = "Modification des informations de l'client ".$this->name();
 	}
 
 
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression définitive de l'employé ".$this->name();
+		return $this->sentense = "Suppression définitive de l'client ".$this->name();
 	}
 
 

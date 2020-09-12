@@ -27,13 +27,13 @@ class TYPEMOUVEMENT extends TABLE
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'un nouveau type d'operation de vehicule : $this->name dans les paramétrages";
+		return $this->sentense = "Ajout d'un nouveau type de mouvement de caisse : $this->name dans les paramétrages";
 	}
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des informations du type d'operation de vehicule $this->id : $this->name ";
+		return $this->sentense = "Modification des informations du type de mouvement de caisse $this->id : $this->name ";
 	}
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression definitive du type d'operation de vehicule $this->id : $this->name";
+		return $this->sentense = "Suppression definitive du type de mouvement de caisse $this->id : $this->name";
 	}
 
 

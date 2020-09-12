@@ -51,7 +51,7 @@
 
                                     <th data-toggle="true">Status</th>
                                     <th>Reference</th>
-                                    <th>Commercial</th>
+                                    <th>Effectué par</th>
                                     <th></th>
                                     <th>Montant</th>
                                     <th data-hide="all">Produits</th>
@@ -72,7 +72,7 @@
                                         <span><?= $vente->reference ?></span>
                                     </td>
                                     <td>
-                                        <h5 class="text-uppercase"><?= $vente->commercial->name() ?></h5>
+                                        <h5 class="text-uppercase"><?= $vente->employe->name() ?></h5>
                                     </td>
                                     <td>
                                         <h6 class="text-uppercase text-muted" style="margin: 0">Zone de vente :  <?= $vente->zonedevente->name() ?></h6>
@@ -130,7 +130,7 @@
                                             <span><?= $vente->reference ?></span>
                                         </td>
                                         <td>
-                                            <h5 class="text-uppercase"><?= $vente->commercial->name() ?></h5>
+                                            <h5 class="text-uppercase"><?= $vente->employe->name() ?></h5>
                                         </td>
                                         <td>
                                             <h6 class="text-uppercase text-muted">Zone de vente :  <?= $vente->zonedevente->name() ?></h6>

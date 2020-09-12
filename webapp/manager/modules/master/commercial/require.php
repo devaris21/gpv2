@@ -26,9 +26,9 @@ if ($this->id != null) {
             $index = dateAjoute1($index, 1);
         }
 
-        $encours = $commercial->fourni("prospection", ["boutique_id ="=>$boutique->id, "typeprospection_id ="=>TYPEPROSPECTION::PROSPECTION, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
+        $encours = $commercial->fourni("prospection", [ "typeprospection_id ="=>TYPEPROSPECTION::PROSPECTION, "etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
 
-        $prospections = $commercial->fourni("prospection", ["boutique_id ="=>$boutique->id, "typeprospection_id ="=>TYPEPROSPECTION::PROSPECTION, "etat_id !="=>ETAT::ENCOURS, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2], [], ["created"=>"DESC"]);
+        $prospections = $commercial->fourni("prospection", [ "typeprospection_id ="=>TYPEPROSPECTION::PROSPECTION, "etat_id !="=>ETAT::ENCOURS, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2], [], ["created"=>"DESC"]);
 
 
         $stats = $commercial->stats($date1, $date2);

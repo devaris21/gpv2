@@ -205,6 +205,7 @@ if ($action == "validerApprovisionnement") {
 
 											if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && $total > 0) {
 												$payement->comment = "Réglement de la facture d'approvisionnement N°".$approvisionnement->reference;
+												$payement->approvisionnement_id = $approvisionnement->id;
 												$data = $payement->save();
 											}
 											$data->setUrl("fiches", "master", "bonapprovisionnement", $approvisionnement->id);

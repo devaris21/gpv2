@@ -42,9 +42,15 @@ class EXIGENCEPRODUCTION extends TABLE
 
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+	public function sentenseCreate(){
+		return $this->sentense = "Creation d'une nouvelle exigence de production";
+	}
+	public function sentenseUpdate(){
+		return $this->sentense = "Modification des informations de la exigence de production N°$this->id ";
+	}
+	public function sentenseDelete(){
+		return $this->sentense = "Suppression definitive de la exigence de production N°$this->id";
+	}
 
 
 }

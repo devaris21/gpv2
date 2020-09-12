@@ -3,15 +3,14 @@ namespace Home;
 use Native\RESPONSE;/**
  * 
  */
-class TYPEBAREME extends TABLE
+class TYPECOMMANDE extends TABLE
 {
 
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
 	const NORMAL = 1;
-	const GROS = 2;
-	const SPECIAL = 3;
+	const AUTOSHIP = 2;
 
 	public $name;
 
@@ -21,20 +20,20 @@ class TYPEBAREME extends TABLE
 			$data = $this->save();
 		}else{
 			$data->status = false;
-			$data->message = "Veuillez renseigner le nom de la dotation !";
+			$data->message = "Veuillez renseigner le nom du type de commande !";
 		}
 		return $data;
 	}
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'un nouveau type de prix : $this->name dans les paramétrages";
+		return $this->sentense = "Ajout d'un nouveau type de commande : $this->name dans les paramétrages";
 	}
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des informations du type de prix $this->id : $this->name ";
+		return $this->sentense = "Modification des informations du type de commande $this->id : $this->name ";
 	}
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression definitive du type de prix $this->id : $this->name";
+		return $this->sentense = "Suppression definitive du type de commande $this->id : $this->name";
 	}
 }
 ?>

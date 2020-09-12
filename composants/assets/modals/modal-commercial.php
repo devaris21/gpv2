@@ -33,24 +33,24 @@
 
                     <div class="row">
                         <div class="col-md-4 col-sm-6">
-                            <label>Nationalité <span1>*</span1></label>
+                            <label>Nationalité </label>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="nationalite">
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label>Sexe <span1>*</span1></label>
+                            <label>Sexe </label>
                             <?php Native\BINDING::html("select", "sexe") ?>
                         </div>
                         <div class="col-md-4 col-sm-6 unmodified">
-                            <label>Salaire mensuel <span1>*</span1></label>
+                            <label>Salaire mensuel </label>
                             <div class="form-group">
                                 <input type="text" number class="form-control" name="salaire">
                             </div>
                         </div>
 
                          <div class="col-md-4 col-sm-6 unmodified">
-                            <label>Objectif journalier <span1>*</span1></label>
+                            <label>Objectif journalier </label>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="objectif">
                             </div>

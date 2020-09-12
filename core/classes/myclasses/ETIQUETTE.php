@@ -52,7 +52,7 @@ class ETIQUETTE extends TABLE
 		return $this->produit->name();
 	}
 
-	public function stock(String $date1, String $date2, int $entrepot_id = null){
+	public function stock(String $date1, String $date2, int $entrepot_id){
 		$item = $this->fourni("initialetiquetteentrepot", ["entrepot_id ="=>$entrepot_id])[0];
 		return $this->achat($date1, $date2, $entrepot_id) + intval($this->initial) - $this->consommee($date1, $date2, $entrepot_id) - $this->consommee($date1, $date2, $entrepot_id) + $item->quantite;
 	}
@@ -183,9 +183,17 @@ class ETIQUETTE extends TABLE
 
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+	public function sentenseCreate(){
+		$this->sentense = "enregistrement d'un nouvel etiquette ".$this->name();
+	}
+	public function sentenseUpdate(){
+		$this->sentense = "Modification des informations de l'etiquette ".$this->name();
+	}
+	public function sentenseDelete(){
+		$this->sentense = "Suppression de l'etiquette ".$this->name();
+	}
+
+
 }
 
 ?>

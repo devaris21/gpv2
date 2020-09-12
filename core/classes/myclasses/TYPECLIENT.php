@@ -11,6 +11,7 @@ class TYPECLIENT extends TABLE
 
 	const ENTREPRISE = 1;
 	const PARTICULIER = 2;
+	const PERSONNEL = 3;
 
 	public $name;
 

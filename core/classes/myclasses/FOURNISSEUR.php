@@ -34,12 +34,6 @@ class FOURNISSEUR extends AUTH
 				$data = $this->save();
 				if ($data->status) {
 					$this->uploading($this->files);
-						// ob_start();
-						// include(__DIR__."/../../sections/home/elements/mails/welcome_prestataire.php");
-						// $contenu = ob_get_contents();
-						// ob_end_clean();
-						// TODO gerer les mails
-						//EMAIL::send([$this->email], "Bienvenue - ARTCI | Gestion du parc auto", $contenu);
 				}
 			}else{
 				$data->status = false;
@@ -89,6 +83,7 @@ class FOURNISSEUR extends AUTH
 			if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 				$payement->fournisseur_id = $this->id;
 				$payement->comment = "Créditation du compte du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
+				$payement->historique($payement->comment);
 				$data = $payement->enregistre();
 				if ($data->status) {
 					$payement->actualise();
@@ -120,6 +115,7 @@ class FOURNISSEUR extends AUTH
 					$payement->categorieoperation_id = CATEGORIEOPERATION::RETOURFOND_FOURNISSEUR;
 					$payement->fournisseur_id = $this->id;
 					$payement->comment = "Retour de fonds au fournisseur ".$this->name()." pour ".$_POST["comment1"];
+					$payement->historique($payement->comment);
 					$data = $payement->enregistre();
 					if ($data->status) {
 						$payement->actualise();
@@ -265,13 +261,13 @@ class FOURNISSEUR extends AUTH
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'un nouveau prestataire : $this->name";
+		return $this->sentense = "Ajout d'un nouveau fournisseur : $this->name";
 	}
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des informations du prestataire $this->id : $this->name ";
+		return $this->sentense = "Modification des informations du fournisseur $this->id : $this->name ";
 	}
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression definitive du prestataire $this->id : $this->name";
+		return $this->sentense = "Suppression definitive du fournisseur $this->id : $this->name";
 	}
 
 }

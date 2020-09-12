@@ -17,12 +17,12 @@ if ($this->id != null) {
 
 		$parfums = $typeproduits = $quantites = [];
 		foreach (PARFUM::findBy(["isActive ="=>TABLE::OUI]) as $key => $item) {
-			$item->vendu = PRODUIT::totalVendu($date1, $date2, $entrepot->id, $item->id);
+			$item->vendu = PRODUIT::totalProduit($date1, $date2, $entrepot->id, null, $item->id);
 			$parfums[] = $item;
 		}
 
 		foreach (TYPEPRODUIT::findBy(["isActive ="=>TABLE::OUI]) as $key => $item) {
-			$item->vendu = PRODUIT::totalVendu($date1, $date2, $entrepot->id, null, $item->id);
+			$item->vendu = PRODUIT::totalProduit($date1, $date2, $entrepot->id, $item->id);
 			$typeproduits[] = $item;
 		}
 

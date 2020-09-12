@@ -34,6 +34,15 @@ foreach ($datas as $key => $value) {
 }
 
 
+$datas = ["Commande normale", "Commande autoship"];
+foreach ($datas as $key => $value) {
+	$item = new TYPECOMMANDE();
+	$item->name = $value;
+	$item->setProtected(1);
+	$item->save();
+}
+
+
 $datas = ["Prospection par commercial", "livraison de commande"];
 foreach ($datas as $key => $value) {
 	$item = new TYPEPROSPECTION();
@@ -116,7 +125,7 @@ foreach ($datas as $key => $value) {
 
 
 
-$datas = ["Entreprise", "Particulier"];
+$datas = ["Entreprise", "Particulier", "Personnel"];
 foreach ($datas as $key => $value) {
 	$item = new TYPECLIENT();
 	$item->name = $value;
@@ -261,7 +270,7 @@ $item->save();
 
 
 
-$datas = ["Prix normal", "Prix de gros"];
+$datas = ["Prix normal", "Prix de gros", "Prix spécial"];
 foreach ($datas as $key => $value) {
 	$item = new TYPEBAREME();
 	$item->name = $value;

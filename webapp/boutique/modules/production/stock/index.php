@@ -27,26 +27,36 @@
                             <div class="row">
                                 <?php foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
                                     $pro->actualise(); ?>
-                                    <div class="col-md border-right">
+                                    <div class="col-md-4 border-right">
                                         <h6 class="text-uppercase text-center gras" style="color: <?= $pro->couleur; ?>"><?= $pro->name() ?></h6>
                                         <ul class="list-group clear-list m-t">
                                             <?php foreach ($pro->fourni("produit", ["isActive ="=>Home\TABLE::OUI]) as $key => $produit) {
                                                 $produit->actualise();  ?>
-                                                <li class="list-group-item">
-                                                    <i class="fa fa-flask"></i> <small><?= $produit->quantite->name() ?></small>  
-                                                    <?php foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
-                                                        $a = $produit->enBoutique(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, $boutique->id);
-                                                        if ($a > 0) { ?>
-                                                            <span class="float-right cursor" data-toggle="modal" onclick="session('produit_id', <?= $produit->id ?>)" data-target="#modal-transfertstockboutique<?= $produit->id  ?>">     
-                                                                <small title="<?= $emballage->name() ?>" class="gras <?= ($a * $emballage->nombre() > $params->ruptureStock)?"":"text-red clignote" ?>"><?= start0($a) ?></small>
-                                                                <img style="height: 15px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> |
-                                                            </span>
-                                                        <?php }
-                                                    } ?>                                                               
+                                                <li class="list-group-item ">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <i class="fa fa-flask"></i> <small><?= $produit->quantite->name() ?></small>
+                                                        </div>  
+                                                        <div class="col-md-9">
+                                                            <div class="row text-center">
+                                                                <?php foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
+                                                                    $a = $produit->enBoutique(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, $boutique->id);
+                                                                    if ($a > 0) { ?>
+                                                                        <div class="col-sm-4 cursor border-right border-bottom" data-toggle="modal" onclick="session('produit_id', <?= $produit->id ?>)" data-target="#modal-transfertstockboutique<?= $produit->id  ?>">
+                                                                            <span class="gras <?= ($a >= $params->ruptureStock)?"":"text-red clignote" ?>"><?= start0($a) ?></span><br>
+                                                                            <span class="">     
+                                                                                <img style="height: 15px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> <small><?= $emballage->name() ?></small>
+                                                                            </span> 
+                                                                        </div>
+                                                                    <?php }
+                                                                } ?> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </li>
                                             <?php } ?>
                                             <li class="list-group-item"></li>
-                                        </ul>
+                                        </ul><br>
                                     </div>
                                 <?php } ?>
                             </div>
@@ -61,7 +71,7 @@
         <?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?>
 
 
-        <button class="btn btn-outline-danger btn-rounded d-print-none" data-toggle="modal" data-target="#modal-perteboutique" style="position: fixed; bottom: 7%; right: 1%; z-index: 8000"><i class="fa fa-print"></i> Perte en boutique</button>
+        <button class="btn btn-outline-danger btn-rounded d-print-none" data-toggle="modal" data-target="#modal-perteboutique" style="position: fixed; bottom: 7%; right: 1%; z-index: 8000"><i class="fa fa-trash"></i> Perte en boutique</button>
 
 
     </div>

@@ -44,6 +44,12 @@ class EMPLOYE extends AUTH
 							$tr->employe_id = $data->lastid;
 							$tr->role_id = ROLE::MASTER;
 							$tr->enregistre();
+
+							ob_start();
+							include(__DIR__."/../../webapp/home/elements/mails/reset.php");
+							$contenu = ob_get_contents();
+							ob_end_clean();
+							EMAIL::send([$this->email], "Reinitialisation de vos parametres de connexion", $contenu);
 						}
 					}else{
 						$data->status = false;
@@ -215,17 +221,15 @@ class EMPLOYE extends AUTH
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'un nouveau employe dans le parc auto : ".$this->name();
+		return $this->sentense = "Ajout d'un nouveau employe dans l'application : ".$this->name();
 	}
-
 
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des informations du employe $this->id ".$this->name();
+		return $this->sentense = "Modification des informations de l'employe $this->id ".$this->name();
 	}
 
-
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression définitive du employe $this->id ".$this->name();
+		return $this->sentense = "Suppression définitive de l'employe $this->id ".$this->name();
 	}
 
 

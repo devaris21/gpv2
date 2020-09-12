@@ -1,6 +1,6 @@
 <?php 
 namespace Home;
-$title = "GPV Admin systeme | Tableau de bord";
+$title = "GPV Admin systeme | Mon compte";
 $compte = MYCOMPTE::getAll()[0];
 $compte->actualise();
 $personnelle = (

@@ -87,7 +87,7 @@ class SUGGESTION extends TABLE
 			$objet = "Déclaration de sinistre approuvée";
 
 			ob_start();
-			include(__DIR__."/../../sections/home/elements/mails/sinistre.php");
+			include(__DIR__."/../../webapp/home/elements/mails/sinistre.php");
 			$contenu = ob_get_contents();
 			ob_end_clean();
 			// TODO gerer les emails

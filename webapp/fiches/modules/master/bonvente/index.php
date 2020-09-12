@@ -34,11 +34,12 @@
 
                             <div class="row">
                                 <div class="col-6">
-                                    <h4 class="title text-uppercase gras text-blue">Facture</h4>     
+                                    <h4 class="title text-uppercase gras text-blue mp0">Facture</h4>  
+                                    <h5>N°<?= $vente->reference  ?></h5>
                                 </div>
 
                                 <div class="col-6 text-right">
-                                    <h5>N°<?= $vente->reference  ?></h5>
+                                    <h6 class="gras"><?= $vente->employe->name() ?></h6>   
                                     <h6><?= datelong($vente->created) ?></h6> 
                                 </div>
                             </div><br>
@@ -53,7 +54,7 @@
                                             </td>
                                             <td class="desc">
                                                 <h6 class="text-uppercase gras"><?= $ligne->produit->name() ?> <?= $params->devise ?></h6>
-                                                <i> X <?= start0($ligne->quantite) ?></i>
+                                                <i><?= $ligne->emballage->name() ?> X <?= start0($ligne->quantite) ?></i>
                                             </td>
                                             <td class="text-center">
                                                 <br><span><?= money($ligne->price) ?> <?= $params->devise ?></span>

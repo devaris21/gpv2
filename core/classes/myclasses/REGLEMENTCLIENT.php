@@ -315,9 +315,15 @@ class REGLEMENTCLIENT extends TABLE
 	}
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+	public function sentenseCreate(){
+		$this->sentense = "Nouveau reglement de client N°$this->reference pour ".$this->client->name()." d'un montant de $this->montant";
+	}
+	public function sentenseUpdate(){
+		$this->sentense = "Modification des informations du reglement de client N°$this->reference ";
+	}
+	public function sentenseDelete(){
+		$this->sentense = "Nouveau reglement de client N°$this->reference pour ".$this->client->name()." d'un montant de $this->montant";
+	}
 
 }
 

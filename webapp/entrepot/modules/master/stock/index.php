@@ -33,15 +33,26 @@
                                                 <?php foreach ($pro->fourni("produit", ["isActive ="=>Home\TABLE::OUI]) as $key => $produit) {
                                                     $produit->actualise();  ?>
                                                     <li class="list-group-item">
-                                                        <i class="fa fa-flask" style="color: <?= $pro->couleur; ?>"></i> <small><?= $produit->quantite->name() ?></small>  
-                                                        <?php foreach (Home\EMBALLAGE::getAll() as $key => $emballage) {
-                                                            $a = $produit->enEntrepot(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, $entrepot->id);
-                                                            if ($a > 0) { ?>
-                                                                <span class="float-right cursor" data-toggle="modal" onclick="session('produit_id', <?= $produit->id ?>)" data-target="#modal-transfertstockentrepot<?= $produit->id  ?>">
-                                                                    <small title="en entrepot" class="gras <?= ($a * $emballage->nombre() > $params->ruptureStock)?"":"text-red clignote" ?>"><?= start0($a) ?></small> <img style="height: 15px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> |
-                                                                </span>
-                                                            <?php }
-                                                        } ?>                                                               
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <i class="fa fa-flask"></i> <small><?= $produit->quantite->name() ?></small>
+                                                            </div>  
+                                                            <div class="col-md-9">
+                                                                <div class="row text-center">
+                                                                    <?php foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
+                                                                        $a = $produit->enEntrepot(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, $entrepot->id);
+                                                                        if ($a > 0) { ?>
+                                                                            <div class="col-sm-4 cursor border-right border-bottom" data-toggle="modal" onclick="session('produit_id', <?= $produit->id ?>)" data-target="#modal-transfertstockboutique<?= $produit->id  ?>">
+                                                                                <span class="gras <?= ($a >= $params->ruptureStock)?"":"text-red clignote" ?>"><?= start0($a) ?></span><br>
+                                                                                <span class="">     
+                                                                                    <img style="height: 15px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> <small><?= $emballage->name() ?></small>
+                                                                                </span> 
+                                                                            </div>
+                                                                        <?php }
+                                                                    } ?> 
+                                                                </div>
+                                                            </div>
+                                                        </div>                                                              
                                                     </li>
                                                 <?php } ?>
                                                 <li class="list-group-item"></li>

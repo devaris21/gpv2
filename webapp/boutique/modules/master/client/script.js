@@ -183,6 +183,8 @@ $(function(){
 			});
 			formdata.append('listeproduits', tableau);
 			formdata.append('typebareme_id', $("select[name=typebareme_id]").val());
+			formdata.append('client_id', $("input[name=client_id]").val());
+			formdata.append('commercial_id', $("select[name=commercial_id]").val());
 			formdata.append('recu', $("input[name=recu]").val());
 
 			formdata.append('action', "calcul");

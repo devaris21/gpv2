@@ -47,6 +47,21 @@
                         <div class="ibox-content"  style="background-color: #fafafa">
                             <form id="formCommande">
                                 <div>
+                                    <label>Type de commande <span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <?php Native\BINDING::html("select", "typecommande"); ?>
+                                    </div>
+                                </div><br>
+                                <div class="code">
+                                    <label>Saisir le code correspondant <span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                        <input type="text" name="code" class="form-control" uppercase>
+                                    </div>
+                                </div><br>
+
+
+                                <div>
                                     <label>Barème de prix <span style="color: red">*</span> </label>
                                     <div class="input-group">
                                         <?php Native\BINDING::html("select", "typebareme"); ?>
@@ -67,7 +82,8 @@
                                 <div>
                                     <label>Lieu de livraison <span style="color: red">*</span> </label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" name="lieu" class="form-control" required>
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" name="lieu" class="form-control" required>
                                     </div>
                                 </div><br>
                                 <div>

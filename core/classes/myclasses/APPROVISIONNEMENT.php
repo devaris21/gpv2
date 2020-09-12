@@ -81,6 +81,8 @@ class APPROVISIONNEMENT extends TABLE
 				$reglement->montant = ($solde >= $this->reste())? $this->reste() : $solde;
 				$reglement->modepayement_id = MODEPAYEMENT::ESPECE;
 				$reglement->comment = "Recouvrement d'approvisionnement de matieres premières N°$this->reference ";
+
+				$reglement->historique("Recouvrement d'approvisionnement de ressource N°$this->reference pour un montant de $reglement->montant ");
 				$data = $reglement->enregistre();
 			}else{
 				$data->status = false;
@@ -140,10 +142,15 @@ class APPROVISIONNEMENT extends TABLE
 
 
 	
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
-
+	public function sentenseCreate(){
+		$this->sentense = "enregistrement d'un nouvel approvisionnement de ressource N°$this->reference ";
+	}
+	public function sentenseUpdate(){
+		$this->sentense = "Modification des informations de l'approvisionnement de ressource N°$this->reference ";
+	}
+	public function sentenseDelete(){
+		$this->sentense = "Suppression de l'approvisionnement de ressource N°$this->reference ";
+	}
 }
 
 

@@ -213,7 +213,7 @@ class PRODUIT extends TABLE
 
 
 
-	public function enEntrepot(string $date1, string $date2, int $emballage_id, int $entrepot_id = null){
+	public function enEntrepot(string $date1, string $date2, int $emballage_id, int $entrepot_id){
 		$item = $this->fourni("initialproduitentrepot", ["emballage_id ="=>$emballage_id, "entrepot_id ="=>$entrepot_id])[0];
 		$total = $this->conditionnement($date1, $date2, $emballage_id, $entrepot_id) - $this->totalSortieEntrepot($date1, $date2, $emballage_id, $entrepot_id) - $this->perteEntrepot($date1, $date2, $emballage_id, $entrepot_id) + $item->quantite + $this->transfertEntrepot($date1, $date2, $emballage_id, $entrepot_id);
 		return $total;
@@ -412,7 +412,10 @@ class PRODUIT extends TABLE
 
 	public static function ruptureBoutique(int $boutique_id = null){
 		$params = PARAMS::findLastId();
-		$datas = PRICE::findBy([]);
+		$requette = "SELECT price.* FROM price, produit, typeproduit_parfum, quantite, emballage WHERE 
+		produit.isActive = ? AND typeproduit_parfum.isActive = ? AND emballage.isActive = ? AND quantite.isActive = ? AND 
+		price.produit_id = produit.id AND price.emballage_id = emballage.id AND produit.typeproduit_parfum_id = typeproduit_parfum.id AND produit.quantite_id = quantite.id ";
+		$datas = PRICE::execute($requette, [TABLE::OUI, TABLE::OUI, TABLE::OUI, TABLE::OUI]);
 		foreach ($datas as $key => $item) {
 			$item->actualise();
 			if ($item->produit->enBoutique(PARAMS::DATE_DEFAULT, dateAjoute(1), $item->emballage_id, $boutique_id) > $params->ruptureStock) {
@@ -425,7 +428,10 @@ class PRODUIT extends TABLE
 
 	public static function ruptureEntrepot(int $entrepot_id = null){
 		$params = PARAMS::findLastId();
-		$datas = PARAMS::findBy(["isActive ="=>TABLE::OUI]);
+		$requette = "SELECT price.* FROM price, produit, typeproduit_parfum, quantite, emballage WHERE 
+		produit.isActive = ? AND typeproduit_parfum.isActive = ? AND emballage.isActive = ? AND quantite.isActive = ? AND 
+		price.produit_id = produit.id AND price.emballage_id = emballage.id AND produit.typeproduit_parfum_id = typeproduit_parfum.id AND produit.quantite_id = quantite.id ";
+		$datas = PRICE::execute($requette, [TABLE::OUI, TABLE::OUI, TABLE::OUI, TABLE::OUI]);
 		foreach ($datas as $key => $item) {
 			$item->actualise();
 			if ($item->produit->enEntrepot(PARAMS::DATE_DEFAULT, dateAjoute(1), $item->emballage_id, $entrepot_id) > $params->ruptureStock) {
@@ -502,9 +508,16 @@ class PRODUIT extends TABLE
 
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+	public function sentenseCreate(){
+		$this->sentense = "enregistrement d'un nouveau produit ".$this->name();
+	}
+	public function sentenseUpdate(){
+		$this->sentense = "Modification des informations du produit ".$this->name();
+	}
+	public function sentenseDelete(){
+		$this->sentense = "Suppression du produit ".$this->name();
+	}
+
 }
 
 ?>

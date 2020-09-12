@@ -42,7 +42,7 @@ class TRANSFERTSTOCKENTREPOT extends TABLE
 					if ($this->emballage_id_source != $this->emballage_id_destination){
 						if ($this->quantite >= 1){
 							if ($produit->enEntrepot(PARAMS::DATE_DEFAULT, dateAjoute(1), $this->emballage_id_source, getSession("entrepot_connecte_id")) >= $this->quantite) {
-								$this->quantite1 = (int)($quantite * $emb1->nombre() / $emb2->nombre());
+								$this->quantite1 = (int)($this->quantite * $emb1->nombre() / $emb2->nombre());
 								if ($this->quantite1 >= 1){
 									$data = $this->save();	
 								}else{
@@ -74,10 +74,15 @@ class TRANSFERTSTOCKENTREPOT extends TABLE
 	}
 
 
-
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+	public function sentenseCreate(){
+		return $this->sentense = "Nouveau transfert de stock à partir de la entrepot ".$this->entrepot->name();
+	}
+	public function sentenseUpdate(){
+		return $this->sentense = "Modification des informations du transfert de stock $this->id ";
+	}
+	public function sentenseDelete(){
+		return $this->sentense = "Suppression definitive du transfert de stock $this->id";
+	}
 
 }
 

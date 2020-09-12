@@ -126,12 +126,14 @@ class ROOTER extends PATH
 
 
                                                 if (!in_array($this->section, ["manager", "config"])) {
-                                                    if ($employe->boutique_id != null) {
+                                                    if ($employe->boutique_id != null && $this->section == "boutique") {
                                                         $boutique = $employe->boutique;
+                                                        session("entrepot_connecte_id", null);
                                                         session("boutique_connecte_id", $boutique->id);
                                                     }
-                                                    if ($employe->entrepot_id != null) {
+                                                    if ($employe->entrepot_id != null && $this->section == "entrepot") {
                                                         $entrepot = $employe->entrepot;
+                                                        session("boutique_connecte_id", null);
                                                         session("entrepot_connecte_id", $entrepot->id);
                                                     }
                                                 }

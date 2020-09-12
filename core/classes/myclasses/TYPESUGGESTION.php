@@ -21,20 +21,20 @@ class TYPESUGGESTION extends TABLE
 			$data = $this->save();
 		}else{
 			$data->status = false;
-			$data->message = "Veuillez renseigner le nom du type de vehicule !";
+			$data->message = "Veuillez renseigner le nom du type de suggestion !";
 		}
 		return $data;
 	}
 
 
 		public function sentenseCreate(){
-			return $this->sentense = "Ajout d'un nouveau type de vehicule : $this->name dans les paramétrages";
+			return $this->sentense = "Ajout d'un nouveau type de suggestion : $this->name dans les paramétrages";
 	}
 	public function sentenseUpdate(){
-			return $this->sentense = "Modification des informations du type de vehicule $this->id : $this->name ";
+			return $this->sentense = "Modification des informations du type de suggestion $this->id : $this->name ";
 	}
 	public function sentenseDelete(){
-			return $this->sentense = "Suppression definitive du type de vehicule $this->id : $this->name";
+			return $this->sentense = "Suppression definitive du type de suggestion $this->id : $this->name";
 	}
 }
 ?>

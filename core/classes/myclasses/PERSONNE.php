@@ -23,69 +23,6 @@ abstract class PERSONNE extends TABLE
 	public $password;
 
 
-	// public static function authentification(string $login, string $password){
-	// 	$data = new RESPONSE;
-	// 	if ($password != "" && $login != "") {
-	// 		//on essaie la connexion normale
-	// 		$datas = static::findBy(["login = "=> $login, "password = "=>hasher($password)]);
-	// 		if (count($datas) == 1) {
-	// 			$element = $datas[0];
-	// 			$element->actualise();
-	// 			if ($element->is_allowed()) {
-	// 				$data->status = true;
-	// 				//on met a jour le lasttime
-	// 				session("last_access", time());
-	// 				$data->element = $element;
-	// 				$data->new = false;
-	// 				if ($element->is_new == 1) {
-	// 					$data->new = true;
-	// 				}
-	// 			}else{
-	// 				$data->status = false;
-	// 				$data->message = "L'accès à cette application vous a été restrient !";
-	// 				$data->setUrl("access", "restriction");
-	// 			}
-	// 		}else{
-	// 			//on verifie dans active directory
-	// 			$ldapconn = ldap_connect("ldap://172.16.0.3");
-	// 			if ($ldapconn) {
-	// 				$ldapbind = @ldap_bind($ldapconn, $login, $password);
-	// 				if ($ldapbind) {
-	// 					//on essaie la connexion normale
-	// 					$datas = static::findBy(["email = "=> $login]);
-	// 					if (count($datas) == 1) {
-	// 						$element = $datas[0];
-	// 						$element->actualise();
-	// 						if ($element->is_allowed()) {
-	// 							$data->status = true;
-	// 						//on met a jour le lasttime
-	// 							session("last_access", time());
-	// 							$data->element = $element;
-	// 							$data->new = false;
-	// 						}else{
-	// 							$data->status = false;
-	// 							$data->message = "L'accès à cette application vous a été restrient !";
-	// 							$data->setUrl("access", "restriction");
-	// 						}
-	// 					} else {
-	// 						$data->status = false;
-	// 						$data->message = "Votre login/email et/ou le mot de passe est incorrect !";
-	// 					}
-	// 				}else{
-	// 					$data->status = false;
-	// 					$data->message = "Votre login/email et/ou le mot de passe est incorrect !";
-	// 				}
-	// 			}else{
-	// 				$data->status = false;
-	// 				$data->message = "Une erreur s'est produite lors de la connexion, Veuillez recommencer !";
-	// 			}
-	// 		}
-	// 	}else{
-	// 		$data->status = false;
-	// 		$data->message = "Veuillez renseigner integralement vos parametres de connexion !";
-	// 	}
-	// 	return $data;
-	// }
 
 	public static function authentification(string $login, string $password){
 		$data = new RESPONSE;
@@ -96,7 +33,6 @@ abstract class PERSONNE extends TABLE
 				$element->actualise();
 				if ($element->is_allowed()) {
 					$data->status = true;
-					//on met a jour le lasttime
 					session("last_access", time());
 					$data->element = $element;
 					$data->new = false;
@@ -129,7 +65,7 @@ abstract class PERSONNE extends TABLE
 		$data = $this->save();
 		if ($data->status) {
 			ob_start();
-			include(__DIR__."/../../sections/home/elements/mails/reset.php");
+			include(__DIR__."/../../webapp/home/elements/mails/reset.php");
 			$contenu = ob_get_contents();
 			ob_end_clean();
 			EMAIL::send([$this->email], "Reinitialisation de vos parametres de connexion", $contenu);

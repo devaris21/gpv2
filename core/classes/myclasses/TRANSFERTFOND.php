@@ -46,9 +46,15 @@ class TRANSFERTFOND extends TABLE
 
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+	public function sentenseCreate(){
+		return $this->sentense = "Nouveau transfert de fond à partir de compte ".$this->comptebanque_source->name();
+	}
+	public function sentenseUpdate(){
+		return $this->sentense = "Modification des informations du transfert de fond $this->id ";
+	}
+	public function sentenseDelete(){
+		return $this->sentense = "Suppression definitive du transfert de fond $this->id";
+	}
 
 }
 

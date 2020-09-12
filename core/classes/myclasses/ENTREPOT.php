@@ -83,14 +83,15 @@ class ENTREPOT extends TABLE
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'un nouveau groupe de vehicule : $this->name dans les paramétrages";
+		return $this->sentense = "Creation d'une nouvel entrepôt : $this->name";
 	}
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des informations de l'entrepot $this->id : $this->name ";
+		return $this->sentense = "Modification des informations de l'entrepôt $this->id : $this->name ";
 	}
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression definitive de l'entrepot $this->id : $this->name";
+		return $this->sentense = "Suppression definitive de l'entrepôt $this->id : $this->name";
 	}
+
 
 }
 ?>

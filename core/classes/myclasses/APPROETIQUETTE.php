@@ -82,6 +82,8 @@ class APPROETIQUETTE extends TABLE
 				$reglement->montant = ($solde >= $this->reste())? $this->reste() : $solde;
 				$reglement->modepayement_id = MODEPAYEMENT::ESPECE;
 				$reglement->comment = "Recouvrement d'approvisionnement d'etiquettes N°$this->reference ";
+
+				$reglement->historique("Recouvrement d'approvisionnement d'etiquettes N°$this->reference pour un montant de $reglement->montant ");
 				$data = $reglement->enregistre();
 			}else{
 				$data->status = false;
@@ -101,7 +103,7 @@ class APPROETIQUETTE extends TABLE
 		if ($this->etat_id == ETAT::ENCOURS) {
 			$this->etat_id = ETAT::ANNULEE;
 			$this->datelivraison = date("Y-m-d H:i:s");
-			$this->historique("L'approvisionnement en reference $this->reference vient d'être annulée !");
+			$this->historique("L'approvisionnement d'etiquette en reference $this->reference vient d'être annulée !");
 			$data = $this->save();
 			if ($data->status) {
 				$this->actualise();
@@ -142,9 +144,15 @@ class APPROETIQUETTE extends TABLE
 
 
 	
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+	public function sentenseCreate(){
+		$this->sentense = "enregistrement d'un nouvel approvisionnement d'etiquette N°$this->reference ";
+	}
+	public function sentenseUpdate(){
+		$this->sentense = "Modification des informations de l'approvisionnement d'etiquette N°$this->reference ";
+	}
+	public function sentenseDelete(){
+		$this->sentense = "Suppression de l'approvisionnement d'etiquette N°$this->reference ";
+	}
 
 }
 

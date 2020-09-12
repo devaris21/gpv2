@@ -96,13 +96,13 @@ class PARFUM extends TABLE
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'un nouveau produit : $this->name dans les paramétrages";
+		return $this->sentense = "Creation d'un nouveau parfum : $this->name";
 	}
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des informations du produit $this->id : $this->name ";
+		return $this->sentense = "Modification des informations de la parfum $this->id : $this->name ";
 	}
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression definitive du produit $this->id : $this->name";
+		return $this->sentense = "Suppression definitive de la parfum $this->id : $this->name";
 	}
 
 }

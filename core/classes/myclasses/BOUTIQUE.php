@@ -58,7 +58,7 @@ class BOUTIQUE extends TABLE
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'un nouveau groupe de vehicule : $this->name dans les paramétrages";
+		return $this->sentense = "Creation d'une nouvelle boutique : $this->name";
 	}
 	public function sentenseUpdate(){
 		return $this->sentense = "Modification des informations de la boutique $this->id : $this->name ";

@@ -76,7 +76,7 @@
                                         </td>
                                         <td><i class="fa fa-long-arrow-right fa-2x"></i></td>
                                         <td class="">
-                                            <span class=""><?= start0($transfert->quantite2)  ?></span><br>
+                                            <span class=""><?= start0($transfert->quantite1)  ?></span><br>
                                             <small class="text-uppercase gras"><img style="width: 20px;" src="<?= $this->stockage("images", "emballages", $transfert->emballage_destination->image) ?>"> <?= $transfert->emballage_destination->name() ?></small>
                                         </td>
                                         <td>
@@ -112,10 +112,7 @@
 
         <?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?> 
 
-        <?php foreach (Home\TYPEPRODUIT_PARFUM::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
-            $qua = $pro->enStock(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $pro->id, $boutique->id);
-            if ($qua > 0) { include($this->rootPath("composants/assets/modals/modal-conditionnement.php")); } 
-        }  ?>
+
     </div>
 </div>
 

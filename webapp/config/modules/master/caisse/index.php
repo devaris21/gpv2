@@ -162,7 +162,7 @@
 
                                     <div class="ibox border">
                                         <div class="ibox-title">
-                                            <h5 class="text-uppercase">Creation & attribution des caisse</h5>
+                                            <h5 class="text-uppercase">Creation & attribution des caisses</h5>
                                             <div class="ibox-tools">
                                                 <a class="btn_modal" data-toggle="modal" data-target="#modal-comptebanque">
                                                     <i class="fa fa-plus"></i> Nouveau compte

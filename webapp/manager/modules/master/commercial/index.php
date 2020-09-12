@@ -72,10 +72,10 @@
 
 
                     <div class="ibox">
-                       <div class="ibox-content">
+                     <div class="ibox-content">
                         <p></p>
                         <div class="">                                
-                           <ul class="nav nav-tabs text-uppercase">
+                         <ul class="nav nav-tabs text-uppercase">
                             <li><a class="nav-link active" data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i> Toutes les prospections</a></li>
                             <li><a class="nav-link" data-toggle="tab" href="#tab-2"><i class="fa fa-file-text"></i> Rapports journaliers</a></li>
                             <li><a class="nav-link" data-toggle="tab" href="#tab-3"><i class="fa fa-money"></i> Payement de salaire</a></li>
@@ -86,7 +86,7 @@
                                 <div id="tab-1" class="tab-pane active">
                                     <br>
                                     <div class="">
-                                     <?php if (count($prospections + $encours) > 0) { ?>
+                                       <?php if (count($prospections + $encours) > 0) { ?>
                                         <table class="footable table table-stripped toggle-arrow-tiny">
                                             <thead>
                                                 <tr>
@@ -179,7 +179,7 @@
                                                             </h4>
                                                         </td>
                                                         <td class="border-right">
-                                                           <table class="table table-bordered">
+                                                         <table class="table table-bordered">
                                                             <thead>
                                                                 <tr class="no">
                                                                     <th></th>
@@ -321,21 +321,38 @@
                 <?php } ?>
             </h2>
             <address>
+                <i class="fa fa-home"></i>&nbsp; <?= $commercial->boutique->name() ?><br>
                 <i class="fa fa-phone"></i>&nbsp; <?= $commercial->contact ?><br>
                 <i class="fa fa-map-marker"></i>&nbsp; <?= $commercial->adresse ?><br>
             </address><hr>
 
-            <div class="m-b-lg">
-                <span>Salaire mensuel fixe si objectif atteint</span><br>
-                <h2 class="font-bold d-inline"><?= money($commercial->salaire) ?> <?= $params->devise  ?></h2> 
-                <i onclick="modification('commercial', <?= $commercial->id ?>)" data-toggle="modal" data-target="#modal-salaire" class="fa fa-pencil fa-2x pull-right cursor"></i>
-                <br><br>
+            
+            <form action="#" id="form1" method="POST" class="formShamman" classname="commercial" reload="false">
+              <div>
+                <label>Palier spécial du commercial</label>
+                <?php Native\BINDING::html("select-startnull", "palier", $commercial, "palier_id") ?>
+            </div><br>
 
-                <span>Objectif journalier</span><br>
-                <h3 class="font-bold text-muted"><?= money($commercial->objectif) ?> <?= $params->devise  ?></h3>     
+            <div>
+                <label>Seuil maximum de crédit</label>
+                <input type="text" class="form-control" number name="seuilCredit" value="<?= $commercial->seuilCredit  ?>">
             </div>
+            <input type="hidden" name="id" value="<?= $commercial->id  ?>">
+        </form>
+
+        <hr>
+
+        <div class="m-b-lg">
+            <span>Salaire mensuel fixe si objectif atteint</span><br>
+            <h2 class="font-bold d-inline"><?= money($commercial->salaire) ?> <?= $params->devise  ?></h2> 
+            <i onclick="modification('commercial', <?= $commercial->id ?>)" data-toggle="modal" data-target="#modal-salaire" class="fa fa-pencil fa-2x pull-right cursor"></i>
+            <br><br>
+
+            <span>Objectif journalier</span><br>
+            <h3 class="font-bold text-muted"><?= money($commercial->objectif) ?> <?= $params->devise  ?></h3>     
         </div>
     </div>
+</div>
 </div>
 
 <div class="ibox">

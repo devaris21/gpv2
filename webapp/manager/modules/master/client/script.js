@@ -12,6 +12,10 @@ $(function(){
 	})
 
 
+	$("#form1 input, #form1 select").change(function(){
+		$("#form1").submit();
+	})
+
 	newcommande = function(){
 		alerty.confirm("Une ou plusieurs commandes sont déjà en cours, voulez-vous continuer avec l'une d'entre elles ?", {
 			title: "Nouvelle commande",

@@ -7,12 +7,12 @@ $faker = Factory::create();
 $parfums = $typeproduits = $quantites = $boutiques = [];
 
 foreach (PARFUM::findBy(["isActive ="=>TABLE::OUI]) as $key => $item) {
-	$item->vendu = PRODUIT::totalVendu($date1, $date2, null, $item->id);
+	$item->vendu = PRODUIT::totalVendu($date1, $date2, null, null, $item->id);
 	$parfums[] = $item;
 }
 
 foreach (TYPEPRODUIT::findBy(["isActive ="=>TABLE::OUI]) as $key => $item) {
-	$item->vendu = PRODUIT::totalVendu($date1, $date2, null, null, $item->id);
+	$item->vendu = PRODUIT::totalVendu($date1, $date2, null, $item->id);
 	$typeproduits[] = $item;
 }
 
@@ -22,7 +22,7 @@ foreach (QUANTITE::findBy(["isActive ="=>TABLE::OUI]) as $key => $item) {
 }
 
 foreach (BOUTIQUE::getAll() as $key => $item) {
-	$item->vendu = PRODUIT::totalVendu($date1, $date2);
+	$item->vendu = PRODUIT::totalVendu($date1, $date2, $item->id);
 	$boutiques[] = $item;
 }
 

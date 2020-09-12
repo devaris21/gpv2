@@ -95,10 +95,10 @@
 				<div class="col-md border-right">
 					<h6 class="text-uppercase text-center gras" style="color: "><?= $parfum->name();  ?></h6>
 					<ul class="list-group clear-list m-t">
-						<?php foreach ($typeproduits as $key => $type) { ?>
+						<?php foreach ($parfum->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
 							<li class="list-group-item" style="padding-bottom: 5px">
 								<small><?= $type->name();  ?></small>          
-								<small class="gras float-right"><?= money(Home\PRODUIT::totalVendu($date1, $date2, $boutique->id, $parfum->id, $type->id)) ?></small>
+								<small class="gras float-right"><?= money(Home\PRODUIT::totalVendu($date1, $date2, $boutique->id, $type->typeproduit_id, $parfum->id)) ?></small>
 							</li>
 						<?php } ?>
 						<li class="list-group-item"></li>

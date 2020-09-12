@@ -74,7 +74,7 @@
                                             <span class="text-uppercase gras">Commande (<?= count($groupe->fourni("commande")) ?>)</span><br>
                                             <span><?= depuis($groupe->created) ?></span>
                                             <?php if (count($datas1) > 0) { ?>
-                                                <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours/programmée pour cette commande</p>
+                                                <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours pour cette commande</p>
                                             <?php } ?>
                                         </td>
                                         <td>
@@ -107,7 +107,7 @@
                                             <span class="text-uppercase gras">Commande (<?= count($groupe->fourni("commande")) ?>)</span><br>
                                             <span><?= depuis($groupe->created) ?></span>
                                             <?php if (count($datas1) > 0) { ?>
-                                                <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours/programmée pour cette commande</p>
+                                                <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours pour cette commande</p>
                                             <?php } ?>
                                         </td>
                                         <td>

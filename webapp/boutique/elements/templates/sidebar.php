@@ -29,7 +29,7 @@
             $groupes__ = Home\GROUPECOMMANDE::encours();
             $prospections__ = $boutique->fourni("prospection", ["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::PROSPECTION]);
             $livraisons__ = $boutique->fourni("prospection", ["etat_id ="=>Home\ETAT::ENCOURS, "typeprospection_id ="=>Home\TYPEPROSPECTION::LIVRAISON]);
-            $mises__ = $boutique->fourni("miseenboutique", ["boutique_id ="=>$boutique->id, "etat_id ="=>Home\ETAT::ENCOURS], [], ["created"=>"DESC"]);;
+            $mises__ = $boutique->fourni("miseenboutique", ["etat_id ="=>Home\ETAT::ENCOURS]) + $boutique->fourni("miseenboutique", ["etat_id ="=>Home\ETAT::PARTIEL]);
 
             ?>
             <ul class="nav metismenu" id="side-menu">

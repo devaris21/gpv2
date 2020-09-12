@@ -11,12 +11,10 @@ class HISTORY extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 	public $sentense; // phrase de l'historique
-	public $employe_id = null;
-	public $isOperationCaisse = 0; //1 si operation de caisse, 1 sinon
-	public $price = 0; //le montant si operation de caisse
+	public $employe_id;
 	public $typeSave; //-1 delete, 0 create, 1 update
 	public $record; //nom de la table
-	public $recordId; //id de la table
+	public $recordId; //id de l'enregistrement
 
 
 	public static function createHistory(TABLE $element, String $type_save){
@@ -52,34 +50,6 @@ class HISTORY extends TABLE
 	}
 
 
-	public function auteur(){
-		$this->actualise();
-		if ($this->employe_id != null) {
-			return $this->employe->name();
-			
-		}elseif ($this->carplan_id != null) {
-			return $this->carplan->name();
-
-		}elseif ($this->prestataire_id != null) {
-			return $this->prestataire->name();
-		}
-	}
-
-
-	public function type(){
-		if ($this->employe_id != null) {
-			return "Employe AMB";
-
-		}elseif ($this->utilisateur_id != null) {
-			return "Responsable Direction";
-
-		}elseif ($this->carplan_id != null) {
-			return "Bénéficiaire Carplan";
-
-		}elseif ($this->prestataire_id != null) {
-			return "Prestataire";
-		}
-	}
 
 
 	public function typeSave(){

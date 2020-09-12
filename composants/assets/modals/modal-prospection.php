@@ -78,7 +78,6 @@
                                     </div>
                                 </div><br>
 
-                                <input type="hidden" name="client_id" value="<?= Home\CLIENT::ANONYME ?>">
                                 <input type="hidden" name="typeprospection_id" value="<?= Home\TYPEPROSPECTION::PROSPECTION ?>">
 
                             </form><br>

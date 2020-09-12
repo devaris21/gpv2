@@ -41,7 +41,7 @@
                                 <div class="col-sm-4 border-left border-bottom">
                                     <div class="p-lg">
                                         <i class="fa fa-codepen fa-3x text-danger"></i>
-                                        <h2 class="m-xs"><?= start0(count(Home\EMBALLAGE::ruptureEntrepot()))  ?></h2>
+                                        <h2 class="m-xs"><?= start0(count(Home\EMBALLAGE::ruptureEntrepot($entrepot->id)))  ?></h2>
                                         <h4 class="no-margins text-uppercase gras">Rupture d'emballages</h4>
                                         <small><?= $params->societe ?></small>
                                     </div>
@@ -49,7 +49,7 @@
                                 <div class="col-sm-4 border-left border-bottom">
                                     <div class="p-lg">
                                         <i class="fa fa-cubes fa-3x text-danger"></i>
-                                        <h2 class="m-xs"><?= start0(count(Home\RESSOURCE::ruptureEntrepot()))  ?></h2>
+                                        <h2 class="m-xs"><?= start0(count(Home\RESSOURCE::ruptureEntrepot($entrepot->id)))  ?></h2>
                                         <h4 class="no-margins text-uppercase gras">Rupture de ressources</h4>
                                         <small><?= $params->societe ?></small>
                                     </div>

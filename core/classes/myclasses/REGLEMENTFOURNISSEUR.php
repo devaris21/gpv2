@@ -291,9 +291,15 @@ class REGLEMENTFOURNISSEUR extends TABLE
 	}
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+	public function sentenseCreate(){
+		$this->sentense = "Nouveau reglement de fournisseur  N°$this->reference pour ".$this->fournisseur ->name()." d'un montant de $this->montant";
+	}
+	public function sentenseUpdate(){
+		$this->sentense = "Modification des informations du reglement de fournisseur  N°$this->reference ";
+	}
+	public function sentenseDelete(){
+		$this->sentense = "Nouveau reglement de fournisseur  N°$this->reference pour ".$this->fournisseur ->name()." d'un montant de $this->montant";
+	}
 
 }
 

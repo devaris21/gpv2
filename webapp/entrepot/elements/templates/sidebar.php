@@ -28,6 +28,7 @@
             <?php 
             $groupes__ = Home\GROUPECOMMANDE::encours();
             $approvisionnements__ = Home\APPROVISIONNEMENT::encours();
+            $mises__ = $entrepot->fourni("miseenboutique", ["etat_id ="=>Home\ETAT::ENCOURS]) + $entrepot->fourni("miseenboutique", ["etat_id ="=>Home\ETAT::PARTIEL]);
 
             ?>
             <ul class="nav metismenu" id="side-menu">
@@ -48,7 +49,7 @@
                         <a href="<?= $this->url($this->section, "production", "conditionnement") ?>"><i class="fa fa-flask"></i> <span class="nav-label">Conditionnement</span></a>
                     </li>
                     <li class="" id="miseenboutique">
-                        <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique</span></a>
+                        <a href="<?= $this->url($this->section, "production", "miseenboutique") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Mise en boutique <?php if (count($mises__) > 0) { ?> <span class="label label-warning float-right"><?= count($mises__) ?></span> <?php } ?></span></a>
                     </li>
                     <li class="" id="transfertstock">
                         <a href="<?= $this->url($this->section, "production", "transfertstock") ?>"><i class="fa fa-refresh"></i> <span class="nav-label">Transfert de stock</span></a>

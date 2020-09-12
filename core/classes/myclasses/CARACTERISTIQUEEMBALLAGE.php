@@ -181,9 +181,15 @@ class CARACTERISTIQUEEMBALLAGE extends TABLE
 
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+	public function sentenseCreate(){
+		return $this->sentense = "Creation d'une nouvelle caractéristique d'emballage";
+	}
+	public function sentenseUpdate(){
+		return $this->sentense = "Modification des informations de la caractéristique d'emballage N°$this->id ";
+	}
+	public function sentenseDelete(){
+		return $this->sentense = "Suppression definitive de la caractéristique d'emballage N°$this->id";
+	}
 }
 
 ?>

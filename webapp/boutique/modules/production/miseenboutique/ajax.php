@@ -31,7 +31,7 @@ if ($action == "demandemiseenboutique") {
 				$ligne->miseenboutique_id = $meb->id;
 				$ligne->emballage_id = $format_id;
 				$ligne->produit_id = $produit->id;
-				$ligne->quantite_demande = intval($qte);
+				$ligne->quantite_demande = $ligne->quantite = intval($qte);
 				$data = $ligne->enregistre();	
 			}
 		}

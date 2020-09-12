@@ -154,8 +154,8 @@ class EMBALLAGE extends TABLE
 
 
 
-	public function stock(String $date1, String $date2, int $entrepot_id = null){
-		$item = $this->fourni("initialemballageentrepot", ["entrepot_id ="=>$entrepot_id])[0];
+	public function stock(String $date1, String $date2, int $entrepot_id){
+			$item = $this->fourni("initialemballageentrepot", ["entrepot_id ="=>$entrepot_id])[0];
 		return $this->achat($date1, $date2, $entrepot_id) - $this->consommee($date1, $date2, $entrepot_id) - $this->perte($date1, $date2, $entrepot_id) + intval($this->initial) + $item->quantite;
 	}
 
@@ -236,60 +236,19 @@ class EMBALLAGE extends TABLE
 
 
 
-	public function coutProduction(String $type, int $quantite){
-		if(isJourFerie(dateAjoute())){
-			$datas = PAYEFERIE_PRODUIT::findBy(["produit_id ="=>$this->id]);
-		}else{
-			$datas = PAYE_PRODUIT::findBy(["produit_id ="=>$this->id]);
-		}
-		if (count($datas) > 0) {
-			$ppr = $datas[0];
-			switch ($type) {
-				case 'production':
-				$prix = $ppr->price;
-				break;
-				
-				case 'rangement':
-				$prix = $ppr->price_rangement;
-				break;
 
-				case 'vente':
-				$prix = $ppr->price_vente;
-				break;
 
-				default:
-				$prix = $ppr->price;
-				break;
-			}
-			return $quantite * $prix;
-		}
-		return 0;
+	public function sentenseCreate(){
+		$this->sentense = "enregistrement d'un nouvel emballage ".$this->name();
+	}
+	public function sentenseUpdate(){
+		$this->sentense = "Modification des informations de l'emballage ".$this->name();
+	}
+	public function sentenseDelete(){
+		$this->sentense = "Suppression de l'emballage ".$this->name();
 	}
 
 
-
-	public function changerMode(){
-		if ($this->isActive == TABLE::OUI) {
-			$this->isActive = TABLE::NON;
-		}else{
-			$this->isActive = TABLE::OUI;
-			$pro = PRODUCTION::today();
-			$datas = LIGNEPRODUCTION::findBy(["production_id ="=>$pro->id, "produit_id ="=>$pdv->id]);
-			if (count($datas) == 0) {
-				$ligne = new LIGNEPRODUCTION();
-				$ligne->production_id = $pro->id;
-				$ligne->produit_id = $pdv->id;
-				$ligne->enregistre();
-			}			
-		}
-		return $this->save();
-	}
-
-
-
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
 }
 
 ?>

@@ -20,24 +20,21 @@ class TYPEREDUCTION extends TABLE
 			$data = $this->save();
 		}else{
 			$data->status = false;
-			$data->message = "Veuillez renseigner le nom du type de bien !";
+			$data->message = "Veuillez renseigner le nom du type de reduction !";
 		}
 		return $data;
 	}
 
 
-	public function name(){
-		return $this->name." ($this->min ans - $this->max ans) ";
-	}
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'un nouveau type de bien : $this->name dans les paramétrages";
+		return $this->sentense = "Ajout d'un nouveau type de reduction : $this->name dans les paramétrages";
 	}
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des informations du type de bien $this->id : $this->name ";
+		return $this->sentense = "Modification des informations du type de reduction $this->id : $this->name ";
 	}
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression definitive du type de bien $this->id : $this->name";
+		return $this->sentense = "Suppression definitive du type de reduction $this->id : $this->name";
 	}
 }
 ?>

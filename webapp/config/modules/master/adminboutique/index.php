@@ -70,10 +70,10 @@
                                                                                    foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
                                                                                     $item = $produit->fourni("initialproduitboutique", ["emballage_id ="=>$emballage->id, "boutique_id ="=>$boutique->id])[0];
                                                                                     $item->actualise(); ?>
-                                                                                    <div class="col-md border-right">
+                                                                                    <div class="col-md-4 border-right border-bottom">
                                                                                         <div class="">
                                                                                             <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> <small><?= $emballage->name(); ?></small><br>
-                                                                                            <div class="col-sm-6">
+                                                                                            <div >
                                                                                                 <input type="text" title="Stock initial" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center maj" value="<?= $item->quantite ?>" name="initialproduitboutique" id="<?= $item->id ?>">
                                                                                             </div>
                                                                                         </div>

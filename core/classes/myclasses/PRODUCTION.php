@@ -91,10 +91,15 @@ class PRODUCTION extends TABLE
 
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
-
+	public function sentenseCreate(){
+		return $this->sentense = "Nouvelle production : $this->reference";
+	}
+	public function sentenseUpdate(){
+		return $this->sentense = "Modification des informations de la production N°: $this->reference ";
+	}
+	public function sentenseDelete(){
+		return $this->sentense = "Suppression definitive de la production N°: $this->reference";
+	}
 
 }
 ?>

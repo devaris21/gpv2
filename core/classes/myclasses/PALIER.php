@@ -36,14 +36,17 @@ class PALIER extends TABLE
 		return $this->name;
 	}
 
+
+
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'un nouveau type de bien : $this->name dans les paramétrages";
+		return $this->sentense = "Creation d'un nouveau palier : $this->name";
 	}
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des informations du type de bien $this->id : $this->name ";
+		return $this->sentense = "Modification des informations du palier $this->id : $this->name ";
 	}
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression definitive du type de bien $this->id : $this->name";
+		return $this->sentense = "Suppression definitive du palier $this->id : $this->name";
 	}
+
 }
 ?>

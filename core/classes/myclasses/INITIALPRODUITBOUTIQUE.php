@@ -49,7 +49,7 @@ class INITIALPRODUITBOUTIQUE extends TABLE
 		return $this->sentense = "";
 	}
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification du stock initial: $this->id ";
+		return $this->sentense = "Modification du stock initial du produit: ".$this->name()." dans ".$this->boutique->name();
 	}
 	public function sentenseDelete(){
 		return $this->sentense = "Suppression definitive de l'element $this->id :$this->id";

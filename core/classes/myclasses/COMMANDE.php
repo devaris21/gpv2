@@ -10,6 +10,8 @@ class COMMANDE extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 	public $reference;
+	public $typecommande_id;
+	public $code;
 	public $groupecommande_id;
 	public $datelivraison;
 	public $boutique_id;
@@ -80,6 +82,7 @@ class COMMANDE extends TABLE
 				$reglementclient->montant = ($this->groupecommande->client->acompte >= $this->reste())? $this->reste() : $this->groupecommande->client->acompte;
 				$reglementclient->modepayement_id = MODEPAYEMENT::PRELEVEMENT_ACOMPTE;
 				$reglementclient->comment = "Recouvrement de commande N°$this->reference ";
+				$reglementclient->historique("Recouvrement de commande N°$this->reference pour un montant de $reglementclient->montant ");
 				$data = $reglementclient->enregistre();
 				if ($data->status) {
 					$data = $this->groupecommande->client->debiter($reglementclient->montant);
@@ -149,10 +152,16 @@ class COMMANDE extends TABLE
 	}
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
 
+	public function sentenseCreate(){
+		return $this->sentense = "enregistrement d'une nouvelle commande N°$this->reference";
+	}
+	public function sentenseUpdate(){
+		return $this->sentense = "Modification des informations de la commande N°$this->reference ";
+	}
+	public function sentenseDelete(){
+		return $this->sentense = "Suppression definitive de la commande N°$this->reference";
+	}
 
 }
 ?>

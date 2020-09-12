@@ -91,13 +91,22 @@
                                 </div>
                             </div><br>
 
-
-                            <div class="commercial">
-                                <label>Commercial pour la livraison <span style="color: red">*</span> </label>                                
+                            <div>
+                                <label>Livré par <span style="color: red">*</span> </label>
                                 <div class="input-group">
-                                    <?php Native\BINDING::html("select-tableau", Home\COMMERCIAL::findBy(["boutique_id ="=>getSession("boutique_connecte_id")]), null, "commercial_id"); ?>
-                                </div><br>
-                            </div>
+                                    <span class="input-group-addon"><i class="fa fa-usesr"></i></span>
+                                    <input type="text" name="livreur" class="form-control" >
+                                </div>
+                            </div><br>
+
+
+                            <div>
+                                <label>Frais de transport pour livraison <span style="color: red">*</span> </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                    <input type="text" name="transport" class="form-control" value="0">
+                                </div>
+                            </div><br>
 
                        <!--  <div class="chauffeur">
                             <label>Chauffeur de la livraison <span style="color: red">*</span> </label>                                
@@ -172,6 +181,7 @@
                     -->
                     <input type="hidden" name="client_id" value="<?= $groupecommande->client_id ?>">
                     <input type="hidden" name="typeprospection_id" value="<?= Home\TYPEPROSPECTION::LIVRAISON ?>" class="form-control">
+                    <input type="hidden" name="commercial_id" value="<?= Home\COMMERCIAL::MAGASIN ?>" class="form-control">
 
                 </form>
                 <hr/>

@@ -362,9 +362,16 @@ class VENTE extends TABLE
 	}
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+	public function sentenseCreate(){
+		return $this->sentense = "enregistrement d'une nouvelle vente ".$this->typevente->name()." N°$this->reference";
+	}
+	public function sentenseUpdate(){
+		return $this->sentense = "Modification des informations de la vente N°$this->reference ";
+	}
+	public function sentenseDelete(){
+		return $this->sentense = "Suppression definitive de la vente N°$this->reference";
+	}
+
 
 
 }

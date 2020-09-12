@@ -29,11 +29,11 @@
 
 
 
-                 <?php if ($employe->isAutoriser("production")) { ?>
+                 <?php if ($employe->isAutoriser("ventes")) { ?>
 
                   <div id="tab-1" class="tab-pane active"><br>
                     <div class="row container-fluid">
-                      <button type="button" <?= (count($encours) > 0)?" onclick='newcommande()' ": "data-toggle=modal data-target='#modal-newcommande'" ?>  class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle commande </button>
+                      <button type="button" <?= (count($encours) > 0)?" onclick='newcommande()' ": "data-toggle=modal data-target='#modal-newcommande'" ?>  class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle commande / autoship</button>
                     </div>
                     <div class="">
                       <div class="ibox-content">
@@ -62,7 +62,7 @@
                                     <span class="text-uppercase gras">Commande (<?= count($groupe->fourni("commande")) ?>)</span><br>
                                     <span><?= depuis($groupe->created) ?></span>
                                     <?php if (count($datas1) > 0) { ?>
-                                      <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours/programmée pour cette commande</p>
+                                      <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours pour cette commande</p>
                                     <?php } ?>
                                   </td>
                                   <td>
@@ -92,7 +92,7 @@
                                     <span class="text-uppercase gras">Commande (<?= count($groupe->fourni("commande")) ?>)</span><br>
                                     <span><?= depuis($groupe->created) ?></span>
                                     <?php if (count($datas1) > 0) { ?>
-                                      <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours/programmée pour cette commande</p>
+                                      <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours pour cette commande</p>
                                     <?php } ?>
                                   </td>
                                   <td>
@@ -308,7 +308,7 @@
                         <span class="text-uppercase gras">Commande (<?= count($groupe->fourni("commande")) ?>)</span><br>
                         <span>Créée <?= depuis($groupe->created) ?></span>
                         <?php if (count($datas1) > 0) { ?>
-                          <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours/programmée pour cette commande</p>
+                          <p class="text-blue">(<?= count($datas1) ?>) livraison(s) en cours pour cette commande</p>
                         <?php } ?>
                       </td>
                       <td>

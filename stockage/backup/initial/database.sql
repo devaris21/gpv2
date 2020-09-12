@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mar. 08 sep. 2020 à 12:50
+-- Généré le : sam. 12 sep. 2020 à 20:09
 -- Version du serveur :  5.7.24
 -- Version de PHP : 7.3.2
 
@@ -213,8 +213,11 @@ CREATE TABLE `client` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8_bin NOT NULL,
   `typeclient_id` int(2) NOT NULL,
+  `boutique_id` int(2) NOT NULL,
   `acompte` int(11) DEFAULT NULL,
   `dette` int(11) NOT NULL,
+  `seuilCredit` int(11) DEFAULT NULL,
+  `palier_id` int(11) DEFAULT NULL,
   `adresse` varchar(150) COLLATE utf8_bin DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `contact` varchar(200) COLLATE utf8_bin DEFAULT NULL,
@@ -235,10 +238,14 @@ CREATE TABLE `commande` (
   `id` int(11) NOT NULL,
   `reference` varchar(20) COLLATE utf8_bin NOT NULL,
   `groupecommande_id` int(20) NOT NULL,
+  `typecommande_id` int(20) NOT NULL,
+  `code` varchar(50) COLLATE utf8_bin DEFAULT '',
   `zonedevente_id` int(11) NOT NULL,
+  `boutique_id` int(11) NOT NULL,
   `lieu` varchar(200) COLLATE utf8_bin NOT NULL,
   `taux_tva` int(11) DEFAULT NULL,
-  `tva` int(11) NOT NULL,
+  `tva` int(11) DEFAULT NULL,
+  `reduction` int(11) DEFAULT NULL,
   `montant` int(11) NOT NULL,
   `avance` int(11) NOT NULL,
   `reste` int(11) NOT NULL,
@@ -270,6 +277,8 @@ CREATE TABLE `commercial` (
   `adresse` varchar(150) COLLATE utf8_bin DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `contact` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `seuilCredit` int(11) DEFAULT NULL,
+  `palier_id` int(11) DEFAULT NULL,
   `salaire` int(11) NOT NULL,
   `objectif` int(11) NOT NULL,
   `disponibilite_id` int(11) NOT NULL,
@@ -361,7 +370,6 @@ CREATE TABLE `emballage` (
   `id` int(11) NOT NULL,
   `name` text COLLATE utf8_bin NOT NULL,
   `quantite` int(11) NOT NULL,
-  `initial` int(11) NOT NULL,
   `price` int(11) DEFAULT NULL,
   `emballage_id` int(11) DEFAULT NULL,
   `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
@@ -467,7 +475,6 @@ CREATE TABLE `etatvehicule` (
 CREATE TABLE `etiquette` (
   `id` int(11) NOT NULL,
   `produit_id` int(11) NOT NULL,
-  `initial` int(11) DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -516,6 +523,7 @@ CREATE TABLE `exigenceproduction` (
 CREATE TABLE `fournisseur` (
   `id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `entrepot_id` int(11) NOT NULL,
   `acompte` int(11) NOT NULL,
   `dette` int(11) NOT NULL,
   `contact` varchar(150) COLLATE utf8_bin NOT NULL,
@@ -867,7 +875,7 @@ CREATE TABLE `lignemiseenboutique` (
   `emballage_id` int(11) NOT NULL,
   `quantite_depart` int(11) DEFAULT NULL,
   `quantite_demande` int(11) DEFAULT NULL,
-  `quantite` int(11) NOT NULL,
+  `quantite` int(11) DEFAULT NULL,
   `perte` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -1045,6 +1053,25 @@ CREATE TABLE `operation` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `palier`
+--
+
+CREATE TABLE `palier` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `min` int(11) NOT NULL DEFAULT '0',
+  `max` int(11) NOT NULL DEFAULT '0',
+  `typereduction_id` int(11) NOT NULL DEFAULT '0',
+  `reduction` int(11) NOT NULL DEFAULT '0',
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `params`
 --
 
@@ -1058,7 +1085,7 @@ CREATE TABLE `params` (
   `tva` int(11) NOT NULL,
   `seuilCredit` int(11) NOT NULL,
   `ruptureStock` int(11) NOT NULL,
-  `minImmobilisation` int(11) NOT NULL,
+  `prixParPalier` int(11) NOT NULL,
   `adresse` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `postale` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
@@ -1164,6 +1191,7 @@ CREATE TABLE `price` (
   `emballage_id` int(11) NOT NULL DEFAULT '0',
   `prix` int(11) NOT NULL DEFAULT '0',
   `prix_gros` int(11) NOT NULL DEFAULT '0',
+  `prix_special` int(11) NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1201,7 +1229,6 @@ CREATE TABLE `produit` (
   `typeproduit_parfum_id` int(11) NOT NULL DEFAULT '0',
   `quantite_id` int(11) NOT NULL DEFAULT '0',
   `isActive` int(11) NOT NULL DEFAULT '0',
-  `initial` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1223,6 +1250,9 @@ CREATE TABLE `prospection` (
   `typebareme_id` int(11) DEFAULT NULL,
   `lieu` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `montant` int(11) NOT NULL,
+  `reduction` int(11) DEFAULT NULL,
+  `tva` int(11) DEFAULT NULL,
+  `taux_tva` int(11) DEFAULT NULL,
   `vendu` int(11) DEFAULT NULL,
   `monnaie` int(11) DEFAULT NULL,
   `transport` int(11) DEFAULT NULL,
@@ -1232,6 +1262,7 @@ CREATE TABLE `prospection` (
   `commercial_id` int(11) NOT NULL,
   `employe_id` int(11) DEFAULT NULL,
   `dateretour` datetime DEFAULT NULL,
+  `livreur` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `comment` text COLLATE utf8_bin,
   `nom_receptionniste` text COLLATE utf8_bin,
   `contact_receptionniste` text COLLATE utf8_bin,
@@ -1267,13 +1298,15 @@ CREATE TABLE `reglementclient` (
   `id` int(11) NOT NULL,
   `reference` varchar(20) COLLATE utf8_bin NOT NULL,
   `client_id` int(11) NOT NULL,
-  `mouvement_id` int(11) NOT NULL,
+  `mouvement_id` int(11) DEFAULT NULL,
   `modepayement_id` int(11) NOT NULL,
   `structure` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `numero` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `comment` text COLLATE utf8_bin,
   `acompteClient` int(11) NOT NULL,
   `detteClient` int(11) NOT NULL,
+  `montant` int(11) NOT NULL,
+  `commande_id` int(11) DEFAULT NULL,
   `etat_id` int(11) NOT NULL,
   `boutique_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
@@ -1296,13 +1329,18 @@ CREATE TABLE `reglementfournisseur` (
   `id` int(11) NOT NULL,
   `reference` varchar(20) COLLATE utf8_bin NOT NULL,
   `fournisseur_id` int(11) NOT NULL,
-  `mouvement_id` int(11) NOT NULL,
+  `mouvement_id` int(11) DEFAULT NULL,
   `modepayement_id` int(11) NOT NULL,
   `structure` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `numero` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `comment` text COLLATE utf8_bin,
   `etat_id` int(11) NOT NULL,
+  `montant` int(11) NOT NULL,
+  `approvisionnement_id` int(11) DEFAULT NULL,
+  `approemballage_id` int(11) DEFAULT NULL,
+  `approetiquette_id` int(11) DEFAULT NULL,
   `employe_id` int(11) NOT NULL,
+  `entrepot_id` int(11) NOT NULL,
   `date_approbation` datetime DEFAULT NULL,
   `image` text COLLATE utf8_bin,
   `isModified` int(11) NOT NULL,
@@ -1323,7 +1361,6 @@ CREATE TABLE `ressource` (
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `unite` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `abbr` varchar(20) COLLATE utf8_bin NOT NULL,
-  `initial` int(11) DEFAULT NULL,
   `price` float DEFAULT NULL,
   `isActive` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -1531,6 +1568,21 @@ CREATE TABLE `typeclient` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `typecommande`
+--
+
+CREATE TABLE `typecommande` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `typemouvement`
 --
 
@@ -1628,6 +1680,21 @@ CREATE TABLE `typeprospection` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `typereduction`
+--
+
+CREATE TABLE `typereduction` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `typesuggestion`
 --
 
@@ -1647,21 +1714,6 @@ CREATE TABLE `typesuggestion` (
 --
 
 CREATE TABLE `typetransmission` (
-  `id` int(11) NOT NULL,
-  `name` varchar(200) COLLATE utf8_bin NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `protected` int(11) NOT NULL DEFAULT '0',
-  `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `typevehicule`
---
-
-CREATE TABLE `typevehicule` (
   `id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
@@ -1734,6 +1786,9 @@ CREATE TABLE `vente` (
   `typebareme_id` int(11) DEFAULT NULL,
   `zonedevente_id` int(11) DEFAULT NULL,
   `montant` int(11) DEFAULT NULL,
+  `reduction` int(11) DEFAULT NULL,
+  `tva` int(11) DEFAULT NULL,
+  `taux_tva` int(11) DEFAULT NULL,
   `recu` int(11) DEFAULT NULL,
   `rendu` int(11) DEFAULT NULL,
   `etat_id` int(11) NOT NULL,
@@ -2069,6 +2124,12 @@ ALTER TABLE `operation`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `palier`
+--
+ALTER TABLE `palier`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `params`
 --
 ALTER TABLE `params`
@@ -2213,6 +2274,12 @@ ALTER TABLE `typeclient`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `typecommande`
+--
+ALTER TABLE `typecommande`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `typemouvement`
 --
 ALTER TABLE `typemouvement`
@@ -2249,6 +2316,12 @@ ALTER TABLE `typeprospection`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `typereduction`
+--
+ALTER TABLE `typereduction`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `typesuggestion`
 --
 ALTER TABLE `typesuggestion`
@@ -2258,12 +2331,6 @@ ALTER TABLE `typesuggestion`
 -- Index pour la table `typetransmission`
 --
 ALTER TABLE `typetransmission`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `typevehicule`
---
-ALTER TABLE `typevehicule`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2595,6 +2662,12 @@ ALTER TABLE `operation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `palier`
+--
+ALTER TABLE `palier`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `params`
 --
 ALTER TABLE `params`
@@ -2739,6 +2812,12 @@ ALTER TABLE `typeclient`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `typecommande`
+--
+ALTER TABLE `typecommande`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `typemouvement`
 --
 ALTER TABLE `typemouvement`
@@ -2775,6 +2854,12 @@ ALTER TABLE `typeprospection`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `typereduction`
+--
+ALTER TABLE `typereduction`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `typesuggestion`
 --
 ALTER TABLE `typesuggestion`
@@ -2784,12 +2869,6 @@ ALTER TABLE `typesuggestion`
 -- AUTO_INCREMENT pour la table `typetransmission`
 --
 ALTER TABLE `typetransmission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `typevehicule`
---
-ALTER TABLE `typevehicule`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

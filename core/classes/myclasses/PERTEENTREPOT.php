@@ -97,9 +97,17 @@ class PERTEENTREPOT extends TABLE
 
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+
+	public function sentenseCreate(){
+		return $this->sentense = "Nouvelle perte dans ".$this->entrepot->name();
+	}
+	public function sentenseUpdate(){
+		return $this->sentense = "Modification des informations de la perte en entrepot $this->id ";
+	}
+	public function sentenseDelete(){
+		return $this->sentense = "Suppression definitive de la perte en entrepot $this->id";
+	}
+
 }
 
 ?>

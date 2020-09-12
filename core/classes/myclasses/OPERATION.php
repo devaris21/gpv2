@@ -58,6 +58,7 @@ class OPERATION extends TABLE
 								$mouvement->comptebanque_id = $item->comptebanque_id;
 							}
 						}
+						
 						$mouvement->montant = $this->montant;
 						$mouvement->comment = $this->comment;
 						$mouvement->modepayement_id = $this->modepayement_id;
@@ -286,10 +287,16 @@ class OPERATION extends TABLE
 	// }
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
 
+	public function sentenseCreate(){
+		return $this->sentense = "enregistrement d'une nouvelle opération de caisse N°$this->reference";
+	}
+	public function sentenseUpdate(){
+		return $this->sentense = "Modification des informations de la opération de caisse N°$this->reference ";
+	}
+	public function sentenseDelete(){
+		return $this->sentense = "Suppression definitive de la opération de caisse N°$this->reference";
+	}
 }
 
 

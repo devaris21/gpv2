@@ -21,10 +21,8 @@ class MYCOMPTE extends TABLE
 		return $this->sentense = "Nouvelle Installation, premier démarrage";
 	}
 
-
 	public function sentenseUpdate(){
 	}
-
 
 	public function sentenseDelete(){
 	}

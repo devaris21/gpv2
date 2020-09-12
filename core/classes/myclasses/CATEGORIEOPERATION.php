@@ -57,9 +57,16 @@ class CATEGORIEOPERATION extends TABLE
 	}
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+
+	public function sentenseCreate(){
+		return $this->sentense = "Creation d'une nouvelle catégorie d'opération de caisse";
+	}
+	public function sentenseUpdate(){
+		return $this->sentense = "Modification des informations de la catégorie d'opération de caisse N°$this->id ";
+	}
+	public function sentenseDelete(){
+		return $this->sentense = "Suppression definitive de la catégorie d'opération de caisse N°$this->id";
+	}
 
 }
 

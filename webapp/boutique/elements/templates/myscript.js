@@ -39,6 +39,18 @@
         });
 
 
+
+        $("div.code").hide();
+        $("body").on("change", "select[name=typecommande_id]", function(event) {
+            if($(this).val() == 2){
+                $("div.code").show()
+            }else{
+                $("div.code").hide()
+            }
+        });
+
+
+
         $("div.modepayement_facultatif").hide();
         $("body").on("change", "select[name=modepayement_id]", function(event) {
             if($(this).val() > 2){

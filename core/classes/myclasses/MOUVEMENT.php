@@ -33,19 +33,30 @@ class MOUVEMENT extends TABLE
 			if (count($datas) == 1) {
 				$type = $datas[0];
 
-				if ($this->comptebanque_id == null) {
-					$this->comptebanque_id = COMPTEBANQUE::COURANT;
+				$datas = ENTREPOT::findBy(["id ="=>getSession("entrepot_connecte_id")]);
+				if (count($datas) > 0) {
+					$item = $datas[0];
+					$item->actualise();
+					$banque = $item->comptebanque;
+				}else{
+					$datas = BOUTIQUE::findBy(["id ="=>getSession("boutique_connecte_id")]);
+					if (count($datas) > 0) {
+						$item = $datas[0];
+						$item->actualise();
+						$banque = $item->comptebanque;
+					}
 				}
+
 				$datas = COMPTEBANQUE::findBy(["id ="=>$this->comptebanque_id]);
 				if (count($datas) == 1) {
 					$banque = $datas[0];
 					if (intval($this->montant) > 0) {
 						$this->reference = "MVT/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
-						if ($this->typemouvement_id == TYPEMOUVEMENT::DEPOT || ($this->typemouvement_id == TYPEMOUVEMENT::RETRAIT && $this->montant <= $banque->solde(PARAMS::DATE_DEFAULT, dateAjoute()))) {
+						if ($this->typemouvement_id == TYPEMOUVEMENT::DEPOT || ($this->typemouvement_id == TYPEMOUVEMENT::RETRAIT && $this->montant <= $banque->solde())) {
 							$data = $this->save();
 						}else{
 							$data->status = false;
-							$data->message = "Le montant que vous essayez de retirer est plus élévé que le solde du compte !";
+							$data->message = "Le montant que vous essayez de retirer est plus élévé que le solde du compte !".$banque->solde();
 						}
 					}else{
 						$data->status = false;

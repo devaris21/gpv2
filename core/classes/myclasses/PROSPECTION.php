@@ -27,6 +27,7 @@ class PROSPECTION extends TABLE
 	public $monnaie            = 0;
 	public $transport          = 0;
 	public $comment;
+	public $livreur;
 
 	public $nom_receptionniste;
 	public $contact_receptionniste;
@@ -298,6 +299,7 @@ class PROSPECTION extends TABLE
 					$payement->categorieoperation_id = CATEGORIEOPERATION::PAYE_TRICYLE;
 					$payement->manoeuvre_id = $this->id;
 					$payement->comment = "Réglement de la paye de tricycle ".$this->chauffeur()." pour la commande N°".$this->reference;
+					$payement->historique($payement->comment);
 					$data = $payement->enregistre();
 					if ($data->status) {
 						$this->reste -= $montant;
@@ -320,9 +322,15 @@ class PROSPECTION extends TABLE
 	}
 
 
-	public function sentenseCreate(){}
-	public function sentenseUpdate(){}
-	public function sentenseDelete(){}
+	public function sentenseCreate(){
+		return $this->sentense = "enregistrement d'une nouvelle prospection N°$this->reference";
+	}
+	public function sentenseUpdate(){
+		return $this->sentense = "Modification des informations de la prospection N°$this->reference ";
+	}
+	public function sentenseDelete(){
+		return $this->sentense = "Suppression definitive de la prospection N°$this->reference";
+	}
 
 
 }

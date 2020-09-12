@@ -24,6 +24,10 @@ class COMMERCIAL extends PERSONNE
 	public $objectif = 0;
 	public $boutique_id = 0;
 	public $image = "default.png";
+
+	public $seuilCredit = 0;
+	public $palier_id;
+
 	public $files = [];
 	
 	public $disponibilite_id = DISPONIBILITE::LIBRE;
@@ -244,19 +248,18 @@ class COMMERCIAL extends PERSONNE
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'un nouveau chauffeur dans votre gestion : $this->name $this->lastname";
+		return $this->sentense = "Ajout d'un nouveau commercial dans l'application : ".$this->name();
 	}
 
 
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des informations du chauffeur N°$this->id : $this->name $this->lastname.";
+		return $this->sentense = "Modification des informations du commercial $this->id ".$this->name();
 	}
 
 
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression définitive du chauffeur N°$this->id : $this->name $this->lastname.";
+		return $this->sentense = "Suppression définitive du commercial $this->id ".$this->name();
 	}
-
 
 
 }

@@ -51,8 +51,9 @@
 
                                     <th data-toggle="true">Status</th>
                                     <th>Reference</th>
-                                    <th>Commercial</th>
+                                    <th>Livré par</th>
                                     <th></th>
+                                    <th>Client</th>
                                     <th data-hide="all">Produits</th>
                                     <th>Action</th>
                                 </tr>
@@ -71,11 +72,14 @@
                                             <span><?= $livraison->reference ?></span>
                                         </td>
                                         <td>
-                                            <h5 class="text-uppercase"><?= $livraison->commercial->name() ?></h5>
+                                            <h5 class="text-uppercase"><?= $livraison->livreur ?></h5>
                                         </td>
                                         <td>
                                             <h6 class="text-uppercase text-muted" style="margin: 0">Zone de livraison :  <?= $livraison->zonedevente->name() ?></h6>
                                             <small><?= depuis($livraison->created) ?></small>
+                                        </td>
+                                         <td>
+                                            <h5 class="text-uppercase"><?= $livraison->groupecommande->client->name() ?></h5>
                                         </td>
                                         <td class="border-right">
                                             <table class="table table-bordered">
@@ -128,11 +132,14 @@
                                             <span><?= $livraison->reference ?></span>
                                         </td>
                                         <td>
-                                            <h5 class="text-uppercase"><?= $livraison->commercial->name() ?></h5>
+                                            <h5 class="text-uppercase"><?= $livraison->livreur ?></h5>
                                         </td>
                                         <td>
                                             <h6 class="text-uppercase text-muted">Zone de livraison :  <?= $livraison->zonedevente->name() ?></h6>
                                             <small>Validé <?= depuis($livraison->dateretour) ?></small>
+                                        </td>
+                                         <td>
+                                            <h5 class="text-uppercase"><?= $livraison->groupecommande->client->name() ?></h5>
                                         </td>
                                         <td class="border-right">
                                             <table class="table table-bordered">
