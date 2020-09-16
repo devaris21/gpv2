@@ -83,19 +83,22 @@
                                 <td class="border-right">
                                     <table class="table table-bordered">
                                         <thead>
-                                            <tr class="no">
-                                                <th></th>
-                                                <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) {
-                                                    $ligne->actualise(); ?>
-                                                    <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->typeproduit_parfum->name() ?><br><?= $ligne->produit->quantite->name() ?></span></th>
+                                            <tr>
+                                                <td><h4 class="mp0">Démandé : </h4></td>
+                                                <?php foreach ($lots as $key => $ligne) { ?>
+                                                    <td class="text-center"><?= start0($ligne->quantite_demande) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
                                                 <?php } ?>
                                             </tr>
-                                        </thead>
-                                        <tbody>
                                             <tr>
                                                 <td><h4 class="mp0">sorti : </h4></td>
                                                 <?php foreach ($lots as $key => $ligne) { ?>
                                                     <td class="text-center"><?= start0($ligne->quantite_depart) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
+                                                <?php } ?>
+                                            </tr>
+                                            <tr>
+                                                <td><h4 class="mp0">Livré : </h4></td>
+                                                <?php foreach ($lots as $key => $ligne) { ?>
+                                                    <td class="text-center"><?= start0($ligne->quantite) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
                                                 <?php } ?>
                                             </tr>
                                         </tbody>
@@ -147,6 +150,12 @@
                                         </thead>
                                         <tbody>
                                             <tr>
+                                                <td><h4 class="mp0">Démandé : </h4></td>
+                                                <?php foreach ($lots as $key => $ligne) { ?>
+                                                    <td class="text-center"><?= start0($ligne->quantite_demande) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
+                                                <?php } ?>
+                                            </tr>
+                                            <tr>
                                                 <td><h4 class="mp0">sorti : </h4></td>
                                                 <?php foreach ($lots as $key => $ligne) { ?>
                                                     <td class="text-center"><?= start0($ligne->quantite_depart) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
@@ -192,7 +201,7 @@
 <?php 
 foreach ($encours as $key => $mise) {
     if ($mise->etat_id == Home\ETAT::ENCOURS) { 
-        include($this->rootPath("composants/assets/modals/modal-miseenboutique2.php"));
+        include($this->rootPath("composants/assets/modals/modal-miseenboutique1.php"));
     } 
 } 
 ?>

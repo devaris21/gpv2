@@ -184,7 +184,7 @@
                                         <dd>La validation du code requiert une connexion à internet. veuillez vous assurer d'en avoir avant de commencer.</dd><br>
 
                                         <dt>3 tentavives</dt>
-                                        <dd>Vous n'aurez droit qu'à un maximum de 4 tentatives pour valider votre code. Si vous échouez 3 fois de suite, l'application se vérouillera automatiquement. Vous devriez alors <a href="">nous contacter</a> pour dévérouillez l'apllication !</dd><br>
+                                        <dd>Vous n'aurez droit qu'à un maximum de 3 tentatives pour valider votre code. Si vous échouez 3 fois de suite, l'application se vérouillera automatiquement. Vous devriez alors <a href="">nous contacter</a> pour dévérouillez l'apllication !</dd><br>
 
                                         <dt>Besoin d'aide ?</dt>
                                         <dd>Si vous ne savez pas comment vous y prendre ou si vous avez besoin d'une aide ou d'une assistance particulière, veuillez <a href="">nous contacter</a> !</dd>
@@ -202,7 +202,7 @@
                                 <h4 class="m-b-lg text-uppercase">
                                     Entrez les 5 blocs de caractères qui composent <br><br>votre code de validation.
                                 </h4>
-                                <form id="formAbonnement" method="post">
+                                <form id="formAbonnement" method="POST">
                                     <div class="row">
                                         <div class="col-sm">
                                             <input type="text" name="bloc1" maxlength="5" uppercase autofocus="on" class="text-center gras form-control input-sm" name="">

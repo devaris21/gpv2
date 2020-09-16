@@ -66,7 +66,7 @@ $(function(){
             okLabel : "OUI, terminer",
         }, function(){
             session("miseenboutique_id", id);
-            modal("#modal-miseenboutique"+id);
+            modal("#modal-miseenboutique-"+id);
         })
     }
 

@@ -10,6 +10,7 @@ class MYCOMPTE extends TABLE
 
 	public $identifiant;
 	public $expired;
+	public $tentative;
 	
 
 	public function enregistre(){

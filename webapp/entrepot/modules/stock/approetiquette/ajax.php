@@ -136,14 +136,17 @@ if ($action == "validerApprovisionnement") {
 			}
 
 			$appro = new APPROETIQUETTE();
+			$appro->hydrater($_POST);
 			if (count($tests) == 0) {
 				$datas = ENTREPOT::findBy(["id ="=>getSession("entrepot_connecte_id")]);
 				if (count($datas) == 1) {
 					$entrepot = $datas[0];
 					$entrepot->actualise();
+
 					if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
 						$avance = 0;
 					}
+					
 					if ($entrepot->comptebanque->solde() >= ($transport + $avance)) {
 						$total = getSession("total");
 						$data->status = true;
@@ -170,7 +173,6 @@ if ($action == "validerApprovisionnement") {
 									}
 									if ($data->status) {
 
-										$appro->hydrater($_POST);
 										if ($appro->etat_id == ETAT::VALIDEE) {
 											$appro->datelivraison = date("Y-m-d H:i:s");
 										}

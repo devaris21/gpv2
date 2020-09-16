@@ -41,7 +41,7 @@ $(function(){
             okLabel : "OUI, Accepter",
         }, function(){
             session("miseenboutique_id", id);
-            modal("#modal-miseenboutique1-"+id);
+            modal("#modal-acceptermiseenboutique"+id);
         })
     }
 

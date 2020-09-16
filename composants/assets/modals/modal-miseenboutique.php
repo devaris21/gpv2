@@ -23,7 +23,7 @@
                                 </table>
                             </div><hr>
 
-                             <div class="row">
+                            <div class="row">
                                 <?php foreach (Home\TYPEPRODUIT::findBy(["isActive ="=>Home\TABLE::OUI]) as $key => $type) { ?>
                                     <div class="col text-center border-right">
                                         <h5 class="text-uppercase gras text-center"><?= $type->name()  ?></h5>
@@ -48,6 +48,20 @@
                                     <label>Boutique de destination <span style="color: red">*</span> </label>
                                     <div class="input-group">
                                         <?php Native\BINDING::html("select", "boutique"); ?>
+                                    </div>
+                                </div><br>
+
+                                <div>
+                                    <label>Nom du livreur <span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <input type="text" name="nom_livreur" class="form-control">
+                                    </div>
+                                </div><br>
+
+                                <div>
+                                    <label>Contant du livreur <span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <input type="text" name="contact_livreur" class="form-control">
                                     </div>
                                 </div><br>
 

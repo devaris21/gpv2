@@ -7,9 +7,9 @@ $(function(){
 	});
 
 
-	$(".formAbonnement").submit(function(event) {
+	$("#formAbonnement").submit(function(event) {
 		Loader.start();
-		var url = "../../webapp/gestion/modules/abonnement/index/ajax.php";
+		var url = "../../webapp/config/modules/master/mycompte/ajax.php";
 		var formdata = new FormData($(this)[0]);
 		formdata.append('action', "abonnement");
 		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){

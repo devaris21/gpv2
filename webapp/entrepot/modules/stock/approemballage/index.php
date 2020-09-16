@@ -89,7 +89,7 @@
                                             <span class="gras text-blue"><?= money($appro->reste()) ?> <?= $params->devise  ?></span>
                                         </h4>
                                     </td>
-                                    <td><i class="fa fa-user"></i> <?= $appro->fournisseur->name() ?></td>
+                                    <td class="text-uppercase"><a href="<?= $this->url("entrepot", "stock", "fournisseur", $appro->fournisseur->id)  ?>" ><i class="fa fa-truck"></i> <?= $appro->fournisseur->name() ?></a></td>
                                     <td class="border-right">
                                         <table class="table table-bordered">
                                             <thead>
@@ -147,9 +147,9 @@
                                             <span class="gras text-blue"><?= money($appro->reste()) ?> <?= $params->devise  ?></span>
                                         </h4>
                                     </td>
-                                    <td><i class="fa fa-user"></i> <?= $appro->fournisseur->name() ?></td>
+                                    <td class="text-uppercase"><a href="<?= $this->url("entrepot", "stock", "fournisseur", $appro->fournisseur->id)  ?>" ><i class="fa fa-truck"></i> <?= $appro->fournisseur->name() ?></a></td>
                                     <td class="border-right">
-                                       <table class="table table-bordered">
+                                     <table class="table table-bordered">
                                         <thead>
                                             <tr class="no">
                                                 <?php foreach ($appro->ligneapproemballages as $key => $ligne) {

@@ -1,5 +1,5 @@
 
-<div class="modal inmodal fade" id="modal-miseenboutique<?= $mise->id ?>" style="z-index: 1">
+<div class="modal inmodal fade" id="modal-acceptermiseenboutique<?= $mise->id ?>" style="z-index: 1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-body">
@@ -20,10 +20,11 @@
                                                 <td class="text-left">
                                                     <h4 class="mp0 text-uppercase"><?= $ligne->produit->name() ?></h4>
                                                 </td>
+                                                 <td><?= $ligne->quantite_demande ?></td>
                                                 <td width="130" class="text-center">
                                                     <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>"><br>
-                                                    <small><?= $ligne->emballage->name() ?></small>
-                                                    <input type="text" data-id="<?= $ligne->id ?>" number class="form-control text-center gras text-green recu" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>">
+                                                    <small><?= $ligne->emballage->name() ?> / <?= $ligne->quantite_demande ?></small>
+                                                    <input type="text" data-id="<?= $ligne->id ?>" number class="form-control text-center gras text-green recu" value="<?= $ligne->quantite_demande ?>" max="<?= $ligne->quantite_demande ?>">
                                                 </td>
                                             </tr>
                                         <?php } ?>

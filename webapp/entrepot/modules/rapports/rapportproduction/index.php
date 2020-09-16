@@ -45,7 +45,7 @@
                                         <?php foreach ($parfums as $key => $item) {  ?>
                                             <li class="list-group-item">
                                                 <i class="fa fa-flask" style="color: "></i> <span><?= $item->name()  ?></span>          
-                                                <i class=" float-right"><?= money($item->vendu) ?> Uni</i>
+                                                <i class=" float-right"><?= money($item->vendu) ?> L</i>
                                             </li>
                                         <?php } ?>
                                         <li class="list-group-item"></li>

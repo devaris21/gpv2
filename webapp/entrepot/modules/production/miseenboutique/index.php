@@ -93,6 +93,12 @@
                                         </thead>
                                          <tbody>
                                             <tr>
+                                                <td><h4 class="mp0">Démandé : </h4></td>
+                                                <?php foreach ($lots as $key => $ligne) { ?>
+                                                    <td class="text-center"><?= start0($ligne->quantite_demande) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
+                                                <?php } ?>
+                                            </tr>
+                                            <tr>
                                                 <td><h4 class="mp0">sorti : </h4></td>
                                                 <?php foreach ($lots as $key => $ligne) { ?>
                                                     <td class="text-center"><?= start0($ligne->quantite_depart) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
@@ -153,6 +159,12 @@
                                         </thead>
                                         <tbody>
                                             <tr>
+                                                <td><h4 class="mp0">Demandé : </h4></td>
+                                                <?php foreach ($lots as $key => $ligne) { ?>
+                                                    <td class="text-center"><?= start0($ligne->quantite_demande) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
+                                                <?php } ?>
+                                            </tr>
+                                            <tr>
                                                 <td><h4 class="mp0">sorti : </h4></td>
                                                 <?php foreach ($lots as $key => $ligne) { ?>
                                                     <td class="text-center"><?= start0($ligne->quantite_depart) ?><br><small><?= $ligne->emballage->name()  ?></small></td>
@@ -198,7 +210,7 @@
 <?php 
 foreach ($encours as $key => $mise) {
     if ($mise->etat_id == Home\ETAT::PARTIEL) { 
-       // include($this->rootPath("composants/assets/modals/modal-miseenboutique1.php"));
+        include($this->rootPath("composants/assets/modals/modal-acceptermiseenboutique.php"));
     } 
 } 
 ?>

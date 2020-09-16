@@ -92,7 +92,7 @@ if ($action == "annulerMiseenboutique") {
 
 if ($action == "validerMiseenboutique") {
 	$id = getSession("miseenboutique_id");
-	$datas = MISEENBOUTIQUE::findBy(["id ="=>$id, "etat_id = "=>ETAT::ENCOURS]);
+	$datas = MISEENBOUTIQUE::findBy(["id ="=>$id, "etat_id = "=>ETAT::PARTIEL]);
 	if (count($datas) > 0) {
 		$mise = $datas[0];
 		$mise->actualise();
@@ -108,7 +108,7 @@ if ($action == "validerMiseenboutique") {
 			$tests = $array;
 			foreach ($tests as $key => $value) {
 				foreach ($mise->lignemiseenboutiques as $cle => $lgn) {
-					if (($lgn->id == $key) && ($lgn->quantite_depart >= $value)) {
+					if (($lgn->id == $key) && ($lgn->quantite_demande >= $value)) {
 						unset($tests[$key]);
 					}
 				}
@@ -117,26 +117,25 @@ if ($action == "validerMiseenboutique") {
 				foreach ($array as $key => $value) {
 					foreach ($mise->lignemiseenboutiques as $cle => $lgn) {
 						if ($lgn->id == $key) {
-							$lgn->quantite = $value;
-							$lgn->perte = $lgn->quantite_depart - $value;
+							$lgn->quantite_depart = $value;
 							$lgn->save();
 							break;
 						}
 					}					
 				}
 				$mise->hydrater($_POST);
-				$data = $mise->valider();
+				$data = $mise->accepter();
 			}else{
 				$data->status = false;
 				$data->message = "Veuillez à bien vérifier les quantités des différents produits, certaines sont incorrectes !";
 			}			
 		}else{
 			$data->status = false;
-			$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer";
+			$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer 0";
 		}
 	}else{
 		$data->status = false;
-		$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer";
+		$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer 1";
 	}
 	echo json_encode($data);
 }

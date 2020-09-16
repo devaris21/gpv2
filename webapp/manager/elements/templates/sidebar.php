@@ -77,8 +77,9 @@
                     <li id="boutiques">
                         <a href="#"><i class="fa fa-home"></i> <span class="nav-label">Les boutiques</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <?php foreach (Home\BOUTIQUE::getAll() as $key => $item) { ?>
-                                <li><a href="<?= $this->url($this->section, "production", "boutiques", $item->id) ?>"><?= $item->name() ?></a></li>
+                            <?php foreach ($employe->fourni("acces_boutique") as $key => $item) {
+                                $item->actualise(); ?>
+                                <li><a href="<?= $this->url($this->section, "production", "boutiques", $item->boutique->id) ?>"><?= $item->boutique->name() ?></a></li>
                             <?php } ?>
                         </ul>
                     </li>
@@ -88,8 +89,9 @@
                     <li id="entrepots">
                         <a href="#"><i class="fa fa-home"></i> <span class="nav-label">Les entrepots</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <?php foreach (Home\ENTREPOT::getAll() as $key => $item) { ?>
-                                <li><a href="<?= $this->url($this->section, "production", "entrepots", $item->id) ?>"><?= $item->name() ?></a></li>
+                            <?php foreach ($employe->fourni("acces_entrepot")as $key => $item) {
+                                $item->actualise(); ?>
+                                <li><a href="<?= $this->url($this->section, "production", "entrepots", $item->entrepot->id) ?>"><?= $item->entrepot->name() ?></a></li>
                             <?php } ?>
                         </ul>
                     </li>

@@ -25,8 +25,8 @@
                             <li ><a class="nav-link" data-toggle="tab" href="#pan-ventes"><i class="fa fa-handshake-o" ></i> Stock des produits</a></li>
                             <li ><a class="nav-link" data-toggle="tab" href="#pan-rapport"><i class="fa fa-money" ></i> Rapport de vente</a></li>
                             <li ><a class="nav-link" data-toggle="tab" href="#pan-caisse"><i class="fa fa-money" ></i> La caisse</a></li>
-                            <li style="width: 270px; position: absolute; right: 0;"><?php Native\BINDING::html("select", "boutique", $boutique, "id") ?></li>
-                        </ul>
+<!--                             <li style="width: 270px; position: absolute; right: 0;"><?php //Native\BINDING::html("select", "boutique", $boutique, "id") ?></li>
+ -->                        </ul>
                         <div class="tab-content loading-data">
 
                             <?php include($this->relativePath("partials/tab-global.php")); ?>

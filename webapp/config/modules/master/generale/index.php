@@ -97,95 +97,6 @@
                             </div>
 
 
-                            <div class="row">
-                                <div class="col-sm-6 bloc">
-                                    <div class="ibox border">
-                                        <div class="ibox-title">
-                                            <h5 class="text-uppercase">Liste de vos boutiques</h5>
-                                            <div class="ibox-tools">
-                                                <a class="btn_modal btn btn-xs btn-white" data-toggle="modal" data-target="#modal-boutique">
-                                                    <i class="fa fa-plus"></i> Ajouter
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="ibox-content">
-                                            <table class="table table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nom</th>
-                                                        <th>Lieu</th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php $i =0; foreach (Home\BOUTIQUE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
-                                                        $item->actualise(); ?>
-                                                        <tr>
-                                                            <td class="gras"><?= $item->name(); ?></td>
-                                                            <td><?= $item->lieu; ?></td>
-                                                            <td>
-                                                                <a href="<?= $this->url("config", "master", "adminboutique", $item->id)  ?>" class="btn_modal btn btn-xs btn-white">
-                                                                    <i class="fa fa-wrench"></i> Admin
-                                                                </a>
-                                                            </td>
-                                                            <td data-toggle="modal" data-target="#modal-boutique" title="modifier la categorie" onclick="modification('boutique', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                            <td title="supprimer la categorie" onclick="suppressionWithPassword('boutique', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
-                                                        </tr>
-                                                    <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6 bloc">
-                                    <div class="ibox border">
-                                        <div class="ibox-title">
-                                            <h5 class="text-uppercase">Liste de vos entrepôts</h5>
-                                            <div class="ibox-tools">
-                                                <a class="btn_modal btn btn-xs btn-white" data-toggle="modal" data-target="#modal-entrepot">
-                                                    <i class="fa fa-plus"></i> Ajouter
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="ibox-content">
-                                            <table class="table table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nom</th>
-                                                        <th>Lieu</th>
-                                                        <th>Compte attribué</th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php $i =0; foreach (Home\ENTREPOT::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
-                                                        $item->actualise(); ?>
-                                                        <tr>
-                                                            <td class="gras"><?= $item->name(); ?></td>
-                                                            <td><?= $item->lieu; ?></td>
-                                                            <td class="gras"><?= $item->comptebanque->name(); ?></td>
-                                                            <td>
-                                                                <a href="<?= $this->url("config", "master", "adminentrepot", $item->id)  ?>" class="btn_modal btn btn-xs btn-white">
-                                                                    <i class="fa fa-wrench"></i> Admin
-                                                                </a>
-                                                            </td>
-                                                            <td data-toggle="modal" data-target="#modal-entrepot" title="modifier la categorie" onclick="modification('entrepot', <?= $item->id ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                            <td title="supprimer la categorie" onclick="suppressionWithPassword('entrepot', <?= $item->id ?>)"><i class="fa fa-close cursor text-danger"></i></td>
-                                                        </tr>
-                                                    <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
                         </div>
                     </div>
 
@@ -201,8 +112,6 @@
             <?php include($this->rootPath("webapp/config/elements/templates/script.php")); ?>
 
             <?php include($this->rootPath("composants/assets/modals/modal-params.php") );  ?>
-            <?php include($this->rootPath("composants/assets/modals/modal-boutique.php") );  ?>
-            <?php include($this->rootPath("composants/assets/modals/modal-entrepot.php") );  ?>
 
 
         </body>

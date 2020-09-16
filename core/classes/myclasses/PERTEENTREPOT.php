@@ -42,7 +42,7 @@ class PERTEENTREPOT extends TABLE
 					$item = new PRODUIT;
 					$item->id = $this->produit_id;
 					$item->actualise();
-					$stock = $item->enEntrepot(PARAMS::DATE_DEFAULT, dateAjoute(1), getSession("entrepot_connecte_id"));
+					$stock = $item->enEntrepot(PARAMS::DATE_DEFAULT, dateAjoute(1), $this->emballage_id, getSession("entrepot_connecte_id"));
 
 				}elseif ($this->ressource_id != null) {
 					$item = new RESSOURCE;

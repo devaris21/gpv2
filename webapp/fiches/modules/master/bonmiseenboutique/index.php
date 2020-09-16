@@ -21,60 +21,61 @@
                         <div class="ibox-content"  style="height: 33cm; background-image: url(<?= $this->stockage("images", "societe", "filigrane.png")  ?>) ; background-size: 50%; background-position: center center; background-repeat: no-repeat;">
 
 
-                           <div>
-                              <div class="row">
-                                <div class="col-sm-5">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <img style="width: 120%" src="<?= $this->stockage("images", "societe", $params->image) ?>">
-                                        </div>
-                                        <div class="col-9">
-                                            <h5 class="gras text-uppercase text-orange"><?= $params->societe ?></h5>
-                                            <h5 class="mp0"><?= $params->adresse ?></h5>
-                                            <h5 class="mp0"><?= $params->postale ?></h5>
-                                            <h5 class="mp0">Tél: <?= $params->contact ?></h5>
-                                            <h5 class="mp0">Email: <?= $params->email ?></h5>
-                                        </div>
+                         <div>
+                          <div class="row">
+                            <div class="col-sm-5">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <img style="width: 120%" src="<?= $this->stockage("images", "societe", $params->image) ?>">
+                                    </div>
+                                    <div class="col-9">
+                                        <h5 class="gras text-uppercase text-orange"><?= $params->societe ?></h5>
+                                        <h5 class="mp0"><?= $params->adresse ?></h5>
+                                        <h5 class="mp0"><?= $params->postale ?></h5>
+                                        <h5 class="mp0">Tél: <?= $params->contact ?></h5>
+                                        <h5 class="mp0">Email: <?= $params->email ?></h5>
                                     </div>
                                 </div>
-                                <div class="col-sm-7 text-right">
-                                    <h2 class="title text-uppercase gras text-blue">Bon de mise en boutique</h2>
-                                    <h3 class="text-uppercase">N°<?= $mise->reference  ?></h3>
-                                    <h5><?= datelong($mise->created)  ?></h5>  
-                                    <h4><small>Bon édité par :</small> <span class="text-uppercase"><?= $mise->employe->name() ?></span></h4>                               
-                                </div>
-                            </div><hr class="mp3">
+                            </div>
+                            <div class="col-sm-7 text-right">
+                                <h2 class="title text-uppercase gras text-blue">Bon de mise en boutique</h2>
+                                <h3 class="text-uppercase">N°<?= $mise->reference  ?></h3>
+                                <h5><?= datelong($mise->created)  ?></h5>  
+                                <h4><small>Bon édité par :</small> <span class="text-uppercase"><?= $mise->employe->name() ?></span></h4>                               
+                            </div>
+                        </div><hr class="mp3">
 
-                            <div class="row">
-                                <div class="col-6">
-                                    <h5><span>Date :</span> <span class="text-uppercase"><?= datecourt($mise->created) ?></span></h5> 
-                                    <h5><span>Heure de mise en boutique :</span> <span class="text-uppercase"><?= heurecourt($mise->created) ?></span></h5>                             
-                                </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <h5><span>Date :</span> <span class="text-uppercase"><?= datecourt($mise->created) ?></span></h5> 
+                                <h5><span>Heure de mise en boutique :</span> <span class="text-uppercase"><?= heurecourt($mise->created) ?></span></h5>                             
+                            </div>
 
-                                <div class="col-6 text-right">
-                                    <h5><span>Entrepot de sortie :</span> <span class="text-uppercase"><?= $mise->entrepot->name() ?></span></h5>   
-                                    <h5><span>Boutique de destination :</span> <span class="text-uppercase"><?= $mise->boutique->name() ?></span></h5>                                                  </div>
-                                </div><br><br>
+                            <div class="col-6 text-right">
+                                <h5><span>Entrepot de sortie :</span> <span class="text-uppercase"><?= $mise->entrepot->name() ?></span></h5>   
+                                <h5><span>Boutique de destination :</span> <span class="text-uppercase"><?= $mise->boutique->name() ?></span></h5>                                                  </div>
+                            </div><br><br>
 
-                                <table class="table table-bordered">
-                                    <thead class="text-uppercase" style="background-color: #dfdfdf">
+                            <table class="table table-bordered">
+                                <thead class="text-uppercase" style="background-color: #dfdfdf">
+                                    <tr>
+                                        <th ></th>
+                                        <th class="text-center">Quantité demandée</th>
+                                        <th class="text-center">Quantité livrée</th>
+                                        <th class="text-center">Quantité reçue</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) {
+                                        $ligne->actualise(); ?>
                                         <tr>
-                                            <th colspan="2"></th>
-                                            <th class="text-center">Quantité récupérée</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($mise->lignemiseenboutiques as $key => $ligne) {
-                                            $ligne->actualise(); ?>
-                                            <tr>
-                                             <td class="desc">
+                                            <td class="desc">
                                                 <h5 class="mp0 text-uppercase gras"><?= $ligne->produit->name() ?></h5>
                                                 <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>" >
                                                 <small><?= $ligne->emballage->name() ?></small>
                                             </td>
-                                            <td class="text-center">
-                                                <h2 class="gras mp0"><?= start0($ligne->quantite) ?></h2>
-                                            </td>
+                                            <td class="text-center"><h2 class="gras"><?= start0(money($ligne->quantite_demande)) ?></h2></td>
+                                            <td class="text-center"><h2 class="gras"><?= start0(money($ligne->quantite_depart)) ?></h2></td>
                                             <td class="text-center"><h2 class="gras"><?= start0(money($ligne->quantite)) ?></h2></td>
                                         </tr>
                                     <?php } ?>                            

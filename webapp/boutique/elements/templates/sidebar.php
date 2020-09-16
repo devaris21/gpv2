@@ -55,6 +55,9 @@
                     <li class="" id="transfertstock">
                         <a href="<?= $this->url($this->section, "production", "transfertstock") ?>"><i class="fa fa-refresh"></i> <span class="nav-label">Transfert de stock</span></a>
                     </li>
+                    <!-- <li class="" id="retours">
+                        <a href="<?= $this->url($this->section, "production", "retours") ?>"><i class="fa fa-long-arrow-left"></i> <span class="nav-label">Retours de produits</span></a>
+                    </li> -->
                     <li class="" id="perteboutique">
                         <a href="<?= $this->url($this->section, "production", "perteboutique") ?>"><i class="fa fa-trash"></i> <span class="nav-label">Perte à la boutique</span></a>
                     </li>
@@ -80,7 +83,7 @@
                 
 
                 <?php if ($employe->isAutoriser("rapports")) { ?>
-                   
+
                     <!-- <li class="" id="rapportjour">
                         <a href="<?= $this->url($this->section, "rapports", "rapportjour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
                     </li> -->
@@ -105,6 +108,6 @@
 
 <style type="text/css">
     li.dropdown-divider{
-       !important;
-   }
+     !important;
+ }
 </style>

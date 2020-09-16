@@ -28,7 +28,7 @@
                                     </li>
 
                                 </ul>
-                                <a id="onglet-master" href="<?= $this->url("config", "master", "generale") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px; margin-right: 10px;"><i class="fa fa-long-arrow-left"></i> Retour </a>
+                                <a id="onglet-master" href="<?= $this->url("config", "master", "organisation") ?>" class="onglets btn btn-xs btn-white" style="font-size: 12px; margin-right: 10px;"><i class="fa fa-long-arrow-left"></i> Retour </a>
                             </div>
                         </nav>
                     </div>

@@ -92,7 +92,7 @@
                                     <tr>
                                         <td class="gras"><?= datecourt($index) ?></td>
                                         <?php foreach ($etiquettes as $key => $etiquette) {
-                                            $stock = $etiquette->stock($index, $index, $entrepot->id);
+                                            $stock = $etiquette->stock(Home\PARAMS::DATE_DEFAULT, $index, $entrepot->id);
                                             $appro = $etiquette->achat($index, $index, $entrepot->id);
                                             $conso = $etiquette->consommee($index, $index, $entrepot->id);
                                             $perte = $etiquette->perte($index, $index, $entrepot->id);

@@ -135,7 +135,7 @@
                                         <td>
                                             <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $appro->entrepot->name() ?></h6>
                                         </td>
-                                        <td class="text-uppercase"><a href="<?= $this->url("entrepot", "stock", "fournisseur", $appro->fournisseur->id)  ?>" ><i class="fa fa-truck"></i> <?= $appro->fournisseur->name() ?></a></td>
+                                        <td><i class="fa fa-user"></i> <?= $appro->fournisseur->name() ?></td>
                                         <td>
                                             <h4>
                                                 <span class="gras text-orange"><?= money($appro->montant) ?> <?= $params->devise  ?></span>
@@ -146,9 +146,9 @@
                                                 <span class="gras text-orange"><?= money($appro->reste()) ?> <?= $params->devise  ?></span>
                                             </h4>
                                         </td>
-                                        <td><i class="fa fa-user"></i> <?= $appro->fournisseur->name() ?></td>
+                                        <td class="text-uppercase"><a href="<?= $this->url("entrepot", "stock", "fournisseur", $appro->fournisseur->id)  ?>" ><i class="fa fa-truck"></i> <?= $appro->fournisseur->name() ?></a></td>
                                         <td class="border-right">
-                                           <table class="table table-bordered">
+                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr class="no">
                                                     <?php foreach ($appro->ligneapprovisionnements as $key => $ligne) {

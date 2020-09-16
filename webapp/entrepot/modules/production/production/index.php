@@ -113,7 +113,7 @@
                                             <tbody>
                                                 <tr>
                                                     <?php foreach ($lots as $key => $ligne) { ?>
-                                                        <td class="text-center"><?= start0($ligne->quantite) ?> <?= $ligne->typeproduit_parfum->typeproduit->abbr ?></td>
+                                                        <td class="text-center"><?= ($ligne->quantite) ?> <?= $ligne->typeproduit_parfum->typeproduit->abbr ?></td>
                                                     <?php } ?>
                                                 </tr>
                                             </tbody>  
@@ -158,7 +158,7 @@
                                             <tbody>
                                                 <tr>
                                                     <?php foreach ($lots as $key => $ligne) { ?>
-                                                        <td class="text-center"><?= start0($ligne->quantite) ?> <?= $ligne->typeproduit_parfum->typeproduit->abbr ?></td>
+                                                        <td class="text-center"><?= ($ligne->quantite) ?> <?= $ligne->typeproduit_parfum->typeproduit->abbr ?></td>
                                                     <?php } ?>
                                                 </tr>
                                             </tbody>

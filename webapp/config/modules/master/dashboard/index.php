@@ -49,7 +49,7 @@
                                                             <h5 class="no-margins text-orange">Nom, adresse, contact, logo de sté </h5>
                                                         </div>
                                                         <div class="col-3 text-right">
-                                                            <i class="fa fa-hospital-o fa-5x text-muted"></i>
+                                                            <i class="fa fa-home fa-5x text-muted"></i>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -102,6 +102,23 @@
 
 
                             <div class="row justify-content-center">
+                                <div class="col-lg-3">
+                                    <a href="<?= $this->url("config", "master", "organisation")  ?>">
+                                        <div class="ibox">
+                                            <div class="ibox-content">
+                                                <div class="row">
+                                                    <div class="col-9">
+                                                        <h3 class="text-uppercase gras text-navy">Unité d'organisation</h3>
+                                                        <h5 class="no-margins text-muted">Boutiques, entrepots, accès manager</h5>
+                                                    </div>
+                                                    <div class="col-3 text-right">
+                                                        <i class="fa fa-hospital-o fa-5x text-muted"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
                                 <div class="col-lg-3">
                                     <a href="<?= $this->url("config", "master", "production")  ?>">
                                         <div class="ibox">

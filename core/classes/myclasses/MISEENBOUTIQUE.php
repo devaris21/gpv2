@@ -17,6 +17,12 @@ class MISEENBOUTIQUE extends TABLE
 	public $boutique_id;
 	public $entrepot_id;
 	public $datereception;
+	public $employe_id_reception;
+	public $employe_id_accepter;
+
+	public $nom_livreur;
+	public $contact_livreur;
+
 	public $etat_id = ETAT::ENCOURS;
 	public $comment;
 
@@ -48,6 +54,7 @@ class MISEENBOUTIQUE extends TABLE
 		if ($this->etat_id == ETAT::ENCOURS) {
 			$this->etat_id = ETAT::VALIDEE;
 			$this->datereception = date("Y-m-d H:i:s");
+			$this->employe_id_reception = getSession("employe_connecte_id");
 			$this->historique("La mise en boutique en reference $this->reference vient d'être receptionné !");
 			$data = $this->save();
 		}else{
@@ -62,6 +69,7 @@ class MISEENBOUTIQUE extends TABLE
 		$data = new RESPONSE;
 		if ($this->etat_id == ETAT::PARTIEL) {
 			$this->etat_id = ETAT::ENCOURS;
+			$this->employe_id_accepter = getSession("employe_connecte_id");
 			$this->historique("La demande de mise en boutique en reference $this->reference vient d'être accepté !");
 			$data = $this->save();
 		}else{

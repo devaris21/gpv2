@@ -95,7 +95,7 @@
                                             <span class="text-uppercase gras">Conditionnement de <?= $conditionnement->typeproduit_parfum->name() ?></span><br>
                                             <small>du <?= depuis($conditionnement->created) ?></small>
                                         </td>
-                                        <td><?= start0($conditionnement->quantite) ?> <?= $conditionnement->typeproduit_parfum->typeproduit->abbr ?></td>
+                                        <td><?= ($conditionnement->quantite) ?> <?= $conditionnement->typeproduit_parfum->typeproduit->abbr ?></td>
                                         <td>
                                             <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $conditionnement->entrepot->name() ?></h6>
                                         </td>
@@ -113,7 +113,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <?php foreach ($lots as $key => $ligne) { ?>
-                                                            <td class="text-center"><?= start0($ligne->quantite) ?><br><small><?= $ligne->emballage->name() ?></small></td>
+                                                            <td class="text-center"><?= ($ligne->quantite) ?><br><small><?= $ligne->emballage->name() ?></small></td>
                                                         <?php } ?>
                                                     </tr>
                                                 </tbody>  
@@ -140,7 +140,7 @@
                                             <span class="text-uppercase gras">Conditionnement de <?= $conditionnement->typeproduit_parfum->name() ?></span><br>
                                             <small>du <?= depuis($conditionnement->created) ?></small>
                                         </td>
-                                        <td><?= start0($conditionnement->quantite) ?> <?= $conditionnement->typeproduit_parfum->typeproduit->abbr ?></td>
+                                        <td><?= ($conditionnement->quantite) ?> <?= $conditionnement->typeproduit_parfum->typeproduit->abbr ?></td>
                                         <td>
                                             <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $conditionnement->entrepot->name() ?></h6>
                                             <small>Emise <?= depuis($conditionnement->created) ?></small>
@@ -159,7 +159,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <?php foreach ($lots as $key => $ligne) { ?>
-                                                            <td class="text-center"><?= start0($ligne->quantite) ?><br><small><?= $ligne->emballage->name() ?></small></td>
+                                                            <td class="text-center"><?= ($ligne->quantite) ?><br><small><?= $ligne->emballage->name() ?></small></td>
                                                         <?php } ?>
                                                     </tr>
                                                 </tbody>  

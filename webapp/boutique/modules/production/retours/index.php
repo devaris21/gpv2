@@ -1,35 +1,36 @@
 <!DOCTYPE html>
 <html>
 
-<?php include($this->rootPath("webapp/entrepot/elements/templates/head.php")); ?>
+<?php include($this->rootPath("webapp/boutique/elements/templates/head.php")); ?>
 
 
 <body class="fixed-sidebar">
 
     <div id="wrapper">
 
-        <?php include($this->rootPath("webapp/entrepot/elements/templates/sidebar.php")); ?>  
+        <?php include($this->rootPath("webapp/boutique/elements/templates/sidebar.php")); ?>  
 
         <div id="page-wrapper" class="gray-bg">
 
-            <?php include($this->rootPath("webapp/entrepot/elements/templates/header.php")); ?>  
+            <?php include($this->rootPath("webapp/boutique/elements/templates/header.php")); ?>  
 
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-9">
-                    <h2 class="text-uppercase text-red gras">Les pertes en entrepot</h2>
+                    <h2 class="text-uppercase text-orange gras">Les retours de produits en boutique</h2>
                     <div class="container">
                     </div>
                 </div>
                 <div class="col-sm-3 text-right">
+                    <button style="margin-top: 5%;" type="button" data-toggle=modal data-target='#modal-retourproduits' class="btn btn-success btn-sm dim float-right"><i class="fa fa-long-arrow-left"></i> Nouveau retour de produits </button>
                 </div>
             </div>
 
             <div class="wrapper wrapper-content">
                 <div class="ibox">
                     <div class="ibox-title">
-                        <h5>Toutes les pertes survenues dans cet entrepot</h5>
+                        <h5>Toutes les retours de produits survenues dans cette boutique</h5>
                         <div class="ibox-tools">
-                           <form id="formFiltrer" method="POST">
+                         <form id="formFiltrer" method="POST">
                             <div class="row" style="margin-top: -1%">
                                 <div class="col-5">
                                     <input type="date" value="<?= $date1 ?>" class="form-control input-sm" name="date1">
@@ -53,9 +54,8 @@
                                     <th data-toggle="true">Status</th>
                                     <th>Reference</th>
                                     <th>Element</th>
-                                    <th>Qté</th>
-                                    <th>Entrepôt</th>
-                                    <th>Enregistré par</th>
+                                    <th>Client</th>
+                                    <th>Réçu par</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -71,13 +71,10 @@
                                             <span class="text-uppercase gras">Perte par <?= $perte->typeperte->name() ?></span><br>
                                             <small><?= $perte->comment ?></small>
                                         </td>
+                                        <td><b><?= $perte->name() ?></b></td>
+                                        <td><?= start0($perte->quantite) ?> <?= $perte->typeproduit_parfum->typeproduit->abbr ?></td>
                                         <td>
-                                            <b><?= $perte->name() ?></b><br>
-                                            <small><?= $perte->emballage->name() ?></small>
-                                        </td>
-                                        <td><?= start0($perte->quantite) ?> </td>
-                                        <td>
-                                            <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $perte->entrepot->name() ?></h6>
+                                            <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $perte->boutique->name() ?></h6>
                                         </td>
                                         <td><i class="fa fa-user"></i> <?= $perte->employe->name() ?></td>
                                         <td>
@@ -99,13 +96,10 @@
                                             <span class="text-uppercase gras">Perte par <?= $perte->typeperte->name() ?></span><br>
                                             <small><?= $perte->comment ?></small>
                                         </td>
-                                         <td>
-                                            <b><?= $perte->name() ?></b><br>
-                                            <small><?= $perte->emballage->name() ?></small>
-                                        </td>
-                                        <td><?= start0($perte->quantite) ?> </td>
+                                        <td><b><?= $perte->name() ?></b></td>
+                                        <td><?= start0($perte->quantite) ?> unités</td>
                                         <td>
-                                            <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $perte->entrepot->name() ?></h6>
+                                            <h6 class="text-uppercase text-muted gras" style="margin: 0"><?= $perte->boutique->name() ?></h6>
                                             <small>Emise <?= depuis($perte->created) ?></small>
                                         </td>
                                         <td><i class="fa fa-user"></i> <?= $perte->employe->name() ?></td>
@@ -128,7 +122,7 @@
                         </table>
 
                     <?php }else{ ?>
-                        <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucun conditionnement pour le moment</h1>
+                        <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune perte pour le moment</h1>
                     <?php } ?>
 
                 </div>
@@ -136,15 +130,14 @@
         </div>
 
 
-        <?php include($this->rootPath("webapp/entrepot/elements/templates/footer.php")); ?> 
+        <?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?> 
 
 
     </div>
 </div>
 
 
-<?php include($this->rootPath("webapp/entrepot/elements/templates/script.php")); ?>
-<script type="text/javascript" src="<?= $this->rootPath("webapp/boutique/modules/master/client/script.js") ?>"></script>
+<?php include($this->rootPath("webapp/boutique/elements/templates/script.php")); ?>
 
 
 </body>

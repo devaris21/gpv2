@@ -5,7 +5,7 @@ use Native\RESPONSE;
 /**
  * 
  */
-class ROLE_EMPLOYE extends TABLE
+class ACCES_BOUTIQUE extends TABLE
 {
 	
 	
@@ -13,22 +13,22 @@ class ROLE_EMPLOYE extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 
-	public $role_id;
 	public $employe_id;
+	public $boutique_id;
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = ROLE::findBy(["id ="=>$this->role_id]);
+		$datas = EMPLOYE::findBy(["id ="=>$this->employe_id]);
 		if (count($datas) == 1) {
-			$datas = EMPLOYE::findBy(["id ="=>$this->employe_id]);
+			$datas = BOUTIQUE::findBy(["id ="=>$this->boutique_id]);
 			if (count($datas) == 1) {
-				$datas = static::findBy(["employe_id ="=>$this->employe_id, "role_id ="=>$this->role_id,]);
+				$datas = static::findBy(["boutique_id ="=>$this->boutique_id, "employe_id ="=>$this->employe_id,]);
 			if (count($datas) == 0) {
 				$data = $this->save();
 			}else{
 				$data->status = false;
-				$data->message = "Vous avez déjà un accès à cette fonctionnalité !";
+				$data->message = "Vous avez déjà un accès à cette boutique !";
 			}
 			}else{
 				$data->status = false;
@@ -44,13 +44,13 @@ class ROLE_EMPLOYE extends TABLE
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Attribution du rôle ".$this->role->name()." à ".$this->employe->name();
+		return $this->sentense = "Attribution des accès de ".$this->boutique->name()." à ".$this->employe->name();
 	}
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification du du rôle ".$this->role->name()." à ".$this->employe->name();
+		return $this->sentense = "Modification des accès de ".$this->boutique->name()." à ".$this->employe->name();
 	}
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression du rôle ".$this->role->name()." à ".$this->employe->name();
+		return $this->sentense = "Suppression des accès de ".$this->boutique->name()." à ".$this->employe->name();
 	}
 }
 

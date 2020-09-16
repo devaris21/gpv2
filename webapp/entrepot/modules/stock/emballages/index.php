@@ -32,8 +32,8 @@
                     <div class="col-sm-4 col-md-3 col-lg-2 border-left border-bottom">
                         <div class="p-xs">
                             <i class="fa fa-flask fa-2x"></i>
-                            <h6 class="m-xs gras <?= ($stock > $params->ruptureStock)?"":"clignote" ?>"><?= round($stock, 2) ?> </h6>
-                            <h5 class="no-margins text-uppercase gras <?= ($stock > $params->ruptureStock)?"":"clignote" ?>"><?= $emballage->name() ?> </h5>
+                            <h5 class="m-xs gras <?= ($stock > $params->ruptureStock)?"":"clignote" ?>"><?= round($stock, 2) ?> </h5>
+                            <h6 class="no-margins text-uppercase gras <?= ($stock > $params->ruptureStock)?"":"clignote" ?>"><?= $emballage->name() ?> </h6>
                             <small>Es: <?= money($prix) ?> <?= $params->devise ?></small>
                         </div>
                     </div>
@@ -89,7 +89,7 @@
                                 <tr>
                                     <td class="gras"><?= datecourt($index) ?></td>
                                     <?php foreach ($emballages as $key => $emballage) {
-                                        $stock = $emballage->stock($index, $index, $entrepot->id);
+                                        $stock = $emballage->stock(Home\PARAMS::DATE_DEFAULT, $index, $entrepot->id);
                                         $appro = $emballage->achat($index, $index, $entrepot->id);
                                         $conso = $emballage->consommee($index, $index, $entrepot->id);
                                         $perte = $emballage->perte($index, $index, $entrepot->id);
