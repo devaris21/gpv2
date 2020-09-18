@@ -33,7 +33,7 @@
 
                   <div id="tab-1" class="tab-pane active"><br>
                     <div class="row container-fluid">
-                      <button type="button" <?= (count($encours) > 0)?" onclick='newcommande()' ": "data-toggle=modal data-target='#modal-newcommande'" ?>  class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle commande / autoship</button>
+                      <button type="button" <?= (count($encours) > 0)?" onclick='newcommande()' ": "data-toggle=modal data-target='#modal-newcommande'" ?>  class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> commande / dépôt-vente / autoship</button>
                     </div>
                     <div class="">
                       <div class="ibox-content">

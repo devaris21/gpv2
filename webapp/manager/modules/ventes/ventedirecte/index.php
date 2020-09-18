@@ -60,7 +60,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                       <?php foreach ($encours as $key => $vente) {
+                     <?php foreach ($encours as $key => $vente) {
                         $vente->actualise(); 
                         $vente->fourni("lignedevente");
                         ?>
@@ -111,100 +111,94 @@
                         </td>
                         <td>
                             <a href="<?= $this->url("fiches", "master", "bonvente", $vente->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> </a>
-                                        <!-- <?php if ($vente->etat_id == Home\ETAT::ENCOURS) { ?>
-                                            <button onclick="terminer(<?= $vente->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
-                                            <?php } ?> -->
-                                            <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                                <button onclick="annulerVente(<?= $vente->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
-                                            <?php } ?>
-                                        </td>
+                            <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
+                                <button onclick="annulerVente(<?= $vente->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                            <?php } ?>
+                        </td>
+                    </tr>
+                <?php  } ?>
+                <tr />
+                <?php foreach ($ventes as $key => $vente) {
+                    $vente->actualise(); 
+                    $vente->fourni("lignedevente");
+                    ?>
+                    <tr style="border-bottom: 2px solid black">
+                        <td class="project-status">
+                            <span class="label label-<?= $vente->etat->class ?>"><?= $vente->etat->name ?></span>
+                        </td>
+                        <td>
+                            <span class="text-uppercase gras"><?= $vente->typevente->name()  ?></span><br>
+                            <span><?= $vente->reference ?></span>
+                        </td>
+                        <td>
+                            <h5 class="text-uppercase"><?= $vente->boutique->name() ?></h5>
+                        </td>
+                        <td>
+                            <h5 class="text-uppercase"><?= $vente->employe->name() ?></h5>
+                        </td>
+                        <td>
+                            <h6 class="text-uppercase text-muted">Zone de vente :  <?= $vente->zonedevente->name() ?></h6>
+                            <small><?= depuis($vente->created) ?></small>
+                        </td>
+                        <td>
+                            <h3 class="gras text-orange"><?= money($vente->montant) ?> <?= $params->devise  ?></h3>
+                        </td>
+                        <td class="border-right">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="no">
+                                        <th></th>
+                                        <?php foreach ($vente->lignedeventes as $key => $ligne) { 
+                                            $ligne->actualise(); ?>
+                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->name() ?></span><br>
+                                                <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>" >
+                                                <small><?= $ligne->emballage->name() ?></small>
+                                            </th>
+                                        <?php } ?>
                                     </tr>
-                                <?php  } ?>
-                                <tr />
-                                <?php foreach ($ventes as $key => $vente) {
-                                    $vente->actualise(); 
-                                    $vente->fourni("lignedevente");
-                                    ?>
-                                    <tr style="border-bottom: 2px solid black">
-                                        <td class="project-status">
-                                            <span class="label label-<?= $vente->etat->class ?>"><?= $vente->etat->name ?></span>
-                                        </td>
-                                        <td>
-                                            <span class="text-uppercase gras"><?= $vente->typevente->name()  ?></span><br>
-                                            <span><?= $vente->reference ?></span>
-                                        </td>
-                                        <td>
-                                            <h5 class="text-uppercase"><?= $vente->boutique->name() ?></h5>
-                                        </td>
-                                        <td>
-                                            <h5 class="text-uppercase"><?= $vente->employe->name() ?></h5>
-                                        </td>
-                                        <td>
-                                            <h6 class="text-uppercase text-muted">Zone de vente :  <?= $vente->zonedevente->name() ?></h6>
-                                            <small><?= depuis($vente->created) ?></small>
-                                        </td>
-                                        <td>
-                                            <h3 class="gras text-orange"><?= money($vente->montant) ?> <?= $params->devise  ?></h3>
-                                        </td>
-                                        <td class="border-right">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr class="no">
-                                                        <th></th>
-                                                        <?php foreach ($vente->lignedeventes as $key => $ligne) { 
-                                                            $ligne->actualise(); ?>
-                                                            <th class="text-center" style="padding: 2px"><span class="small"><?= $ligne->produit->name() ?></span><br>
-                                                                <img style="height: 20px" src="<?= $this->stockage("images", "emballages", $ligne->emballage->image) ?>" >
-                                                                <small><?= $ligne->emballage->name() ?></small>
-                                                            </th>
-                                                        <?php } ?>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>                                                    
-                                                    <tr class="no">
-                                                        <td class="gras">Qté :</td>
-                                                        <?php foreach ($vente->lignedeventes as $key => $ligne) { ?>
-                                                            <td class="text-center"><?= start0($ligne->quantite) ?></td>
-                                                        <?php   } ?>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                        <td>
-                                            <a href="<?= $this->url("fiches", "master", "bonvente", $vente->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> </a>
-                                        <!-- <?php if ($vente->etat_id == Home\ETAT::ENCOURS) { ?>
-                                            <button onclick="terminer(<?= $vente->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
-                                            <?php } ?> -->
-                                            <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                                <button onclick="annulerVente(<?= $vente->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
-                                            <?php } ?>
-                                        </td>
+                                </thead>
+                                <tbody>                                                    
+                                    <tr class="no">
+                                        <td class="gras">Qté :</td>
+                                        <?php foreach ($vente->lignedeventes as $key => $ligne) { ?>
+                                            <td class="text-center"><?= start0($ligne->quantite) ?></td>
+                                        <?php   } ?>
                                     </tr>
-                                <?php  } ?>
-                                
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="5">
-                                        <ul class="pagination float-right"></ul>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    <?php }else { ?>
-                        <h1 style="margin-top: 30% auto;" class="text-center text-muted aucun"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune vente directe pour le moment !</h1>
-                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <a href="<?= $this->url("fiches", "master", "bonvente", $vente->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> </a>
+                            <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
+                                <button onclick="annulerVente(<?= $vente->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                            <?php } ?>
+                        </td>
+                    </tr>
+                <?php  } ?>
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <ul class="pagination float-right"></ul>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    <?php }else { ?>
+        <h1 style="margin-top: 30% auto;" class="text-center text-muted aucun"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune vente directe pour le moment !</h1>
+    <?php } ?>
 
-                </div>
-            </div>
-        </div>
+</div>
+</div>
+</div>
 
 
-        <?php include($this->rootPath("webapp/manager/elements/templates/footer.php")); ?>
+<?php include($this->rootPath("webapp/manager/elements/templates/footer.php")); ?>
 
-        <?php include($this->rootPath("composants/assets/modals/modal-prospection.php")); ?> 
+<?php include($this->rootPath("composants/assets/modals/modal-prospection.php")); ?> 
 
-    </div>
+</div>
 </div>
 
 <?php include($this->rootPath("composants/assets/modals/modal-vente.php")); ?> 

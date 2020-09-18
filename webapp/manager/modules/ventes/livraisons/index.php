@@ -111,9 +111,6 @@
                                 </td>
                                 <td>
                                     <a href="<?= $this->url("fiches", "master", "bonlivraison", $livraison->id) ?>" target="_blank" class="btn btn-white btn-sm"><i class="fa fa-file-text text-blue"></i></a>
-                                    <?php if ($livraison->etat_id == Home\ETAT::ENCOURS) { ?>
-                                        <button onclick="terminer(<?= $livraison->id ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
-                                    <?php } ?>
                                     <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
                                         <button onclick="annulervente(<?= $livraison->id ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                     <?php } ?>

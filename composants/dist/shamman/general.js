@@ -3,6 +3,7 @@ $(function(){
 
 	// Initialisation des plugins
 	$("select.select2").select2();
+    $("table.table").addClass("table-responsive");
 
 
     $('.i-checks').iCheck({

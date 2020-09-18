@@ -21,7 +21,7 @@
                         <div class="col-sm-6">
                             <label>Entrer votre mot de passe pour valider l'opération <span1>*</span1></label>
                             <div class="form-group">
-                                <input type="password" class="form-control" name="password" required>
+                                <input type="password" autocomplete="off" class="form-control" name="password" required>
                             </div>
                         </div>
                         <div class="col-sm-6">

@@ -11,8 +11,11 @@ class PRICE extends TABLE
 
 	public $produit_id;
 	public $emballage_id;
-	public $price;
-	public $price_gros;
+	public $prix;
+	public $prix_gros;
+	public $prix_special;
+	public $prix_autoship;
+	public $prix_inscription;
 	//public $isActive = TABLE::OUI;
 
 	public function enregistre(){
@@ -22,7 +25,7 @@ class PRICE extends TABLE
 			$datas = EMBALLAGE::findBy(["id ="=>$this->emballage_id]);
 			if (count($datas) == 1) {
 				$data = $this->save();
-				if ($this->price >= 0) {
+				if ($this->prix >= 0) {
 					$data = $this->save();
 				}else{
 					$data->status = false;
@@ -116,13 +119,13 @@ class PRICE extends TABLE
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'une nouvelle zone de livraison : $this->price dans les paramétrages";
+		return $this->sentense = "Ajout d'un nouveau prix : $this->id dans les paramétrages";
 	}
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des informations de la zone de livraison $this->id : $this->price ";
+		return $this->sentense = "Modification des informations du prix $this->id  ";
 	}
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression definitive de la zone de livraison $this->id : $this->price";
+		return $this->sentense = "Suppression definitive du prix $this->id ";
 	}
 
 

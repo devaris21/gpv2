@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : sam. 12 sep. 2020 à 20:09
+-- Généré le : ven. 18 sep. 2020 à 12:09
 -- Version du serveur :  5.7.24
 -- Version de PHP : 7.3.2
 
@@ -20,6 +20,38 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `gpv2_`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `acces_boutique`
+--
+
+CREATE TABLE `acces_boutique` (
+  `id` int(11) NOT NULL,
+  `boutique_id` int(11) NOT NULL,
+  `employe_id` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `acces_entrepot`
+--
+
+CREATE TABLE `acces_entrepot` (
+  `id` int(11) NOT NULL,
+  `entrepot_id` int(11) NOT NULL,
+  `employe_id` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -954,7 +986,11 @@ CREATE TABLE `ligneprospection` (
 CREATE TABLE `miseenboutique` (
   `id` int(11) NOT NULL,
   `reference` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '0',
+  `nom_livreur` varchar(50) COLLATE utf8_bin DEFAULT '0',
+  `contact_livreur` varchar(50) COLLATE utf8_bin DEFAULT '0',
   `employe_id` int(11) NOT NULL,
+  `employe_id_reception` int(11) DEFAULT NULL,
+  `employe_id_accepter` int(11) DEFAULT NULL,
   `boutique_id` int(11) NOT NULL,
   `entrepot_id` int(11) NOT NULL,
   `etat_id` int(11) NOT NULL,
@@ -1142,8 +1178,8 @@ CREATE TABLE `perteboutique` (
   `id` int(11) NOT NULL,
   `typeperte_id` int(11) NOT NULL,
   `quantite` int(11) NOT NULL,
-  `produit_id` int(11),
-  `emballage_id` int(11),
+  `produit_id` int(11) DEFAULT NULL,
+  `emballage_id` int(11) DEFAULT NULL,
   `boutique_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
   `etat_id` int(11) NOT NULL,
@@ -1189,9 +1225,11 @@ CREATE TABLE `price` (
   `id` int(11) NOT NULL,
   `produit_id` int(11) NOT NULL DEFAULT '0',
   `emballage_id` int(11) NOT NULL DEFAULT '0',
-  `prix` int(11) NOT NULL DEFAULT '0',
-  `prix_gros` int(11) NOT NULL DEFAULT '0',
-  `prix_special` int(11) NOT NULL DEFAULT '0',
+  `prix` int(11) DEFAULT '0',
+  `prix_gros` int(11) DEFAULT '0',
+  `prix_special` int(11) DEFAULT '0',
+  `prix_autoship` int(11) DEFAULT '0',
+  `prix_inscription` int(11) DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1574,6 +1612,7 @@ CREATE TABLE `typeclient` (
 CREATE TABLE `typecommande` (
   `id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `typebareme_id` int(11) NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1822,6 +1861,18 @@ CREATE TABLE `zonedevente` (
 --
 -- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `acces_boutique`
+--
+ALTER TABLE `acces_boutique`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `acces_entrepot`
+--
+ALTER TABLE `acces_entrepot`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `approemballage`
@@ -2360,6 +2411,18 @@ ALTER TABLE `zonedevente`
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
+
+--
+-- AUTO_INCREMENT pour la table `acces_boutique`
+--
+ALTER TABLE `acces_boutique`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `acces_entrepot`
+--
+ALTER TABLE `acces_entrepot`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `approemballage`

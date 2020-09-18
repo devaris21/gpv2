@@ -20,7 +20,7 @@
 
             <form class="m-t offset-4 col-md-4" role="form" id="lockedForm" method="POST">
                 <div class="form-group ">
-                    <input type="password" name="password" class="form-control" placeholder="Votre mot de passe" required>
+                    <input type="password" autocomplete="off" name="password" class="form-control" placeholder="Votre mot de passe" required>
                 </div><br>
                 <a href="<?= $this->url("main", "access", "login"); ?>" class="btn btn-xs btn-outline btn-rounded"><i class="fa fa-arrow-left"></i> Nouvelle connexion</a>
                 <button style="margin-left: 10%; " type="submit" class="btn btn-primary dim"><i class="fa fa-check"></i> Dévérouiller</button>

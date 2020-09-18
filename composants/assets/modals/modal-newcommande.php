@@ -61,90 +61,90 @@
                                 </div><br>
 
 
-                                <div>
-                                    <label>Barème de prix <span style="color: red">*</span> </label>
-                                    <div class="input-group">
-                                        <?php Native\BINDING::html("select", "typebareme"); ?>
-                                    </div>
-                                </div><br>
-                                <div>
-                                    <label>Date prévue pour livraison <span style="color: red">*</span> </label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="date" name="datelivraison" value="<?= dateAjoute(2) ?>" class="form-control">
-                                    </div>
-                                </div><br>
-                                <div>
-                                    <label>zone de livraison <span style="color: red">*</span> </label>
-                                    <div class="input-group">
-                                        <?php Native\BINDING::html("select", "zonedevente"); ?>
-                                    </div>
-                                </div><br>
-                                <div>
-                                    <label>Lieu de livraison <span style="color: red">*</span> </label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" name="lieu" class="form-control" required>
-                                    </div>
-                                </div><br>
-                                <div>
-                                    <label>Mode de payement <span style="color: red">*</span> </label>                                
-                                    <div class="input-group">
-                                        <?php Native\BINDING::html("select", "modepayement"); ?>
-                                    </div>
-                                </div><br>
-                                <div class="no_modepayement_facultatif">
-                                    <div>
-                                        <label>Montant avancé<span style="color: red">*</span> </label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-money"></i></span><input type="text" value="0" min="0" name="avance" class="form-control">
-                                        </div>
-                                    </div>
-                                </div><br>
-                                <div class="modepayement_facultatif">
-                                    <div>
-                                        <label>Structure d'encaissement<span style="color: red">*</span> </label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-bank"></i></span><input type="text" name="structure" class="form-control">
-                                        </div>
-                                    </div><br>
-                                    <div>
-                                        <label>N° numero dédié<span style="color: red">*</span> </label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-pencil"></i></span><input type="text" name="numero" class="form-control">
-                                        </div>
-                                    </div>
-                                </div><br>
-                                <div>
-                                    <label>Ajouter une note </label>
-                                    <textarea class="form-control" rows="4" name="comment"></textarea>
+                            <div>
+                                <label>Barème de prix (Seulement commande noramle) <span style="color: red">*</span> </label>
+                                <div class="input-group">
+                                    <?php Native\BINDING::html("select", "typebareme"); ?>
                                 </div>
+                            </div><br>
+                            <div>
+                                <label>Date prévue pour livraison <span style="color: red">*</span> </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="date" name="datelivraison" value="<?= dateAjoute(2) ?>" class="form-control">
+                                </div>
+                            </div><br>
+                            <div>
+                                <label>zone de livraison <span style="color: red">*</span> </label>
+                                <div class="input-group">
+                                    <?php Native\BINDING::html("select", "zonedevente"); ?>
+                                </div>
+                            </div><br>
+                            <div>
+                                <label>Lieu de livraison <span style="color: red">*</span> </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-map-markep"></i></span>
+                                    <input type="text" name="lieu" class="form-control" required>
+                                </div>
+                            </div><br>
+                            <div>
+                                <label>Mode de payement <span style="color: red">*</span> </label>                                
+                                <div class="input-group">
+                                    <?php Native\BINDING::html("select", "modepayement"); ?>
+                                </div>
+                            </div><br>
+                            <div class="no_modepayement_facultatif">
+                                <div>
+                                    <label>Montant avancé<span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span><input type="text" value="0" min="0" name="avance" class="form-control">
+                                    </div>
+                                </div>
+                            </div><br>
+                            <div class="modepayement_facultatif">
+                                <div>
+                                    <label>Structure d'encaissement<span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-bank"></i></span><input type="text" name="structure" class="form-control">
+                                    </div>
+                                </div><br>
+                                <div>
+                                    <label>N° numero dédié<span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span><input type="text" name="numero" class="form-control">
+                                    </div>
+                                </div>
+                            </div><br>
+                            <div>
+                                <label>Ajouter une note </label>
+                                <textarea class="form-control" rows="4" name="comment"></textarea>
+                            </div>
 
-                                <input type="hidden" name="client_id" value="<?= getSession("client_id") ?>">
-                            </form><br>
-                            <h5><span>TVA (<?= $params->tva ?> %)</span> <span class="pull-right tva">0 Fcfa </span></h5>
-                            <div class="text-right">
-                                <label class="mp0">Montant total</label>
-                                <h4 class="mp0 gras text-right montant">0 Fcfa</h4>
-                            </div><br>
-                            <div class="text-right">
-                                <label class="mp0">Réduction</label>
-                                <h4 class="mp0 gras text-green text-right reduction">0 Fcfa</h4>
-                            </div><br>
-                            <div class="text-right">
-                                <label class="mp0">Total à payer</label>
-                                <h2 class="mp0 gras text-danger text-right total">0 Fcfa</h2>
-                            </div><br>
-                            <h2 class="font-bold total text-right total">0 Fcfa</h2>
-                            <hr/>
-                            <button onclick="validerCommande()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la commande</button>
-                        </div>
+                            <input type="hidden" name="client_id" value="<?= getSession("client_id") ?>">
+                        </form><br>
+                        <h5><span>TVA (<?= $params->tva ?> %)</span> <span class="pull-right tva">0 Fcfa </span></h5>
+                        <div class="text-right">
+                            <label class="mp0">Montant total</label>
+                            <h4 class="mp0 gras text-right montant">0 Fcfa</h4>
+                        </div><br>
+                        <div class="text-right">
+                            <label class="mp0">Réduction</label>
+                            <h4 class="mp0 gras text-green text-right reduction">0 Fcfa</h4>
+                        </div><br>
+                        <div class="text-right">
+                            <label class="mp0">Total à payer</label>
+                            <h2 class="mp0 gras text-danger text-right total">0 Fcfa</h2>
+                        </div><br>
+                        <h2 class="font-bold total text-right total">0 Fcfa</h2>
+                        <hr/>
+                        <button onclick="validerCommande()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la commande</button>
                     </div>
-
                 </div>
-            </div>
 
+            </div>
         </div>
+
     </div>
+</div>
 </div>
 
 

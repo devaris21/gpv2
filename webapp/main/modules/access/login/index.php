@@ -28,7 +28,7 @@
                             <input type="text" name="login" class="form-control" placeholder="identifiant" required>
                         </div>
                         <div class="form-group">
-                            <input type="password" name="password" class="form-control" placeholder="mot de passe" required>
+                            <input type="password" autocomplete="off" name="password" class="form-control" placeholder="mot de passe" required>
                         </div><br>
                         <button type="submit" class="btn btn-primary block full-width m-b dim"><i class="fa fa-check"></i> Se connecter</button>
 
@@ -68,11 +68,11 @@
                     </div>
                     <div class="form-group">
                         <label>Nouveau mot de passe</label>
-                        <input type="password" name="pass0" required class="form-control">
+                        <input type="password" autocomplete="off" name="pass0" required class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Corfirmer mot de passe</label>
-                        <input type="password" name="pass" required class="form-control">
+                        <input type="password" autocomplete="off" name="pass" required class="form-control">
                     </div>
                 </div>
                 <div class="">

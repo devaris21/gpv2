@@ -10,19 +10,19 @@
                     <div class="">
                         <label>Votre mot de passe actuel <span1>*</span1></label>
                         <div class="form-group">
-                            <input type="password" class="form-control" name="password0" required>
+                            <input type="password" autocomplete="off" class="form-control" name="password0" required>
                         </div>
                     </div>
                     <div class="">
                         <label>Nouveau mot de passe <span1>*</span1></label>
                         <div class="form-group">
-                            <input type="password" class="form-control" name="password" required>
+                            <input type="password" autocomplete="off" class="form-control" name="password" required>
                         </div>
                     </div>
                     <div class="">
                         <label>Confirmer le mot de passe <span1>*</span1></label>
                         <div class="form-group">
-                            <input type="password" class="form-control" name="password1" required>
+                            <input type="password" autocomplete="off" class="form-control" name="password1" required>
                         </div>
                     </div>
                 </div><hr>

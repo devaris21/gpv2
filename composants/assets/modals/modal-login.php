@@ -16,7 +16,7 @@
                     <div class="">
                         <label>Mot de passe pour confirmer le changement <span1>*</span1></label>
                         <div class="form-group">
-                            <input type="password" class="form-control" name="password" required>
+                            <input type="password" autocomplete="off" class="form-control" name="password" required>
                         </div>
                     </div>
                 </div><hr>

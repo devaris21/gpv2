@@ -29,8 +29,8 @@
 								<dt>Internet est requis</dt>
 								<dd>La validation du code requiert une connexion à internet. veuillez vous assurer d'en avoir avant de commencer.</dd><br>
 
-								<dt>4 tentavives</dt>
-								<dd>Vous n'aurez droit qu'à un maximum de 4 tentatives pour valider votre ceode. Si vous échouer 5 fois de suite, l'application se vérouillera automatiquement. Vous devriez alors <a href="">nous contacter</a> !</dd><br>
+								<dt>3 tentavives</dt>
+								<dd>Vous n'aurez droit qu'à un maximum de 3 tentatives pour valider votre ceode. Si vous échouer 3 fois de suite, l'application se vérouillera automatiquement. Vous devriez alors <a href="">nous contacter</a> !</dd><br>
 
 								<dt>Besoin d'aide ?</dt>
 								<dd>Si vous savez pas comment vous y prendre ou si vous avez besoin d'une aide ou d'une assistance particulière, veuillez <a href="">nous contacter</a> !</dd>

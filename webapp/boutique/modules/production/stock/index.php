@@ -41,7 +41,8 @@
                                                             <div class="row text-center">
                                                                 <?php foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
                                                                     $a = $produit->enBoutique(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, $boutique->id);
-                                                                    if ($a > 0) { ?>
+                                                                    if ($a > 0) {
+                                                                        $prods[] = $produit; ?>
                                                                         <div class="col-sm-4 cursor border-right border-bottom" data-toggle="modal" onclick="session('produit_id', <?= $produit->id ?>)" data-target="#modal-transfertstockboutique<?= $produit->id  ?>">
                                                                             <span class="gras <?= ($a >= $params->ruptureStock)?"":"text-red clignote" ?>"><?= start0($a) ?></span><br>
                                                                             <span class="">     
@@ -71,7 +72,7 @@
         <?php include($this->rootPath("webapp/boutique/elements/templates/footer.php")); ?>
 
 
-        <button class="btn btn-outline-danger btn-rounded d-print-none" data-toggle="modal" data-target="#modal-perteboutique" style="position: fixed; bottom: 7%; right: 1%; z-index: 8000"><i class="fa fa-trash"></i> Perte en boutique</button>
+        <button class="btn btn-outline-danger btn-rounded d-print-none" data-toggle="modal" data-target="#modal-perteboutique" style="position: fixed; bottom: 50px; right: 2%; z-index: 8000"><i class="fa fa-trash"></i> Perte en boutique</button>
 
 
     </div>
@@ -82,13 +83,9 @@
 
 
 
-<?php foreach ($typeproduits as $key => $type) { 
-    foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
-        foreach ($pro->fourni("produit", ["isActive ="=>Home\TABLE::OUI]) as $key => $produit) {
-            include($this->rootPath("composants/assets/modals/modal-transfertstockboutique.php")); 
-        } 
-    } 
-} ?>
+<?php foreach ($prods as $key => $produit) {
+    include($this->rootPath("composants/assets/modals/modal-transfertstockboutique.php")); 
+}  ?>
 
 
 

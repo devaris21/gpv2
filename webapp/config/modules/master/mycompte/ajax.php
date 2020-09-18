@@ -25,7 +25,7 @@ if ($action == "abonnement") {
 
 		if ($data->status) {
 			if (strlen($code) == 25) {
-				$url = "http://127.0.0.1/abonnement/api/root/index.php";
+				$url = "http://activation.payiel.com/api/root/index.php";
 				$datas = [
 					"action" => "abonnement",
 					"code" => strtoupper($code),

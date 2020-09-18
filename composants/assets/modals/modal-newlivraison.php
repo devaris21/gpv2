@@ -103,7 +103,7 @@
                             <div>
                                 <label>Frais de transport pour livraison <span style="color: red">*</span> </label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                    <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                     <input type="text" name="transport" class="form-control" value="0">
                                 </div>
                             </div><br>

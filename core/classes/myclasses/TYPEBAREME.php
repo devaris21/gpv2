@@ -12,6 +12,8 @@ class TYPEBAREME extends TABLE
 	const NORMAL = 1;
 	const GROS = 2;
 	const SPECIAL = 3;
+	const AUTOSHIP = 4;
+	const INSCRIPTION = 5;
 
 	public $name;
 

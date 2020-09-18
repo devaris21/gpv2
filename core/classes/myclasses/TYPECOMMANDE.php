@@ -11,8 +11,10 @@ class TYPECOMMANDE extends TABLE
 
 	const NORMAL = 1;
 	const AUTOSHIP = 2;
+	const INSCRIPTION = 3;
 
 	public $name;
+	public $typebareme_id;
 
 	public function enregistre(){
 		$data = new RESPONSE;

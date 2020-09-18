@@ -55,6 +55,7 @@
                                                     <tr>
                                                         <th>Nom</th>
                                                         <th>Lieu</th>
+                                                         <th>Compte attribué</th>
                                                         <th></th>
                                                         <th></th>
                                                         <th></th>
@@ -66,6 +67,7 @@
                                                         <tr>
                                                             <td class="gras"><?= $item->name(); ?></td>
                                                             <td><?= $item->lieu; ?></td>
+                                                            <td class="gras"><?= $item->comptebanque->name(); ?></td>
                                                             <td>
                                                                 <a href="<?= $this->url("config", "master", "adminboutique", $item->id)  ?>" class="btn_modal btn btn-xs btn-white">
                                                                     <i class="fa fa-wrench"></i> Admin

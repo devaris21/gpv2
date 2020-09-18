@@ -196,11 +196,17 @@
                                                                                             <div class="">
                                                                                                 <input type="text" title="Prix Unitaire normal" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center prix" value="<?= $prix->prix ?>" name="prix" id="<?= $prix->id ?>">
                                                                                             </div>
-                                                                                            <div class="" style=" color: blue">
-                                                                                                <input type="text" title="Prix unitaire spécial" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center prix_special" value="<?= $prix->prix_special ?>" name="prix_special" id="<?= $prix->id ?>">
-                                                                                            </div>
                                                                                             <div class="" style=" color: orangered">
                                                                                                 <input type="text" title="Prix unitaire de gros" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center prix_gros" value="<?= $prix->prix_gros ?>" name="prix_gros" id="<?= $prix->id ?>">
+                                                                                            </div>
+                                                                                            <div class="" style=" color: blue">
+                                                                                                <input type="text" title="Prix unitaire spécial personnel" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center prix_special" value="<?= $prix->prix_special ?>" name="prix_special" id="<?= $prix->id ?>">
+                                                                                            </div>
+                                                                                            <div class="" style=" color: navy">
+                                                                                                <input type="text" title="Prix unitaire autoship" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center prix_special" value="<?= $prix->prix_autoship ?>" name="prix_autoship" id="<?= $prix->id ?>">
+                                                                                            </div>
+                                                                                            <div class="" style=" color: green">
+                                                                                                <input type="text" title="Prix unitaire de pour inscription" style="font-size: 10px; padding: 3px" number class="form-control input-xs text-center prix_gros" value="<?= $prix->prix_inscription ?>" name="prix_inscription" id="<?= $prix->id ?>">
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>

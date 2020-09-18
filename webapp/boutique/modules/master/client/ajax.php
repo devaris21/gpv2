@@ -196,6 +196,7 @@ if ($action == "supprimeProduit") {
 }
 
 
+
 if ($action == "calcul") {
 	$params = PARAMS::findLastId();
 	$montant = 0;
@@ -206,47 +207,68 @@ if ($action == "calcul") {
 		$emballage_id = $data[1];
 		$qte = end($data);
 
+		if (isset($typecommande_id)) {
+			$datas = TYPECOMMANDE::findBy(["id ="=>$typecommande_id]);
+			if (count($datas) == 1) {
+				$typcom = $datas[0];
+				if ($typcom->typebareme_id != null) {
+					$typebareme_id = $typcom->typebareme_id;
+				}
+			}
+		}
+
 		$datas = PRICE::findBy(["produit_id = "=>$id, "emballage_id = "=>$emballage_id]);
 		if (count($datas) == 1) {
 			$price = $datas[0];
 			if ($typebareme_id == TYPEBAREME::NORMAL) {
 				$montant += $price->prix * intval($qte);
+
 			}elseif ($typebareme_id == TYPEBAREME::GROS){
 				$montant += $price->prix_gros * intval($qte);
-			}else{
+
+			}elseif ($typebareme_id == TYPEBAREME::SPECIAL){
 				$montant += $price->prix_special * intval($qte);
+
+			}elseif ($typebareme_id == TYPEBAREME::AUTOSHIP){
+				$montant += $price->prix_autoship * intval($qte);
+
+			}else{
+				$montant += $price->prix_inscription * intval($qte);
 			}
 		}
 	}
 
 	$redis = 0;
-	if ($params->prixParPalier == TABLE::OUI) {
-		$datas = PALIER::findBy(["min <= "=>$montant], [], ["min"=>"DESC"]);
-		if (count($datas) > 0) {
-			$palier = $datas[0];
-		}
-
-		$datas = CLIENT::findBy(["id ="=>$client_id]);
-		if (count($datas) == 0) {
-			$datas = COMMERCIAL::findBy(["id ="=>$commercial_id]);
-		}
-
-		if (count($datas) > 0) {
-			$item = $datas[0];
-			$item->actualise();
-			if ($item->palier_id > 0) {
-				$palier = $item->palier;
+	if (!isset($typecommande_id) || (isset($typecommande_id) && $typebareme_id == TYPECOMMANDE::NORMAL)) {
+		if ($params->prixParPalier == TABLE::OUI) {
+			$datas = PALIER::findBy(["min <= "=>$montant], [], ["min"=>"DESC"]);
+			if (count($datas) > 0) {
+				$palier = $datas[0];
 			}
-		}
 
-		if (isset($palier)) {
-			if ($palier->typereduction_id ==TYPEREDUCTION::BRUT) {
-				$redis = $palier->reduction;
-			}else{
-				$redis = ($palier->reduction * $montant) / 100;
+			$datas = CLIENT::findBy(["id ="=>$client_id]);
+			if (count($datas) == 0) {
+				$datas = COMMERCIAL::findBy(["id ="=>$commercial_id]);
+			}
+
+			if (count($datas) > 0) {
+				$item = $datas[0];
+				$item->actualise();
+				if ($item->palier_id > 0) {
+					$palier = $item->palier;
+				}
+			}
+
+			if (isset($palier)) {
+				if ($palier->typereduction_id == TYPEREDUCTION::BRUT) {
+					$redis = $palier->reduction;
+				}else{
+					$redis = ($palier->reduction * $montant) / 100;
+				}
 			}
 		}
 	}
+
 
 	$total = $montant - $redis;
 
@@ -314,12 +336,21 @@ if ($action == "venteDirecte") {
 							if (count($datas) == 1) {
 								$price = $datas[0];
 
+								$price = $datas[0];
 								if ($typebareme_id == TYPEBAREME::NORMAL) {
 									$prix = $price->prix * intval($qte);
+
 								}elseif ($typebareme_id == TYPEBAREME::GROS){
 									$prix = $price->prix_gros * intval($qte);
-								}else{
+
+								}elseif ($typebareme_id == TYPEBAREME::SPECIAL){
 									$prix = $price->prix_special * intval($qte);
+
+								}elseif ($typebareme_id == TYPEBAREME::AUTOSHIP){
+									$prix = $price->prix_autoship * intval($qte);
+
+								}else{
+									$prix = $price->prix_inscription * intval($qte);
 								}
 
 								$lignedevente = new LIGNEDEVENTE;
@@ -407,10 +438,18 @@ if ($action == "validerPropection") {
 
 											if ($typebareme_id == TYPEBAREME::NORMAL) {
 												$prix = $price->prix * intval($qte);
+
 											}elseif ($typebareme_id == TYPEBAREME::GROS){
 												$prix = $price->prix_gros * intval($qte);
-											}else{
+
+											}elseif ($typebareme_id == TYPEBAREME::SPECIAL){
 												$prix = $price->prix_special * intval($qte);
+
+											}elseif ($typebareme_id == TYPEBAREME::AUTOSHIP){
+												$prix = $price->prix_autoship * intval($qte);
+
+											}else{
+												$prix = $price->prix_inscription * intval($qte);
 											}
 
 											$ligneprospection = new LIGNEPROSPECTION;
@@ -508,13 +547,31 @@ if ($action == "validerCommande") {
 									$datas = PRICE::findBy(["produit_id = "=>$id, "emballage_id = "=>$emballage_id]);
 									if (count($datas) == 1) {
 										$price = $datas[0];
+
+										if (isset($typecommande_id)) {
+											$datas = TYPECOMMANDE::findBy(["id ="=>$typecommande_id]);
+											if (count($datas) == 1) {
+												$typcom = $datas[0];
+												if ($typcom->typebareme_id != null) {
+													$typebareme_id = $typcom->typebareme_id;
+												}
+											}
+										}
 										
 										if ($typebareme_id == TYPEBAREME::NORMAL) {
 											$prix = $price->prix * intval($qte);
+
 										}elseif ($typebareme_id == TYPEBAREME::GROS){
 											$prix = $price->prix_gros * intval($qte);
-										}else{
+
+										}elseif ($typebareme_id == TYPEBAREME::SPECIAL){
 											$prix = $price->prix_special * intval($qte);
+
+										}elseif ($typebareme_id == TYPEBAREME::AUTOSHIP){
+											$prix = $price->prix_autoship * intval($qte);
+
+										}else{
+											$prix = $price->prix_inscription * intval($qte);
 										}
 
 										$lignecommande = new LIGNECOMMANDE;
@@ -526,8 +583,6 @@ if ($action == "validerCommande") {
 										$lignecommande->enregistre();	
 									}
 								}
-
-
 
 								$total =  getSession("total");
 

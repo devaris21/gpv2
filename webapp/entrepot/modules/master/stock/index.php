@@ -41,8 +41,9 @@
                                                                 <div class="row text-center">
                                                                     <?php foreach ($produit->getListeEmballageProduit() as $key => $emballage) {
                                                                         $a = $produit->enEntrepot(Home\PARAMS::DATE_DEFAULT, dateAjoute(1), $emballage->id, $entrepot->id);
-                                                                        if ($a > 0) { ?>
-                                                                            <div class="col-sm-4 cursor border-right border-bottom" data-toggle="modal" onclick="session('produit_id', <?= $produit->id ?>)" data-target="#modal-transfertstockboutique<?= $produit->id  ?>">
+                                                                        if ($a > 0) {
+                                                                            $prods[] = $produit; ?>
+                                                                            <div class="col-sm-4 cursor border-right border-bottom" data-toggle="modal" onclick="session('produit_id', <?= $produit->id ?>)" data-target="#modal-transfertstockentrepot<?= $produit->id  ?>">
                                                                                 <span class="gras <?= ($a >= $params->ruptureStock)?"":"text-red clignote" ?>"><?= start0($a) ?></span><br>
                                                                                 <span class="">     
                                                                                     <img style="height: 15px" src="<?= $this->stockage("images", "emballages", $emballage->image)  ?>"> <small><?= $emballage->name() ?></small>
@@ -71,7 +72,7 @@
 
             <?php include($this->rootPath("webapp/entrepot/elements/templates/footer.php")); ?>
 
-    <button class="btn btn-outline-danger btn-rounded d-print-none" data-toggle="modal" data-target="#modal-perteentrepot" style="position: fixed; bottom: 2%; right: 1%; z-index: 8000"><i class="fa fa-trash"></i> Perte en entrepot</button>
+            <button class="btn btn-outline-danger btn-rounded d-print-none" data-toggle="modal" data-target="#modal-perteentrepot" style="position: fixed; bottom: 50px; right: 1%; z-index: 8000"><i class="fa fa-trash"></i> Perte en entrepot</button>
 
         </div>
     </div>
@@ -81,13 +82,9 @@
     <?php include($this->rootPath("webapp/entrepot/elements/templates/script.php")); ?>
 
 
-    <?php foreach ($typeproduits as $key => $type) { 
-        foreach ($type->fourni("typeproduit_parfum", ["isActive ="=>Home\TABLE::OUI]) as $key => $pro) {
-            foreach ($pro->fourni("produit", ["isActive ="=>Home\TABLE::OUI]) as $key => $produit) {
-                include($this->rootPath("composants/assets/modals/modal-transfertstockentrepot.php")); 
-            } 
-        } 
-    } ?>
+    <?php foreach ($prods as $key => $produit) {
+        include($this->rootPath("composants/assets/modals/modal-transfertstockentrepot.php")); 
+    }  ?>
 
 
 

@@ -45,11 +45,11 @@ class EMPLOYE extends AUTH
 							$tr->role_id = ROLE::MASTER;
 							$tr->enregistre();
 
-							ob_start();
-							include(__DIR__."/../../webapp/home/elements/mails/reset.php");
-							$contenu = ob_get_contents();
-							ob_end_clean();
-							EMAIL::send([$this->email], "Reinitialisation de vos parametres de connexion", $contenu);
+							// ob_start();
+							// include(__DIR__."/../../webapp/home/elements/mails/reset.php");
+							// $contenu = ob_get_contents();
+							// ob_end_clean();
+							//EMAIL::send([$this->email], "Reinitialisation de vos parametres de connexion", $contenu);
 						}
 					}else{
 						$data->status = false;

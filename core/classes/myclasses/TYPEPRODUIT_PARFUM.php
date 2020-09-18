@@ -130,13 +130,13 @@ class TYPEPRODUIT_PARFUM extends TABLE
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'un nouveau type de production : $this->name dans les paramétrages";
+		return $this->sentense = "Ajout d'un nouveau type de production : ".$this->name()." dans les paramétrages";
 	}
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des informations du type de production $this->id : $this->name ";
+		return $this->sentense = "Modification des informations du type de production $this->id : ".$this->name;
 	}
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression definitive du type de production $this->id : $this->name";
+		return $this->sentense = "Suppression definitive du type de production $this->id : ".$this->name;
 	}
 }
 
